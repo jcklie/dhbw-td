@@ -2,20 +2,10 @@ package de.dhbw.td.core.level;
 
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.json;
-import static playn.core.PlayN.log;
 import playn.core.Image;
 import playn.core.Json;
-import playn.core.util.Callback;
 
 public class SimpleLevelFactory implements ILevelFactory {
-	
-	private class Container<T> {
-	    private T data;
-
-	    public void setData(T data) {
-	        this.data = data;
-	    }
-	}
 
 	@Override
 	public Level loadLevel(String jsonString) {
