@@ -30,6 +30,8 @@ public class SimpleLevelFactory implements ILevelFactory {
 		PATH_EMPTY("path_empty.bmp"),
 		PATH_HORIZONTAL("path_horizontal.bmp"),
 		PATH_VERTICAL("path_vertical.bmp"),
+		PATH_START("start.bmp"),
+		PATH_END("finish.bmp"),
 		TOWER_DUMMY("code.png");
 		
 		public final String resourceName;
@@ -52,7 +54,9 @@ public class SimpleLevelFactory implements ILevelFactory {
 			case 6: return PATH_EMPTY;
 			case 7: return PATH_HORIZONTAL;
 			case 8: return PATH_VERTICAL;
-			case 10: return TOWER_DUMMY;
+			case 9: return PATH_START;
+			case 10: return PATH_END;
+			case 11: return TOWER_DUMMY;
 			default: throw new IllegalArgumentException("No ETileType with Tile ID:" + id);
 			}			
 		}
