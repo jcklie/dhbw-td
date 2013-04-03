@@ -7,11 +7,12 @@
 
 package de.dhbw.td.core;
 
-import static playn.core.PlayN.*;
-
-import playn.core.Assets;
+import static playn.core.PlayN.assets;
+import static playn.core.PlayN.graphics;
+import static playn.core.PlayN.log;
 import playn.core.Game;
-import playn.core.Layer;
+import playn.core.Image;
+import playn.core.ImageLayer;
 import playn.core.Surface;
 import playn.core.SurfaceLayer;
 import de.dhbw.td.core.level.ILevelFactory;
@@ -23,6 +24,7 @@ public class TowerDefense implements Game {
 	private static final String PATH_LEVELS = "levels/";
 	
 	private SurfaceLayer TILE_LAYER;
+	private ImageLayer BACKGROUND_LAYER;
 	
 	private Level currentLevel;
 	private ILevelFactory levelLoader;
@@ -32,9 +34,16 @@ public class TowerDefense implements Game {
 		// load the first level for test purposes
 		loadLevel(PATH_LEVELS + "level1.json");
 		
-		// Arrange Layer		
+		// Background layer is plain white
+		Image bg = assets().getImage("tiles/white.bmp");		
+		BACKGROUND_LAYER = graphics().createImageLayer(bg);
+		BACKGROUND_LAYER.setScale(currentLevel.width(), currentLevel.height());		
+		graphics().rootLayer().add(BACKGROUND_LAYER);
+		
+		// Tile layer 
 		TILE_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
 		graphics().rootLayer().add(TILE_LAYER);
+		
 	}
 	
 	private void loadLevel(String pathToLevel) {

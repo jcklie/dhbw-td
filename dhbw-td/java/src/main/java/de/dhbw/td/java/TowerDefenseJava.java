@@ -9,14 +9,19 @@ package de.dhbw.td.java;
 
 import playn.core.PlayN;
 import playn.java.JavaPlatform;
-
+import playn.java.JavaPlatform.Config;
 import de.dhbw.td.core.TowerDefense;
 
 public class TowerDefenseJava {
 
 	public static void main(String[] args) {
-		JavaPlatform platform = JavaPlatform.register();
+		Config config = new Config();
+	    config.width = 896;
+	    config.height = 640;
+	    
+	    JavaPlatform platform = JavaPlatform.register(config);
 		platform.assets().setPathPrefix("de/dhbw/td/resources");
+		platform.setTitle("DHBW Tower Defense");		
 		PlayN.run(new TowerDefense());
 	}
 }

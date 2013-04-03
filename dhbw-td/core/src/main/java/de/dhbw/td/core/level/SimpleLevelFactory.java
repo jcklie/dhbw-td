@@ -29,7 +29,8 @@ public class SimpleLevelFactory implements ILevelFactory {
 		EDGE_RIGHT_TOP("edge_right_top.bmp"),
 		PATH_EMPTY("path_empty.bmp"),
 		PATH_HORIZONTAL("path_horizontal.bmp"),
-		PATH_VERTICAL("path_vertical.bmp");	
+		PATH_VERTICAL("path_vertical.bmp"),
+		TOWER_DUMMY("code.png");
 		
 		public final String resourceName;
 
@@ -51,6 +52,7 @@ public class SimpleLevelFactory implements ILevelFactory {
 			case 6: return PATH_EMPTY;
 			case 7: return PATH_HORIZONTAL;
 			case 8: return PATH_VERTICAL;
+			case 10: return TOWER_DUMMY;
 			default: throw new IllegalArgumentException("No ETileType with Tile ID:" + id);
 			}			
 		}
@@ -66,13 +68,13 @@ public class SimpleLevelFactory implements ILevelFactory {
 	}
 
 	@Override
-	public Level loadLevel(Json.Object parsedJson) {		
+	public Level loadLevel(Json.Object parsedJson) {
 		int width = parsedJson.getInt("width");
 		int height = parsedJson.getInt("height");
 		int tilesize = parsedJson.getInt("tilesize");
 		
 		Json.Array grid = parsedJson.getArray("tiles");
-		final Image[][] tileMap = new Image[height][width];
+		Image[][] tileMap = new Image[height][width];
 		
 		for(int row = 0; row < height; row++) {
 			Json.Array gridRow = grid.getArray(row);

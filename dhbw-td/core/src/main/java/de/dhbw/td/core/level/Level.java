@@ -7,12 +7,9 @@
 
 package de.dhbw.td.core.level;
 
-import static playn.core.PlayN.*;
-
 import java.util.Arrays;
 
 import playn.core.Image;
-import playn.core.Layer;
 import playn.core.Surface;
 import de.dhbw.td.core.game.IDrawable;
 
@@ -22,7 +19,6 @@ public class Level implements IDrawable{
 	public final int width;
 	public final int tilesize;
 	public final Image[][] map;
-	private Layer layer;
 
 	public Level(Image[][] map, int tilesize, int width, int height) {
 		this.tilesize = tilesize;
@@ -49,7 +45,7 @@ public class Level implements IDrawable{
 		surf.clear();
 		for(int row = 0; row < height; row++) {
 			for(int col = 0; col < width; col++) {				
-				surf.drawImage(map[row][col], row*tilesize, col*tilesize);
+				surf.drawImage(map[row][col], col*tilesize, row*tilesize);
 			}
 		}
 	}
