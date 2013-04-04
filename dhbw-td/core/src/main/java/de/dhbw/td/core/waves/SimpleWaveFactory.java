@@ -20,6 +20,8 @@ import de.dhbw.td.core.enemies.Enemy;
 
 public class SimpleWaveFactory implements IWaveFactory {
 
+	public final int[][][] semesters = new int[6][6][3];
+	
 	@Override
 	public WaveController loadWaveController(String jsonString) {
 		return loadWaveController(json().parse(jsonString));
@@ -27,32 +29,30 @@ public class SimpleWaveFactory implements IWaveFactory {
 
 	@Override
 	public WaveController loadWaveController(Object parsedJson) {
-
-		int[][][] sems = new int[6][6][3];
 		for (int cnt = 0; cnt < 6; cnt++) {
-			Json.Array sem = parsedJson.getArray("sem" + (cnt + 1));
+			Json.Array semester = parsedJson.getArray("sem" + (cnt + 1));
 
 			for (int row = 0; row < 6; row++) {
-				Json.Array gridRow = sem.getArray(row);
+				Json.Array gridRow = semester.getArray(row);
 
 				for (int col = 0; col < 3; col++) {
 					int val = gridRow.getInt(col);
-					sems[cnt][row][col] = val;
+					semesters[cnt][row][col] = val;
 				}
 			}
 		}
-		Queue<Wave> waves = createWaves(sems);
+		Queue<Wave> waves = createWaves(semesters);
 		return new WaveController(waves);
 	}
 
-	private Queue<Wave> createWaves(int[][][] sems) {
+	private Queue<Wave> createWaves(int[][][] semesters) {
 		Queue<Wave> waves = new LinkedList<Wave>();
 		for (int waveNumber = 0; waveNumber < 36; waveNumber++) {
 			List<Enemy> enemies = new LinkedList<Enemy>();
 			for (int enemyNumber = 0; enemyNumber < 12; enemyNumber++) {
-				int maxHealth = sems[waveNumber / 6][waveNumber % 6][0];
-				double speed = sems[waveNumber / 6][waveNumber % 6][1];
-				int bounty = sems[waveNumber / 6][waveNumber % 6][2];
+				int maxHealth = semesters[waveNumber / 6][waveNumber % 6][0];
+				double speed = semesters[waveNumber / 6][waveNumber % 6][1];
+				int bounty = semesters[waveNumber / 6][waveNumber % 6][2];
 				EEnemyType enemyType = EEnemyType.Math;
 				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType));
 			}

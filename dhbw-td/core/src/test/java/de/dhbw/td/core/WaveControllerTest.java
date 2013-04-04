@@ -14,8 +14,10 @@ import junit.framework.TestCase;
 import playn.core.Json;
 import playn.core.Platform;
 import playn.java.JavaPlatform;
+import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.waves.IWaveFactory;
 import de.dhbw.td.core.waves.SimpleWaveFactory;
+import de.dhbw.td.core.waves.Wave;
 import de.dhbw.td.core.waves.WaveController;
 
 public class WaveControllerTest extends TestCase {
@@ -66,25 +68,29 @@ public class WaveControllerTest extends TestCase {
 
 	public void testEnemyAttributes() {
 		// test if attributes of first 12 enemies equals values of sem1 - wave 1
+		Wave testWave = waveController.waves.peek();
 		for (int i = 0; i < 12; i++) {
-			assertEquals(10, waveController.waves.peek().enemies.get(i).maxHealth);
-			assertEquals(10, waveController.waves.peek().enemies.get(i).curHealth);
-			assertEquals(true, waveController.waves.peek().enemies.get(i).alive);
-			assertEquals(10.0, waveController.waves.peek().enemies.get(i).speed);
-			assertEquals(1, waveController.waves.peek().enemies.get(i).bounty);
-			assertEquals(2, waveController.waves.peek().enemies.get(i).penalty);
+			Enemy testEnemy = testWave.enemies.get(i);
+			assertEquals(10, testEnemy.maxHealth);
+			assertEquals(10, testEnemy.curHealth);
+			assertTrue(testEnemy.alive);
+			assertEquals(10.0, testEnemy.speed,0.001);
+			assertEquals(1, testEnemy.bounty);
+			assertEquals(2, testEnemy.penalty);
 		}
 		do {
 			waveController.nextWave();
-		} while (waveController.currentWave.waveNumber != 34);
+		} while (waveController.currentWave.waveNumber < 34);
 		// test if attributes of first 12 enemies equals values of sem6 - wave 6
+		testWave = waveController.nextWave();
 		for (int i = 0; i < 12; i++) {
-			assertEquals(70, waveController.waves.peek().enemies.get(i).maxHealth);
-			assertEquals(70, waveController.waves.peek().enemies.get(i).curHealth);
-			assertEquals(true, waveController.waves.peek().enemies.get(i).alive);
-			assertEquals(10.0, waveController.waves.peek().enemies.get(i).speed);
-			assertEquals(6, waveController.waves.peek().enemies.get(i).bounty);
-			assertEquals(12, waveController.waves.peek().enemies.get(i).penalty);
+			Enemy testEnemy = testWave.enemies.get(i);
+			assertEquals(70, testEnemy.maxHealth);
+			assertEquals(70, testEnemy.curHealth);
+			assertTrue(testWave.enemies.get(i).alive);
+			assertEquals(10.0, testEnemy.speed,0.001);
+			assertEquals(6, testEnemy.bounty);
+			assertEquals(12, testEnemy.penalty);
 		}
 	}
 }

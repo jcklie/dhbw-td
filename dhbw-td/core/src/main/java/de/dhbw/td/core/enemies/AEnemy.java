@@ -23,7 +23,7 @@ public abstract class AEnemy {
 	public enum EEnemyType {
 		Math(1), TechInf(2), Code(3), TheoInf(4), Wiwi(5), Social(6);
 
-		private int value;
+		public final int value;
 
 		private EEnemyType(int value) {
 			this.value = value;
