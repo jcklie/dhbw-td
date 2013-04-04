@@ -22,6 +22,7 @@ public class TowerDefenseJava {
 	    JavaPlatform platform = JavaPlatform.register(config);
 		platform.assets().setPathPrefix("de/dhbw/td/resources");
 		platform.setTitle("DHBW Tower Defense");		
+		platform.graphics().registerFont("Miso", "fonts/miso.otf");
 		PlayN.run(new TowerDefense());
 	}
 }
