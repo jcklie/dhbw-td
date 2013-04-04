@@ -13,10 +13,13 @@ import de.dhbw.td.core.waves.*;
 public class WaveControllerTest extends TestCase {
 
 	private Wave wave;	
+	private WaveController waveController;
 	
 	@Override
 	protected void setUp() throws Exception {		
-		Wave testWave = new Wave(10,1);
+		wave = new Wave(10,1);
+		waveController = new WaveController(null, 0, 0, wave);
+		wave = waveController.nextWave(wave);
 	}
 	
 	@Override
