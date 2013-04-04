@@ -12,25 +12,20 @@ import de.dhbw.td.core.waves.*;
 
 public class WaveControllerTest extends TestCase {
 
-//	private Wave wave;	
-//	
-//	@Override
-//	protected void setUp() throws Exception {		
-//		Wave testWave = new Wave(10,1);
-//	}
-//	
-//	@Override
-//	protected void tearDown() throws Exception {
-//		wave = null;
-//	}
-//
-//	
-//	public void testWaveWasCorrectAccordingToInputValues() {
-//		assertEquals(2, wave.waveNumber);
-//	}  
-//	
-	public void testDummy() {
-		assertTrue(true);
+	private Wave wave;	
+	
+	@Override
+	protected void setUp() throws Exception {		
+		Wave testWave = new Wave(10,1);
+	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		wave = null;
 	}
 
+	
+	public void testWaveWasCorrectAccordingToInputValues() {
+		assertEquals(2, wave.waveNumber);
+	}  	
 }
