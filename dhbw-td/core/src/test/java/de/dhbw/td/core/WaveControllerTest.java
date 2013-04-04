@@ -26,6 +26,6 @@ public class WaveControllerTest extends TestCase {
 
 	
 	public void testWaveWasCorrectAccordingToInputValues() {
-		assertEquals(1, wave.waveNumber);
+		assertEquals(2, wave.waveNumber);
 	}  	
 }
