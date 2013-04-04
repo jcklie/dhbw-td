@@ -16,7 +16,7 @@ public class WaveControllerTest extends TestCase {
 	
 	@Override
 	protected void setUp() throws Exception {		
-		Wave testWave = new Wave(10,1);
+		wave = new Wave(10,1);
 	}
 	
 	@Override
@@ -26,6 +26,6 @@ public class WaveControllerTest extends TestCase {
 
 	
 	public void testWaveWasCorrectAccordingToInputValues() {
-		assertEquals(2, wave.waveNumber);
+		assertEquals(1, wave.waveNumber);
 	}  	
 }
