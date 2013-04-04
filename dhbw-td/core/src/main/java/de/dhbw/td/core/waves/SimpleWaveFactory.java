@@ -1,8 +1,8 @@
-/*  Copyright (C) 2013 by Martin Kiessling, Inc. All rights reserved.
+/*  Copyright (C) 2013 by Martin Kiessling, Tobias Roeding Inc. All rights reserved.
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Martin Kiessling - All
+ *  Martin Kiessling, Tobias Roeding - All
  */
 
 package de.dhbw.td.core.waves;
@@ -30,7 +30,7 @@ public class SimpleWaveFactory implements IWaveController {
 
 		int[][][] sems = new int[6][6][3];
 		for (int cnt = 0; cnt < 6; cnt++) {
-			Json.Array sem = parsedJson.getArray("sem" + cnt + 1);
+			Json.Array sem = parsedJson.getArray("sem" + (cnt + 1));
 
 			for (int row = 0; row < 6; row++) {
 				Json.Array gridRow = sem.getArray(row);
@@ -57,6 +57,7 @@ public class SimpleWaveFactory implements IWaveController {
 				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType));
 			}
 			Wave wave = new Wave(waveNumber, enemies);
+			waves.add(wave);
 		}
 		return waves;
 	}
