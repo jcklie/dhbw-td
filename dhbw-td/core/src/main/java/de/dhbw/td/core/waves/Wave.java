@@ -21,7 +21,8 @@ public class Wave {
 	public Wave(int waveNumber, List<Enemy> enemies) {
 		this.enemyCount = enemies.size();
 		this.waveNumber = waveNumber;
-		this.enemies = enemies;
 		enemies = Collections.unmodifiableList(enemies);
+		this.enemies = enemies;
+
 	}
 }
