@@ -9,7 +9,7 @@ package de.dhbw.td.core.waves;
 
 import playn.core.Json;
 
-public interface IWaveController {
+public interface IWaveFactory {
 	
 	WaveController loadWaveController(String jsonString);
 	WaveController loadWaveController(Json.Object parsedJson);

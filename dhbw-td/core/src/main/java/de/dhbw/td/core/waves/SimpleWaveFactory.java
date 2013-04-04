@@ -18,7 +18,7 @@ import playn.core.Json.Object;
 import de.dhbw.td.core.enemies.AEnemy.EEnemyType;
 import de.dhbw.td.core.enemies.Enemy;
 
-public class SimpleWaveFactory implements IWaveController {
+public class SimpleWaveFactory implements IWaveFactory {
 
 	@Override
 	public WaveController loadWaveController(String jsonString) {

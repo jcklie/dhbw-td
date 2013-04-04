@@ -20,7 +20,7 @@ import de.dhbw.td.core.game.HUD;
 import de.dhbw.td.core.level.ILevelFactory;
 import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.level.SimpleLevelFactory;
-import de.dhbw.td.core.waves.IWaveController;
+import de.dhbw.td.core.waves.IWaveFactory;
 import de.dhbw.td.core.waves.SimpleWaveFactory;
 import de.dhbw.td.core.waves.WaveController;
 
@@ -38,7 +38,7 @@ public class TowerDefense implements Game {
 	private ILevelFactory levelLoader;
 	
 	private WaveController waveController;
-	private IWaveController waveLoader;
+	private IWaveFactory waveLoader;
 	
 	private GameState stateOftheWorld;
 	private HUD hud;

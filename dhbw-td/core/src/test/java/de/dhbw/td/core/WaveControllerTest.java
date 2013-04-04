@@ -14,13 +14,13 @@ import junit.framework.TestCase;
 import playn.core.Json;
 import playn.core.Platform;
 import playn.java.JavaPlatform;
-import de.dhbw.td.core.waves.IWaveController;
+import de.dhbw.td.core.waves.IWaveFactory;
 import de.dhbw.td.core.waves.SimpleWaveFactory;
 import de.dhbw.td.core.waves.WaveController;
 
 public class WaveControllerTest extends TestCase {
 
-	private IWaveController waveLoader;
+	private IWaveFactory waveLoader;
 	private WaveController waveController;
 
 	@Override
