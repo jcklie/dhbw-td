@@ -7,25 +7,90 @@
 
 package de.dhbw.td.core;
 
+import java.io.File;
+import java.net.URL;
+
 import junit.framework.TestCase;
-import de.dhbw.td.core.waves.*;
+import playn.core.Json;
+import playn.core.Platform;
+import playn.java.JavaPlatform;
+import de.dhbw.td.core.enemies.Enemy;
+import de.dhbw.td.core.waves.IWaveFactory;
+import de.dhbw.td.core.waves.SimpleWaveFactory;
+import de.dhbw.td.core.waves.Wave;
+import de.dhbw.td.core.waves.WaveController;
 
 public class WaveControllerTest extends TestCase {
 
-	private Wave wave;	
-	
+	private IWaveFactory waveLoader;
+	private WaveController waveController;
+
 	@Override
-	protected void setUp() throws Exception {		
-		wave = new Wave(10,1);
-	}
-	
-	@Override
-	protected void tearDown() throws Exception {
-		wave = null;
+	protected void setUp() throws Exception {
+		URL url = this.getClass().getResource("/waves/waves.json");
+		File f = new File(url.getFile());
+
+		FileUtil.readFile(f);
+
+		Platform platform = JavaPlatform.register();
+		Json.Object jason = platform.json().parse(FileUtil.readFile(f));
+
+		waveLoader = new SimpleWaveFactory();
+		waveController = waveLoader.loadWaveController(jason);
 	}
 
-	
-	public void testWaveWasCorrectAccordingToInputValues() {
-		assertEquals(2, wave.waveNumber);
-	}  	
+	@Override
+	protected void tearDown() throws Exception {
+		waveController = null;
+	}
+
+	public void testWaveControllerCreatedAllWaves() {
+		// test if WaveFactory created 36 Waves
+		assertEquals(36, waveController.waves.size());
+	}
+
+	public void testWaveAttributes() {
+		for (int i = 0; i < 36; i++) {
+			// test if every wave has the correct number and if the waves are in
+			// order
+			assertEquals(i, waveController.waves.peek().waveNumber);
+			// test if every wave contains 12 enemies
+			assertEquals(12, waveController.waves.poll().enemyCount);
+		}
+	}
+
+	public void testNextWaveFunction() {
+		for (int i = 0; i < 36; i++) {
+			// test if nextWave function returns the next wave in order
+			assertEquals(i, waveController.nextWave().waveNumber);
+		}
+	}
+
+	public void testEnemyAttributes() {
+		// test if attributes of first 12 enemies equals values of sem1 - wave 1
+		Wave testWave = waveController.waves.peek();
+		for (int i = 0; i < 12; i++) {
+			Enemy testEnemy = testWave.enemies.get(i);
+			assertEquals(10, testEnemy.maxHealth);
+			assertEquals(10, testEnemy.curHealth);
+			assertTrue(testEnemy.alive);
+			assertEquals(10.0, testEnemy.speed,0.001);
+			assertEquals(1, testEnemy.bounty);
+			assertEquals(2, testEnemy.penalty);
+		}
+		do {
+			waveController.nextWave();
+		} while (waveController.currentWave.waveNumber < 34);
+		// test if attributes of first 12 enemies equals values of sem6 - wave 6
+		testWave = waveController.nextWave();
+		for (int i = 0; i < 12; i++) {
+			Enemy testEnemy = testWave.enemies.get(i);
+			assertEquals(70, testEnemy.maxHealth);
+			assertEquals(70, testEnemy.curHealth);
+			assertTrue(testWave.enemies.get(i).alive);
+			assertEquals(10.0, testEnemy.speed,0.001);
+			assertEquals(6, testEnemy.bounty);
+			assertEquals(12, testEnemy.penalty);
+		}
+	}
 }
