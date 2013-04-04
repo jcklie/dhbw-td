@@ -1,43 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>de.dhbw.td</groupId>
-    <artifactId>dhbw-td</artifactId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>de.dhbw.td</groupId>
+		<artifactId>dhbw-td</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 
-  <artifactId>dhbw-td-core</artifactId>
-  <packaging>jar</packaging>
-  <name>TowerDefense Core</name>
+	<artifactId>dhbw-td-core</artifactId>
+	<packaging>jar</packaging>
+	<name>TowerDefense Core</name>
+	
+	<properties>
+		<lwjgl.version>2.8.5</lwjgl.version>
+		<natives.version>0.0.6</natives.version>
+	</properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>com.googlecode.playn</groupId>
-      <artifactId>playn-core</artifactId>
-      <version>${playn.version}</version>
-    </dependency>
-  </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>com.googlecode.playn</groupId>
+			<artifactId>playn-core</artifactId>
+			<version>${playn.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.playn</groupId>
+			<artifactId>playn-java</artifactId>
+			<version>${playn.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.lwjgl.lwjgl</groupId>
+			<artifactId>lwjgl</artifactId>
+			<version>${lwjgl.version}</version>
+		</dependency>
+	</dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-      </plugin>
-    </plugins>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.googlecode.mavennatives</groupId>
+				<artifactId>maven-nativedependencies-plugin</artifactId>
+				<version>${natives.version}</version>
+				<executions>
+					<execution>
+						<id>unpacknatives</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 
-    <resources>
-      <!-- include the source files in our main jar for use by GWT -->
-      <resource>
-        <directory>${project.build.sourceDirectory}</directory>
-      </resource>
-      <!-- and continue to include our standard resources -->
-      <resource>
-        <directory>${basedir}/src/main/resources</directory>
-      </resource>
-    </resources>
-  </build>
+		<resources>
+			<!-- include the source files in our main jar for use by GWT -->
+			<resource>
+				<directory>${project.build.sourceDirectory}</directory>
+			</resource>
+			<!-- and continue to include our standard resources -->
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+			</resource>
+		</resources>
+	</build>
 </project>
