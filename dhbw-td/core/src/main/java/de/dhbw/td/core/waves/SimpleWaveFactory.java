@@ -60,5 +60,7 @@ public class SimpleWaveFactory implements IWaveFactory {
 			waves.add(wave);
 		}
 		return waves;
+		
+		//TODO: add arc noah magic to enemies
 	}
 }

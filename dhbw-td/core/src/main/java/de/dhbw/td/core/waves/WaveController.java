@@ -24,8 +24,4 @@ public class WaveController {
 		currentWave = waves.poll();
 		return currentWave;
 	}
-
-	public void draw() {
-
-	}
 }

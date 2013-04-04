@@ -7,6 +7,7 @@
 
 package de.dhbw.td.core.waves;
 
+import java.util.Collections;
 import java.util.List;
 
 import de.dhbw.td.core.enemies.Enemy;
@@ -21,5 +22,6 @@ public class Wave {
 		this.enemyCount = enemies.size();
 		this.waveNumber = waveNumber;
 		this.enemies = enemies;
+		enemies = Collections.unmodifiableList(enemies);
 	}
 }
