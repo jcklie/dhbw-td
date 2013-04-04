@@ -67,24 +67,20 @@ public class WaveControllerTest extends TestCase {
 	public void testEnemyAttributes() {
 		// test if attributes of first 12 enemies equals values of sem1 - wave 1
 		for (int i = 0; i < 12; i++) {
-			assertEquals(10,
-					waveController.waves.peek().enemies.get(i).maxHealth);
-			assertEquals(10,
-					waveController.waves.peek().enemies.get(i).curHealth);
+			assertEquals(10, waveController.waves.peek().enemies.get(i).maxHealth);
+			assertEquals(10, waveController.waves.peek().enemies.get(i).curHealth);
 			assertEquals(true, waveController.waves.peek().enemies.get(i).alive);
 			assertEquals(10.0, waveController.waves.peek().enemies.get(i).speed);
 			assertEquals(1, waveController.waves.peek().enemies.get(i).bounty);
 			assertEquals(2, waveController.waves.peek().enemies.get(i).penalty);
 		}
-		do{
+		do {
 			waveController.nextWave();
-		}while (waveController.currentWave.waveNumber!= 34);
+		} while (waveController.currentWave.waveNumber != 34);
 		// test if attributes of first 12 enemies equals values of sem6 - wave 6
 		for (int i = 0; i < 12; i++) {
-			assertEquals(70,
-					waveController.waves.peek().enemies.get(i).maxHealth);
-			assertEquals(70,
-					waveController.waves.peek().enemies.get(i).curHealth);
+			assertEquals(70, waveController.waves.peek().enemies.get(i).maxHealth);
+			assertEquals(70, waveController.waves.peek().enemies.get(i).curHealth);
 			assertEquals(true, waveController.waves.peek().enemies.get(i).alive);
 			assertEquals(10.0, waveController.waves.peek().enemies.get(i).speed);
 			assertEquals(6, waveController.waves.peek().enemies.get(i).bounty);

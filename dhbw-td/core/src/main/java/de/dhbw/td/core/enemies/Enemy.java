@@ -8,8 +8,7 @@
 package de.dhbw.td.core.enemies;
 
 public class Enemy extends AEnemy {
-	public Enemy(int maxHealth,  double speed,
-			int bounty, EEnemyType enemyType) {
+	public Enemy(int maxHealth, double speed, int bounty, EEnemyType enemyType) {
 		this.maxHealth = maxHealth;
 		this.curHealth = maxHealth;
 		this.alive = true;
