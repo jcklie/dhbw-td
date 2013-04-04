@@ -1,8 +1,8 @@
-/*  Copyright (C) 2013 by Martin Kieﬂling, Inc. All rights reserved.
+/*  Copyright (C) 2013 by Martin Kiessling, Inc. All rights reserved.
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Martin Kieﬂling - All
+ *  Martin Kiessling - All
  */
 
 package de.dhbw.td.core.waves;
