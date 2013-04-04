@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
- * Unit test for the sonificator. It should be run after each checking and each
+ * Unit test for the dhbw-td. It should be run after each checking and each
  * compiling.
  */
 @RunWith(Suite.class)
