@@ -42,8 +42,6 @@ public class TowerDefense implements Game {
 	public void init() {	
 		// Game State
 		stateOftheWorld = new GameState();
-		// load dem fancy imagez		
-		assets().getImage(PATH_IMAGES + "clock.png");
 		
 		// load the first level for test purposes
 		loadLevel(PATH_LEVELS + "level1.json");
@@ -80,7 +78,7 @@ public class TowerDefense implements Game {
 		currentLevel.draw(tileSurface);
 		
 		Surface hudSurface = HUD_LAYER.surface();
-		//hud.draw(hudSurface);
+		hud.draw(hudSurface);
 	}
 
 	@Override

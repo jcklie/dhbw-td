@@ -34,16 +34,18 @@ public class HUD implements IDrawable {
 		
 		// Image loading party
 		
-		assets().getImage(TowerDefense.PATH_IMAGES + "clock.png").addCallback(new Callback<Image>() {
+		assets().getImageSync(TowerDefense.PATH_IMAGES + "clock.png").addCallback(new Callback<Image>() {
 
 			@Override
 			public void onFailure(Throwable cause) {
-				log().error(cause.getMessage());				
+				log().error(cause.getMessage());
+				System.out.println("Error loading clock.png");
 			}
 
 			@Override
 			public void onSuccess(Image result) {
-				clockImage = result;				
+				clockImage = result;
+				System.out.println("Loaded clock.png");
 			}
 			
 		});
