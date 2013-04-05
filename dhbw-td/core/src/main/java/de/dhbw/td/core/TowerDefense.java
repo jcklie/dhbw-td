@@ -15,8 +15,12 @@ import playn.core.CanvasImage;
 import playn.core.Game;
 import playn.core.Image;
 import playn.core.ImageLayer;
+import playn.core.Keyboard.Adapter;
+import playn.core.Mouse.Listener;
+import playn.core.Pointer;
 import playn.core.Surface;
 import playn.core.SurfaceLayer;
+import playn.core.Pointer.Event;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.game.HUD;
 import de.dhbw.td.core.level.ILevelFactory;
@@ -27,6 +31,7 @@ public class TowerDefense implements Game {
 	
 	public static final String PATH_LEVELS = "levels/";
 	public static final String PATH_IMAGES = "images/";
+	public static final String PATH_TOWERS = "tower/";
 	
 	private SurfaceLayer TILE_LAYER;
 	private ImageLayer BACKGROUND_LAYER;
@@ -59,7 +64,8 @@ public class TowerDefense implements Game {
 		// HUD layer
 		hud = new HUD(stateOftheWorld);
 		HUD_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
-		graphics().rootLayer().add(HUD_LAYER);		
+		HUD_LAYER.addListener(hud.new HUDListener());
+		graphics().rootLayer().add(HUD_LAYER);
 	}
 	
 	private void loadLevel(String pathToLevel) {
