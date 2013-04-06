@@ -53,7 +53,7 @@ public class SimpleWaveFactory implements IWaveFactory {
 				int maxHealth = semesters[waveNumber % 6][0];
 				double speed = semesters[waveNumber % 6][1];
 				int bounty = semesters[waveNumber % 6][2];
-				EEnemyType enemyType = enemyTypeArray[(int) Math.random() + 5];
+				EEnemyType enemyType = enemyTypeArray[(int) (Math.random() * 5)];
 				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType));
 			}
 			Wave wave = new Wave(waveNumber, enemies);
