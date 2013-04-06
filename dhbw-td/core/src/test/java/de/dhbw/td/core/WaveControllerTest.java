@@ -46,7 +46,7 @@ public class WaveControllerTest extends TestCase {
 	}
 
 	public void testWaveControllerCreatedAllWaves() {
-		// test if WaveFactory created 36 Waves
+		// test if WaveFactory created 12 Waves
 		assertEquals(12, waveController.waves.size());
 	}
 
@@ -54,9 +54,7 @@ public class WaveControllerTest extends TestCase {
 		for (int i = 0; i < 12; i++) {
 			// test if every wave has the correct number and if the waves are in
 			// order
-			assertEquals(i, waveController.waves.peek().waveNumber);
-			// test if every wave contains 12 enemies
-			assertEquals(12, waveController.waves.poll().enemyCount);
+			assertEquals(i, waveController.waves.poll().waveNumber);
 		}
 	}
 
@@ -80,7 +78,7 @@ public class WaveControllerTest extends TestCase {
 		do {
 			testWave = waveController.nextWave();
 		} while (testWave.waveNumber < 11);
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 9; i++) {
 			Enemy testEnemy = testWave.enemies.get(i);
 			assertEquals(70, testEnemy.maxHealth);
 			assertEquals(70, testEnemy.curHealth);
@@ -92,9 +90,9 @@ public class WaveControllerTest extends TestCase {
 	}
 
 	public void testEnemyAttributes() {
-		// test if attributes of first 12 enemies equals values of sem1 - wave 1
+		// test if attributes of first 9 enemies equals values of sem1 - wave 1
 		Wave testWave = waveController.waves.peek();
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 9; i++) {
 			Enemy testEnemy = testWave.enemies.get(i);
 			assertEquals(10, testEnemy.maxHealth);
 			assertEquals(10, testEnemy.curHealth);

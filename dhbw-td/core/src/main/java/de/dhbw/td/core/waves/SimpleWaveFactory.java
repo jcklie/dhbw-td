@@ -49,7 +49,8 @@ public class SimpleWaveFactory implements IWaveFactory {
 		Queue<Wave> waves = new LinkedList<Wave>();
 		for (int waveNumber = 0; waveNumber < 12; waveNumber++) {
 			List<Enemy> enemies = new LinkedList<Enemy>();
-			for (int enemyNumber = 0; enemyNumber < 12; enemyNumber++) {
+			int enemyMax = (int)(Math.random()*(15-9)+9);
+			for (int enemyNumber = 0; enemyNumber < enemyMax; enemyNumber++) {
 				int maxHealth = semesters[waveNumber % 6][0];
 				double speed = semesters[waveNumber % 6][1];
 				int bounty = semesters[waveNumber % 6][2];
