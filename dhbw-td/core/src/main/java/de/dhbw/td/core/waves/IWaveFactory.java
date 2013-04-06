@@ -11,6 +11,6 @@ import playn.core.Json;
 
 public interface IWaveFactory {
 	
-	WaveController loadWaveController(String jsonString);
-	WaveController loadWaveController(Json.Object parsedJson);
+	WaveController nextWaveController(String jsonString);
+	WaveController nextWaveController(Json.Object parsedJson);
 }

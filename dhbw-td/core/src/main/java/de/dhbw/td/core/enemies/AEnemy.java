@@ -7,6 +7,7 @@
 
 package de.dhbw.td.core.enemies;
 
+import java.awt.Point;
 import java.util.Queue;
 
 public abstract class AEnemy {
@@ -17,11 +18,10 @@ public abstract class AEnemy {
 	public int bounty;
 	public int penalty;
 	public EEnemyType enemyType;
-
-	// public Queue<Tuple> waypoints;
+	public Queue<Point> waypoints;
 
 	public enum EEnemyType {
-		Math(1), TechInf(2), Code(3), TheoInf(4), Wiwi(5), Social(6);
+		Math(0), TechInf(1), Code(2), TheoInf(3), Wiwi(4), Social(5);
 
 		public final int value;
 
