@@ -19,6 +19,13 @@ import playn.core.Json.Object;
 import de.dhbw.td.core.enemies.AEnemy.EEnemyType;
 import de.dhbw.td.core.enemies.Enemy;
 
+/**
+ * This class creates new Waves for each semester on demand.
+ * 
+ * @author Martin Kiessling, Tobias Roeding
+ * @version 1.0
+ * 
+ */
 public class SimpleWaveFactory implements IWaveFactory {
 
 	public final EEnemyType[] enemyTypeArray = EEnemyType.values();
@@ -26,6 +33,14 @@ public class SimpleWaveFactory implements IWaveFactory {
 	public Queue<Point> waypoints;
 
 	@Override
+	/**
+	 * Method returns next WaveController for specific semester.
+	 * 
+	 * @param jsonString location of the waves.json as String
+	 * @param waypoints Queue of waypoints for current level
+	 * @return next WaveController
+	 * @see WaveController
+	 */
 	public WaveController nextWaveController(String jsonString, Queue<Point> waypoints) {
 		return nextWaveController(json().parse(jsonString), waypoints);
 	}
@@ -48,6 +63,14 @@ public class SimpleWaveFactory implements IWaveFactory {
 		return new WaveController(createWaves(semester));
 	}
 
+	/**
+	 * Method creates all waves per WaveController and returns Wave-Queue.
+	 * 
+	 * @param semesters
+	 *            array containing [wave][attributes]
+	 * @return Queue with waves per semester
+	 * 
+	 */
 	private Queue<Wave> createWaves(int[][] semesters) {
 		Queue<Wave> waves = new LinkedList<Wave>();
 		for (int waveNumber = 0; waveNumber < 12; waveNumber++) {

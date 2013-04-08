@@ -8,16 +8,30 @@
 package de.dhbw.td.core.waves;
 
 import java.util.Collections;
+
 import java.util.List;
 
 import de.dhbw.td.core.enemies.Enemy;
 
+/**
+ * 
+ * @author Martin Kiessling, Tobias Roeding
+ * @version 1.0
+ * 
+ */
 public class Wave {
 
 	public final int enemyCount;
 	public final int waveNumber;
 	public final List<Enemy> enemies;
 
+	/**
+	 * 
+	 * @param waveNumber
+	 *            represents the number of the current Wave in the queue
+	 * @param enemies
+	 *            is a list containing all enemies for this wave
+	 */
 	public Wave(int waveNumber, List<Enemy> enemies) {
 		this.enemyCount = enemies.size();
 		this.waveNumber = waveNumber;

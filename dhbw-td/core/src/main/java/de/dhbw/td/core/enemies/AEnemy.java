@@ -9,7 +9,13 @@ package de.dhbw.td.core.enemies;
 
 import java.awt.Point;
 import java.util.Queue;
-
+/**
+ * abstract class for an enemy
+ * 
+ * @author Martin Kiessling, Tobias Roeding
+ * @version 1.0
+ * 
+ */
 public abstract class AEnemy {
 	public int maxHealth;
 	public int curHealth;

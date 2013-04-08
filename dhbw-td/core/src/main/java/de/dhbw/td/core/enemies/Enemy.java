@@ -10,6 +10,12 @@ package de.dhbw.td.core.enemies;
 import java.awt.Point;
 import java.util.Queue;
 
+/**
+ * 
+ * @author Martin Kiessling, Tobias Roeding
+ * @version 1.0
+ * 
+ */
 public class Enemy extends AEnemy {
 	public Enemy(int maxHealth, double speed, int bounty, EEnemyType enemyType, Queue<Point> waypoints) {
 		this.maxHealth = maxHealth;
