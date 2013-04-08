@@ -10,6 +10,10 @@ package de.dhbw.td.core;
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
+
+import java.awt.Point;
+import java.util.Queue;
+
 import playn.core.Game;
 import playn.core.Image;
 import playn.core.ImageLayer;
@@ -54,7 +58,7 @@ public class TowerDefense implements Game {
 		loadLevel(PATH_LEVELS + "level1.json");
 		
 		// load values for all waves
-		loadWaveController(PATH_WAVES + "waves.json");
+		loadWaveController(PATH_WAVES + "waves.json", currentLevel.waypoints);
 		
 		// Background layer is plain white
 		Image bg = assets().getImage("tiles/white.bmp");		
@@ -82,11 +86,11 @@ public class TowerDefense implements Game {
 		}
 	}
 	
-	private void loadWaveController(String pathToWaveValues) {
+	private void loadWaveController(String pathToWaveValues,Queue<Point> waypoints) {
 		try {
 			String WaveJson = assets().getTextSync(pathToWaveValues);
 			waveLoader = new SimpleWaveFactory();
-			waveController = waveLoader.nextWaveController(WaveJson);
+			waveController = waveLoader.nextWaveController(WaveJson, waypoints);
 		} catch (Exception e) {
 			log().error(e.getMessage());
 		}

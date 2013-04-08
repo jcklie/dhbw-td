@@ -9,6 +9,7 @@ package de.dhbw.td.core.waves;
 
 import static playn.core.PlayN.json;
 
+import java.awt.Point;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -22,15 +23,17 @@ public class SimpleWaveFactory implements IWaveFactory {
 
 	public final EEnemyType[] enemyTypeArray = EEnemyType.values();
 	public int currentSemester = 0;
+	public Queue<Point> waypoints;
 
 	@Override
-	public WaveController nextWaveController(String jsonString) {
-		return nextWaveController(json().parse(jsonString));
+	public WaveController nextWaveController(String jsonString, Queue<Point> waypoints) {
+		return nextWaveController(json().parse(jsonString), waypoints);
 	}
 
 	@Override
-	public WaveController nextWaveController(Object parsedJson) {
+	public WaveController nextWaveController(Object parsedJson, Queue<Point> waypoints) {
 		int[][] semester = new int[6][3];
+		this.waypoints = waypoints;
 		Json.Array semesterArr = parsedJson.getArray("sem" + (currentSemester + 1));
 
 		for (int row = 0; row < 6; row++) {
@@ -49,13 +52,13 @@ public class SimpleWaveFactory implements IWaveFactory {
 		Queue<Wave> waves = new LinkedList<Wave>();
 		for (int waveNumber = 0; waveNumber < 12; waveNumber++) {
 			List<Enemy> enemies = new LinkedList<Enemy>();
-			int enemyMax = (int)(Math.random()*(15-9)+9);
+			int enemyMax = (int) (Math.random() * (15 - 9) + 9);
 			for (int enemyNumber = 0; enemyNumber < enemyMax; enemyNumber++) {
 				int maxHealth = semesters[waveNumber % 6][0];
 				double speed = semesters[waveNumber % 6][1];
 				int bounty = semesters[waveNumber % 6][2];
 				EEnemyType enemyType = enemyTypeArray[(int) (Math.random() * 5)];
-				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType));
+				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType, waypoints));
 			}
 			Wave wave = new Wave(waveNumber, enemies);
 			waves.add(wave);

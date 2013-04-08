@@ -89,7 +89,7 @@ public class SimpleLevelFactory implements ILevelFactory {
 				tileMap[row][col] = assets().getImage(pathToImage);
 			}
 		}
-		return new Level(tileMap, tilesize, width, height);
+		return new Level(tileMap, null, tilesize, width, height);
 	}
 	
 

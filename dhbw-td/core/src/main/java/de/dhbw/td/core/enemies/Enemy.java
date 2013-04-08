@@ -7,8 +7,11 @@
 
 package de.dhbw.td.core.enemies;
 
+import java.awt.Point;
+import java.util.Queue;
+
 public class Enemy extends AEnemy {
-	public Enemy(int maxHealth, double speed, int bounty, EEnemyType enemyType) {
+	public Enemy(int maxHealth, double speed, int bounty, EEnemyType enemyType, Queue<Point> waypoints) {
 		this.maxHealth = maxHealth;
 		this.curHealth = maxHealth;
 		this.alive = true;
@@ -16,5 +19,6 @@ public class Enemy extends AEnemy {
 		this.bounty = bounty;
 		this.penalty = bounty * 2;
 		this.enemyType = enemyType;
+		this.waypoints = waypoints;
 	}
 }

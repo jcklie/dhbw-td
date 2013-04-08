@@ -37,7 +37,7 @@ public class WaveControllerTest extends TestCase {
 		jason = platform.json().parse(FileUtil.readFile(f));
 
 		waveLoader = new SimpleWaveFactory();
-		waveController = waveLoader.nextWaveController(jason);
+		waveController = waveLoader.nextWaveController(jason, null);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class WaveControllerTest extends TestCase {
 		// (example last wavecontroller, last wave)
 		int cnt = 0;
 		do {
-			waveController = waveLoader.nextWaveController(jason);
+			waveController = waveLoader.nextWaveController(jason, null);
 			cnt++;
 		} while (cnt < 5);
 		// test if attributes of enemies equals values of sem6 - wave 6
