@@ -3,11 +3,14 @@
  *  
  *  Contributors:
  *  Jan-Christoph Klie - All
+ *  Sebastian Muszytowski - Add waypoint support
  */
 
 package de.dhbw.td.core.level;
 
+import java.awt.Point;
 import java.util.Arrays;
+import java.util.Queue;
 
 import playn.core.Image;
 import playn.core.Surface;
@@ -19,11 +22,13 @@ public class Level implements IDrawable{
 	public final int width;
 	public final int tilesize;
 	public final Image[][] map;
+	public final Queue<Point> waypoints;
 
-	public Level(Image[][] map, int tilesize, int width, int height) {
+	public Level(Image[][] map, Queue<Point> waypoints, int tilesize, int width, int height) {
 		this.tilesize = tilesize;
 		this.width = width;
 		this.height = height;
+		this.waypoints = waypoints;
 			
 		if( map.length != height) {
 			throw new IllegalArgumentException("Specified height differs from height of map array!");
