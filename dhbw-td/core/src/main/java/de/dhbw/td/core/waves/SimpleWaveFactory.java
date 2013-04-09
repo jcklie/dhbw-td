@@ -50,6 +50,7 @@ public class SimpleWaveFactory implements IWaveFactory {
 	public WaveController nextWaveController(Object parsedJson, Queue<Point> waypoints) {
 		int[][] semester = new int[6][3];
 		this.waypoints = waypoints;
+		this.enemyCount = parsedJson.getInt("enemyCount" + (currentSemester + 1));
 		Json.Array semesterArr = parsedJson.getArray("sem" + (currentSemester + 1));
 
 		for (int row = 0; row < 6; row++) {
