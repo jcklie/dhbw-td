@@ -7,10 +7,13 @@
 
 package de.dhbw.td.core.waves;
 
+import java.awt.Point;
+import java.util.Queue;
+
 import playn.core.Json;
 
 public interface IWaveFactory {
 	
-	WaveController loadWaveController(String jsonString);
-	WaveController loadWaveController(Json.Object parsedJson);
+	WaveController nextWaveController(String jsonString, Queue<Point> waypoints);
+	WaveController nextWaveController(Json.Object parsedJson, Queue<Point> waypoints);
 }

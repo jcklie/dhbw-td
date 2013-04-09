@@ -7,26 +7,143 @@
 
 package de.dhbw.td.core.enemies;
 
+import java.awt.Point;
 import java.util.Queue;
 
-public abstract class AEnemy {
-	public int maxHealth;
-	public int curHealth;
-	public boolean alive;
-	public double speed;
-	public int bounty;
-	public int penalty;
-	public EEnemyType enemyType;
-
-	// public Queue<Tuple> waypoints;
+import playn.core.Surface;
+import de.dhbw.td.core.game.IDrawable;
+import de.dhbw.td.core.game.IUpdateable;
+/**
+ * abstract class for an enemy
+ * 
+ * @author Martin Kiessling, Tobias Roeding
+ * @version 1.0
+ * 
+ */
+public abstract class AEnemy implements IDrawable, IUpdateable {
+	protected int maxHealth;
+	protected int curHealth;
+	protected boolean alive;
+	protected double speed;
+	protected int bounty;
+	protected int penalty;
+	protected EEnemyType enemyType;
+	protected Queue<Point> waypoints;
+	private Point currentPosition;
 
 	public enum EEnemyType {
-		Math(1), TechInf(2), Code(3), TheoInf(4), Wiwi(5), Social(6);
+		Math(0), TechInf(1), Code(2), TheoInf(3), Wiwi(4), Social(5);
 
 		public final int value;
 
 		private EEnemyType(int value) {
 			this.value = value;
 		}
+	}
+	
+	@Override
+	public void draw(Surface surf){
+		
+	}
+	
+	@Override
+	public void update(double delta){
+		
+	}
+	
+	/**
+	 * 
+	 * @return current position as Point
+	 */
+	public Point getCurrentPosition() {
+		return currentPosition;
+	}
+
+	/**
+	 * 
+	 * @param newPosition new position for enemy as Point
+	 */
+	public void setCurrentPosition(Point newPosition) {
+		this.currentPosition = newPosition;
+	}
+
+	/**
+	 * 
+	 * @return current Health as integer
+	 */
+	public int getCurHealth() {
+		return curHealth;
+	}
+
+	/**
+	 * 
+	 * @param curHealth set current Health
+	 */
+	public void setCurHealth(int curHealth) {
+		this.curHealth = curHealth;
+	}
+
+	/**
+	 * 
+	 * @return speed as double
+	 */
+	public double getSpeed() {
+		return speed;
+	}
+
+	/**
+	 * 
+	 * @param speed set speed as double
+	 */
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
+
+	/**
+	 * 
+	 * @return get maximum health as integer
+	 */
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	/**
+	 * 
+	 * @return boolean if enemy is alive
+	 */
+	public boolean isAlive() {
+		return alive;
+	}
+
+	/**
+	 * 
+	 * @return get bounty of enemy as integer
+	 */
+	public int getBounty() {
+		return bounty;
+	}
+
+	/**
+	 * 
+	 * @return get penalty of enemy as integer
+	 */
+	public int getPenalty() {
+		return penalty;
+	}
+
+	/**
+	 * 
+	 * @return get enemy type as EEnemyType
+	 */
+	public EEnemyType getEnemyType() {
+		return enemyType;
+	}
+
+	/**
+	 * 
+	 * @return get waypoint queue as Queue<Point>
+	 */
+	public Queue<Point> getWaypoints() {
+		return waypoints;
 	}
 }
