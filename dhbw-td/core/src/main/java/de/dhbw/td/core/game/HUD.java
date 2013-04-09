@@ -1,8 +1,7 @@
 package de.dhbw.td.core.game;
 
-import static playn.core.PlayN.assets;
-import static playn.core.PlayN.graphics;
-import static playn.core.PlayN.log;
+import static playn.core.PlayN.*;
+import de.dhbw.td.core.TowerDefense;
 import playn.core.Canvas;
 import playn.core.CanvasImage;
 import playn.core.Font;
@@ -11,7 +10,6 @@ import playn.core.Surface;
 import playn.core.TextFormat;
 import playn.core.TextLayout;
 import playn.core.util.Callback;
-import de.dhbw.td.core.TowerDefense;
 
 public class HUD implements IDrawable {
 	
