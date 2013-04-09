@@ -107,7 +107,6 @@ public class SimpleLevelFactory implements ILevelFactory {
 		init(parsedJson);
 
 		Image[][] tileMap = loadTileMap();
-		System.out.println(tileMap);
 		Queue<Point> waypoints = generateWaypoints();
 		
 		return new Level(tileMap, waypoints, tilesize, width, height, startx, starty);
@@ -122,7 +121,7 @@ public class SimpleLevelFactory implements ILevelFactory {
 			for(int col = 0; col < width; col++) {
 				int tileID = gridRow.getInt(col);
 				String pathToImage = ETileType.getPathToImage(tileID);
-				tileMap[row][col] = assets().getImage(pathToImage);
+				tileMap[row][col] = assets().getImageSync(pathToImage);
 			}
 		}
 		
@@ -148,11 +147,11 @@ public class SimpleLevelFactory implements ILevelFactory {
 	}
 	
 	/**
-	 * Method to generate waypoints from map data. It utilizes
-	 * the start and end specified in the json file and calcuates the
-	 * route to end. In case of unresolvable issues it returns an error.
+	 * Generates waypoints from map data. It utilizes
+	 * the start and end specified in the json file and calculates the
+	 * route to end. Throws IllegalStateException on malformed maps.
 	 * 
-	 * @return Queue A queue consisting of points.
+	 * @return Queue A queue consisting of waypoints.
 	 */
 	private Queue<Point> generateWaypoints() {
 		int col = startx;

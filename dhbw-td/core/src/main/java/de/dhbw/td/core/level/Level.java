@@ -10,6 +10,7 @@ package de.dhbw.td.core.level;
 
 import java.awt.Point;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Queue;
 
 import playn.core.Image;
@@ -49,8 +50,12 @@ public class Level implements IDrawable{
 		return height * tilesize;
 	}
 	
+	/**
+	 * Copies the waypoints for this level and returns it.
+	 * @return Returns a -copy- of the waypoints specified for this level
+	 */
 	public Queue<Point> waypoints() {
-		return waypoints;
+		return new LinkedList<Point>(waypoints);
 	}
 	
 	@Override
@@ -68,10 +73,5 @@ public class Level implements IDrawable{
 		return String.format("height=%s\nwidth=%s\ntilesize=%s\nmap=%s",
 				height, width, tilesize, Arrays.toString(map));
 	}
-	
-	public Queue<Point> getQueue(){
-		return waypoints;
-	}
-
 
 }
