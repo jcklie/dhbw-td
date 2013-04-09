@@ -88,15 +88,15 @@ public class WaveControllerTest extends TestCase {
 			waveController = waveLoader.nextWaveController(jason, null);
 			cnt++;
 		} while (cnt < 5);
-		// test if attributes of enemies equals values of sem6 - wave 6
-		Wave testWave = waveController.getWaves().peek();
+		// test if attributes of enemies equals values of sem6 - wave 12
+		Wave testWave = null;
 		do {
 			testWave = waveController.nextWave();
 		} while (testWave.getWaveNumber() < 11);
 		for (int i = 0; i < 12; i++) {
 			Enemy testEnemy = testWave.getEnemies().get(i);
-			assertEquals(70, testEnemy.getMaxHealth());
-			assertEquals(70, testEnemy.getCurHealth());
+			assertEquals(139, testEnemy.getMaxHealth());
+			assertEquals(139, testEnemy.getCurHealth());
 			assertTrue(testWave.getEnemies().get(i).isAlive());
 			assertEquals(10.0, testEnemy.getSpeed(), 0.001);
 			assertEquals(6, testEnemy.getBounty());
@@ -105,7 +105,7 @@ public class WaveControllerTest extends TestCase {
 	}
 
 	public void testEnemyAttributes() {
-		// test if attributes of first 9 enemies equals values of sem1 - wave 1
+		// test if attributes of enemies equals values of sem1 - wave 1
 		Wave testWave = waveController.getWaves().peek();
 		for (int i = 0; i < 12; i++) {
 			Enemy testEnemy = testWave.getEnemies().get(i);

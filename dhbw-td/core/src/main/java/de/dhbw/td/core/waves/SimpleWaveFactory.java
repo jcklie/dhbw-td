@@ -56,7 +56,7 @@ public class SimpleWaveFactory implements IWaveFactory {
 		this.enemyCount = parsedJson.getInt("enemyCount" + (currentSemester + 1));
 		Json.Array semesterArr = parsedJson.getArray("sem" + (currentSemester + 1));
 
-		for (int row = 0; row < 6; row++) {
+		for (int row = 0; row < 12; row++) {
 			Json.Array gridRow = semesterArr.getArray(row);
 
 			for (int col = 0; col < 3; col++) {
@@ -81,9 +81,9 @@ public class SimpleWaveFactory implements IWaveFactory {
 		for (int waveNumber = 0; waveNumber < NUMBER_OF_WAVES; waveNumber++) {
 			List<Enemy> enemies = new LinkedList<Enemy>();
 			for (int enemyNumber = 0; enemyNumber < enemyCount; enemyNumber++) {
-				int maxHealth = semesters[waveNumber % 6][0];
-				double speed = semesters[waveNumber % 6][1];
-				int bounty = semesters[waveNumber % 6][2];
+				int maxHealth = semesters[waveNumber][0];
+				double speed = semesters[waveNumber][1];
+				int bounty = semesters[waveNumber][2];
 				EEnemyType enemyType = enemyTypeArray[(int) (Math.random() * UB_ENEMY_TYPES)];
 				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType, waypoints));
 			}
