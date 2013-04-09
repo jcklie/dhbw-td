@@ -32,11 +32,8 @@ public class TowerDefense implements Game {
 	
 	public static final String PATH_LEVELS = "levels/";
 	public static final String PATH_IMAGES = "images/";
-<<<<<<< HEAD
 	public static final String PATH_WAVES = "waves/";
-=======
 	public static final String PATH_TOWERS = "tower/";
->>>>>>> d340f63a8f0e816cb15085f42179e00fcaf1896f
 	
 	private SurfaceLayer TILE_LAYER;
 	private ImageLayer BACKGROUND_LAYER;
