@@ -13,8 +13,12 @@ import static playn.core.PlayN.log;
 import playn.core.Game;
 import playn.core.Image;
 import playn.core.ImageLayer;
+import playn.core.Keyboard.Adapter;
+import playn.core.Mouse.Listener;
+import playn.core.Pointer;
 import playn.core.Surface;
 import playn.core.SurfaceLayer;
+import playn.core.Pointer.Event;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.game.HUD;
 import de.dhbw.td.core.level.ILevelFactory;
@@ -28,7 +32,11 @@ public class TowerDefense implements Game {
 	
 	public static final String PATH_LEVELS = "levels/";
 	public static final String PATH_IMAGES = "images/";
+<<<<<<< HEAD
 	public static final String PATH_WAVES = "waves/";
+=======
+	public static final String PATH_TOWERS = "tower/";
+>>>>>>> d340f63a8f0e816cb15085f42179e00fcaf1896f
 	
 	private SurfaceLayer TILE_LAYER;
 	private ImageLayer BACKGROUND_LAYER;
@@ -47,8 +55,6 @@ public class TowerDefense implements Game {
 	public void init() {	
 		// Game State
 		stateOftheWorld = new GameState();
-		// load dem fancy imagez		
-		assets().getImage(PATH_IMAGES + "clock.png");
 		
 		// load the first level for test purposes
 		loadLevel(PATH_LEVELS + "level1.json");
@@ -69,7 +75,8 @@ public class TowerDefense implements Game {
 		// HUD layer
 		hud = new HUD(stateOftheWorld);
 		HUD_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
-		graphics().rootLayer().add(HUD_LAYER);		
+		HUD_LAYER.addListener(hud.new HUDListener());
+		graphics().rootLayer().add(HUD_LAYER);
 	}
 	
 	private void loadLevel(String pathToLevel) {
@@ -98,7 +105,7 @@ public class TowerDefense implements Game {
 		currentLevel.draw(tileSurface);
 		
 		Surface hudSurface = HUD_LAYER.surface();
-		//hud.draw(hudSurface);
+		hud.draw(hudSurface);
 	}
 
 	@Override
