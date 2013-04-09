@@ -29,7 +29,7 @@ public class Enemy extends AEnemy {
 		this.penalty = bounty * 2;
 		this.enemyType = enemyType;
 		this.waypoints = waypoints;
-		this.currentPosition = new Point(new Random().nextInt(800),new Random().nextInt(200));
+		this.currentPosition = waypoints.poll();
 		this.enemyImage = enemyImage;
 	}
 }
