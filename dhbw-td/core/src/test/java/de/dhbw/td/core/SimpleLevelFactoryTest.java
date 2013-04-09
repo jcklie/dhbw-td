@@ -77,12 +77,12 @@ public class SimpleLevelFactoryTest extends TestCase {
 	private Level buildExpectedBasicLevel() {
 		Queue<Point> waypoints = new LinkedList<Point>();
 		
-		waypoints.add(new Point(0,3));
-		waypoints.add(new Point(4,3));
-		waypoints.add(new Point(4,7));
-		waypoints.add(new Point(7,7));
-		waypoints.add(new Point(7,2));
-		waypoints.add(new Point(13,2));
+		waypoints.add(new Point(0*64,3*64));
+		waypoints.add(new Point(4*64,3*64));
+		waypoints.add(new Point(4*64,7*64));
+		waypoints.add(new Point(7*64,7*64));
+		waypoints.add(new Point(7*64,2*64));
+		waypoints.add(new Point(13*64,2*64));
 		
 		return new Level(new Image[10][14], waypoints, 64, 14, 10, 0, 3);
 	}
@@ -90,14 +90,14 @@ public class SimpleLevelFactoryTest extends TestCase {
 	private Level buildExpectedLvlWithIntersect() {
 		Queue<Point> waypoints = new LinkedList<Point>();
 		
-		waypoints.add(new Point(0,3));
-		waypoints.add(new Point(4,3));
-		waypoints.add(new Point(4,9));
-		waypoints.add(new Point(2,9));
-		waypoints.add(new Point(2,7));
-		waypoints.add(new Point(7,7));
-		waypoints.add(new Point(7,2));
-		waypoints.add(new Point(13,2));
+		waypoints.add(new Point(0*64,3*64));
+		waypoints.add(new Point(4*64,3*64));
+		waypoints.add(new Point(4*64,9*64));
+		waypoints.add(new Point(2*64,9*64));
+		waypoints.add(new Point(2*64,7*64));
+		waypoints.add(new Point(7*64,7*64));
+		waypoints.add(new Point(7*64,2*64));
+		waypoints.add(new Point(13*64,2*64));
 		
 		return new Level(new Image[10][14], waypoints, 64, 14, 10, 0, 3);
 	}
