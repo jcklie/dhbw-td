@@ -7,12 +7,17 @@
 
 package de.dhbw.td.core.enemies;
 
+import static playn.core.PlayN.assets;
+
 import java.awt.Point;
 import java.util.Queue;
 
+import playn.core.Image;
 import playn.core.Surface;
+import de.dhbw.td.core.TowerDefense;
 import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.game.IUpdateable;
+
 /**
  * abstract class for an enemy
  * 
@@ -29,7 +34,7 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	protected int penalty;
 	protected EEnemyType enemyType;
 	protected Queue<Point> waypoints;
-	private Point currentPosition;
+	protected Point currentPosition;
 
 	public enum EEnemyType {
 		Math(0), TechInf(1), Code(2), TheoInf(3), Wiwi(4), Social(5);
@@ -40,17 +45,18 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 			this.value = value;
 		}
 	}
-	
+
 	@Override
-	public void draw(Surface surf){
-		
+	public void draw(Surface surf) {
+		Image mathTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "math.png");
+		surf.drawImage(mathTowerImage, currentPosition.x, currentPosition.y);
 	}
-	
+
 	@Override
-	public void update(double delta){
-		
+	public void update(double delta) {
+
 	}
-	
+
 	/**
 	 * 
 	 * @return current position as Point
@@ -61,7 +67,8 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 
 	/**
 	 * 
-	 * @param newPosition new position for enemy as Point
+	 * @param newPosition
+	 *            new position for enemy as Point
 	 */
 	public void setCurrentPosition(Point newPosition) {
 		this.currentPosition = newPosition;
@@ -77,7 +84,8 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 
 	/**
 	 * 
-	 * @param curHealth set current Health
+	 * @param curHealth
+	 *            set current Health
 	 */
 	public void setCurHealth(int curHealth) {
 		this.curHealth = curHealth;
@@ -93,7 +101,8 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 
 	/**
 	 * 
-	 * @param speed set speed as double
+	 * @param speed
+	 *            set speed as double
 	 */
 	public void setSpeed(double speed) {
 		this.speed = speed;

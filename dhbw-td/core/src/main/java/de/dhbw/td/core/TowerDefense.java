@@ -25,68 +25,78 @@ import de.dhbw.td.core.waves.SimpleWaveFactory;
 import de.dhbw.td.core.waves.WaveController;
 
 public class TowerDefense implements Game {
-	
+
 	public static final String PATH_LEVELS = "levels/";
 	public static final String PATH_IMAGES = "images/";
 	public static final String PATH_WAVES = "waves/";
 	public static final String PATH_TOWERS = "tower/";
-	
+
 	private SurfaceLayer TILE_LAYER;
 	private ImageLayer BACKGROUND_LAYER;
 	private SurfaceLayer HUD_LAYER;
-	
+	private SurfaceLayer ENEMY_LAYER;
+
 	private Level currentLevel;
 	private ILevelFactory levelLoader;
-	
+
 	private WaveController waveController;
 	private IWaveFactory waveLoader;
-	
+
 	private GameState stateOftheWorld;
 	private HUD hud;
-		
+
 	@Override
-	public void init() {	
-		// Game State
+	public void init() {
+		// GameState
 		stateOftheWorld = new GameState();
-		
+
+		// load waveFactory
+		loadWaveFactory();
+
 		// load the first level for test purposes
-		loadLevel(PATH_LEVELS + "level1.json");
-		
-		// load values for all waves
-		loadWaveController(PATH_WAVES + "waves.json");
-		
+		loadLevel(PATH_LEVELS + "level1.json", PATH_WAVES + "waves.json");
+		nextWave();
+
 		// Background layer is plain white
-		Image bg = assets().getImage("tiles/white.bmp");		
+		Image bg = assets().getImage("tiles/white.bmp");
 		BACKGROUND_LAYER = graphics().createImageLayer(bg);
-		BACKGROUND_LAYER.setScale(currentLevel.width(), currentLevel.height());		
+		BACKGROUND_LAYER.setScale(currentLevel.width(), currentLevel.height());
 		graphics().rootLayer().add(BACKGROUND_LAYER);
-		
-		// Tile layer 
+
+		// Tile layer
 		TILE_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
 		graphics().rootLayer().add(TILE_LAYER);
-		
+
+		// ENEMY layer
+		ENEMY_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
+		graphics().rootLayer().add(ENEMY_LAYER);
+
 		// HUD layer
 		hud = new HUD(stateOftheWorld);
 		HUD_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
 		HUD_LAYER.addListener(hud.new HUDListener());
 		graphics().rootLayer().add(HUD_LAYER);
 	}
-	
-	private void loadLevel(String pathToLevel) {
+
+	private void loadLevel(String pathToLevel, String pathToWaves) {
 		try {
 			String levelJson = assets().getTextSync(pathToLevel);
 			levelLoader = new SimpleLevelFactory();
 			currentLevel = levelLoader.loadLevel(levelJson);
+			String WaveJson = assets().getTextSync(pathToWaves);
+			waveController = waveLoader.nextWaveController(WaveJson, currentLevel.waypoints());
 		} catch (Exception e) {
 			log().error(e.getMessage());
 		}
 	}
-	
-	private void loadWaveController(String pathToWaveValues) {
+
+	private void nextWave() {
+		stateOftheWorld.newWave(waveController.nextWave().getEnemies());
+	}
+
+	private void loadWaveFactory() {
 		try {
-			String WaveJson = assets().getTextSync(pathToWaveValues);
 			waveLoader = new SimpleWaveFactory();
-			waveController = waveLoader.nextWaveController(WaveJson, null);
 		} catch (Exception e) {
 			log().error(e.getMessage());
 		}
@@ -96,6 +106,9 @@ public class TowerDefense implements Game {
 	public void paint(float alpha) {
 		Surface tileSurface = TILE_LAYER.surface();
 		currentLevel.draw(tileSurface);
+
+		Surface enemySurface = ENEMY_LAYER.surface();
+		stateOftheWorld.draw(enemySurface);
 		
 		Surface hudSurface = HUD_LAYER.surface();
 		hud.draw(hudSurface);

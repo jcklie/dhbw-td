@@ -26,5 +26,6 @@ public class Enemy extends AEnemy {
 		this.penalty = bounty * 2;
 		this.enemyType = enemyType;
 		this.waypoints = waypoints;
+		this.currentPosition = waypoints.peek();
 	}
 }
