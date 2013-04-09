@@ -110,7 +110,7 @@ public class SimpleLevelFactory implements ILevelFactory {
 		System.out.println(tileMap);
 		Queue<Point> waypoints = generateWaypoints();
 		
-		return new Level(tileMap,waypoints, tilesize, width, height);
+		return new Level(tileMap, waypoints, tilesize, width, height, startx, starty);
 	}
 	
 	private Image[][] loadTileMap(){
@@ -137,131 +137,131 @@ public class SimpleLevelFactory implements ILevelFactory {
 	 * @return Queue A queue consisting of points.
 	 */
 	private Queue<Point> generateWaypoints() {
-		int x = startx;
+		int column = startx;
 		
-		if(x != 0){
+		if(column != 0){
 			throw new IllegalArgumentException("Sorry, the map should start somewhere in x=0");
 		}
 		
-		int y = starty;
+		int row = starty;
 		Queue<Point> queue = new LinkedList<Point>();
-		queue.add(new Point(x,y));
+		queue.add(new Point(column,row));
 				
-		ETileType curTile = getTileType(x, y);
+		ETileType curTile = getTileType(column, row);
 		Direction direction = Direction.RIGHT;
 		
 		while(curTile != ETileType.PATH_END){
 			switch(curTile){
 			case GRID:
-				throw new IllegalStateException("GRID is bad: "+x+","+y);
+				throw new IllegalStateException("GRID is bad: "+column+","+row);
 			case EDGE_LEFT_BOTTOM:
 				if(direction == Direction.LEFT){
-					queue.add(new Point(x,y));
+					queue.add(new Point(column,row));
 					direction = Direction.UP;
-					y--;
+					row--;
 				}else if(direction == Direction.DOWN){
-					queue.add(new Point(x,y));
+					queue.add(new Point(column,row));
 					direction = Direction.RIGHT;
-					x++;
+					column++;
 				}else{
-					throw new IllegalStateException("Cannot send enemy through wall at: "+x+","+y);
+					throw new IllegalStateException("Cannot send enemy through wall at: "+column+","+row);
 				}
 				break;
 			case EDGE_LEFT_TOP:
 				if(direction == Direction.LEFT){
-					queue.add(new Point(x,y));
+					queue.add(new Point(column,row));
 					direction = Direction.DOWN;
-					y++;
+					row++;
 				}else if(direction == Direction.UP){
-					queue.add(new Point(x,y));
+					queue.add(new Point(column,row));
 					direction = Direction.RIGHT;
-					x++;
+					column++;
 				}else{
-					throw new IllegalStateException("Cannot send enemy through wall at: "+x+","+y);
+					throw new IllegalStateException("Cannot send enemy through wall at: "+column+","+row);
 				}
 				break;
 			case EDGE_RIGHT_BOTTOM:
 				if(direction == Direction.RIGHT){
-					queue.add(new Point(x,y));
+					queue.add(new Point(column,row));
 					direction = Direction.UP;
-					y--;
+					row--;
 				}else if(direction == Direction.DOWN){
-					queue.add(new Point(x,y));
+					queue.add(new Point(column,row));
 					direction = Direction.LEFT;
-					x--;
+					column--;
 				}else{
-					throw new IllegalStateException("Cannot send enemy through wall at: "+x+","+y);
+					throw new IllegalStateException("Cannot send enemy through wall at: "+column+","+row);
 				}
 				break; 
 			case EDGE_RIGHT_TOP:
 				if(direction == Direction.RIGHT){
-					queue.add(new Point(x,y));
+					queue.add(new Point(column,row));
 					direction = Direction.DOWN;
-					y++;
+					row++;
 				}else if(direction == Direction.UP){
-					queue.add(new Point(x,y));
+					queue.add(new Point(column,row));
 					direction = Direction.LEFT;
-					x--;
+					column--;
 				}else{
-					throw new IllegalStateException("Cannot send enemy through wall at: "+x+","+y);
+					throw new IllegalStateException("Cannot send enemy through wall at: "+column+","+row);
 				}
 				break;
 				// keep the current direction in this case	
 				case PATH_EMPTY:
 					if(direction == Direction.LEFT){
-						x--;
+						column--;
 					}else if(direction == Direction.RIGHT){
-						x++;
+						column++;
 					}else if(direction == Direction.DOWN){
-						y++;
+						row++;
 					}else if(direction == Direction.UP){
-						y--;
+						row--;
 					}
 				break;
 			case PATH_HORIZONTAL:
 				if(direction == Direction.LEFT){
-					x--;
+					column--;
 				}else if(direction == Direction.RIGHT){
-					x++;
+					column++;
 				}else{
-					throw new IllegalStateException("Illegal waypoint detected (not left or right) at: "+x+","+y);
+					throw new IllegalStateException("Illegal waypoint detected (not left or right) at: "+column+","+row);
 				}
 				break;
 				// we force the map to start with one step to the right
 			case PATH_START:
 				direction = Direction.RIGHT;
-				x++;
+				column++;
 				break;
 			case PATH_VERTICAL:
 				if(direction == Direction.DOWN){
-					y++;
+					row++;
 				}else if(direction == Direction.UP){
-					y--;
+					row--;
 				}else{
-					throw new IllegalStateException("Illegal waypoint detected (not up or down) at: "+x+","+y);
+					throw new IllegalStateException("Illegal waypoint detected (not up or down) at: "+column+","+row);
 				}
 				break;
 			default:
-				throw new IllegalStateException("Illegal waypoint detected at: "+x+","+y);
+				throw new IllegalStateException("Illegal waypoint detected at: "+column+","+row);
 			
 			}
 			
 			// set tile to next tile
-			curTile = getTileType(x, y);
+			curTile = getTileType(column, row);
 			
 			// check whether we are still in boundary. Else raise error
-			if(x < 0 || y < 0 || x > width-1 || y > height-1){
-				throw new IllegalStateException("Illegal map file. Waypoints leaving boundaries at: "+x+","+y);
+			if(column < 0 || row < 0 || column > width-1 || row > height-1){
+				throw new IllegalStateException("Illegal map file. Waypoints leaving boundaries at: "+column+","+row);
 			}
 			
 		}
 		// here we should have reached the end if not we're unlucky
-		queue.add(new Point(x,y));
+		queue.add(new Point(column,row));
 		return queue;
 	}
 	
-	private ETileType getTileType(int x,int y){
-		return ETileType.createFromTileId(grid.getArray(y).getInt(x));
+	private ETileType getTileType(int column,int row){
+		return ETileType.createFromTileId(grid.getArray(row).getInt(column));
 	}
 
 }
