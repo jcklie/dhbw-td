@@ -51,7 +51,7 @@ public class Level implements IDrawable{
 	}
 	
 	/**
-	 * Copies the waypoints for this level and returns it.
+	 * Copies the waypoints for this level and returns them.
 	 * @return Returns a -copy- of the waypoints specified for this level
 	 */
 	public Queue<Point> waypoints() {
