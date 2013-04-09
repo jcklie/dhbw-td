@@ -14,7 +14,6 @@ import playn.core.util.Callback;
 public class HUD implements IDrawable {
 	
 	private float fontSize = 24f;
-	
 	private CanvasImage canvasImage;
 	private Canvas canvas;
 	private TextFormat textFormat;
