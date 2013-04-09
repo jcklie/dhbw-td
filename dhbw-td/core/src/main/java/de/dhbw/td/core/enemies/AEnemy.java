@@ -35,21 +35,15 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	protected EEnemyType enemyType;
 	protected Queue<Point> waypoints;
 	protected Point currentPosition;
+	protected Image enemyImage;
 
 	public enum EEnemyType {
-		Math(0), TechInf(1), Code(2), TheoInf(3), Wiwi(4), Social(5);
-
-		public final int value;
-
-		private EEnemyType(int value) {
-			this.value = value;
-		}
+		Math, TechInf, Code, TheoInf, Wiwi, Social;
 	}
 
 	@Override
 	public void draw(Surface surf) {
-		Image mathTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "math.png");
-		surf.drawImage(mathTowerImage, currentPosition.x, currentPosition.y);
+		surf.drawImage(enemyImage, currentPosition.x, currentPosition.y);
 	}
 
 	@Override
@@ -57,6 +51,11 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 
 	}
 
+	public void takeDamage(int damage){
+		if((curHealth -= damage) < 0){
+			alive = false;
+		}
+	}
 	/**
 	 * 
 	 * @return current position as Point
@@ -65,14 +64,6 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 		return currentPosition;
 	}
 
-	/**
-	 * 
-	 * @param newPosition
-	 *            new position for enemy as Point
-	 */
-	public void setCurrentPosition(Point newPosition) {
-		this.currentPosition = newPosition;
-	}
 
 	/**
 	 * 
@@ -84,28 +75,10 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 
 	/**
 	 * 
-	 * @param curHealth
-	 *            set current Health
-	 */
-	public void setCurHealth(int curHealth) {
-		this.curHealth = curHealth;
-	}
-
-	/**
-	 * 
 	 * @return speed as double
 	 */
 	public double getSpeed() {
 		return speed;
-	}
-
-	/**
-	 * 
-	 * @param speed
-	 *            set speed as double
-	 */
-	public void setSpeed(double speed) {
-		this.speed = speed;
 	}
 
 	/**

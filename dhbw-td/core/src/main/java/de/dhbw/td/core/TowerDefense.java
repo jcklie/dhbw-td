@@ -111,7 +111,7 @@ public class TowerDefense implements Game {
 		stateOftheWorld.draw(enemySurface);
 		
 		Surface hudSurface = HUD_LAYER.surface();
-		hud.draw(hudSurface);
+		//hud.draw(hudSurface);
 	}
 
 	@Override

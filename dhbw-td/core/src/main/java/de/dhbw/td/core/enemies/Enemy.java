@@ -9,6 +9,9 @@ package de.dhbw.td.core.enemies;
 
 import java.awt.Point;
 import java.util.Queue;
+import java.util.Random;
+
+import playn.core.Image;
 
 /**
  * 
@@ -17,7 +20,7 @@ import java.util.Queue;
  * 
  */
 public class Enemy extends AEnemy {
-	public Enemy(int maxHealth, double speed, int bounty, EEnemyType enemyType, Queue<Point> waypoints) {
+	public Enemy(int maxHealth, double speed, int bounty, EEnemyType enemyType, Queue<Point> waypoints, Image enemyImage) {
 		this.maxHealth = maxHealth;
 		this.curHealth = maxHealth;
 		this.alive = true;
@@ -26,6 +29,7 @@ public class Enemy extends AEnemy {
 		this.penalty = bounty * 2;
 		this.enemyType = enemyType;
 		this.waypoints = waypoints;
-		this.currentPosition = waypoints.peek();
+		this.currentPosition = new Point(new Random().nextInt(800),new Random().nextInt(200));
+		this.enemyImage = enemyImage;
 	}
 }
