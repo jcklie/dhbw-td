@@ -3,6 +3,7 @@
  *  
  *  Contributors:
  *  Jan-Christoph Klie - All
+ *  Sebastian Muszytowski - Add waypoint support
  */
 
 package de.dhbw.td.core.level;
@@ -20,15 +21,19 @@ public class Level implements IDrawable{
 	public final int height;
 	public final int width;
 	public final int tilesize;
+	public final int startx;
+	public final int starty;
 	public final Image[][] map;
 	public final Queue<Point> waypoints;
 
-	public Level(Image[][] map, Queue<Point> waypoints, int tilesize, int width, int height) {
+	public Level(Image[][] map, Queue<Point> waypoints, int tilesize, int width, int height, int startx, int starty) {
 		this.tilesize = tilesize;
 		this.width = width;
 		this.height = height;
+		this.startx = startx;
+		this.starty = starty;
 		this.waypoints = waypoints;
-		
+			
 		if( map.length != height) {
 			throw new IllegalArgumentException("Specified height differs from height of map array!");
 		}
@@ -58,6 +63,10 @@ public class Level implements IDrawable{
 	public String toString() {
 		return String.format("height=%s\nwidth=%s\ntilesize=%s\nmap=%s",
 				height, width, tilesize, Arrays.toString(map));
+	}
+	
+	public Queue<Point> getQueue(){
+		return waypoints;
 	}
 
 
