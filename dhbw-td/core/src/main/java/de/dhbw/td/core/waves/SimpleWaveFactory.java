@@ -31,6 +31,7 @@ public class SimpleWaveFactory implements IWaveFactory {
 	public final EEnemyType[] enemyTypeArray = EEnemyType.values();
 	public int currentSemester = 0;
 	public Queue<Point> waypoints;
+	public int enemyCount;
 
 	@Override
 	/**
@@ -75,8 +76,7 @@ public class SimpleWaveFactory implements IWaveFactory {
 		Queue<Wave> waves = new LinkedList<Wave>();
 		for (int waveNumber = 0; waveNumber < 12; waveNumber++) {
 			List<Enemy> enemies = new LinkedList<Enemy>();
-			int enemyMax = (int) (Math.random() * (15 - 9) + 9);
-			for (int enemyNumber = 0; enemyNumber < enemyMax; enemyNumber++) {
+			for (int enemyNumber = 0; enemyNumber < enemyCount; enemyNumber++) {
 				int maxHealth = semesters[waveNumber % 6][0];
 				double speed = semesters[waveNumber % 6][1];
 				int bounty = semesters[waveNumber % 6][2];
