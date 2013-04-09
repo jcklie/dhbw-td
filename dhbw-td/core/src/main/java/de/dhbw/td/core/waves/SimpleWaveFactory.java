@@ -69,9 +69,10 @@ public class SimpleWaveFactory implements IWaveFactory {
 	}
 
 	/**
-	 * Creates all waves per WaveController and returns Wave-Queue.
+	 * Method creates all waves per WaveController and returns Wave-Queue.
 	 * 
-	 * @param semesters array containing [wave][attributes]
+	 * @param semesters
+	 *            array containing [wave][attributes]
 	 * @return Queue with waves per semester
 	 * 
 	 */
@@ -80,9 +81,9 @@ public class SimpleWaveFactory implements IWaveFactory {
 		for (int waveNumber = 0; waveNumber < NUMBER_OF_WAVES; waveNumber++) {
 			List<Enemy> enemies = new LinkedList<Enemy>();
 			for (int enemyNumber = 0; enemyNumber < enemyCount; enemyNumber++) {
-				int maxHealth = semesters[waveNumber % 6][0];
-				double speed = semesters[waveNumber % 6][1];
-				int bounty = semesters[waveNumber % 6][2];
+				int maxHealth = semesters[waveNumber][0];
+				double speed = semesters[waveNumber][1];
+				int bounty = semesters[waveNumber][2];
 				EEnemyType enemyType = enemyTypeArray[(int) (Math.random() * UB_ENEMY_TYPES)];
 				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType, waypoints));
 			}
