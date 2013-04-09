@@ -8,11 +8,6 @@
 package de.dhbw.td.core.level;
 
 import java.util.Arrays;
-<<<<<<< HEAD
-=======
-import java.util.LinkedList;
-import java.util.Queue;
->>>>>>> b5cbd6adbd8063a7b8545c576bd999559892412b
 
 import playn.core.Image;
 import playn.core.Surface;
@@ -45,17 +40,6 @@ public class Level implements IDrawable{
 		return height * tilesize;
 	}
 	
-<<<<<<< HEAD
-=======
-	/**
-	 * Copies the waypoints for this level and returns it.
-	 * @return Returns a -copy- of the waypoints specified for this level
-	 */
-	public Queue<Point> waypoints() {
-		return new LinkedList<Point>(waypoints);
-	}
-	
->>>>>>> b5cbd6adbd8063a7b8545c576bd999559892412b
 	@Override
 	public void draw(Surface surf) {
 		surf.clear();
@@ -71,9 +55,6 @@ public class Level implements IDrawable{
 		return String.format("height=%s\nwidth=%s\ntilesize=%s\nmap=%s",
 				height, width, tilesize, Arrays.toString(map));
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> b5cbd6adbd8063a7b8545c576bd999559892412b
 
 }

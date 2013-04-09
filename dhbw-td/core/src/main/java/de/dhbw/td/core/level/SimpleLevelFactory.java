@@ -73,9 +73,16 @@ public class SimpleLevelFactory implements ILevelFactory {
 
 	@Override
 	public Level loadLevel(Json.Object parsedJson) {
+<<<<<<< HEAD
 		int width = parsedJson.getInt("width");
 		int height = parsedJson.getInt("height");
 		int tilesize = parsedJson.getInt("tilesize");
+=======
+		init(parsedJson);
+
+		Image[][] tileMap = loadTileMap();
+		Queue<Point> waypoints = generateWaypoints();
+>>>>>>> b5cbd6adbd8063a7b8545c576bd999559892412b
 		
 		Json.Array grid = parsedJson.getArray("tiles");
 		Image[][] tileMap = new Image[height][width];
@@ -86,10 +93,83 @@ public class SimpleLevelFactory implements ILevelFactory {
 			for(int col = 0; col < width; col++) {
 				int tileID = gridRow.getInt(col);
 				String pathToImage = ETileType.getPathToImage(tileID);
-				tileMap[row][col] = assets().getImage(pathToImage);
+				tileMap[row][col] = assets().getImageSync(pathToImage);
 			}
 		}
+<<<<<<< HEAD
 		return new Level(tileMap, tilesize, width, height);
+=======
+		
+		return tileMap;
+	}
+	
+	private class DirectionContainer {
+		private int row;
+		private int col;
+		private Direction dir;
+		
+		private DirectionContainer(Direction dir, int row, int col) {
+			this.row = row;
+			this.col = col;
+			this.dir = dir;
+		}
+
+		@Override
+		public String toString() {
+			return String.format("row=%s\ncol=%s\ndir=%s", row, col, dir);
+		}		
+		
+	}
+	
+	/**
+	 * Generates waypoints from map data. It utilizes
+	 * the start and end specified in the json file and calculates the
+	 * route to end. Throws IllegalStateException on malformed maps.
+	 * 
+	 * @return Queue A queue consisting of waypoints.
+	 */
+	private Queue<Point> generateWaypoints() {
+		int col = startx;
+		
+		if(startx != 0){
+			throw new IllegalArgumentException("Sorry, the map should start somewhere in x=0");
+		}
+		
+		int row = starty;
+		Queue<Point> waypoints = new LinkedList<Point>();
+		waypoints.add(new Point(col,row));
+				
+		ETileType curTile = getTileType(col, row);
+		DirectionContainer container = new DirectionContainer(Direction.RIGHT, row, col);
+		
+		while(curTile != ETileType.PATH_END){
+			switch(curTile){
+				case GRID: 	throw new IllegalStateException(String.format("GRID is bad: %d,%d",container.col, container.row));
+				case EDGE_LEFT_BOTTOM:	handleEdgeLeftBottom(container, waypoints ); 	break;
+				case EDGE_LEFT_TOP:		handleEdgeLeftTop(container, waypoints);		break;
+				case EDGE_RIGHT_BOTTOM: handleEdgeRightBottom(container, waypoints);	break;
+				case EDGE_RIGHT_TOP:	handleEdgeRightTop(container,waypoints);		break;
+				case PATH_EMPTY:		handlePathEmpty(container, waypoints);			break;
+				case PATH_HORIZONTAL:	handlePathHorizontal(container, waypoints);		break;				
+				case PATH_START:		handlePathStart(container, waypoints);			break;
+				case PATH_VERTICAL:		handlePathVertical(container, waypoints);		break;
+				default: throw new IllegalStateException(String.format("Illegal waypoint at: %d,%d", + container.col, container.row));			
+			}
+			
+			// set tile to next tile
+			curTile = getTileType(container.col, container.row);
+			
+			// check whether we are still in boundary. Else raise error
+			if(container.col < 0 || container.row < 0 || container.col > width-1 || container.row > height-1){
+				String errorMessage = String.format("Waypoints leaving boundaries at: %d,%d", container.col, container.row);
+				throw new IllegalStateException(errorMessage);
+			}
+			
+		}
+		// here we should have reached the end if not we're unlucky
+		waypoints.add(new Point(container.col,container.row));
+		return waypoints;
+>>>>>>> b5cbd6adbd8063a7b8545c576bd999559892412b
 	}
 	
 

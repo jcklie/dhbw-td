@@ -3,16 +3,15 @@
  *  
  *  Contributors:
  *  Jan-Christoph Klie - All
+ *  Sebastian Muszytowski - Add waypoint support
  */
 
 package de.dhbw.td.core.level;
 
+import java.awt.Point;
 import java.util.Arrays;
-<<<<<<< HEAD
-=======
 import java.util.LinkedList;
 import java.util.Queue;
->>>>>>> b5cbd6adbd8063a7b8545c576bd999559892412b
 
 import playn.core.Image;
 import playn.core.Surface;
@@ -23,12 +22,18 @@ public class Level implements IDrawable{
 	public final int height;
 	public final int width;
 	public final int tilesize;
+	public final int startx;
+	public final int starty;
 	public final Image[][] map;
+	private Queue<Point> waypoints;
 
-	public Level(Image[][] map, int tilesize, int width, int height) {
+	public Level(Image[][] map, Queue<Point> waypoints, int tilesize, int width, int height, int startx, int starty) {
 		this.tilesize = tilesize;
 		this.width = width;
 		this.height = height;
+		this.startx = startx;
+		this.starty = starty;
+		this.waypoints = waypoints;
 			
 		if( map.length != height) {
 			throw new IllegalArgumentException("Specified height differs from height of map array!");
@@ -45,8 +50,6 @@ public class Level implements IDrawable{
 		return height * tilesize;
 	}
 	
-<<<<<<< HEAD
-=======
 	/**
 	 * Copies the waypoints for this level and returns it.
 	 * @return Returns a -copy- of the waypoints specified for this level
@@ -55,7 +58,6 @@ public class Level implements IDrawable{
 		return new LinkedList<Point>(waypoints);
 	}
 	
->>>>>>> b5cbd6adbd8063a7b8545c576bd999559892412b
 	@Override
 	public void draw(Surface surf) {
 		surf.clear();
@@ -71,9 +73,5 @@ public class Level implements IDrawable{
 		return String.format("height=%s\nwidth=%s\ntilesize=%s\nmap=%s",
 				height, width, tilesize, Arrays.toString(map));
 	}
-<<<<<<< HEAD
-
-=======
->>>>>>> b5cbd6adbd8063a7b8545c576bd999559892412b
 
 }
