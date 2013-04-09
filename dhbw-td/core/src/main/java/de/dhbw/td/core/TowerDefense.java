@@ -86,7 +86,7 @@ public class TowerDefense implements Game {
 		try {
 			String WaveJson = assets().getTextSync(pathToWaveValues);
 			waveLoader = new SimpleWaveFactory();
-			waveController = waveLoader.nextWaveController(WaveJson, null);
+			waveController = waveLoader.loadWaveController(WaveJson);
 		} catch (Exception e) {
 			log().error(e.getMessage());
 		}
