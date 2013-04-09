@@ -13,12 +13,8 @@ import static playn.core.PlayN.log;
 import playn.core.Game;
 import playn.core.Image;
 import playn.core.ImageLayer;
-import playn.core.Keyboard.Adapter;
-import playn.core.Mouse.Listener;
-import playn.core.Pointer;
 import playn.core.Surface;
 import playn.core.SurfaceLayer;
-import playn.core.Pointer.Event;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.game.HUD;
 import de.dhbw.td.core.level.ILevelFactory;
@@ -111,6 +107,6 @@ public class TowerDefense implements Game {
 
 	@Override
 	public int updateRate() {
-		return 25;
+		return 100;
 	}
 }
