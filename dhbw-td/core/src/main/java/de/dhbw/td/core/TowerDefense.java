@@ -116,6 +116,7 @@ public class TowerDefense implements Game {
 
 	@Override
 	public void update(float delta) {
+		stateOftheWorld.update(delta);
 	}
 
 	@Override

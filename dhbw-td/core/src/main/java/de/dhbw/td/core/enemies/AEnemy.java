@@ -7,16 +7,14 @@
 
 package de.dhbw.td.core.enemies;
 
-import static playn.core.PlayN.assets;
-
 import java.awt.Point;
 import java.util.Queue;
 
 import playn.core.Image;
 import playn.core.Surface;
-import de.dhbw.td.core.TowerDefense;
 import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.game.IUpdateable;
+import de.dhbw.td.core.util.*;
 
 /**
  * abstract class for an enemy
@@ -36,6 +34,8 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	protected Queue<Point> waypoints;
 	protected Point currentPosition;
 	protected Image enemyImage;
+	protected EDirection currentDirection;
+	protected Point currentWaypoint;
 
 	public enum EEnemyType {
 		Math, TechInf, Code, TheoInf, Wiwi, Social;
@@ -43,19 +43,62 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 
 	@Override
 	public void draw(Surface surf) {
+		surf.clear();
 		surf.drawImage(enemyImage, currentPosition.x, currentPosition.y);
 	}
 
 	@Override
 	public void update(double delta) {
-
+		currentWaypoint = waypoints.peek();
+		if (currentPosition == currentWaypoint) {
+			Point newWaypoint = waypoints.poll();
+			if (currentPosition.x < newWaypoint.x) {
+				currentDirection = EDirection.RIGHT;
+			} else if (currentPosition.x > newWaypoint.x) {
+				currentDirection = EDirection.LEFT;
+			} else if (currentPosition.y < newWaypoint.y) {
+				currentDirection = EDirection.DOWN;
+			} else if (currentPosition.y < newWaypoint.y) {
+				currentDirection = EDirection.UP;
+			} 
+			currentWaypoint = newWaypoint;
+		}
+		switch (currentDirection) {
+		case DOWN:
+			currentPosition.translate(0, (int) (speed * delta / 1000));
+			if (currentPosition.y > currentWaypoint.y) {
+				currentPosition = currentWaypoint;
+			}
+			break;
+		case LEFT:
+			currentPosition.translate((int) (-speed * delta / 1000), 0);
+			if (currentPosition.x < currentWaypoint.x) {
+				currentPosition = currentWaypoint;
+			}
+			break;
+		case RIGHT:
+			currentPosition.translate((int) (speed * delta / 1000), 0);
+			if (currentPosition.x > currentWaypoint.x) {
+				currentPosition = currentWaypoint;
+			}
+			break;
+		case UP:
+			currentPosition.translate(0, (int) (-speed * delta / 1000));
+			if (currentPosition.y < currentWaypoint.y) {
+				currentPosition = currentWaypoint;
+			}
+			break;
+		default:
+			break;
+		}
 	}
 
-	public void takeDamage(int damage){
-		if((curHealth -= damage) < 0){
+	public void takeDamage(int damage) {
+		if ((curHealth -= damage) < 0) {
 			alive = false;
 		}
 	}
+
 	/**
 	 * 
 	 * @return current position as Point
@@ -63,7 +106,6 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	public Point getCurrentPosition() {
 		return currentPosition;
 	}
-
 
 	/**
 	 * 

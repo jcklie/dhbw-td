@@ -17,6 +17,7 @@ import java.util.Queue;
 
 import playn.core.Image;
 import playn.core.Json;
+import de.dhbw.td.core.util.*;
 
 /**
  * 
@@ -24,13 +25,6 @@ import playn.core.Json;
  * @author Sebastian Muszytowski 
  */
 public class SimpleLevelFactory implements ILevelFactory {
-	
-	private enum Direction {
-		RIGHT,
-		LEFT,
-		UP,
-		DOWN;
-	}
 	
 	private enum ETileType {	
 		
@@ -130,11 +124,11 @@ public class SimpleLevelFactory implements ILevelFactory {
 	
 	private class DirectionContainer {
 		private Queue<Point> waypoints;
-		private Direction dir;		
+		private EDirection dir;		
 		private int row;
 		private int col;
 
-		public DirectionContainer(Queue<Point> waypoints, Direction dir, int row, int col) {
+		public DirectionContainer(Queue<Point> waypoints, EDirection dir, int row, int col) {
 			this.waypoints = waypoints;
 			this.dir = dir;
 			this.row = row;
@@ -171,7 +165,7 @@ public class SimpleLevelFactory implements ILevelFactory {
 
 				
 		ETileType curTile = getTileType(col, row);
-		DirectionContainer container = new DirectionContainer(waypoints, Direction.RIGHT, row, col);
+		DirectionContainer container = new DirectionContainer(waypoints, EDirection.RIGHT, row, col);
 		container.addWaypoint();
 		
 		while(curTile != ETileType.PATH_END){
@@ -212,13 +206,13 @@ public class SimpleLevelFactory implements ILevelFactory {
 	}
 	
 	private void handleEdgeLeftBottom(DirectionContainer container) {
-		if (container.dir == Direction.LEFT) {
+		if (container.dir == EDirection.LEFT) {
 			container.addWaypoint();
-			container.dir = Direction.UP;
+			container.dir = EDirection.UP;
 			container.row--;
-		} else if (container.dir == Direction.DOWN) {
+		} else if (container.dir == EDirection.DOWN) {
 			container.addWaypoint();
-			container.dir = Direction.RIGHT;
+			container.dir = EDirection.RIGHT;
 			container.col++;
 		} else {
 			throw new IllegalStateException("Cannot send enemy through wall at: " + container.col + "," + container.row);
@@ -226,13 +220,13 @@ public class SimpleLevelFactory implements ILevelFactory {
 	}
 
 	private void handleEdgeLeftTop(DirectionContainer container) {
-		if (container.dir == Direction.LEFT) {
+		if (container.dir == EDirection.LEFT) {
 			container.addWaypoint();
-			container.dir = Direction.DOWN;
+			container.dir = EDirection.DOWN;
 			container.row++;
-		} else if (container.dir == Direction.UP) {
+		} else if (container.dir == EDirection.UP) {
 			container.addWaypoint();
-			container.dir = Direction.RIGHT;
+			container.dir = EDirection.RIGHT;
 			container.col++;
 		} else {
 			throw new IllegalStateException("Cannot send enemy through wall at: " + container.col + "," + container.row);
@@ -240,13 +234,13 @@ public class SimpleLevelFactory implements ILevelFactory {
 	}
 
 	private void handleEdgeRightBottom(DirectionContainer container) {
-		if (container.dir == Direction.RIGHT) {
+		if (container.dir == EDirection.RIGHT) {
 			container.addWaypoint();
-			container.dir = Direction.UP;
+			container.dir = EDirection.UP;
 			container.row--;
-		} else if (container.dir == Direction.DOWN) {
+		} else if (container.dir == EDirection.DOWN) {
 			container.addWaypoint();
-			container.dir = Direction.LEFT;
+			container.dir = EDirection.LEFT;
 			container.col--;
 		} else {
 			throw new IllegalStateException("Cannot send enemy through wall at: " + container.col + "," + container.row);
@@ -254,13 +248,13 @@ public class SimpleLevelFactory implements ILevelFactory {
 	}
 
 	private void handleEdgeRightTop(DirectionContainer container) {
-		if (container.dir == Direction.RIGHT) {
+		if (container.dir == EDirection.RIGHT) {
 			container.addWaypoint();
-			container.dir = Direction.DOWN;
+			container.dir = EDirection.DOWN;
 			container.row++;
-		} else if (container.dir == Direction.UP) {
+		} else if (container.dir == EDirection.UP) {
 			container.addWaypoint();
-			container.dir = Direction.LEFT;
+			container.dir = EDirection.LEFT;
 			container.col--;
 		} else {
 			throw new IllegalStateException("Cannot send enemy through wall at: " + container.col + "," + container.row);
@@ -269,21 +263,21 @@ public class SimpleLevelFactory implements ILevelFactory {
 
 	private void handlePathEmpty(DirectionContainer container) {
 
-		if (container.dir == Direction.LEFT) {
+		if (container.dir == EDirection.LEFT) {
 			container.col--;
-		} else if (container.dir == Direction.RIGHT) {
+		} else if (container.dir == EDirection.RIGHT) {
 			container.col++;
-		} else if (container.dir == Direction.DOWN) {
+		} else if (container.dir == EDirection.DOWN) {
 			container.row++;
-		} else if (container.dir == Direction.UP) {
+		} else if (container.dir == EDirection.UP) {
 			container.row--;
 		}
 	}
 
 	private void handlePathHorizontal(DirectionContainer container) {
-		if(container.dir == Direction.LEFT){
+		if(container.dir == EDirection.LEFT){
 			container.col--;
-		}else if(container.dir == Direction.RIGHT){
+		}else if(container.dir == EDirection.RIGHT){
 			container.col++;
 		}else{
 			throw new IllegalStateException("Illegal waypoint detected (not left or right) at: "+container.col+","+container.row);
@@ -292,14 +286,14 @@ public class SimpleLevelFactory implements ILevelFactory {
 	
 	private void handlePathStart(DirectionContainer container) {
 		// we force the map to start with one step to the right
-		container.dir = Direction.RIGHT;
+		container.dir = EDirection.RIGHT;
 		container.col++;
 	}
 
 	private void handlePathVertical(DirectionContainer container) {
-		if (container.dir == Direction.DOWN) {
+		if (container.dir == EDirection.DOWN) {
 			container.row++;
-		} else if (container.dir == Direction.UP) {
+		} else if (container.dir == EDirection.UP) {
 			container.row--;
 		} else {
 			throw new IllegalStateException("Illegal waypoint detected (not up or down) at: " + container.col + ","

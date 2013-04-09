@@ -5,7 +5,7 @@ import java.util.List;
 import playn.core.Surface;
 import de.dhbw.td.core.enemies.Enemy;
 
-public class GameState implements IDrawable {
+public class GameState implements IDrawable, IUpdateable {
 
 	private boolean changed = true;
 	private List<Enemy> enemies;
@@ -29,6 +29,13 @@ public class GameState implements IDrawable {
 	public void draw(Surface surf) {
 		for (Enemy e : enemies) {
 			e.draw(surf);
+		}
+	}
+
+	@Override
+	public void update(double delta) {
+		for (Enemy e : enemies) {
+			e.update(delta);
 		}
 	}
 

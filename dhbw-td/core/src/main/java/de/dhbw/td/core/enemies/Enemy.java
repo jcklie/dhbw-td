@@ -9,9 +9,9 @@ package de.dhbw.td.core.enemies;
 
 import java.awt.Point;
 import java.util.Queue;
-import java.util.Random;
 
 import playn.core.Image;
+import de.dhbw.td.core.util.EDirection;
 
 /**
  * 
@@ -29,7 +29,8 @@ public class Enemy extends AEnemy {
 		this.penalty = bounty * 2;
 		this.enemyType = enemyType;
 		this.waypoints = waypoints;
-		this.currentPosition = waypoints.poll();
+		this.currentPosition = waypoints.peek();
 		this.enemyImage = enemyImage;
+		this.currentDirection = EDirection.RIGHT;
 	}
 }
