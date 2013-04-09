@@ -26,3 +26,5 @@ Build
 	mvn assembly:single
 
 ![DHBW-TD Logo](https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-snc6/183998_483624255035585_913429309_n.jpg )
+
+BHOLSTE
