@@ -9,6 +9,10 @@ package de.dhbw.td.core.enemies;
 
 import java.awt.Point;
 import java.util.Queue;
+
+import playn.core.Surface;
+import de.dhbw.td.core.game.IDrawable;
+import de.dhbw.td.core.game.IUpdateable;
 /**
  * abstract class for an enemy
  * 
@@ -16,7 +20,7 @@ import java.util.Queue;
  * @version 1.0
  * 
  */
-public abstract class AEnemy {
+public abstract class AEnemy implements IDrawable, IUpdateable {
 	protected int maxHealth;
 	protected int curHealth;
 	protected boolean alive;
@@ -25,6 +29,7 @@ public abstract class AEnemy {
 	protected int penalty;
 	protected EEnemyType enemyType;
 	protected Queue<Point> waypoints;
+	private Point currentPosition;
 
 	public enum EEnemyType {
 		Math(0), TechInf(1), Code(2), TheoInf(3), Wiwi(4), Social(5);
@@ -36,6 +41,32 @@ public abstract class AEnemy {
 		}
 	}
 	
+	@Override
+	public void draw(Surface surf){
+		
+	}
+	
+	@Override
+	public void update(double delta){
+		
+	}
+	
+	/**
+	 * 
+	 * @return current position as Point
+	 */
+	public Point getCurrentPosition() {
+		return currentPosition;
+	}
+
+	/**
+	 * 
+	 * @param newPosition new position for enemy as Point
+	 */
+	public void setCurrentPosition(Point newPosition) {
+		this.currentPosition = newPosition;
+	}
+
 	/**
 	 * 
 	 * @return current Health as integer
