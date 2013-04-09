@@ -23,8 +23,7 @@ public class WaveController {
 
 	/**
 	 * 
-	 * @param waves
-	 *            Queue with all waves for single semester
+	 * @param waves Queue with all waves for single semester
 	 */
 	public WaveController(Queue<Wave> waves) {
 		this.waves = waves;
@@ -49,8 +48,7 @@ public class WaveController {
 
 	/**
 	 * 
-	 * @param timeSinceLastWave
-	 *            represents the time since the last wave
+	 * @param timeSinceLastWave represents the time since the last wave
 	 */
 	public void setTimeSinceLastWave(double timeSinceLastWave) {
 		this.timeSinceLastWave = timeSinceLastWave;

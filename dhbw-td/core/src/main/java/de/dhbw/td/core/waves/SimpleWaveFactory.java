@@ -30,7 +30,7 @@ public class SimpleWaveFactory implements IWaveFactory {
 
 	private final EEnemyType[] enemyTypeArray = EEnemyType.values();
 	private static final int NUMBER_OF_WAVES = 6;
-	private static final int NUMBER_OF_ATTRIBUTES = 3;
+	private static final int NUMBER_OF_ATTRIBUTES = 3;	// Specifies the number of attributes  given in the wave data
 	private static final int UB_ENEMY_NUMBER = 5;
 	private int currentSemester = 0;
 	private Queue<Point> waypoints;
@@ -38,10 +38,10 @@ public class SimpleWaveFactory implements IWaveFactory {
 
 	@Override
 	/**
-	 * Method returns next WaveController for specific semester.
+	 * Returns upcoming wave controller and deletes it from the wave controller
 	 * 
-	 * @param jsonString location of the waves.json as String
-	 * @param waypoints Queue of waypoints for current level
+	 * @param jsonString The wave data as json string
+	 * @param waypoints Waypoints for current level
 	 * @return next WaveController
 	 * @see WaveController
 	 */
@@ -56,10 +56,10 @@ public class SimpleWaveFactory implements IWaveFactory {
 		this.enemyCount = parsedJson.getInt("enemyCount" + (currentSemester + 1));
 		Json.Array semesterArr = parsedJson.getArray("sem" + (currentSemester + 1));
 
-		for (int row = 0; row < 6; row++) {
+		for (int row = 0; row < NUMBER_OF_WAVES; row++) {
 			Json.Array gridRow = semesterArr.getArray(row);
 
-			for (int col = 0; col < 3; col++) {
+			for (int col = 0; col < NUMBER_OF_ATTRIBUTES; col++) {
 				int val = gridRow.getInt(col);
 				semester[row][col] = val;
 			}
@@ -69,10 +69,9 @@ public class SimpleWaveFactory implements IWaveFactory {
 	}
 
 	/**
-	 * Method creates all waves per WaveController and returns Wave-Queue.
+	 * Creates all waves per WaveController and returns Wave-Queue.
 	 * 
-	 * @param semesters
-	 *            array containing [wave][attributes]
+	 * @param semesters array containing [wave][attributes]
 	 * @return Queue with waves per semester
 	 * 
 	 */

@@ -23,21 +23,18 @@ public class Wave {
 
 	private final int enemyCount;
 	private final int waveNumber;
-	private final List<Enemy> enemies;
+	private List<Enemy> enemies;
 
 	/**
 	 * 
-	 * @param waveNumber
-	 *            represents the number of the current Wave in the queue
-	 * @param enemies
-	 *            is a list containing all enemies for this wave
+	 * @param waveNumber represents the number of the current Wave in the queue
+	 * @param enemies is a list containing all enemies for this wave
 	 */
 	public Wave(int waveNumber, List<Enemy> enemies) {
 		this.enemyCount = enemies.size();
 		this.waveNumber = waveNumber;
-		enemies = Collections.unmodifiableList(enemies);
 		this.enemies = enemies;
-
+		enemies = Collections.unmodifiableList(enemies);
 	}
 
 	/**
