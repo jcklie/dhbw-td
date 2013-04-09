@@ -24,7 +24,11 @@ public class Level implements IDrawable{
 	public final int startx;
 	public final int starty;
 	public final Image[][] map;
+<<<<<<< HEAD
 	public final Queue<Point> waypoints;
+=======
+	private Queue<Point> waypoints;
+>>>>>>> 98d6cc117ef0b96d4fa40f2e4e35aaa167b53593
 
 	public Level(Image[][] map, Queue<Point> waypoints, int tilesize, int width, int height, int startx, int starty) {
 		this.tilesize = tilesize;
@@ -47,6 +51,10 @@ public class Level implements IDrawable{
 	
 	public int height() {
 		return height * tilesize;
+	}
+	
+	public Queue<Point> waypoints() {
+		return waypoints;
 	}
 	
 	@Override
