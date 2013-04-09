@@ -28,10 +28,13 @@ import de.dhbw.td.core.enemies.Enemy;
  */
 public class SimpleWaveFactory implements IWaveFactory {
 
-	public final EEnemyType[] enemyTypeArray = EEnemyType.values();
-	public int currentSemester = 0;
-	public Queue<Point> waypoints;
-	public int enemyCount;
+	private final EEnemyType[] enemyTypeArray = EEnemyType.values();
+	private static final int NUMBER_OF_WAVES = 6;
+	private static final int NUMBER_OF_ATTRIBUTES = 3;
+	private static final int UB_ENEMY_NUMBER = 5;
+	private int currentSemester = 0;
+	private Queue<Point> waypoints;
+	private int enemyCount;
 
 	@Override
 	/**
@@ -48,7 +51,7 @@ public class SimpleWaveFactory implements IWaveFactory {
 
 	@Override
 	public WaveController nextWaveController(Object parsedJson, Queue<Point> waypoints) {
-		int[][] semester = new int[6][3];
+		int[][] semester = new int[NUMBER_OF_WAVES][NUMBER_OF_ATTRIBUTES];
 		this.waypoints = waypoints;
 		this.enemyCount = parsedJson.getInt("enemyCount" + (currentSemester + 1));
 		Json.Array semesterArr = parsedJson.getArray("sem" + (currentSemester + 1));
@@ -81,12 +84,36 @@ public class SimpleWaveFactory implements IWaveFactory {
 				int maxHealth = semesters[waveNumber % 6][0];
 				double speed = semesters[waveNumber % 6][1];
 				int bounty = semesters[waveNumber % 6][2];
-				EEnemyType enemyType = enemyTypeArray[(int) (Math.random() * 5)];
+				EEnemyType enemyType = enemyTypeArray[(int) (Math.random() * UB_ENEMY_NUMBER)];
 				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType, waypoints));
 			}
 			Wave wave = new Wave(waveNumber, enemies);
 			waves.add(wave);
 		}
 		return waves;
+	}
+	
+	/**
+	 * 
+	 * @return currentSemester as integer
+	 */
+	public int getCurrentSemester() {
+		return currentSemester;
+	}
+
+	/**
+	 * 
+	 * @return waypoints as Queue<Point>
+	 */
+	public Queue<Point> getWaypoints() {
+		return waypoints;
+	}
+
+	/**
+	 * 
+	 * @return enemyCount as integer
+	 */
+	public int getEnemyCount() {
+		return enemyCount;
 	}
 }

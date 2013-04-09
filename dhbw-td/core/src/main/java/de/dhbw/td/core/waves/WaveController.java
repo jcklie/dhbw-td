@@ -17,10 +17,9 @@ import java.util.Queue;
  */
 public class WaveController {
 
-	public static final int NUMBEROFWAVES = 12;
-	public final Queue<Wave> waves;
-	public double timeSinceLastWave = 0;
-	public Wave currentWave;
+	private final Queue<Wave> waves;
+	private double timeSinceLastWave = 0;
+	private Wave currentWave;
 
 	/**
 	 * 
@@ -39,4 +38,38 @@ public class WaveController {
 		currentWave = waves.poll();
 		return currentWave;
 	}
+
+	/**
+	 * 
+	 * @return timeSinceLastWave as double
+	 */
+	public double getTimeSinceLastWave() {
+		return timeSinceLastWave;
+	}
+
+	/**
+	 * 
+	 * @param timeSinceLastWave
+	 *            represents the time since the last wave
+	 */
+	public void setTimeSinceLastWave(double timeSinceLastWave) {
+		this.timeSinceLastWave = timeSinceLastWave;
+	}
+
+	/**
+	 * 
+	 * @return waves as Queue<Wave>
+	 */
+	public Queue<Wave> getWaves() {
+		return waves;
+	}
+
+	/**
+	 * 
+	 * @return currentWave as Wave
+	 */
+	public Wave getCurrentWave() {
+		return currentWave;
+	}
+
 }

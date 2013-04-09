@@ -21,9 +21,9 @@ import de.dhbw.td.core.enemies.Enemy;
  */
 public class Wave {
 
-	public final int enemyCount;
-	public final int waveNumber;
-	public final List<Enemy> enemies;
+	private final int enemyCount;
+	private final int waveNumber;
+	private final List<Enemy> enemies;
 
 	/**
 	 * 
@@ -38,5 +38,29 @@ public class Wave {
 		enemies = Collections.unmodifiableList(enemies);
 		this.enemies = enemies;
 
+	}
+
+	/**
+	 * 
+	 * @return enemyCount as integer
+	 */
+	public int getEnemyCount() {
+		return enemyCount;
+	}
+
+	/**
+	 * 
+	 * @return waveNumber as integer
+	 */
+	public int getWaveNumber() {
+		return waveNumber;
+	}
+
+	/**
+	 * 
+	 * @return enemies as List<Enemy>
+	 */
+	public List<Enemy> getEnemies() {
+		return enemies;
 	}
 }

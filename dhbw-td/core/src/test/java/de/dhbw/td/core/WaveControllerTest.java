@@ -47,21 +47,21 @@ public class WaveControllerTest extends TestCase {
 
 	public void testWaveControllerCreatedAllWaves() {
 		// test if WaveFactory created 12 Waves
-		assertEquals(12, waveController.waves.size());
+		assertEquals(12, waveController.getWaves().size());
 	}
 
 	public void testWaveAttributes() {
 		for (int i = 0; i < 12; i++) {
 			// test if every wave has the correct number and if the waves are in
 			// order
-			assertEquals(i, waveController.waves.poll().waveNumber);
+			assertEquals(i, waveController.getWaves().poll().getWaveNumber());
 		}
 	}
 
 	public void testNextWaveFunction() {
 		for (int i = 0; i < 12; i++) {
 			// test if nextWave function returns the next wave in order
-			assertEquals(i, waveController.nextWave().waveNumber);
+			assertEquals(i, waveController.nextWave().getWaveNumber());
 		}
 	}
 
@@ -74,32 +74,32 @@ public class WaveControllerTest extends TestCase {
 			cnt++;
 		} while (cnt < 5);
 		// test if attributes of enemies equals values of sem6 - wave 6
-		Wave testWave = waveController.waves.peek();
+		Wave testWave = waveController.getWaves().peek();
 		do {
 			testWave = waveController.nextWave();
-		} while (testWave.waveNumber < 11);
+		} while (testWave.getWaveNumber() < 11);
 		for (int i = 0; i < 9; i++) {
-			Enemy testEnemy = testWave.enemies.get(i);
-			assertEquals(70, testEnemy.maxHealth);
-			assertEquals(70, testEnemy.curHealth);
-			assertTrue(testWave.enemies.get(i).alive);
-			assertEquals(10.0, testEnemy.speed, 0.001);
-			assertEquals(6, testEnemy.bounty);
-			assertEquals(12, testEnemy.penalty);
+			Enemy testEnemy = testWave.getEnemies().get(i);
+			assertEquals(70, testEnemy.getMaxHealth());
+			assertEquals(70, testEnemy.getCurHealth());
+			assertTrue(testWave.getEnemies().get(i).isAlive());
+			assertEquals(10.0, testEnemy.getSpeed(), 0.001);
+			assertEquals(6, testEnemy.getBounty());
+			assertEquals(12, testEnemy.getPenalty());
 		}
 	}
 
 	public void testEnemyAttributes() {
 		// test if attributes of first 9 enemies equals values of sem1 - wave 1
-		Wave testWave = waveController.waves.peek();
+		Wave testWave = waveController.getWaves().peek();
 		for (int i = 0; i < 9; i++) {
-			Enemy testEnemy = testWave.enemies.get(i);
-			assertEquals(10, testEnemy.maxHealth);
-			assertEquals(10, testEnemy.curHealth);
-			assertTrue(testEnemy.alive);
-			assertEquals(10.0, testEnemy.speed, 0.001);
-			assertEquals(1, testEnemy.bounty);
-			assertEquals(2, testEnemy.penalty);
+			Enemy testEnemy = testWave.getEnemies().get(i);
+			assertEquals(10, testEnemy.getMaxHealth());
+			assertEquals(10, testEnemy.getCurHealth());
+			assertTrue(testEnemy.isAlive());
+			assertEquals(10.0, testEnemy.getSpeed(), 0.001);
+			assertEquals(1, testEnemy.getBounty());
+			assertEquals(2, testEnemy.getPenalty());
 		}
 	}
 }

@@ -17,14 +17,14 @@ import java.util.Queue;
  * 
  */
 public abstract class AEnemy {
-	public int maxHealth;
-	public int curHealth;
-	public boolean alive;
-	public double speed;
-	public int bounty;
-	public int penalty;
-	public EEnemyType enemyType;
-	public Queue<Point> waypoints;
+	protected int maxHealth;
+	protected int curHealth;
+	protected boolean alive;
+	protected double speed;
+	protected int bounty;
+	protected int penalty;
+	protected EEnemyType enemyType;
+	protected Queue<Point> waypoints;
 
 	public enum EEnemyType {
 		Math(0), TechInf(1), Code(2), TheoInf(3), Wiwi(4), Social(5);
@@ -34,5 +34,85 @@ public abstract class AEnemy {
 		private EEnemyType(int value) {
 			this.value = value;
 		}
+	}
+	
+	/**
+	 * 
+	 * @return current Health as integer
+	 */
+	public int getCurHealth() {
+		return curHealth;
+	}
+
+	/**
+	 * 
+	 * @param curHealth set current Health
+	 */
+	public void setCurHealth(int curHealth) {
+		this.curHealth = curHealth;
+	}
+
+	/**
+	 * 
+	 * @return speed as double
+	 */
+	public double getSpeed() {
+		return speed;
+	}
+
+	/**
+	 * 
+	 * @param speed set speed as double
+	 */
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
+
+	/**
+	 * 
+	 * @return get maximum health as integer
+	 */
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	/**
+	 * 
+	 * @return boolean if enemy is alive
+	 */
+	public boolean isAlive() {
+		return alive;
+	}
+
+	/**
+	 * 
+	 * @return get bounty of enemy as integer
+	 */
+	public int getBounty() {
+		return bounty;
+	}
+
+	/**
+	 * 
+	 * @return get penalty of enemy as integer
+	 */
+	public int getPenalty() {
+		return penalty;
+	}
+
+	/**
+	 * 
+	 * @return get enemy type as EEnemyType
+	 */
+	public EEnemyType getEnemyType() {
+		return enemyType;
+	}
+
+	/**
+	 * 
+	 * @return get waypoint queue as Queue<Point>
+	 */
+	public Queue<Point> getWaypoints() {
+		return waypoints;
 	}
 }
