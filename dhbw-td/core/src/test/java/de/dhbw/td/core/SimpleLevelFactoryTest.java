@@ -56,9 +56,10 @@ public class SimpleLevelFactoryTest extends TestCase {
 		Json.Object lvlWithIntersectJson = loadJson("/levels/lvlWithIntersect.json");	
 		
 		/*
-		 * Be careful, I cheated and initialized these expected level with empty
-		 * image array since I do not expect to test these
+		 * Be careful, I cheated and initialized these expected level maps with
+		 * empty image array since I do not expect to test these
 		 */
+		
 		expectedBasicLevel = buildExpectedBasicLevel();
 		expectedLvlWithIntersect = buildExpectedLvlWithIntersect();
 		
