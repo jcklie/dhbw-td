@@ -15,6 +15,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import org.junit.Test;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 import junit.framework.TestCase;
 import playn.core.Json;
@@ -68,12 +70,8 @@ public class SimpleLevelFactoryTest extends TestCase {
 		ref.add(new Point(7,2));
 		ref.add(new Point(13,2));
 		while(!ref.isEmpty()){
-			if(lvl.waypoints.isEmpty()){
-				assertFalse(true);
-			}
-			if(!ref.poll().equals(lvl.waypoints.poll())){
-				assertFalse(true);
-			}
+			assertFalse(lvl.waypoints.isEmpty());
+			assertEquals(ref.poll(), lvl.waypoints.poll());
 		}
 		assertTrue(lvl.waypoints.isEmpty());
 	}
@@ -101,12 +99,8 @@ public class SimpleLevelFactoryTest extends TestCase {
 		ref.add(new Point(7,2));
 		ref.add(new Point(13,2));
 		while(!ref.isEmpty()){
-			if(lvl.waypoints.isEmpty()){
-				assertFalse(true);
-			}
-			if(!ref.poll().equals(lvl.waypoints.poll())){
-				assertFalse(true);
-			}
+			assertFalse(lvl.waypoints.isEmpty());
+			assertEquals(ref.poll(), lvl.waypoints.poll());
 		}
 		assertTrue(lvl.waypoints.isEmpty());
 		
