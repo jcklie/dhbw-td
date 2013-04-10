@@ -55,7 +55,7 @@ public class TowerDefense implements Game {
 		stateOftheWorld = new GameState();
 		
 		// load the first level for test purposes
-		loadLevel(PATH_LEVELS + "level6.json");
+		loadLevel(PATH_LEVELS + "level1.json");
 		
 		// load values for all waves
 		loadWaveController(PATH_WAVES + "waves.json");
