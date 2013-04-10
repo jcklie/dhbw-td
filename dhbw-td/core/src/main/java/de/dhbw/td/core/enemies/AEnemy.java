@@ -49,7 +49,7 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 
 	@Override
 	public void update(double delta) {
-		if (currentPosition == currentWaypoint) {
+		if (currentPosition.equals(currentWaypoint)) {
 			Point newWaypoint = waypoints.poll();
 			if (currentPosition.x < newWaypoint.x) {
 				currentDirection = EDirection.RIGHT;

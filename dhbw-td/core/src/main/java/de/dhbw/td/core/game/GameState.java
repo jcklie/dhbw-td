@@ -14,7 +14,7 @@ public class GameState implements IDrawable, IUpdateable {
 	private LinkedList<Enemy> allEnemies;
 	private List<Enemy> enemies;
 	private Time timer;
-	private static final int SPAWN_DELAY = 2000;	//ms
+	private static final int SPAWN_DELAY = 3000;	//ms
 
 	public GameState() {
 		timer = new Time(SPAWN_DELAY, new Callback<String>() {
