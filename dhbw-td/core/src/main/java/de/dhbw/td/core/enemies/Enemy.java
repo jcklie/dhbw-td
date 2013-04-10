@@ -8,6 +8,7 @@
 package de.dhbw.td.core.enemies;
 
 import java.awt.Point;
+import java.util.LinkedList;
 import java.util.Queue;
 
 import playn.core.Image;
@@ -24,13 +25,14 @@ public class Enemy extends AEnemy {
 		this.maxHealth = maxHealth;
 		this.curHealth = maxHealth;
 		this.alive = true;
-		this.speed = speed*12;
+		this.speed = speed * 20;
 		this.bounty = bounty;
 		this.penalty = bounty * 2;
 		this.enemyType = enemyType;
-		this.waypoints = waypoints;
-		this.currentPosition = waypoints.peek();
-		this.currentWaypoint = waypoints.poll();
+		this.fixedWaypoints = waypoints;
+		this.waypoints = new LinkedList<Point>(waypoints);
+		this.currentPosition = this.waypoints.peek();
+		this.currentWaypoint = this.waypoints.poll();
 		this.enemyImage = enemyImage;
 		this.currentDirection = EDirection.RIGHT;
 	}

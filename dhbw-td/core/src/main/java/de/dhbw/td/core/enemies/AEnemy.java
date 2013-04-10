@@ -14,7 +14,7 @@ import playn.core.Image;
 import playn.core.Surface;
 import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.game.IUpdateable;
-import de.dhbw.td.core.util.*;
+import de.dhbw.td.core.util.EDirection;
 
 /**
  * abstract class for an enemy
@@ -36,6 +36,7 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	protected Image enemyImage;
 	protected EDirection currentDirection;
 	protected Point currentWaypoint;
+	protected Queue<Point> fixedWaypoints;
 
 	public enum EEnemyType {
 		Math, TechInf, Code, TheoInf, Wiwi, Social;
@@ -43,61 +44,74 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 
 	@Override
 	public void draw(Surface surf) {
-
-		surf.drawImage(enemyImage, currentPosition.x, currentPosition.y);
+		if (isAlive()) {
+			surf.drawImage(enemyImage, currentPosition.x, currentPosition.y);
+		}
 	}
 
 	@Override
 	public void update(double delta) {
-		if (currentPosition.equals(currentWaypoint)) {
-			System.out.println(currentWaypoint);
-			waypoints.add(currentWaypoint);
-			Point newWaypoint = waypoints.poll();
-			if (currentPosition.x < newWaypoint.x) {
-				currentDirection = EDirection.RIGHT;
-			} else if (currentPosition.x > newWaypoint.x) {
-				currentDirection = EDirection.LEFT;
-			} else if (currentPosition.y < newWaypoint.y) {
-				currentDirection = EDirection.DOWN;
-			} else if (currentPosition.y > newWaypoint.y) {
-				currentDirection = EDirection.UP;
+		if (isAlive()) {
+			if (currentPosition.equals(currentWaypoint)) {
+				Point newWaypoint = waypoints.poll();
+				if (newWaypoint == null) {
+					die();
+					for (Point p : fixedWaypoints) {
+						waypoints.add((Point) p.clone());
+					}
+					newWaypoint = waypoints.poll();
+					currentPosition.setLocation(newWaypoint);
+				}
+				if (currentPosition.x < newWaypoint.x) {
+					currentDirection = EDirection.RIGHT;
+				} else if (currentPosition.x > newWaypoint.x) {
+					currentDirection = EDirection.LEFT;
+				} else if (currentPosition.y < newWaypoint.y) {
+					currentDirection = EDirection.DOWN;
+				} else if (currentPosition.y > newWaypoint.y) {
+					currentDirection = EDirection.UP;
+				}
+				currentWaypoint = newWaypoint;
 			}
-			currentWaypoint = newWaypoint;
-		}
-		switch (currentDirection) {
-		case DOWN:
-			currentPosition.translate(0, (int) (speed * delta / 1000));
-			if (currentPosition.y > currentWaypoint.y) {
-				currentPosition.setLocation(currentWaypoint);
+			switch (currentDirection) {
+			case DOWN:
+				currentPosition.translate(0, (int) (speed * delta / 1000));
+				if (currentPosition.y > currentWaypoint.y) {
+					currentPosition.setLocation(currentWaypoint);
+				}
+				break;
+			case LEFT:
+				currentPosition.translate((int) (-speed * delta / 1000), 0);
+				if (currentPosition.x < currentWaypoint.x) {
+					currentPosition.setLocation(currentWaypoint);
+				}
+				break;
+			case RIGHT:
+				currentPosition.translate((int) (speed * delta / 1000), 0);
+				if (currentPosition.x > currentWaypoint.x) {
+					currentPosition.setLocation(currentWaypoint);
+				}
+				break;
+			case UP:
+				currentPosition.translate(0, (int) (-speed * delta / 1000));
+				if (currentPosition.y < currentWaypoint.y) {
+					currentPosition.setLocation(currentWaypoint);
+				}
+				break;
+			default:
+				break;
 			}
-			break;
-		case LEFT:
-			currentPosition.translate((int) (-speed * delta / 1000), 0);
-			if (currentPosition.x < currentWaypoint.x) {
-				currentPosition.setLocation(currentWaypoint);
-			}
-			break;
-		case RIGHT:
-			currentPosition.translate((int) (speed * delta / 1000), 0);
-			if (currentPosition.x > currentWaypoint.x) {
-				currentPosition.setLocation(currentWaypoint);
-			}
-			break;
-		case UP:
-			currentPosition.translate(0, (int) (-speed * delta / 1000));
-			if (currentPosition.y < currentWaypoint.y) {
-				currentPosition.setLocation(currentWaypoint);
-			}
-			break;
-		default:
-			break;
 		}
 	}
 
 	public void takeDamage(int damage) {
 		if ((curHealth -= damage) < 0) {
-			alive = false;
+			die();
 		}
+	}
+
+	private void die() {
+		this.alive = false;
 	}
 
 	/**

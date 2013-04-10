@@ -35,7 +35,7 @@ public class SimpleWaveFactory implements IWaveFactory {
 	private final Image[] enemyImages = new Image[6];
 	private static final int NUMBER_OF_WAVES = 12;
 	private static final int NUMBER_OF_ATTRIBUTES = 3;
-	private static final int UB_ENEMY_TYPES = 5;
+	private static final int UB_ENEMY_TYPES = 6;
 	private int currentSemester = 0;
 	private Queue<Point> waypoints;
 	private int enemyCount;
