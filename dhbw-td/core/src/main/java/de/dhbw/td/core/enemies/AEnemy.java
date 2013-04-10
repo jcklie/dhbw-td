@@ -49,7 +49,6 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 
 	@Override
 	public void update(double delta) {
-		currentWaypoint = waypoints.peek();
 		if (currentPosition == currentWaypoint) {
 			Point newWaypoint = waypoints.poll();
 			if (currentPosition.x < newWaypoint.x) {
@@ -58,9 +57,9 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 				currentDirection = EDirection.LEFT;
 			} else if (currentPosition.y < newWaypoint.y) {
 				currentDirection = EDirection.DOWN;
-			} else if (currentPosition.y < newWaypoint.y) {
+			} else if (currentPosition.y > newWaypoint.y) {
 				currentDirection = EDirection.UP;
-			} 
+			}
 			currentWaypoint = newWaypoint;
 		}
 		switch (currentDirection) {

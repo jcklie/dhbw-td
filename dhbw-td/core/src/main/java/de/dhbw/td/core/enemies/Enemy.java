@@ -30,6 +30,7 @@ public class Enemy extends AEnemy {
 		this.enemyType = enemyType;
 		this.waypoints = waypoints;
 		this.currentPosition = waypoints.peek();
+		this.currentWaypoint = waypoints.poll();
 		this.enemyImage = enemyImage;
 		this.currentDirection = EDirection.RIGHT;
 	}

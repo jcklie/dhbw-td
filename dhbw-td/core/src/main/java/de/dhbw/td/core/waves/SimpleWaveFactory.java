@@ -94,7 +94,7 @@ public class SimpleWaveFactory implements IWaveFactory {
 	@Override
 	public WaveController nextWaveController(Object parsedJson, Queue<Point> waypoints) {
 		int[][] semester = new int[NUMBER_OF_WAVES][NUMBER_OF_ATTRIBUTES];
-		for(EEnemyType e : enemyTypeArray){
+		for (EEnemyType e : enemyTypeArray) {
 			String pathToImage = EEnemyImage.getPathToImage(e);
 			enemyImages[e.ordinal()] = assets().getImageSync(pathToImage);
 		}
@@ -134,7 +134,7 @@ public class SimpleWaveFactory implements IWaveFactory {
 				int next = r.nextInt(UB_ENEMY_TYPES);
 				EEnemyType enemyType = enemyTypeArray[next];
 				Image enemyImage = enemyImages[next];
-				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType, waypoints, enemyImage));
+				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType, new LinkedList<Point>(waypoints), enemyImage));
 			}
 			Wave wave = new Wave(waveNumber, enemies);
 			waves.add(wave);
