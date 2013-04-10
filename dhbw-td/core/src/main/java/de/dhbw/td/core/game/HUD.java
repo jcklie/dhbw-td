@@ -63,23 +63,6 @@ public class HUD implements IDrawable {
 	
 	private GameState stateOfTheWorld;
 	
-	public class HUDListener extends Pointer.Adapter {
-		
-		@Override
-		public void onPointerStart(Event event) {
-			// TODO Auto-generated method stub
-			super.onPointerStart(event);
-			log().info(String.format("onPointerStart: %f, %f", event.x(), event.y()));
-		}
-		
-		@Override
-		public void onPointerEnd(Event event) {
-			// TODO Auto-generated method stub
-			super.onPointerEnd(event);
-			log().info(String.format("onPointerEnd: %f, %f", event.x(), event.y()));
-		}
-	}
-	
 	/**
 	 * 
 	 * @param state
@@ -96,7 +79,6 @@ public class HUD implements IDrawable {
 		
 		// Image loading party
 		clockImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "clock.bmp");
-		
 		heartImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "heart.bmp");
 		cogImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "cog.bmp");
 		creditsImage= assets().getImageSync(TowerDefense.PATH_IMAGES + "credits.bmp");

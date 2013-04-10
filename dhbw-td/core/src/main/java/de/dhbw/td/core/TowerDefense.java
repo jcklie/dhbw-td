@@ -9,10 +9,15 @@ package de.dhbw.td.core;
 
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
+import static playn.core.PlayN.keyboard;
 import static playn.core.PlayN.log;
+import static playn.core.PlayN.pointer;
 import playn.core.Game;
 import playn.core.Image;
 import playn.core.ImageLayer;
+import playn.core.Keyboard;
+import playn.core.Pointer;
+import playn.core.Pointer.Event;
 import playn.core.Surface;
 import playn.core.SurfaceLayer;
 import de.dhbw.td.core.game.GameState;
@@ -34,7 +39,10 @@ public class TowerDefense implements Game {
 	private SurfaceLayer TILE_LAYER;
 	private ImageLayer BACKGROUND_LAYER;
 	private SurfaceLayer HUD_LAYER;
+<<<<<<< HEAD
 	private SurfaceLayer ENEMY_LAYER;
+=======
+>>>>>>> 2e289814cfab3eccd75089a7872ab873a4b07367
 
 	private Level currentLevel;
 	private ILevelFactory levelLoader;
@@ -54,8 +62,15 @@ public class TowerDefense implements Game {
 		loadWaveFactory();
 
 		// load the first level for test purposes
+<<<<<<< HEAD
 		loadLevel(PATH_LEVELS + "level1.json", PATH_WAVES + "waves.json");
 		nextWave();
+=======
+		loadLevel(PATH_LEVELS + "level1.json");
+		
+		// load values for all waves
+		loadWaveController(PATH_WAVES + "waves.json");
+>>>>>>> 2e289814cfab3eccd75089a7872ab873a4b07367
 		
 		// Background layer is plain white
 		Image bg = assets().getImage("tiles/white.bmp");
@@ -74,8 +89,15 @@ public class TowerDefense implements Game {
 		// HUD layer
 		hud = new HUD(stateOftheWorld);
 		HUD_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
-		HUD_LAYER.addListener(hud.new HUDListener());
+		
 		graphics().rootLayer().add(HUD_LAYER);
+		
+		// set Listener for mouse events
+		addMouseListener();
+		
+		// set Listener for keyboard events
+		addKeyboardListener();
+;
 	}
 
 	private void loadLevel(String pathToLevel, String pathToWaves) {
@@ -100,6 +122,36 @@ public class TowerDefense implements Game {
 		} catch (Exception e) {
 			log().error(e.getMessage());
 		}
+	}
+	
+	private void addMouseListener() {
+		pointer().setListener(new Pointer.Adapter() {
+			
+			@Override
+			public void onPointerStart(Event event) {
+				log().info(String.format("onPointerStart on x=%s y=%s", event.x(), event.y()));
+			}
+			
+			@Override
+			public void onPointerEnd(Pointer.Event event) {	  
+				log().info(String.format("onPointerEnd on x=%s y=%s", event.x(), event.y()));
+			}
+		});
+	}
+	
+	private void addKeyboardListener() {
+		keyboard().setListener(new Keyboard.Adapter() {
+			@Override
+			public void onKeyDown(playn.core.Keyboard.Event event) {
+				// TODO Auto-generated method stub
+				super.onKeyDown(event);
+			}
+			
+			@Override
+			public void onKeyUp(playn.core.Keyboard.Event event) {
+				log().info(event.key().toString());
+			}
+		});
 	}
 
 	@Override
