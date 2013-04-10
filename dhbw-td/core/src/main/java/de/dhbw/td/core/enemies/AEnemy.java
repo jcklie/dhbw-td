@@ -50,6 +50,7 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	@Override
 	public void update(double delta) {
 		if (currentPosition.equals(currentWaypoint)) {
+			waypoints.add(currentWaypoint);
 			Point newWaypoint = waypoints.poll();
 			if (currentPosition.x < newWaypoint.x) {
 				currentDirection = EDirection.RIGHT;
@@ -66,25 +67,25 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 		case DOWN:
 			currentPosition.translate(0, (int) (speed * delta / 1000));
 			if (currentPosition.y > currentWaypoint.y) {
-				currentPosition = currentWaypoint;
+				currentPosition.setLocation(currentWaypoint);
 			}
 			break;
 		case LEFT:
 			currentPosition.translate((int) (-speed * delta / 1000), 0);
 			if (currentPosition.x < currentWaypoint.x) {
-				currentPosition = currentWaypoint;
+				currentPosition.setLocation(currentWaypoint);
 			}
 			break;
 		case RIGHT:
 			currentPosition.translate((int) (speed * delta / 1000), 0);
 			if (currentPosition.x > currentWaypoint.x) {
-				currentPosition = currentWaypoint;
+				currentPosition.setLocation(currentWaypoint);
 			}
 			break;
 		case UP:
 			currentPosition.translate(0, (int) (-speed * delta / 1000));
 			if (currentPosition.y < currentWaypoint.y) {
-				currentPosition = currentWaypoint;
+				currentPosition.setLocation(currentWaypoint);
 			}
 			break;
 		default:
@@ -168,5 +169,13 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	 */
 	public Queue<Point> getWaypoints() {
 		return waypoints;
+	}
+
+	@Override
+	public String toString() {
+		return String
+				.format("maxHealth=%s\ncurHealth=%s\nalive=%s\nspeed=%s\nbounty=%s\npenalty=%s\nenemyType=%s\nwaypoints=%s\ncurrentPosition=%s\nenemyImage=%s\ncurrentDirection=%s\ncurrentWaypoint=%s",
+						maxHealth, curHealth, alive, speed, bounty, penalty, enemyType, waypoints, currentPosition,
+						enemyImage, currentDirection, currentWaypoint);
 	}
 }

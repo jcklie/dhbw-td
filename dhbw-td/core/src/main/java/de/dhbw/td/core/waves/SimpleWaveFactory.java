@@ -134,7 +134,12 @@ public class SimpleWaveFactory implements IWaveFactory {
 				int next = r.nextInt(UB_ENEMY_TYPES);
 				EEnemyType enemyType = enemyTypeArray[next];
 				Image enemyImage = enemyImages[next];
-				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType, new LinkedList<Point>(waypoints), enemyImage));
+				Queue<Point> cloned = new LinkedList<Point>();
+				for (Point p : waypoints) {
+					cloned.add((Point) p.clone());
+				}
+
+				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType, cloned, enemyImage));
 			}
 			Wave wave = new Wave(waveNumber, enemies);
 			waves.add(wave);
