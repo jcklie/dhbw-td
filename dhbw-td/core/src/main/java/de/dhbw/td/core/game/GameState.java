@@ -2,7 +2,7 @@ package de.dhbw.td.core.game;
 
 import java.util.LinkedList;
 import java.util.List;
-import static playn.core.PlayN.*;
+
 import playn.core.Surface;
 import playn.core.util.Callback;
 import de.dhbw.td.core.enemies.Enemy;
@@ -14,7 +14,7 @@ public class GameState implements IDrawable, IUpdateable {
 	private LinkedList<Enemy> allEnemies;
 	private List<Enemy> enemies;
 	private Time timer;
-	private static final int SPAWN_DELAY = 3000; // ms
+	private static final int SPAWN_DELAY = 1000; // ms
 
 	public GameState() {
 		timer = new Time(SPAWN_DELAY, new Callback<String>() {
@@ -51,6 +51,7 @@ public class GameState implements IDrawable, IUpdateable {
 
 	@Override
 	public void draw(Surface surf) {
+		surf.clear();
 		for (Enemy e : enemies) {
 			e.draw(surf);
 		}
@@ -59,10 +60,7 @@ public class GameState implements IDrawable, IUpdateable {
 	@Override
 	public void update(double delta) {
 		timer.update(delta);
-		int c = 0;
 		for (Enemy e : enemies) {
-			System.out.println(Integer.toString(c++));
-			log().debug(e.toString());
 			e.update(delta);
 		}
 

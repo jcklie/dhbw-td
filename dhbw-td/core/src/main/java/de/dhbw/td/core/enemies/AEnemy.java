@@ -43,13 +43,14 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 
 	@Override
 	public void draw(Surface surf) {
-		surf.clear();
+
 		surf.drawImage(enemyImage, currentPosition.x, currentPosition.y);
 	}
 
 	@Override
 	public void update(double delta) {
 		if (currentPosition.equals(currentWaypoint)) {
+			System.out.println(currentWaypoint);
 			waypoints.add(currentWaypoint);
 			Point newWaypoint = waypoints.poll();
 			if (currentPosition.x < newWaypoint.x) {
@@ -169,13 +170,5 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	 */
 	public Queue<Point> getWaypoints() {
 		return waypoints;
-	}
-
-	@Override
-	public String toString() {
-		return String
-				.format("maxHealth=%s\ncurHealth=%s\nalive=%s\nspeed=%s\nbounty=%s\npenalty=%s\nenemyType=%s\nwaypoints=%s\ncurrentPosition=%s\nenemyImage=%s\ncurrentDirection=%s\ncurrentWaypoint=%s",
-						maxHealth, curHealth, alive, speed, bounty, penalty, enemyType, waypoints, currentPosition,
-						enemyImage, currentDirection, currentWaypoint);
 	}
 }

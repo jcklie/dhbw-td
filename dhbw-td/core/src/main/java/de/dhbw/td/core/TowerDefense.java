@@ -54,9 +54,17 @@ public class TowerDefense implements Game {
 		loadWaveFactory();
 
 		// load the first level for test purposes
+<<<<<<< HEAD
 		loadLevel(PATH_LEVELS + "level1.json", PATH_WAVES + "waves.json");
 		nextWave();
 
+=======
+		loadLevel(PATH_LEVELS + "level6.json");
+		
+		// load values for all waves
+		loadWaveController(PATH_WAVES + "waves.json");
+		
+>>>>>>> 6adf5ad905430c41b9d7d9b002990985170cb2c4
 		// Background layer is plain white
 		Image bg = assets().getImage("tiles/white.bmp");
 		BACKGROUND_LAYER = graphics().createImageLayer(bg);
