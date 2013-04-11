@@ -1,21 +1,26 @@
+/*  Copyright (C) 2013 by Martin Kiessling, Tobias Roeding Inc. All rights reserved.
+ *  Released under the terms of the GNU General Public License version 3 or later.
+ *  
+ *  Contributors:
+ *  Jan-Christoph Klie - First, bad version
+ *  Benedict Holste - All the rest from first fancy version to first working version
+ */
+
 package de.dhbw.td.core.game;
 
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
-import static playn.core.PlayN.log;
 import playn.core.Canvas;
 import playn.core.CanvasImage;
 import playn.core.Font;
 import playn.core.Image;
-import playn.core.Pointer;
-import playn.core.Pointer.Event;
 import playn.core.Surface;
 import playn.core.TextFormat;
 import playn.core.TextLayout;
 import de.dhbw.td.core.TowerDefense;
 
 /**
- * 
+ * @author Jan-Christoph Klie <jcklie@de.ibm.com>
  * @author Benedict Holste <benedict@bholste.net>
  *
  */
@@ -96,7 +101,7 @@ public class HUD implements IDrawable {
 	@Override
 	public void draw(Surface surf) {
 		
-		// check, if world has changed
+		// check, if world has changed to avoid unnecessary and costly updates
 		if(stateOfTheWorld.hasChanged()) {
 			
 			// clear the surface

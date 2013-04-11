@@ -3,6 +3,7 @@
  *  
  *  Contributors:
  *  Jan-Christoph Klie - All
+ *  Tobias Roeding - Add support for changing to the next level/wave when finished current
  */
 
 package de.dhbw.td.core;
@@ -33,6 +34,9 @@ public class TowerDefense implements Game {
 	public static final String PATH_IMAGES = "images/";
 	public static final String PATH_WAVES = "waves/";
 	public static final String PATH_TOWERS = "tower/";
+	
+	public static final int NUMBER_OF_LEVELS = 6;
+	public static final int NUMBER_OF_WAVES = 12;
 
 	private SurfaceLayer TILE_LAYER;
 	private ImageLayer BACKGROUND_LAYER;
@@ -49,10 +53,11 @@ public class TowerDefense implements Game {
 	private GameState stateOftheWorld;
 	private HUD hud;
 
-	private int levelNumber = 1;
+	private int levelNumber;
 
 	@Override
 	public void init() {
+		levelNumber = 1;
 		stateOftheWorld = new GameState();
 		hud = new HUD(stateOftheWorld);
 
@@ -104,22 +109,20 @@ public class TowerDefense implements Game {
 	private void nextWave() {
 		if (waveController.hasNextWave()) {
 			int waveNumber = waveController.getWaves().peek().getWaveNumber();
-			System.out.println("Wave Number: " + waveNumber);
-			if(waveNumber == 0 || waveNumber == 11){
+			if(waveNumber == 0 || waveNumber == NUMBER_OF_WAVES - 1){
 				stateOftheWorld.newWave(waveController.nextWave().getEnemies());
 			} else {
 				waveController.nextWave();
 				nextWave();
-			}
-			
+			}			
 		} else {
-			System.out.println("LevelNumber " + levelNumber);
+			log().info("LevelNumber " + levelNumber);
 			nextLevel();
 		}
 	}
 
 	private void nextLevel() {
-		if (levelNumber <= 6) {
+		if (levelNumber <= NUMBER_OF_LEVELS) {
 			loadLevel(getLevelName(), getWaveName());
 			levelNumber++;
 			

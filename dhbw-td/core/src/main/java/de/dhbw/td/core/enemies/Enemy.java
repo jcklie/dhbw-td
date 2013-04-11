@@ -3,7 +3,7 @@
  *  
  *  Contributors:
  *  Martin Kiessling, Tobias Roeding - All
- *  Jan-Christoph Klie - Refactored Healthbar to extern class and refactored everything
+ *  Jan-Christoph Klie - Refactored Healthbar to extern class and refactored everything else, too
  */
 
 package de.dhbw.td.core.enemies;
