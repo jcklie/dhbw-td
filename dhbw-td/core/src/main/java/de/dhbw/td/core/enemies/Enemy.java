@@ -31,7 +31,6 @@ public class Enemy extends AEnemy {
 		this.bounty = bounty;
 		this.penalty = bounty * 2;
 		this.enemyType = enemyType;
-		this.fixedWaypoints = waypoints;
 		this.waypoints = new LinkedList<Point>(waypoints);
 		this.currentPosition = this.waypoints.peek();
 		this.currentWaypoint = this.waypoints.poll();

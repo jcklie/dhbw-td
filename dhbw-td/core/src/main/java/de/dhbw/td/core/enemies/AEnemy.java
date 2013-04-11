@@ -39,7 +39,6 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	protected Image healthBarImage;
 	protected EDirection currentDirection;
 	protected Point currentWaypoint;
-	protected Queue<Point> fixedWaypoints;
 
 	public enum EEnemyType {
 		Math, TechInf, Code, TheoInf, Wiwi, Social;
@@ -65,11 +64,6 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 				Point newWaypoint = waypoints.poll();
 				if (newWaypoint == null) {
 					die();
-					for (Point p : fixedWaypoints) {
-						waypoints.add((Point) p.clone());
-					}
-					newWaypoint = waypoints.poll();
-					currentPosition.setLocation(newWaypoint);
 				}
 				if (currentPosition.x < newWaypoint.x) {
 					currentDirection = EDirection.RIGHT;
