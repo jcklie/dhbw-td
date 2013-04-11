@@ -7,6 +7,8 @@
 
 package de.dhbw.td.core.enemies;
 
+import static playn.core.PlayN.assets;
+
 import java.awt.Point;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -33,7 +35,12 @@ public class Enemy extends AEnemy {
 		this.waypoints = new LinkedList<Point>(waypoints);
 		this.currentPosition = this.waypoints.peek();
 		this.currentWaypoint = this.waypoints.poll();
-		this.enemyImage = enemyImage;
+		this.enemyImage = enemyImage;	
 		this.currentDirection = EDirection.RIGHT;
+		for (EHealthBarType e : healthBarTypeArray) {
+			String pathToImage = EHealthBarImage.getPathToImage(e);
+			this.healthBarImages[e.ordinal()] = assets().getImageSync(pathToImage);
+		}
+		this.healthBarImage = healthBarImages[10];
 	}
 }

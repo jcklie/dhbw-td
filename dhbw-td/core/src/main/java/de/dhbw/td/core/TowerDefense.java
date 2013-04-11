@@ -39,10 +39,8 @@ public class TowerDefense implements Game {
 	private SurfaceLayer TILE_LAYER;
 	private ImageLayer BACKGROUND_LAYER;
 	private SurfaceLayer HUD_LAYER;
-<<<<<<< HEAD
+
 	private SurfaceLayer ENEMY_LAYER;
-=======
->>>>>>> 2e289814cfab3eccd75089a7872ab873a4b07367
 
 	private Level currentLevel;
 	private ILevelFactory levelLoader;
@@ -62,15 +60,9 @@ public class TowerDefense implements Game {
 		loadWaveFactory();
 
 		// load the first level for test purposes
-<<<<<<< HEAD
+
 		loadLevel(PATH_LEVELS + "level1.json", PATH_WAVES + "waves.json");
 		nextWave();
-=======
-		loadLevel(PATH_LEVELS + "level1.json");
-		
-		// load values for all waves
-		loadWaveController(PATH_WAVES + "waves.json");
->>>>>>> 2e289814cfab3eccd75089a7872ab873a4b07367
 		
 		// Background layer is plain white
 		Image bg = assets().getImage("tiles/white.bmp");
@@ -89,7 +81,6 @@ public class TowerDefense implements Game {
 		// HUD layer
 		hud = new HUD(stateOftheWorld);
 		HUD_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
-		
 		graphics().rootLayer().add(HUD_LAYER);
 		
 		// set Listener for mouse events

@@ -24,6 +24,8 @@ import de.dhbw.td.core.util.EDirection;
  * 
  */
 public abstract class AEnemy implements IDrawable, IUpdateable {
+	protected final EHealthBarType[] healthBarTypeArray = EHealthBarType.values();
+	protected final Image[] healthBarImages = new Image[11];
 	protected int maxHealth;
 	protected int curHealth;
 	protected boolean alive;
@@ -34,6 +36,7 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	protected Queue<Point> waypoints;
 	protected Point currentPosition;
 	protected Image enemyImage;
+	protected Image healthBarImage;
 	protected EDirection currentDirection;
 	protected Point currentWaypoint;
 	protected Queue<Point> fixedWaypoints;
@@ -42,10 +45,15 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 		Math, TechInf, Code, TheoInf, Wiwi, Social;
 	}
 
+	public enum EHealthBarType {
+		ZERO, TEN, TWENTY, THIRTY, FOURTY, FIFTY, SIXTY, SEVENTY, EIGHTY, NINETY, HUNDRED;
+	}
+
 	@Override
 	public void draw(Surface surf) {
 		if (isAlive()) {
 			surf.drawImage(enemyImage, currentPosition.x, currentPosition.y);
+			surf.drawImage(healthBarImage, currentPosition.x - 20, currentPosition.y - 5);
 		}
 	}
 
@@ -53,6 +61,7 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	public void update(double delta) {
 		if (isAlive()) {
 			if (currentPosition.equals(currentWaypoint)) {
+				takeDamage(1);
 				Point newWaypoint = waypoints.poll();
 				if (newWaypoint == null) {
 					die();
@@ -105,13 +114,83 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	}
 
 	public void takeDamage(int damage) {
-		if ((curHealth -= damage) < 0) {
+		curHealth -= damage;
+		double percent = (double) curHealth / (double) maxHealth;
+		if (curHealth <= 0) {
 			die();
+		} else if (percent < 0.10) {
+			healthBarImage = healthBarImages[0];
+		} else if (percent < 0.20) {
+			healthBarImage = healthBarImages[1];
+		} else if (percent < 0.30) {
+			healthBarImage = healthBarImages[2];
+		} else if (percent < 0.40) {
+			healthBarImage = healthBarImages[3];
+		} else if (percent < 0.50) {
+			healthBarImage = healthBarImages[4];
+		} else if (percent < 0.60) {
+			healthBarImage = healthBarImages[5];
+		} else if (percent < 0.70) {
+			healthBarImage = healthBarImages[6];
+		} else if (percent < 0.80) {
+			healthBarImage = healthBarImages[7];
+		} else if (percent < 0.90) {
+			healthBarImage = healthBarImages[8];
+		} else if (percent < 1.00) {
+			healthBarImage = healthBarImages[9];
 		}
 	}
 
 	private void die() {
 		this.alive = false;
+	}
+
+	public enum EHealthBarImage {
+
+		ZERO("0.png"), TEN("10.png"), TWENTY("20.png"), THIRTY("30.png"), FOURTY("40.png"), FIFTY("50.png"), SIXTY(
+				"60.png"), SEVENTY("70.png"), EIGHTY("80.png"), NINETY("90.png"), HUNDRED("100.png");
+
+		public final String resourceName;
+
+		private static final String pathToHealthBars = "images";
+
+		public static String getPathToImage(EHealthBarType healthBarType) {
+			EHealthBarImage healthBarImage = createFromHealthStatus(healthBarType);
+			return String.format("%s/%s", pathToHealthBars, healthBarImage.resourceName);
+		}
+
+		private static EHealthBarImage createFromHealthStatus(EHealthBarType healthBarType) {
+			switch (healthBarType) {
+			case ZERO:
+				return ZERO;
+			case TEN:
+				return TEN;
+			case TWENTY:
+				return TWENTY;
+			case THIRTY:
+				return THIRTY;
+			case FOURTY:
+				return FOURTY;
+			case FIFTY:
+				return FIFTY;
+			case SIXTY:
+				return SIXTY;
+			case SEVENTY:
+				return SEVENTY;
+			case EIGHTY:
+				return EIGHTY;
+			case NINETY:
+				return NINETY;
+			case HUNDRED:
+				return HUNDRED;
+			default:
+				throw new IllegalArgumentException("No HealthBarImage with this type:" + healthBarType);
+			}
+		}
+
+		EHealthBarImage(String resourceName) {
+			this.resourceName = resourceName;
+		}
 	}
 
 	/**

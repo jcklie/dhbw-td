@@ -138,7 +138,6 @@ public class SimpleWaveFactory implements IWaveFactory {
 				for (Point p : waypoints) {
 					cloned.add((Point) p.clone());
 				}
-
 				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType, cloned, enemyImage));
 			}
 			Wave wave = new Wave(waveNumber, enemies);
