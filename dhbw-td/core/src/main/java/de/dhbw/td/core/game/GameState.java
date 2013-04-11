@@ -1,3 +1,10 @@
+/*  Copyright (C) 2013 by Jan-Christoph Klie, Inc. All rights reserved.
+ *  Released under the terms of the GNU General Public License version 3 or later.
+ *  
+ *  Contributors:
+ *  Jan-Christoph Klie - First basic version
+ */
+
 package de.dhbw.td.core.game;
 
 import java.util.LinkedList;
