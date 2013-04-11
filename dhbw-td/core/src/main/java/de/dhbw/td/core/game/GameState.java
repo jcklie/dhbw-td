@@ -21,23 +21,32 @@ import de.dhbw.td.core.util.Time;
  */
 public class GameState implements IDrawable, IUpdateable {
 
+	private final int INITIAL_CREDITS = 1000;
+	private final int INITIAL_LIFEPOINTS = 100;
+	
+	private static final int SPAWN_DELAY = 1000; // ms
+	
 	private int levelCount;
 	private int waveCount;
 	
 	private int credits;
 	private int lifepoints;
 	
+	private boolean paused = false;
 	private boolean changed = true;
+	
 	private LinkedList<Enemy> allEnemies;
 	private List<Enemy> enemies;
 	private Time timer;
-	private static final int SPAWN_DELAY = 1000; // ms
 	public boolean allEnemiesDead = false;
 
 	public GameState() {
 		
 		levelCount = 0;
 		waveCount = 0;
+		
+		credits = INITIAL_CREDITS;
+		lifepoints = INITIAL_LIFEPOINTS;
 		
 		timer = new Time(SPAWN_DELAY, new Callback<String>() {
 
@@ -85,6 +94,7 @@ public class GameState implements IDrawable, IUpdateable {
 		for(int i = 0; i< enemies.size(); i++){
 			if(!enemies.get(i).isAlive()){
 				enemies.remove(i);
+				addCredits(10);
 				if(enemies.size() == 0){
 					allEnemiesDead = true;
 				}
@@ -93,6 +103,25 @@ public class GameState implements IDrawable, IUpdateable {
 			}
 		}
 
+	}
+	
+	private void addCredits(int credits) {
+		this.credits += credits;
+		changed = true;
+	}
+	
+	private void removeCredits(int credits) {
+		this.credits -= credits;
+		changed = true;
+	}
+	
+	private void addLifepoints(int lifepoints) {
+		this.lifepoints += lifepoints;
+		changed = true;
+	}
+	
+	private void removeLifepoints(int lifepoints) {
+		this.lifepoints -= lifepoints;
 	}
 	
 	public int getLevelCount() {
@@ -127,16 +156,7 @@ public class GameState implements IDrawable, IUpdateable {
 		return credits;
 	}
 	
-	public void setCredits(int credits) {
-		this.credits = credits;
-		changed = true;
-	}
-	
 	public int getLifepoints() {
 		return lifepoints;
-	}
-	
-	public void setLifepoints(int lifepoints) {
-		this.lifepoints = lifepoints;
 	}
 }
