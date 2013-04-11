@@ -15,6 +15,7 @@ public class GameState implements IDrawable, IUpdateable {
 	private List<Enemy> enemies;
 	private Time timer;
 	private static final int SPAWN_DELAY = 1000; // ms
+	public boolean allEnemiesDead = false;
 
 	public GameState() {
 		timer = new Time(SPAWN_DELAY, new Callback<String>() {
@@ -60,8 +61,15 @@ public class GameState implements IDrawable, IUpdateable {
 	@Override
 	public void update(double delta) {
 		timer.update(delta);
-		for (Enemy e : enemies) {
-			e.update(delta);
+		for(int i = 0; i< enemies.size(); i++){
+			if(!enemies.get(i).isAlive()){
+				enemies.remove(i);
+				if(enemies.size() == 0){
+					allEnemiesDead = true;
+				}
+			} else {
+				enemies.get(i).update(delta);
+			}
 		}
 
 	}

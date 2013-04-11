@@ -12,6 +12,9 @@ import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.keyboard;
 import static playn.core.PlayN.log;
 import static playn.core.PlayN.pointer;
+
+import java.util.List;
+
 import playn.core.Game;
 import playn.core.Image;
 import playn.core.ImageLayer;
@@ -20,6 +23,7 @@ import playn.core.Pointer;
 import playn.core.Pointer.Event;
 import playn.core.Surface;
 import playn.core.SurfaceLayer;
+import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.game.HUD;
 import de.dhbw.td.core.level.ILevelFactory;
@@ -27,6 +31,7 @@ import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.level.SimpleLevelFactory;
 import de.dhbw.td.core.waves.IWaveFactory;
 import de.dhbw.td.core.waves.SimpleWaveFactory;
+import de.dhbw.td.core.waves.Wave;
 import de.dhbw.td.core.waves.WaveController;
 
 public class TowerDefense implements Game {
@@ -51,6 +56,8 @@ public class TowerDefense implements Game {
 	private GameState stateOftheWorld;
 	private HUD hud;
 
+	private int levelNumber = 1;
+
 	@Override
 	public void init() {
 		// GameState
@@ -61,7 +68,7 @@ public class TowerDefense implements Game {
 
 		// load the first level for test purposes
 
-		loadLevel(PATH_LEVELS + "level1.json", PATH_WAVES + "waves.json");
+		nextLevel();
 		nextWave();
 
 		// Background layer is plain white
@@ -71,16 +78,19 @@ public class TowerDefense implements Game {
 		graphics().rootLayer().add(BACKGROUND_LAYER);
 
 		// Tile layer
-		TILE_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
+		TILE_LAYER = graphics().createSurfaceLayer(currentLevel.width(),
+				currentLevel.height());
 		graphics().rootLayer().add(TILE_LAYER);
 
 		// ENEMY layer
-		ENEMY_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
+		ENEMY_LAYER = graphics().createSurfaceLayer(currentLevel.width(),
+				currentLevel.height());
 		graphics().rootLayer().add(ENEMY_LAYER);
 
 		// HUD layer
 		hud = new HUD(stateOftheWorld);
-		HUD_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
+		HUD_LAYER = graphics().createSurfaceLayer(currentLevel.width(),
+				currentLevel.height());
 		graphics().rootLayer().add(HUD_LAYER);
 
 		// set Listener for mouse events
@@ -88,7 +98,6 @@ public class TowerDefense implements Game {
 
 		// set Listener for keyboard events
 		addKeyboardListener();
-		;
 	}
 
 	private void loadLevel(String pathToLevel, String pathToWaves) {
@@ -97,14 +106,40 @@ public class TowerDefense implements Game {
 			levelLoader = new SimpleLevelFactory();
 			currentLevel = levelLoader.loadLevel(levelJson);
 			String WaveJson = assets().getTextSync(pathToWaves);
-			waveController = waveLoader.nextWaveController(WaveJson, currentLevel.waypoints());
+			waveController = waveLoader.nextWaveController(WaveJson,
+					currentLevel.waypoints());
 		} catch (Exception e) {
 			log().error(e.getMessage());
 		}
 	}
 
 	private void nextWave() {
-		stateOftheWorld.newWave(waveController.nextWave().getEnemies());
+		if (waveController.hasNextWave()) {
+			int waveNumber = waveController.getWaves().peek().getWaveNumber();
+			System.out.println("Wave Number: " + waveNumber);
+			if(waveNumber == 0 || waveNumber == 11){
+				stateOftheWorld.newWave(waveController.nextWave().getEnemies());
+			} else {
+				waveController.nextWave();
+				nextWave();
+			}
+			
+		} else {
+			System.out.println("LevelNumber " + levelNumber);
+			nextLevel();
+		}
+	}
+
+	private void nextLevel() {
+		if (levelNumber <= 6) {
+			loadLevel(PATH_LEVELS + "level" + levelNumber + ".json", PATH_WAVES
+					+ "waves" + levelNumber + ".json");
+			levelNumber++;
+			
+			//TODO: Hier kommt der Timer rein, nachdem die erste Wave im neuen Level kommt
+			
+			nextWave();
+		}
 	}
 
 	private void loadWaveFactory() {
@@ -120,12 +155,16 @@ public class TowerDefense implements Game {
 
 			@Override
 			public void onPointerStart(Event event) {
-				log().info(String.format("onPointerStart on x=%s y=%s", event.x(), event.y()));
+				log().info(
+						String.format("onPointerStart on x=%s y=%s", event.x(),
+								event.y()));
 			}
 
 			@Override
 			public void onPointerEnd(Pointer.Event event) {
-				log().info(String.format("onPointerEnd on x=%s y=%s", event.x(), event.y()));
+				log().info(
+						String.format("onPointerEnd on x=%s y=%s", event.x(),
+								event.y()));
 			}
 		});
 	}
@@ -160,6 +199,10 @@ public class TowerDefense implements Game {
 	@Override
 	public void update(float delta) {
 		stateOftheWorld.update(delta);
+		if (stateOftheWorld.allEnemiesDead == true) {
+			stateOftheWorld.allEnemiesDead = false;
+			nextWave();
+		}
 	}
 
 	@Override

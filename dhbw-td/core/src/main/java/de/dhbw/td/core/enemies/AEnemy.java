@@ -24,7 +24,8 @@ import de.dhbw.td.core.util.EDirection;
  * 
  */
 public abstract class AEnemy implements IDrawable, IUpdateable {
-	protected final EHealthBarType[] healthBarTypeArray = EHealthBarType.values();
+	protected final EHealthBarType[] healthBarTypeArray = EHealthBarType
+			.values();
 	protected final Image[] healthBarImages = new Image[11];
 	protected int maxHealth;
 	protected int curHealth;
@@ -52,7 +53,8 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	public void draw(Surface surf) {
 		if (isAlive()) {
 			surf.drawImage(enemyImage, currentPosition.x, currentPosition.y);
-			surf.drawImage(healthBarImage, currentPosition.x + 7, currentPosition.y + 2);
+			surf.drawImage(healthBarImage, currentPosition.x + 7,
+					currentPosition.y + 2);
 		}
 	}
 
@@ -64,45 +66,48 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 				Point newWaypoint = waypoints.poll();
 				if (newWaypoint == null) {
 					die();
+				} else {
+					if (currentPosition.x < newWaypoint.x) {
+						currentDirection = EDirection.RIGHT;
+					} else if (currentPosition.x > newWaypoint.x) {
+						currentDirection = EDirection.LEFT;
+					} else if (currentPosition.y < newWaypoint.y) {
+						currentDirection = EDirection.DOWN;
+					} else if (currentPosition.y > newWaypoint.y) {
+						currentDirection = EDirection.UP;
+					}
+					currentWaypoint = newWaypoint;
 				}
-				if (currentPosition.x < newWaypoint.x) {
-					currentDirection = EDirection.RIGHT;
-				} else if (currentPosition.x > newWaypoint.x) {
-					currentDirection = EDirection.LEFT;
-				} else if (currentPosition.y < newWaypoint.y) {
-					currentDirection = EDirection.DOWN;
-				} else if (currentPosition.y > newWaypoint.y) {
-					currentDirection = EDirection.UP;
-				}
-				currentWaypoint = newWaypoint;
 			}
-			switch (currentDirection) {
-			case DOWN:
-				currentPosition.translate(0, (int) (speed * delta / 1000));
-				if (currentPosition.y > currentWaypoint.y) {
-					currentPosition.setLocation(currentWaypoint);
+			if (isAlive()) {
+				switch (currentDirection) {
+				case DOWN:
+					currentPosition.translate(0, (int) (speed * delta / 1000));
+					if (currentPosition.y > currentWaypoint.y) {
+						currentPosition.setLocation(currentWaypoint);
+					}
+					break;
+				case LEFT:
+					currentPosition.translate((int) (-speed * delta / 1000), 0);
+					if (currentPosition.x < currentWaypoint.x) {
+						currentPosition.setLocation(currentWaypoint);
+					}
+					break;
+				case RIGHT:
+					currentPosition.translate((int) (speed * delta / 1000), 0);
+					if (currentPosition.x > currentWaypoint.x) {
+						currentPosition.setLocation(currentWaypoint);
+					}
+					break;
+				case UP:
+					currentPosition.translate(0, (int) (-speed * delta / 1000));
+					if (currentPosition.y < currentWaypoint.y) {
+						currentPosition.setLocation(currentWaypoint);
+					}
+					break;
+				default:
+					break;
 				}
-				break;
-			case LEFT:
-				currentPosition.translate((int) (-speed * delta / 1000), 0);
-				if (currentPosition.x < currentWaypoint.x) {
-					currentPosition.setLocation(currentWaypoint);
-				}
-				break;
-			case RIGHT:
-				currentPosition.translate((int) (speed * delta / 1000), 0);
-				if (currentPosition.x > currentWaypoint.x) {
-					currentPosition.setLocation(currentWaypoint);
-				}
-				break;
-			case UP:
-				currentPosition.translate(0, (int) (-speed * delta / 1000));
-				if (currentPosition.y < currentWaypoint.y) {
-					currentPosition.setLocation(currentWaypoint);
-				}
-				break;
-			default:
-				break;
 			}
 		}
 	}
@@ -141,8 +146,9 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 
 	public enum EHealthBarImage {
 
-		ZERO("0.png"), TEN("10.png"), TWENTY("20.png"), THIRTY("30.png"), FOURTY("40.png"), FIFTY("50.png"), SIXTY(
-				"60.png"), SEVENTY("70.png"), EIGHTY("80.png"), NINETY("90.png"), HUNDRED("100.png");
+		ZERO("0.png"), TEN("10.png"), TWENTY("20.png"), THIRTY("30.png"), FOURTY(
+				"40.png"), FIFTY("50.png"), SIXTY("60.png"), SEVENTY("70.png"), EIGHTY(
+				"80.png"), NINETY("90.png"), HUNDRED("100.png");
 
 		public final String resourceName;
 
@@ -150,10 +156,12 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 
 		public static String getPathToImage(EHealthBarType healthBarType) {
 			EHealthBarImage healthBarImage = createFromHealthStatus(healthBarType);
-			return String.format("%s/%s", pathToHealthBars, healthBarImage.resourceName);
+			return String.format("%s/%s", pathToHealthBars,
+					healthBarImage.resourceName);
 		}
 
-		private static EHealthBarImage createFromHealthStatus(EHealthBarType healthBarType) {
+		private static EHealthBarImage createFromHealthStatus(
+				EHealthBarType healthBarType) {
 			switch (healthBarType) {
 			case ZERO:
 				return ZERO;
@@ -178,7 +186,8 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 			case HUNDRED:
 				return HUNDRED;
 			default:
-				throw new IllegalArgumentException("No HealthBarImage with this type:" + healthBarType);
+				throw new IllegalArgumentException(
+						"No HealthBarImage with this type:" + healthBarType);
 			}
 		}
 
