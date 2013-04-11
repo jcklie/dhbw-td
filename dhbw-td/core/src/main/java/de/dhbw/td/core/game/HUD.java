@@ -56,7 +56,6 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	private final int OFFSET_TEXT_CLOCK = 1;
 	private final int OFFSET_TEXT_HEART = 8;
 	
-	
 	private CanvasImage canvasImage;
 	private Canvas canvas;
 	private TextFormat textFormat;
@@ -118,19 +117,22 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 			// clear the surface
 			surf.clear();
 			
+			canvas.clear();
+			
 			// draw HUD head
 			canvas.drawImage(clockImage, OFFSET_IMAGE_CLOCK*TILE_SIZE, OFFSET_HEAD);
 			canvas.drawImage(heartImage, OFFSET_IMAGE_HEART*TILE_SIZE, OFFSET_HEAD);
 			canvas.drawImage(creditsImage, OFFSET_IMAGE_CREDITS*TILE_SIZE, OFFSET_HEAD);
 			canvas.drawImage(cogImage, OFFSET_IMAGE_COG*TILE_SIZE, OFFSET_HEAD);
 			
-			TextLayout clockText = graphics().layoutText("1. Semester - 12. Woche", textFormat);
+			TextLayout clockText = graphics().layoutText(String.format("%s. Semester - %s.Woche", stateOfTheWorld.getLevelCount(),
+					stateOfTheWorld.getWaveCount()), textFormat);
 			canvas.fillText(clockText, OFFSET_TEXT_CLOCK*TILE_SIZE, 16);
 			
-			TextLayout healthText = graphics().layoutText("100", textFormat);
+			TextLayout healthText = graphics().layoutText(String.valueOf(stateOfTheWorld.getLifepoints()), textFormat);
 			canvas.fillText(healthText, OFFSET_TEXT_HEART*TILE_SIZE, 16);
 			
-			TextLayout creditsText = graphics().layoutText("1000", textFormat);
+			TextLayout creditsText = graphics().layoutText(String.valueOf(stateOfTheWorld.getCredits()), textFormat);
 			canvas.fillText(creditsText, OFFSET_TEXT_CREDITS*TILE_SIZE, 16);
 			
 			// draw HUD foot

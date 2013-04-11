@@ -17,6 +17,12 @@ import de.dhbw.td.core.util.Time;
 
 public class GameState implements IDrawable, IUpdateable {
 
+	private int levelCount;
+	private int waveCount;
+	
+	private int credits;
+	private int lifepoints;
+	
 	private boolean changed = true;
 	private LinkedList<Enemy> allEnemies;
 	private List<Enemy> enemies;
@@ -25,6 +31,10 @@ public class GameState implements IDrawable, IUpdateable {
 	public boolean allEnemiesDead = false;
 
 	public GameState() {
+		
+		levelCount = 0;
+		waveCount = 0;
+		
 		timer = new Time(SPAWN_DELAY, new Callback<String>() {
 
 			@Override
@@ -79,5 +89,50 @@ public class GameState implements IDrawable, IUpdateable {
 			}
 		}
 
+	}
+	
+	public int getLevelCount() {
+		return levelCount;
+	}
+	
+	public int getWaveCount() {
+		return waveCount;
+	}
+	
+	public void setLevelCount(int levelCount) {
+		this.levelCount = levelCount;
+		changed = true;
+	}
+	
+	public void incLevelCount() {
+		levelCount++;
+		changed = true;
+	}
+	
+	public void setWaveCount(int waveCount) {
+		this.waveCount = waveCount;
+		changed = true;
+	}
+	
+	public void incWaveCount() {
+		waveCount++;
+		changed = true;
+	}
+	
+	public int getCredits() {
+		return credits;
+	}
+	
+	public void setCredits(int credits) {
+		this.credits = credits;
+		changed = true;
+	}
+	
+	public int getLifepoints() {
+		return lifepoints;
+	}
+	
+	public void setLifepoints(int lifepoints) {
+		this.lifepoints = lifepoints;
 	}
 }
