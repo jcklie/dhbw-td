@@ -22,12 +22,10 @@ import playn.core.Surface;
 import playn.core.SurfaceLayer;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.game.HUD;
-import de.dhbw.td.core.level.ILevelFactory;
 import de.dhbw.td.core.level.Level;
-import de.dhbw.td.core.level.SimpleLevelFactory;
-import de.dhbw.td.core.waves.IWaveFactory;
-import de.dhbw.td.core.waves.SimpleWaveFactory;
+import de.dhbw.td.core.level.LevelFactory;
 import de.dhbw.td.core.waves.WaveController;
+import de.dhbw.td.core.waves.WaveFactory;
 
 public class TowerDefense implements Game {
 
@@ -39,14 +37,13 @@ public class TowerDefense implements Game {
 	private SurfaceLayer TILE_LAYER;
 	private ImageLayer BACKGROUND_LAYER;
 	private SurfaceLayer HUD_LAYER;
-
 	private SurfaceLayer ENEMY_LAYER;
 
 	private Level currentLevel;
-	private ILevelFactory levelLoader;
+	private LevelFactory levelLoader;
 
 	private WaveController waveController;
-	private IWaveFactory waveLoader;
+	private WaveFactory waveLoader;
 
 	private GameState stateOftheWorld;
 	private HUD hud;
@@ -94,7 +91,7 @@ public class TowerDefense implements Game {
 	private void loadLevel(String pathToLevel, String pathToWaves) {
 		try {
 			String levelJson = assets().getTextSync(pathToLevel);
-			levelLoader = new SimpleLevelFactory();
+			levelLoader = new LevelFactory();
 			currentLevel = levelLoader.loadLevel(levelJson);
 			String WaveJson = assets().getTextSync(pathToWaves);
 			waveController = waveLoader.nextWaveController(WaveJson, currentLevel.waypoints());
@@ -109,7 +106,7 @@ public class TowerDefense implements Game {
 
 	private void loadWaveFactory() {
 		try {
-			waveLoader = new SimpleWaveFactory();
+			waveLoader = new WaveFactory();
 		} catch (Exception e) {
 			log().error(e.getMessage());
 		}

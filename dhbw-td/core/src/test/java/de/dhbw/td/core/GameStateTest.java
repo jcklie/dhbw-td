@@ -13,15 +13,15 @@ import playn.core.Platform;
 import playn.java.JavaPlatform;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.GameState;
-import de.dhbw.td.core.waves.IWaveFactory;
-import de.dhbw.td.core.waves.SimpleWaveFactory;
+import de.dhbw.td.core.level.LevelFactory;
 import de.dhbw.td.core.waves.WaveController;
+import de.dhbw.td.core.waves.WaveFactory;
 
 public class GameStateTest extends TestCase {
 	
 	
 	//TODO: Write a testCase for this shit ;)
-	private IWaveFactory waveLoader;
+	private WaveFactory waveLoader;
 	private WaveController waveController;
 	private Json.Object jason;
 	private Queue<Point> waypoints;
@@ -46,7 +46,7 @@ public class GameStateTest extends TestCase {
 		waypoints.add(new Point(7, 2));
 		waypoints.add(new Point(13, 2));
 
-		waveLoader = new SimpleWaveFactory();
+		waveLoader = new WaveFactory();
 		waveController = waveLoader.nextWaveController(jason, waypoints);
 		
 		stateOfTheWorld = new GameState();
