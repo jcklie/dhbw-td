@@ -47,7 +47,7 @@ public class Enemy implements IDrawable, IUpdateable {
 		this.maxHealth = maxHealth;
 		this.curHealth = maxHealth;
 		this.alive = true;
-		this.speed = speed;
+		this.speed = speed	;
 		this.bounty = bounty;
 		this.penalty = bounty * 2;
 		this.enemyType = enemyType;
@@ -81,6 +81,7 @@ public class Enemy implements IDrawable, IUpdateable {
 						waypoints.add((Point) p.clone());
 					}
 					nextWaypoint = waypoints.poll();
+					nextWaypoint.translate((int) -enemyImage.height(), 0);
 					currentPosition.setLocation(nextWaypoint);
 				}
 				adjustDirection(nextWaypoint);
