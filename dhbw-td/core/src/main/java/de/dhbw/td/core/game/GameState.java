@@ -15,6 +15,10 @@ import playn.core.util.Callback;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.util.Time;
 
+/*
+ * TODO: Close this class as good as possible, so it encapsulates all setting
+ * of attributes w/o distinct setter methods
+ */
 public class GameState implements IDrawable, IUpdateable {
 
 	private final int INITIAL_CREDITS = 1000;

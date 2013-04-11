@@ -47,7 +47,7 @@ public class Enemy implements IDrawable, IUpdateable {
 		this.maxHealth = maxHealth;
 		this.curHealth = maxHealth;
 		this.alive = true;
-		this.speed = 1000;
+		this.speed = speed;
 		this.bounty = bounty;
 		this.penalty = bounty * 2;
 		this.enemyType = enemyType;
