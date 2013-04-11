@@ -12,15 +12,14 @@ import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.keyboard;
 import static playn.core.PlayN.log;
-import static playn.core.PlayN.pointer;
+import static playn.core.PlayN.mouse;
 import playn.core.Game;
 import playn.core.Image;
 import playn.core.ImageLayer;
-import playn.core.Keyboard;
-import playn.core.Pointer;
-import playn.core.Pointer.Event;
 import playn.core.Surface;
 import playn.core.SurfaceLayer;
+import de.dhbw.td.core.event.KeyboardObservable;
+import de.dhbw.td.core.event.MouseObservable;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.game.HUD;
 import de.dhbw.td.core.level.Level;
@@ -90,8 +89,13 @@ public class TowerDefense implements Game {
 		 * Register listener
 		 */
 
-		addMouseListener();
-		addKeyboardListener();		
+		MouseObservable m = new MouseObservable();
+		mouse().setListener(m);
+		m.addObserver(hud);
+
+		KeyboardObservable k = new KeyboardObservable();
+		keyboard().setListener(k);
+		k.addObserver(hud);		
 	}
 
 	private void loadLevel(String pathToLevel, String pathToWaves) {
@@ -146,36 +150,6 @@ public class TowerDefense implements Game {
 		} catch (Exception e) {
 			log().error(e.getMessage());
 		}
-	}
-
-	private void addMouseListener() {
-		pointer().setListener(new Pointer.Adapter() {
-
-			@Override
-			public void onPointerStart(Event event) {
-				log().info(String.format("onPointerStart on x=%s y=%s", event.x(), event.y()));
-			}
-
-			@Override
-			public void onPointerEnd(Pointer.Event event) {
-				log().info(String.format("onPointerEnd on x=%s y=%s", event.x(), event.y()));
-			}
-		});
-	}
-
-	private void addKeyboardListener() {
-		keyboard().setListener(new Keyboard.Adapter() {
-			@Override
-			public void onKeyDown(playn.core.Keyboard.Event event) {
-				// TODO Auto-generated method stub
-				super.onKeyDown(event);
-			}
-
-			@Override
-			public void onKeyUp(playn.core.Keyboard.Event event) {
-				log().info(event.key().toString());
-			}
-		});
 	}
 
 	@Override
