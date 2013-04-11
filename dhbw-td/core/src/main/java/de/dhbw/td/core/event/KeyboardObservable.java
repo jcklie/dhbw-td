@@ -16,6 +16,9 @@ public class KeyboardObservable extends Keyboard.Adapter {
 	
 	private ArrayList<IKeyboardObserver> observers;
 	
+	/**
+	 * Constructor
+	 */
 	public KeyboardObservable() {
 		observers = new ArrayList<IKeyboardObserver>();
 	}
@@ -25,14 +28,29 @@ public class KeyboardObservable extends Keyboard.Adapter {
 		alertObservers(event);
 	}
 	
+	/**
+	 * Adds the specified object to the list of observers
+	 * 
+	 * @param observer The object to add 
+	 */
 	public void addObserver(IKeyboardObserver observer) {
 		observers.add(observer);
 	}
 	
+	/**
+	 * Removes the specified observer
+	 * 
+	 * @param observer
+	 */
 	public void removeObserver(IKeyboardObserver observer) {
 		observers.remove(observer);
 	}
 	
+	/**
+	 * Alerts all subscribed observers about the typed event
+	 * 
+	 * @param e
+	 */
 	private void alertObservers(TypedEvent e) {
 		for(IKeyboardObserver observer : observers) {
 			observer.alert(e);

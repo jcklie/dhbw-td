@@ -16,6 +16,9 @@ public class MouseObservable extends Mouse.Adapter {
 	
 	private ArrayList<IMouseObserver> observers;
 	
+	/**
+	 * Constructor
+	 */
 	public MouseObservable() {
 		observers = new ArrayList<IMouseObserver>();
 	}
@@ -25,14 +28,29 @@ public class MouseObservable extends Mouse.Adapter {
 		alertObservers(event);
 	}
 	
+	/**
+	 * Adds the specified object to the list of observers
+	 * 
+	 * @param observer The object to add
+	 */
 	public void addObserver(IMouseObserver observer) {
 		observers.add(observer);
 	}
 	
+	/**
+	 * Removes the specified observer 
+	 * 
+	 * @param observer The observer to remove
+	 */
 	public void removeObserver(IMouseObserver observer) {
 		observers.remove(observer);
 	}
 	
+	/**
+	 * Alerts all subscribed observers about the fired mouse event
+	 * 
+	 * @param e The ButtonEvent fired by the mouse
+	 */
 	private void alertObservers(ButtonEvent e) {
 		for(IMouseObserver observer : observers) {
 			observer.alert(e);
