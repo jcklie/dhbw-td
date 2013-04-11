@@ -15,7 +15,7 @@ import org.junit.runners.Suite;
  * compiling.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses( {  WaveControllerTest.class, LevelFactoryTest.class})
+@Suite.SuiteClasses( {  WaveControllerTest.class, LevelFactoryTest.class, GameStateTest.class, EnemyTest.class})
 public class AppTest{
 
 

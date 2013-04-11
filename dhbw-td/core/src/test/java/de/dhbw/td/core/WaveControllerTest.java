@@ -18,6 +18,7 @@ import playn.core.Json;
 import playn.core.Platform;
 import playn.java.JavaPlatform;
 import de.dhbw.td.core.enemies.Enemy;
+import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.waves.Wave;
 import de.dhbw.td.core.waves.WaveController;
 import de.dhbw.td.core.waves.WaveFactory;
@@ -49,7 +50,9 @@ public class WaveControllerTest extends TestCase {
 		waypoints.add(new Point(13,2));
 		
 		waveLoader = new WaveFactory();
-		waveController = waveLoader.nextWaveController(jason, waypoints);
+		
+		waveController = waveLoader.nextWaveController(jason, Level.copyWaypoints(waypoints));
+		waypoints.poll();
 	}
 
 	@Override
@@ -84,7 +87,7 @@ public class WaveControllerTest extends TestCase {
 		// (example last wavecontroller, last wave)
 		int cnt = 0;
 		do {
-			waveController = waveLoader.nextWaveController(jason, null);
+			waveController = waveLoader.nextWaveController(jason, Level.copyWaypoints(waypoints));
 			cnt++;
 		} while (cnt < 5);
 		// test if attributes of enemies equals values of sem6 - wave 12

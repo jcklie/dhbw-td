@@ -13,14 +13,11 @@ import playn.core.Platform;
 import playn.java.JavaPlatform;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.GameState;
-import de.dhbw.td.core.level.LevelFactory;
 import de.dhbw.td.core.waves.WaveController;
 import de.dhbw.td.core.waves.WaveFactory;
 
 public class GameStateTest extends TestCase {
 	
-	
-	//TODO: Write a testCase for this shit ;)
 	private WaveFactory waveLoader;
 	private WaveController waveController;
 	private Json.Object jason;

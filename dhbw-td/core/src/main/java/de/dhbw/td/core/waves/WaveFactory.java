@@ -19,8 +19,9 @@ import java.util.Random;
 import playn.core.Image;
 import playn.core.Json;
 import playn.core.Json.Object;
-import de.dhbw.td.core.enemies.AEnemy.EEnemyType;
 import de.dhbw.td.core.enemies.Enemy;
+import de.dhbw.td.core.level.Level;
+import de.dhbw.td.core.util.EFlavor;
 
 /**
  * This class creates new Waves for each semester on demand.
@@ -31,7 +32,7 @@ import de.dhbw.td.core.enemies.Enemy;
  */
 public class WaveFactory {
 
-	private final EEnemyType[] enemyTypeArray = EEnemyType.values();
+	private final EFlavor[] enemyTypeArray = EFlavor.values();
 	private final Image[] enemyImages = new Image[6];
 	private static final int NUMBER_OF_WAVES = 12;
 	private static final int NUMBER_OF_ATTRIBUTES = 3;
@@ -49,12 +50,12 @@ public class WaveFactory {
 
 		private static final String pathToEnemies = "enemies";
 
-		public static String getPathToImage(EEnemyType enemyType) {
+		public static String getPathToImage(EFlavor enemyType) {
 			EEnemyImage enemyImage = createFromEnemyType(enemyType);
 			return String.format("%s/%s", pathToEnemies, enemyImage.resourceName);
 		}
 
-		private static EEnemyImage createFromEnemyType(EEnemyType enemyType) {
+		private static EEnemyImage createFromEnemyType(EFlavor enemyType) {
 			switch (enemyType) {
 			case Math:
 				return MATH;
@@ -93,7 +94,7 @@ public class WaveFactory {
 
 	public WaveController nextWaveController(Object parsedJson, Queue<Point> waypoints) {
 		int[][] semester = new int[NUMBER_OF_WAVES][NUMBER_OF_ATTRIBUTES];
-		for (EEnemyType e : enemyTypeArray) {
+		for (EFlavor e : enemyTypeArray) {
 			String pathToImage = EEnemyImage.getPathToImage(e);
 			enemyImages[e.ordinal()] = assets().getImageSync(pathToImage);
 		}
@@ -131,13 +132,9 @@ public class WaveFactory {
 				double speed = semesters[waveNumber][1];
 				int bounty = semesters[waveNumber][2];
 				int next = r.nextInt(UB_ENEMY_TYPES);
-				EEnemyType enemyType = enemyTypeArray[next];
+				EFlavor enemyType = enemyTypeArray[next];
 				Image enemyImage = enemyImages[next];
-				Queue<Point> cloned = new LinkedList<Point>();
-				for (Point p : waypoints) {
-					cloned.add((Point) p.clone());
-				}
-				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType, cloned, enemyImage));
+				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType, Level.copyWaypoints(waypoints), enemyImage));
 			}
 			Wave wave = new Wave(waveNumber, enemies);
 			waves.add(wave);

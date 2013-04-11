@@ -14,20 +14,47 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import playn.core.Image;
+import playn.core.Surface;
+import de.dhbw.td.core.game.IDrawable;
+import de.dhbw.td.core.game.IUpdateable;
 import de.dhbw.td.core.util.EDirection;
+import de.dhbw.td.core.util.EFlavor;
 
 /**
+ * abstract class for an enemy
  * 
  * @author Martin Kiessling, Tobias Roeding
  * @version 1.0
  * 
  */
-public class Enemy extends AEnemy {
-	public Enemy(int maxHealth, double speed, int bounty, EEnemyType enemyType, Queue<Point> waypoints, Image enemyImage) {
+public class Enemy implements IDrawable, IUpdateable {
+	
+	private static final EHealthBarType[] healthBarTypeArray = EHealthBarType.values();
+	private final Image[] healthBarImages = new Image[11];
+	private int maxHealth;
+	private int curHealth;
+	private boolean alive;
+	private double speed;
+	private int bounty;
+	private int penalty;
+	private EFlavor enemyType;
+	private Queue<Point> waypoints;
+	private Point currentPosition;
+	private Image enemyImage;
+	private Image healthBarImage;
+	private EDirection currentDirection;
+	private Point currentWaypoint;
+	private Queue<Point> fixedWaypoints;
+
+	public enum EHealthBarType {
+		ZERO, TEN, TWENTY, THIRTY, FOURTY, FIFTY, SIXTY, SEVENTY, EIGHTY, NINETY, HUNDRED;
+	}
+	
+	public Enemy(int maxHealth, double speed, int bounty, EFlavor enemyType, Queue<Point> waypoints, Image enemyImage) {
 		this.maxHealth = maxHealth;
 		this.curHealth = maxHealth;
 		this.alive = true;
-		this.speed = speed * 20;
+		this.speed = speed;
 		this.bounty = bounty;
 		this.penalty = bounty * 2;
 		this.enemyType = enemyType;
@@ -37,10 +64,227 @@ public class Enemy extends AEnemy {
 		this.currentWaypoint = this.waypoints.poll();
 		this.enemyImage = enemyImage;	
 		this.currentDirection = EDirection.RIGHT;
+		
 		for (EHealthBarType e : healthBarTypeArray) {
 			String pathToImage = EHealthBarImage.getPathToImage(e);
 			this.healthBarImages[e.ordinal()] = assets().getImageSync(pathToImage);
 		}
 		this.healthBarImage = healthBarImages[10];
+	}
+
+	@Override
+	public void draw(Surface surf) {
+		if (isAlive()) {
+			surf.drawImage(enemyImage, currentPosition.x, currentPosition.y);
+			surf.drawImage(healthBarImage, currentPosition.x + 7, currentPosition.y + 2);
+		}
+	}
+
+	@Override
+	public void update(double delta) {
+		if (isAlive()) {
+			if (currentPosition.equals(currentWaypoint)) {
+				takeDamage(1);
+				Point newWaypoint = waypoints.poll();
+				if (newWaypoint == null) {
+					die();
+					for (Point p : fixedWaypoints) {
+						waypoints.add((Point) p.clone());
+					}
+					newWaypoint = waypoints.poll();
+					currentPosition.setLocation(newWaypoint);
+				}
+				if (currentPosition.x < newWaypoint.x) {
+					currentDirection = EDirection.RIGHT;
+				} else if (currentPosition.x > newWaypoint.x) {
+					currentDirection = EDirection.LEFT;
+				} else if (currentPosition.y < newWaypoint.y) {
+					currentDirection = EDirection.DOWN;
+				} else if (currentPosition.y > newWaypoint.y) {
+					currentDirection = EDirection.UP;
+				}
+				currentWaypoint = newWaypoint;
+			}
+			switch (currentDirection) {
+			case DOWN:
+				currentPosition.translate(0, (int) (speed * delta / 1000));
+				if (currentPosition.y > currentWaypoint.y) {
+					currentPosition.setLocation(currentWaypoint);
+				}
+				break;
+			case LEFT:
+				currentPosition.translate((int) (-speed * delta / 1000), 0);
+				if (currentPosition.x < currentWaypoint.x) {
+					currentPosition.setLocation(currentWaypoint);
+				}
+				break;
+			case RIGHT:
+				currentPosition.translate((int) (speed * delta / 1000), 0);
+				if (currentPosition.x > currentWaypoint.x) {
+					currentPosition.setLocation(currentWaypoint);
+				}
+				break;
+			case UP:
+				currentPosition.translate(0, (int) (-speed * delta / 1000));
+				if (currentPosition.y < currentWaypoint.y) {
+					currentPosition.setLocation(currentWaypoint);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	public void takeDamage(int damage) {
+		curHealth -= damage;
+		double percent = (double) curHealth / (double) maxHealth;
+		if (curHealth <= 0) {
+			die();
+		} else if (percent < 0.10) {
+			healthBarImage = healthBarImages[0];
+		} else if (percent < 0.20) {
+			healthBarImage = healthBarImages[1];
+		} else if (percent < 0.30) {
+			healthBarImage = healthBarImages[2];
+		} else if (percent < 0.40) {
+			healthBarImage = healthBarImages[3];
+		} else if (percent < 0.50) {
+			healthBarImage = healthBarImages[4];
+		} else if (percent < 0.60) {
+			healthBarImage = healthBarImages[5];
+		} else if (percent < 0.70) {
+			healthBarImage = healthBarImages[6];
+		} else if (percent < 0.80) {
+			healthBarImage = healthBarImages[7];
+		} else if (percent < 0.90) {
+			healthBarImage = healthBarImages[8];
+		} else if (percent < 1.00) {
+			healthBarImage = healthBarImages[9];
+		}
+	}
+
+	private void die() {
+		this.alive = false;
+	}
+
+	public enum EHealthBarImage {
+
+		ZERO("0.png"), TEN("10.png"), TWENTY("20.png"), THIRTY("30.png"), FOURTY("40.png"), FIFTY("50.png"), SIXTY(
+				"60.png"), SEVENTY("70.png"), EIGHTY("80.png"), NINETY("90.png"), HUNDRED("100.png");
+
+		public final String resourceName;
+
+		private static final String pathToHealthBars = "images";
+
+		public static String getPathToImage(EHealthBarType healthBarType) {
+			EHealthBarImage healthBarImage = createFromHealthStatus(healthBarType);
+			return String.format("%s/%s", pathToHealthBars, healthBarImage.resourceName);
+		}
+
+		private static EHealthBarImage createFromHealthStatus(EHealthBarType healthBarType) {
+			switch (healthBarType) {
+			case ZERO:
+				return ZERO;
+			case TEN:
+				return TEN;
+			case TWENTY:
+				return TWENTY;
+			case THIRTY:
+				return THIRTY;
+			case FOURTY:
+				return FOURTY;
+			case FIFTY:
+				return FIFTY;
+			case SIXTY:
+				return SIXTY;
+			case SEVENTY:
+				return SEVENTY;
+			case EIGHTY:
+				return EIGHTY;
+			case NINETY:
+				return NINETY;
+			case HUNDRED:
+				return HUNDRED;
+			default:
+				throw new IllegalArgumentException("No HealthBarImage with this type:" + healthBarType);
+			}
+		}
+
+		EHealthBarImage(String resourceName) {
+			this.resourceName = resourceName;
+		}
+	}
+
+	/**
+	 * 
+	 * @return current position as Point
+	 */
+	public Point getCurrentPosition() {
+		return currentPosition;
+	}
+
+	/**
+	 * 
+	 * @return current Health as integer
+	 */
+	public int getCurHealth() {
+		return curHealth;
+	}
+
+	/**
+	 * 
+	 * @return speed as double
+	 */
+	public double getSpeed() {
+		return speed;
+	}
+
+	/**
+	 * 
+	 * @return get maximum health as integer
+	 */
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	/**
+	 * 
+	 * @return boolean if enemy is alive
+	 */
+	public boolean isAlive() {
+		return alive;
+	}
+
+	/**
+	 * 
+	 * @return get bounty of enemy as integer
+	 */
+	public int getBounty() {
+		return bounty;
+	}
+
+	/**
+	 * 
+	 * @return get penalty of enemy as integer
+	 */
+	public int getPenalty() {
+		return penalty;
+	}
+
+	/**
+	 * 
+	 * @return get enemy type as EEnemyType
+	 */
+	public EFlavor getEnemyType() {
+		return enemyType;
+	}
+
+	/**
+	 * 
+	 * @return get waypoint queue as Queue<Point>
+	 */
+	public Queue<Point> getWaypoints() {
+		return waypoints;
 	}
 }

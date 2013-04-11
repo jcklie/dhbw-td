@@ -26,6 +26,15 @@ public class Level implements IDrawable {
 	public final int starty;
 	public final Image[][] map;
 	private Queue<Point> waypoints;
+	
+	public static Queue<Point> copyWaypoints(Queue<Point> waypoints) {
+		Queue<Point> cloned = new LinkedList<Point>();
+		for (Point p : waypoints) {
+			cloned.add((Point) p.clone());
+		}
+		return cloned;
+		
+	}
 
 	public Level(Image[][] map, Queue<Point> waypoints, int tilesize, int width, int height, int startx, int starty) {
 		this.tilesize = tilesize;
@@ -56,11 +65,7 @@ public class Level implements IDrawable {
 	 * @return Returns a -copy- of the waypoints specified for this level
 	 */
 	public Queue<Point> waypoints() {
-		Queue<Point> cloned = new LinkedList<Point>();
-		for (Point p : waypoints) {
-			cloned.add((Point) p.clone());
-		}
-		return cloned;
+		return copyWaypoints(waypoints);
 	}
 
 	@Override
