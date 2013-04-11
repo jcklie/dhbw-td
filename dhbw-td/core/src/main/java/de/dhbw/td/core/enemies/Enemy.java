@@ -3,6 +3,7 @@
  *  
  *  Contributors:
  *  Martin Kiessling, Tobias Roeding - All
+ *  Jan-Christoph Klie - Refactored Healthbar to extern class and refactored everything
  */
 
 package de.dhbw.td.core.enemies;
@@ -12,7 +13,6 @@ import java.util.Queue;
 
 import playn.core.Image;
 import playn.core.Surface;
-import de.dhbw.td.core.game.HealthBar;
 import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.game.IUpdateable;
 import de.dhbw.td.core.level.Level;
@@ -20,21 +20,21 @@ import de.dhbw.td.core.util.EDirection;
 import de.dhbw.td.core.util.EFlavor;
 
 /**
- * abstract class for an enemy
+ * Enemies are the things tower kill for money
  * 
- * @author Martin Kiessling, Tobias Roeding
- * @version 1.0
+ * @author Martin Kiessling, Tobias Roeding, Jan-Christoph Klie
  * 
  */
 public class Enemy implements IDrawable, IUpdateable {
 	
-	private int maxHealth;
+	private final int bounty;
+	private final int penalty;
+	private final int maxHealth;
+	private final double speed;
+	private final EFlavor enemyType;
+	
 	private int curHealth;
-	private boolean alive;
-	private double speed;
-	private int bounty;
-	private int penalty;
-	private EFlavor enemyType;
+	private boolean alive;	
 	private Queue<Point> waypoints;
 	private Point currentPosition;
 	private Image enemyImage;
@@ -59,6 +59,7 @@ public class Enemy implements IDrawable, IUpdateable {
 		this.currentDirection = EDirection.RIGHT;
 		
 		currentPosition.translate((int) -enemyImage.height(), 0);
+		healthBarImage = HealthBar.getHealthStatus(1);
 	}
 
 	@Override
@@ -83,45 +84,44 @@ public class Enemy implements IDrawable, IUpdateable {
 					newWaypoint = waypoints.poll();
 					currentPosition.setLocation(newWaypoint);
 				}
-				if (currentPosition.x < newWaypoint.x) {
-					currentDirection = EDirection.RIGHT;
-				} else if (currentPosition.x > newWaypoint.x) {
-					currentDirection = EDirection.LEFT;
-				} else if (currentPosition.y < newWaypoint.y) {
-					currentDirection = EDirection.DOWN;
-				} else if (currentPosition.y > newWaypoint.y) {
-					currentDirection = EDirection.UP;
-				}
+				handleNewDirection(newWaypoint);
 				currentWaypoint = newWaypoint;
 			}
 			switch (currentDirection) {
-			case DOWN:
-				currentPosition.translate(0, (int) (speed * delta / 1000));
-				if (currentPosition.y > currentWaypoint.y) {
-					currentPosition.setLocation(currentWaypoint);
-				}
-				break;
-			case LEFT:
-				currentPosition.translate((int) (-speed * delta / 1000), 0);
-				if (currentPosition.x < currentWaypoint.x) {
-					currentPosition.setLocation(currentWaypoint);
-				}
-				break;
-			case RIGHT:
-				currentPosition.translate((int) (speed * delta / 1000), 0);
-				if (currentPosition.x > currentWaypoint.x) {
-					currentPosition.setLocation(currentWaypoint);
-				}
-				break;
-			case UP:
-				currentPosition.translate(0, (int) (-speed * delta / 1000));
-				if (currentPosition.y < currentWaypoint.y) {
-					currentPosition.setLocation(currentWaypoint);
-				}
-				break;
-			default:
-				break;
+				case DOWN:  handleDown(delta);  break;
+				case LEFT:  handleLeft(delta);  break;
+				case RIGHT: handleRight(delta); break;
+				case UP:    handleUp(delta);    break;
+				default: throw new IllegalStateException("I should never be thrown!");
 			}
+		}
+	}
+	
+	private void handleDown(double delta) {
+		currentPosition.translate(0, (int) (speed * delta / 1000));
+		if (currentPosition.y > currentWaypoint.y) {
+			currentPosition.setLocation(currentWaypoint);
+		}
+	}
+	
+	private void handleLeft(double delta) {
+		currentPosition.translate((int) (-speed * delta / 1000), 0);
+		if (currentPosition.x < currentWaypoint.x) {
+			currentPosition.setLocation(currentWaypoint);
+		}
+	}
+	
+	private void handleRight(double delta) {
+		currentPosition.translate((int) (speed * delta / 1000), 0);
+		if (currentPosition.x > currentWaypoint.x) {
+			currentPosition.setLocation(currentWaypoint);
+		}
+	}
+	
+	private void handleUp(double delta) {
+		currentPosition.translate(0, (int) (-speed * delta / 1000));
+		if (currentPosition.y < currentWaypoint.y) {
+			currentPosition.setLocation(currentWaypoint);
 		}
 	}
 
@@ -133,6 +133,18 @@ public class Enemy implements IDrawable, IUpdateable {
 			die();
 		} else {
 			healthBarImage = HealthBar.getHealthStatus(relativeHealth);
+		}
+	}
+	
+	private void handleNewDirection(final Point newWaypoint) {
+		if (currentPosition.x < newWaypoint.x) {
+			currentDirection = EDirection.RIGHT;
+		} else if (currentPosition.x > newWaypoint.x) {
+			currentDirection = EDirection.LEFT;
+		} else if (currentPosition.y < newWaypoint.y) {
+			currentDirection = EDirection.DOWN;
+		} else if (currentPosition.y > newWaypoint.y) {
+			currentDirection = EDirection.UP;
 		}
 	}
 

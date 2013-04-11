@@ -32,19 +32,31 @@ import de.dhbw.td.core.util.EFlavor;
  */
 public class WaveFactory {
 
-	private final EFlavor[] enemyTypeArray = EFlavor.values();
-	private final Image[] enemyImages = new Image[6];
 	private static final int NUMBER_OF_WAVES = 12;
 	private static final int NUMBER_OF_ATTRIBUTES = 3;
 	private static final int UB_ENEMY_TYPES = 6;
+	private static final EFlavor[] enemyTypeArray = EFlavor.values();
+	private static final Image[] enemyImages = new Image[UB_ENEMY_TYPES];
+	
 	private int currentSemester = 0;
 	private Queue<Point> waypoints;
 	private int enemyCount;
+	
+	static {
+		for (EFlavor e : enemyTypeArray) {
+			String pathToImage = EEnemyImage.getPathToImage(e);
+			enemyImages[e.ordinal()] = assets().getImageSync(pathToImage);
+		}
+	}
 
 	private enum EEnemyImage {
 
-		MATH("math.png"), CODE("code.png"), TECHINF("techinf.png"), THEOINF("theoinf.png"), WIWI("wiwi.png"), SOCIAL(
-				"social.png");
+		MATH("math.png"),
+		CODE("code.png"), 
+		TECHINF("techinf.png"), 
+		THEOINF("theoinf.png"), 
+		WIWI("wiwi.png"), 
+		SOCIAL("social.png");
 
 		public final String resourceName;
 
@@ -94,10 +106,7 @@ public class WaveFactory {
 
 	public WaveController nextWaveController(Object parsedJson, Queue<Point> waypoints) {
 		int[][] semester = new int[NUMBER_OF_WAVES][NUMBER_OF_ATTRIBUTES];
-		for (EFlavor e : enemyTypeArray) {
-			String pathToImage = EEnemyImage.getPathToImage(e);
-			enemyImages[e.ordinal()] = assets().getImageSync(pathToImage);
-		}
+
 		this.waypoints = waypoints;
 		this.enemyCount = parsedJson.getInt("enemyCount" + (currentSemester + 1));
 		Json.Array semesterArr = parsedJson.getArray("sem" + (currentSemester + 1));

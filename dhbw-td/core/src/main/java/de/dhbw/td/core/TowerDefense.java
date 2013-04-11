@@ -85,7 +85,6 @@ public class TowerDefense implements Game {
 
 		// set Listener for keyboard events
 		addKeyboardListener();
-		;
 	}
 
 	private void loadLevel(String pathToLevel, String pathToWaves) {

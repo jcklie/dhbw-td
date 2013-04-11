@@ -32,8 +32,7 @@ public class Level implements IDrawable {
 		for (Point p : waypoints) {
 			cloned.add((Point) p.clone());
 		}
-		return cloned;
-		
+		return cloned;		
 	}
 
 	public Level(Image[][] map, Queue<Point> waypoints, int tilesize, int width, int height, int startx, int starty) {
@@ -60,7 +59,7 @@ public class Level implements IDrawable {
 	}
 
 	/**
-	 * Copies the waypoints for this level and returns them.
+	 * Creates a deep copy of the waypoints in this level
 	 * 
 	 * @return Returns a -copy- of the waypoints specified for this level
 	 */
