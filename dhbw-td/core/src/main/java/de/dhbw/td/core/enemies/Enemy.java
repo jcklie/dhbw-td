@@ -27,7 +27,7 @@ public class Enemy extends AEnemy {
 		this.maxHealth = maxHealth;
 		this.curHealth = maxHealth;
 		this.alive = true;
-		this.speed = speed * 20;
+		this.speed = speed;
 		this.bounty = bounty;
 		this.penalty = bounty * 2;
 		this.enemyType = enemyType;
