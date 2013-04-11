@@ -77,7 +77,6 @@ public class Enemy implements IDrawable, IUpdateable {
 				takeDamage(1);
 				Point nextWaypoint = waypoints.poll();
 				if (nextWaypoint == null) {
-					die();
 					for (Point p : fixedWaypoints) {
 						waypoints.add((Point) p.clone());
 					}
