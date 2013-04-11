@@ -37,6 +37,10 @@ public class WaveController {
 		currentWave = waves.poll();
 		return currentWave;
 	}
+	
+	public boolean hasNextWave(){
+		return !waves.isEmpty();
+	}
 
 	/**
 	 * 

@@ -37,6 +37,7 @@ public class TowerDefense implements Game {
 	private SurfaceLayer TILE_LAYER;
 	private ImageLayer BACKGROUND_LAYER;
 	private SurfaceLayer HUD_LAYER;
+
 	private SurfaceLayer ENEMY_LAYER;
 
 	private Level currentLevel;
@@ -48,20 +49,21 @@ public class TowerDefense implements Game {
 	private GameState stateOftheWorld;
 	private HUD hud;
 
+	private int levelNumber = 1;
+
 	@Override
 	public void init() {
-		// GameState
 		stateOftheWorld = new GameState();
+		hud = new HUD(stateOftheWorld);
 
-		// load waveFactory
 		loadWaveFactory();
-
-		// load the first level for test purposes
-
-		loadLevel(PATH_LEVELS + "level1.json", PATH_WAVES + "waves.json");
+		nextLevel();
 		nextWave();
-
-		// Background layer is plain white
+		
+		/*
+		 * Layer
+		 */
+		
 		Image bg = assets().getImage("tiles/white.bmp");
 		BACKGROUND_LAYER = graphics().createImageLayer(bg);
 		BACKGROUND_LAYER.setScale(currentLevel.width(), currentLevel.height());
@@ -76,15 +78,15 @@ public class TowerDefense implements Game {
 		graphics().rootLayer().add(ENEMY_LAYER);
 
 		// HUD layer
-		hud = new HUD(stateOftheWorld);
 		HUD_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
 		graphics().rootLayer().add(HUD_LAYER);
+		
+		/*
+		 * Register listener
+		 */
 
-		// set Listener for mouse events
 		addMouseListener();
-
-		// set Listener for keyboard events
-		addKeyboardListener();
+		addKeyboardListener();		
 	}
 
 	private void loadLevel(String pathToLevel, String pathToWaves) {
@@ -100,7 +102,39 @@ public class TowerDefense implements Game {
 	}
 
 	private void nextWave() {
-		stateOftheWorld.newWave(waveController.nextWave().getEnemies());
+		if (waveController.hasNextWave()) {
+			int waveNumber = waveController.getWaves().peek().getWaveNumber();
+			System.out.println("Wave Number: " + waveNumber);
+			if(waveNumber == 0 || waveNumber == 11){
+				stateOftheWorld.newWave(waveController.nextWave().getEnemies());
+			} else {
+				waveController.nextWave();
+				nextWave();
+			}
+			
+		} else {
+			System.out.println("LevelNumber " + levelNumber);
+			nextLevel();
+		}
+	}
+
+	private void nextLevel() {
+		if (levelNumber <= 6) {
+			loadLevel(getLevelName(), getWaveName());
+			levelNumber++;
+			
+			//TODO: Hier kommt der Timer rein, nachdem die erste Wave im neuen Level kommt
+			
+			nextWave();
+		}
+	}
+	
+	private String getLevelName() {
+		return String.format("%slevel%d.json",PATH_LEVELS, levelNumber);
+	}
+	
+	private String getWaveName() {
+		return String.format("%swaves%d.json",PATH_WAVES, levelNumber);
 	}
 
 	private void loadWaveFactory() {
@@ -156,6 +190,10 @@ public class TowerDefense implements Game {
 	@Override
 	public void update(float delta) {
 		stateOftheWorld.update(delta);
+		if (stateOftheWorld.allEnemiesDead == true) {
+			stateOftheWorld.allEnemiesDead = false;
+			nextWave();
+		}
 	}
 
 	@Override

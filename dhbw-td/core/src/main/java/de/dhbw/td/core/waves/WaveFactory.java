@@ -108,8 +108,8 @@ public class WaveFactory {
 		int[][] semester = new int[NUMBER_OF_WAVES][NUMBER_OF_ATTRIBUTES];
 
 		this.waypoints = waypoints;
-		this.enemyCount = parsedJson.getInt("enemyCount" + (currentSemester + 1));
-		Json.Array semesterArr = parsedJson.getArray("sem" + (currentSemester + 1));
+		this.enemyCount = parsedJson.getInt("enemyCount");
+		Json.Array semesterArr = parsedJson.getArray("waves");
 
 		for (int row = 0; row < NUMBER_OF_WAVES; row++) {
 			Json.Array gridRow = semesterArr.getArray(row);

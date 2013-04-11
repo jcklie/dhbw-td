@@ -75,17 +75,17 @@ public class Enemy implements IDrawable, IUpdateable {
 		if (isAlive()) {
 			if (currentPosition.equals(currentWaypoint)) {
 				takeDamage(1);
-				Point newWaypoint = waypoints.poll();
-				if (newWaypoint == null) {
+				Point nextWaypoint = waypoints.poll();
+				if (nextWaypoint == null) {
 					die();
 					for (Point p : fixedWaypoints) {
 						waypoints.add((Point) p.clone());
 					}
-					newWaypoint = waypoints.poll();
-					currentPosition.setLocation(newWaypoint);
+					nextWaypoint = waypoints.poll();
+					currentPosition.setLocation(nextWaypoint);
 				}
-				handleNewDirection(newWaypoint);
-				currentWaypoint = newWaypoint;
+				adjustDirection(nextWaypoint);
+				currentWaypoint = nextWaypoint;
 			}
 			switch (currentDirection) {
 				case DOWN:  handleDown(delta);  break;
@@ -97,29 +97,45 @@ public class Enemy implements IDrawable, IUpdateable {
 		}
 	}
 	
+	private void adjustDirection(final Point newWaypoint) {
+		if (currentPosition.x < newWaypoint.x) {
+			currentDirection = EDirection.RIGHT;
+		} else if (currentPosition.x > newWaypoint.x) {
+			currentDirection = EDirection.LEFT;
+		} else if (currentPosition.y < newWaypoint.y) {
+			currentDirection = EDirection.DOWN;
+		} else if (currentPosition.y > newWaypoint.y) {
+			currentDirection = EDirection.UP;
+		}
+	}
+	
+	private int distanceMovedSince(double delta) {
+		return (int) (speed * delta / 1000);
+	}
+	
 	private void handleDown(double delta) {
-		currentPosition.translate(0, (int) (speed * delta / 1000));
+		currentPosition.translate(0, distanceMovedSince(delta));
 		if (currentPosition.y > currentWaypoint.y) {
 			currentPosition.setLocation(currentWaypoint);
 		}
 	}
 	
 	private void handleLeft(double delta) {
-		currentPosition.translate((int) (-speed * delta / 1000), 0);
+		currentPosition.translate( -distanceMovedSince(delta), 0);
 		if (currentPosition.x < currentWaypoint.x) {
 			currentPosition.setLocation(currentWaypoint);
 		}
 	}
 	
 	private void handleRight(double delta) {
-		currentPosition.translate((int) (speed * delta / 1000), 0);
+		currentPosition.translate(distanceMovedSince(delta), 0);
 		if (currentPosition.x > currentWaypoint.x) {
 			currentPosition.setLocation(currentWaypoint);
 		}
 	}
 	
 	private void handleUp(double delta) {
-		currentPosition.translate(0, (int) (-speed * delta / 1000));
+		currentPosition.translate(0, - distanceMovedSince(delta));
 		if (currentPosition.y < currentWaypoint.y) {
 			currentPosition.setLocation(currentWaypoint);
 		}
@@ -136,18 +152,6 @@ public class Enemy implements IDrawable, IUpdateable {
 		}
 	}
 	
-	private void handleNewDirection(final Point newWaypoint) {
-		if (currentPosition.x < newWaypoint.x) {
-			currentDirection = EDirection.RIGHT;
-		} else if (currentPosition.x > newWaypoint.x) {
-			currentDirection = EDirection.LEFT;
-		} else if (currentPosition.y < newWaypoint.y) {
-			currentDirection = EDirection.DOWN;
-		} else if (currentPosition.y > newWaypoint.y) {
-			currentDirection = EDirection.UP;
-		}
-	}
-
 	private void die() {
 		this.alive = false;
 	}

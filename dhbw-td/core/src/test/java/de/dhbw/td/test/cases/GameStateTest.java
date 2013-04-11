@@ -27,7 +27,7 @@ public class GameStateTest extends TestCase {
 	
 	@Override
 	protected void setUp() throws Exception {
-		URL url = this.getClass().getResource("/waves/waves.json");
+		URL url = this.getClass().getResource("/waves/wave1.json");
 		File f = new File(url.getFile());
 
 		FileUtil.readFile(f);

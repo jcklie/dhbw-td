@@ -150,18 +150,17 @@ public class LevelFactory {
 	 * the start and end specified in the json file and calculates the
 	 * route to end. Throws IllegalStateException on malformed maps.
 	 * 
-	 * @return Queue A queue consisting of waypoints.
+	 * @return Queue A queue consisting of waypoints for the given level.
 	 */
 	private Queue<Point> generateWaypoints() {
 		int col = startx;
 		
 		if(startx != 0){
-			throw new IllegalArgumentException("Sorry, the map should start somewhere in x=0");
+			throw new IllegalArgumentException("The map should start somewhere in x=0");
 		}
 		
 		int row = starty;
 		Queue<Point> waypoints = new LinkedList<Point>();
-
 				
 		ETileType curTile = getTileType(col, row);
 		DirectionContainer container = new DirectionContainer(waypoints, EDirection.RIGHT, row, col);
@@ -193,10 +192,6 @@ public class LevelFactory {
 		}
 		// here we should have reached the end if not we're unlucky
 		container.addWaypoint();
-		
-		// DIRTY HACK; FIX ME
-		
-
 		return waypoints;
 	}
 	

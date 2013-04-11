@@ -33,7 +33,7 @@ public class WaveControllerTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		URL url = this.getClass().getResource("/waves/waves.json");
+		URL url = this.getClass().getResource("/waves/wave1.json");
 		File f = new File(url.getFile());
 
 		FileUtil.readFile(f);
@@ -98,12 +98,12 @@ public class WaveControllerTest extends TestCase {
 		} while (testWave.getWaveNumber() < 11);
 		for (int i = 0; i < 12; i++) {
 			Enemy testEnemy = testWave.getEnemies().get(i);
-			assertEquals(139, testEnemy.getMaxHealth());
-			assertEquals(139, testEnemy.getCurHealth());
+			assertEquals(29, testEnemy.getMaxHealth());
+			assertEquals(29, testEnemy.getCurHealth());
 			assertTrue(testWave.getEnemies().get(i).isAlive());
-			assertEquals(10.0, testEnemy.getSpeed(), 0.001);
-			assertEquals(6, testEnemy.getBounty());
-			assertEquals(12, testEnemy.getPenalty());
+			assertEquals(100.0, testEnemy.getSpeed(), 0.001);
+			assertEquals(1, testEnemy.getBounty());
+			assertEquals(2, testEnemy.getPenalty());
 		}
 	}
 
@@ -115,7 +115,7 @@ public class WaveControllerTest extends TestCase {
 			assertEquals(10, testEnemy.getMaxHealth());
 			assertEquals(10, testEnemy.getCurHealth());
 			assertTrue(testEnemy.isAlive());
-			assertEquals(10.0, testEnemy.getSpeed(), 0.001);
+			assertEquals(400.0, testEnemy.getSpeed(), 0.001);
 			assertEquals(1, testEnemy.getBounty());
 			assertEquals(2, testEnemy.getPenalty());
 			assertEquals(waypoints, testEnemy.getWaypoints());

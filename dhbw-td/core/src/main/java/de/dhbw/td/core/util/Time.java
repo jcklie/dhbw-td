@@ -12,18 +12,14 @@ public class Time{
 	private Callback<String> timerCallback;
 
 	public Time(double waitTime, Callback<String> callback) {
-
 		this.waitTime = waitTime;
 		this.timerCallback = callback;
-
 	}
 
 	public void start() {
-
 		currentTime = 0;
 		endTime = waitTime;
 		running = true;
-
 	}
 
 	public void update(double delta) {
