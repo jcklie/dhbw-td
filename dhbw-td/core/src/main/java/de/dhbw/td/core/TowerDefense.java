@@ -1,4 +1,4 @@
-																						/*  Copyright (C) 2013 by Jan-Christoph Klie, Inc. All rights reserved.
+/*  Copyright (C) 2013 by Jan-Christoph Klie, Inc. All rights reserved.
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
@@ -63,7 +63,7 @@ public class TowerDefense implements Game {
 
 		loadLevel(PATH_LEVELS + "level1.json", PATH_WAVES + "waves.json");
 		nextWave();
-		
+
 		// Background layer is plain white
 		Image bg = assets().getImage("tiles/white.bmp");
 		BACKGROUND_LAYER = graphics().createImageLayer(bg);
@@ -82,13 +82,13 @@ public class TowerDefense implements Game {
 		hud = new HUD(stateOftheWorld);
 		HUD_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
 		graphics().rootLayer().add(HUD_LAYER);
-		
+
 		// set Listener for mouse events
 		addMouseListener();
-		
+
 		// set Listener for keyboard events
 		addKeyboardListener();
-;
+		;
 	}
 
 	private void loadLevel(String pathToLevel, String pathToWaves) {
@@ -114,22 +114,22 @@ public class TowerDefense implements Game {
 			log().error(e.getMessage());
 		}
 	}
-	
+
 	private void addMouseListener() {
 		pointer().setListener(new Pointer.Adapter() {
-			
+
 			@Override
 			public void onPointerStart(Event event) {
 				log().info(String.format("onPointerStart on x=%s y=%s", event.x(), event.y()));
 			}
-			
+
 			@Override
-			public void onPointerEnd(Pointer.Event event) {	  
+			public void onPointerEnd(Pointer.Event event) {
 				log().info(String.format("onPointerEnd on x=%s y=%s", event.x(), event.y()));
 			}
 		});
 	}
-	
+
 	private void addKeyboardListener() {
 		keyboard().setListener(new Keyboard.Adapter() {
 			@Override
@@ -137,7 +137,7 @@ public class TowerDefense implements Game {
 				// TODO Auto-generated method stub
 				super.onKeyDown(event);
 			}
-			
+
 			@Override
 			public void onKeyUp(playn.core.Keyboard.Event event) {
 				log().info(event.key().toString());
@@ -152,7 +152,7 @@ public class TowerDefense implements Game {
 
 		Surface enemySurface = ENEMY_LAYER.surface();
 		stateOftheWorld.draw(enemySurface);
-		
+
 		Surface hudSurface = HUD_LAYER.surface();
 		hud.draw(hudSurface);
 	}
@@ -164,6 +164,6 @@ public class TowerDefense implements Game {
 
 	@Override
 	public int updateRate() {
-		return 100;
+		return 24;
 	}
 }

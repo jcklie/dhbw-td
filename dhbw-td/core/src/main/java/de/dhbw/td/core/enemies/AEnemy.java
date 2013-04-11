@@ -53,7 +53,7 @@ public abstract class AEnemy implements IDrawable, IUpdateable {
 	public void draw(Surface surf) {
 		if (isAlive()) {
 			surf.drawImage(enemyImage, currentPosition.x, currentPosition.y);
-			surf.drawImage(healthBarImage, currentPosition.x+7, currentPosition.y+2);
+			surf.drawImage(healthBarImage, currentPosition.x + 7, currentPosition.y + 2);
 		}
 	}
 
