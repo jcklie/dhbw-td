@@ -7,7 +7,7 @@
  *  
  */
 
-package de.dhbw.td.core;
+package de.dhbw.td.test.cases;
 
 import java.awt.Point;
 import java.io.File;
@@ -26,6 +26,7 @@ import playn.core.Platform;
 import playn.java.JavaPlatform;
 import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.level.LevelFactory;
+import de.dhbw.td.test.util.FileUtil;
 
 public class LevelFactoryTest extends TestCase {
 

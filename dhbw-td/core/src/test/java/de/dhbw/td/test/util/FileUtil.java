@@ -5,7 +5,7 @@
  *  Jan-Christoph Klie - All
  */
 
-package de.dhbw.td.core;
+package de.dhbw.td.test.util;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,4 +1,4 @@
-package de.dhbw.td.core;
+package de.dhbw.td.test.cases;
 
 import java.awt.Point;
 import java.io.File;
@@ -15,6 +15,7 @@ import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.waves.WaveController;
 import de.dhbw.td.core.waves.WaveFactory;
+import de.dhbw.td.test.util.FileUtil;
 
 public class GameStateTest extends TestCase {
 	

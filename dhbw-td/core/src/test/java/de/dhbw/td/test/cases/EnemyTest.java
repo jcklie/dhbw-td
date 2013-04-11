@@ -1,4 +1,4 @@
-package de.dhbw.td.core;
+package de.dhbw.td.test.cases;
 
 import java.awt.Point;
 import java.util.LinkedList;
@@ -7,6 +7,7 @@ import java.util.Queue;
 import junit.framework.TestCase;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.util.EFlavor;
+import de.dhbw.td.test.mock.MockImage;
 
 public class EnemyTest extends TestCase {
 	
@@ -14,7 +15,7 @@ public class EnemyTest extends TestCase {
 	
 	@Override
 	protected void setUp() throws Exception {
-		enemy = new Enemy(10, 1, 1, EFlavor.Code, getWaypoints(), null);
+		enemy = new Enemy(10, 1, 1, EFlavor.Code, getWaypoints(), new MockImage());
 	}
 	
 	@Override

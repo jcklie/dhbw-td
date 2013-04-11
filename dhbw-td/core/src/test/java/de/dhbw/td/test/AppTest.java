@@ -5,10 +5,15 @@
  *  Jan-Christoph Klie - All
  */
 
-package de.dhbw.td.core;
+package de.dhbw.td.test;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+
+import de.dhbw.td.test.cases.EnemyTest;
+import de.dhbw.td.test.cases.GameStateTest;
+import de.dhbw.td.test.cases.LevelFactoryTest;
+import de.dhbw.td.test.cases.WaveControllerTest;
 
 /**
  * Unit test for the dhbw-td. It should be run after each checking and each
