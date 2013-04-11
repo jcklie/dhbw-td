@@ -7,16 +7,15 @@
 
 package de.dhbw.td.core.enemies;
 
-import static playn.core.PlayN.assets;
-
 import java.awt.Point;
-import java.util.LinkedList;
 import java.util.Queue;
 
 import playn.core.Image;
 import playn.core.Surface;
+import de.dhbw.td.core.game.HealthBar;
 import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.game.IUpdateable;
+import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.util.EDirection;
 import de.dhbw.td.core.util.EFlavor;
 
@@ -29,8 +28,6 @@ import de.dhbw.td.core.util.EFlavor;
  */
 public class Enemy implements IDrawable, IUpdateable {
 	
-	private static final EHealthBarType[] healthBarTypeArray = EHealthBarType.values();
-	private final Image[] healthBarImages = new Image[11];
 	private int maxHealth;
 	private int curHealth;
 	private boolean alive;
@@ -45,10 +42,6 @@ public class Enemy implements IDrawable, IUpdateable {
 	private EDirection currentDirection;
 	private Point currentWaypoint;
 	private Queue<Point> fixedWaypoints;
-
-	public enum EHealthBarType {
-		ZERO, TEN, TWENTY, THIRTY, FOURTY, FIFTY, SIXTY, SEVENTY, EIGHTY, NINETY, HUNDRED;
-	}
 	
 	public Enemy(int maxHealth, double speed, int bounty, EFlavor enemyType, Queue<Point> waypoints, Image enemyImage) {
 		this.maxHealth = maxHealth;
@@ -59,17 +52,13 @@ public class Enemy implements IDrawable, IUpdateable {
 		this.penalty = bounty * 2;
 		this.enemyType = enemyType;
 		this.fixedWaypoints = waypoints;
-		this.waypoints = new LinkedList<Point>(waypoints);
+		this.waypoints = Level.copyWaypoints(waypoints);
 		this.currentPosition = this.waypoints.peek();
 		this.currentWaypoint = this.waypoints.poll();
 		this.enemyImage = enemyImage;	
 		this.currentDirection = EDirection.RIGHT;
 		
-		for (EHealthBarType e : healthBarTypeArray) {
-			String pathToImage = EHealthBarImage.getPathToImage(e);
-			this.healthBarImages[e.ordinal()] = assets().getImageSync(pathToImage);
-		}
-		this.healthBarImage = healthBarImages[10];
+		currentPosition.translate((int) -enemyImage.height(), 0);
 	}
 
 	@Override
@@ -138,82 +127,17 @@ public class Enemy implements IDrawable, IUpdateable {
 
 	public void takeDamage(int damage) {
 		curHealth -= damage;
-		double percent = (double) curHealth / (double) maxHealth;
+		double relativeHealth = (double) curHealth / (double) maxHealth;
+		
 		if (curHealth <= 0) {
 			die();
-		} else if (percent < 0.10) {
-			healthBarImage = healthBarImages[0];
-		} else if (percent < 0.20) {
-			healthBarImage = healthBarImages[1];
-		} else if (percent < 0.30) {
-			healthBarImage = healthBarImages[2];
-		} else if (percent < 0.40) {
-			healthBarImage = healthBarImages[3];
-		} else if (percent < 0.50) {
-			healthBarImage = healthBarImages[4];
-		} else if (percent < 0.60) {
-			healthBarImage = healthBarImages[5];
-		} else if (percent < 0.70) {
-			healthBarImage = healthBarImages[6];
-		} else if (percent < 0.80) {
-			healthBarImage = healthBarImages[7];
-		} else if (percent < 0.90) {
-			healthBarImage = healthBarImages[8];
-		} else if (percent < 1.00) {
-			healthBarImage = healthBarImages[9];
+		} else {
+			healthBarImage = HealthBar.getHealthStatus(relativeHealth);
 		}
 	}
 
 	private void die() {
 		this.alive = false;
-	}
-
-	public enum EHealthBarImage {
-
-		ZERO("0.png"), TEN("10.png"), TWENTY("20.png"), THIRTY("30.png"), FOURTY("40.png"), FIFTY("50.png"), SIXTY(
-				"60.png"), SEVENTY("70.png"), EIGHTY("80.png"), NINETY("90.png"), HUNDRED("100.png");
-
-		public final String resourceName;
-
-		private static final String pathToHealthBars = "images";
-
-		public static String getPathToImage(EHealthBarType healthBarType) {
-			EHealthBarImage healthBarImage = createFromHealthStatus(healthBarType);
-			return String.format("%s/%s", pathToHealthBars, healthBarImage.resourceName);
-		}
-
-		private static EHealthBarImage createFromHealthStatus(EHealthBarType healthBarType) {
-			switch (healthBarType) {
-			case ZERO:
-				return ZERO;
-			case TEN:
-				return TEN;
-			case TWENTY:
-				return TWENTY;
-			case THIRTY:
-				return THIRTY;
-			case FOURTY:
-				return FOURTY;
-			case FIFTY:
-				return FIFTY;
-			case SIXTY:
-				return SIXTY;
-			case SEVENTY:
-				return SEVENTY;
-			case EIGHTY:
-				return EIGHTY;
-			case NINETY:
-				return NINETY;
-			case HUNDRED:
-				return HUNDRED;
-			default:
-				throw new IllegalArgumentException("No HealthBarImage with this type:" + healthBarType);
-			}
-		}
-
-		EHealthBarImage(String resourceName) {
-			this.resourceName = resourceName;
-		}
 	}
 
 	/**
