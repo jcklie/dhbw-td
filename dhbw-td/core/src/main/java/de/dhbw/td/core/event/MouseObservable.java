@@ -17,7 +17,7 @@ public class MouseObservable extends Mouse.Adapter {
 	private ArrayList<IMouseObserver> observers;
 	
 	/**
-	 * Constructor
+	 * Constructor	
 	 */
 	public MouseObservable() {
 		observers = new ArrayList<IMouseObserver>();

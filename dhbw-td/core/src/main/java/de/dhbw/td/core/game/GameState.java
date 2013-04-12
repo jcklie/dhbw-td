@@ -3,6 +3,7 @@
  *  
  *  Contributors:
  *  Jan-Christoph Klie - First basic version
+ *  Benedict Holste - Added attributes 
  */
 
 package de.dhbw.td.core.game;
@@ -20,7 +21,7 @@ import de.dhbw.td.core.util.Time;
  * of attributes w/o distinct setter methods
  */
 public class GameState implements IDrawable, IUpdateable {
-
+	
 	private final int INITIAL_CREDITS = 1000;
 	private final int INITIAL_LIFEPOINTS = 100;
 	
