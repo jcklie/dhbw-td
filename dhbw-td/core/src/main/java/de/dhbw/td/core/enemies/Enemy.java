@@ -58,9 +58,7 @@ public class Enemy implements IDrawable, IUpdateable {
 		this.currentWaypoint = this.waypoints.poll();
 		this.enemyImage = enemyImage;
 		this.currentDirection = EDirection.RIGHT;
-
-		this.waypoints.add(getNewEndWaypoint());
-		currentPosition.translate((int) -enemyImage.height(), 0);
+		currentPosition.setLocation(currentWaypoint);
 		healthBarImage = HealthBar.getHealthStatus(1);
 	}
 
@@ -79,11 +77,9 @@ public class Enemy implements IDrawable, IUpdateable {
 				takeDamage(1);
 				Point nextWaypoint = waypoints.poll();
 				if (nextWaypoint == null) {
-					waypoints.add(getNewStartWaypoint());
-					for (int i = 1; i < fixedWaypoints.size() - 1; i++) {
-						waypoints.add((Point) fixedWaypoints.get(i).clone());
+					for (Point p : fixedWaypoints) {
+						waypoints.add((Point) p.clone());
 					}
-					waypoints.add(getNewEndWaypoint());
 					nextWaypoint = waypoints.poll();
 					currentPosition.setLocation(nextWaypoint);
 				}
@@ -107,18 +103,6 @@ public class Enemy implements IDrawable, IUpdateable {
 				throw new IllegalStateException("I should never be thrown!");
 			}
 		}
-	}
-
-	private Point getNewEndWaypoint() {
-		Point lastWaypoint = (Point) fixedWaypoints.getLast().clone();
-		lastWaypoint.translate((int) enemyImage.height(), 0);
-		return lastWaypoint;
-	}
-
-	private Point getNewStartWaypoint() {
-		Point firstWaypoint = (Point) fixedWaypoints.getFirst().clone();
-		firstWaypoint.translate((int) -enemyImage.height(), 0);
-		return firstWaypoint;
 	}
 
 	private void adjustDirection(final Point newWaypoint) {
