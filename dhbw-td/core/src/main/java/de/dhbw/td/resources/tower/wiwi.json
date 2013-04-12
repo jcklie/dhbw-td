@@ -1,0 +1,12 @@
+{
+	"levels": [
+		{"damage": 13, "range":  80, "price":  8, "image": "wiwi.png"},
+		{"damage": 19, "range":  80, "price": 12, "image": "wiwi.png"},
+		{"damage": 22, "range":  90, "price": 16, "image": "wiwi.png"},
+		{"damage": 28, "range":  90, "price": 20, "image": "wiwi.png"},
+		{"damage": 34, "range":  90, "price": 24, "image": "wiwi.png"},
+		{"damage": 38, "range": 100, "price": 30, "image": "wiwi.png"}
+	],
+	"levelCount": 6,
+	"cadenza": 40
+}
