@@ -1,31 +1,25 @@
 package de.dhbw.td.core.game;
 
-import de.dhbw.td.core.event.ICallbackFunction;
-import de.dhbw.td.core.event.IKeyboardObserver;
-import de.dhbw.td.core.event.IMouseObserver;
+import static playn.core.PlayN.assets;
+import static playn.core.PlayN.log;
 import playn.core.Image;
 import playn.core.Key;
 import playn.core.Keyboard.Event;
-import playn.core.Surface;
-import playn.core.Keyboard.TypedEvent;
 import playn.core.Mouse.ButtonEvent;
-import static playn.core.PlayN.log;
-import static playn.core.PlayN.assets;
+import playn.core.Surface;
+import de.dhbw.td.core.event.ICallbackFunction;
+import de.dhbw.td.core.event.IKeyboardObserver;
+import de.dhbw.td.core.event.IMouseObserver;
 
 public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	
-	private int x;
-	int y;
-	
-	private int width;
-	private int height;
-	
-	private boolean visible;
-	
-	private Image image;
-	
-	private ICallbackFunction callback;
-	
+	private final int x;
+	private final int y;	
+	private final int width;
+	private final int height;	
+	private boolean visible;	
+	private Image image;	
+	private ICallbackFunction callback;	
 	private Key key;
 	
 	public Button(int x, int y, int width, int height, String imagePath) {

@@ -1,0 +1,10 @@
+{
+	"levels": [
+		{"damage":  5, "range": 100, "price":  8, "image": "math.png"},
+		{"damage":  9, "range": 110, "price": 21, "image": "math.png"},
+		{"damage": 14, "range": 110, "price": 34, "image": "math.png"},
+		{"damage": 16, "range": 120, "price": 47, "image": "math.png"}
+	],
+	"levelCount": 4,
+	"cadenza": 80
+}
