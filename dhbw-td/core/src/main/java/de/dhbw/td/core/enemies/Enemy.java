@@ -9,6 +9,7 @@
 package de.dhbw.td.core.enemies;
 
 import java.awt.Point;
+import java.util.LinkedList;
 import java.util.Queue;
 
 import playn.core.Image;
@@ -26,38 +27,39 @@ import de.dhbw.td.core.util.EFlavor;
  * 
  */
 public class Enemy implements IDrawable, IUpdateable {
-	
+
 	private final int bounty;
 	private final int penalty;
 	private final int maxHealth;
 	private final double speed;
 	private final EFlavor enemyType;
-	
+
 	private int curHealth;
-	private boolean alive;	
+	private boolean alive;
 	private Queue<Point> waypoints;
 	private Point currentPosition;
 	private Image enemyImage;
 	private Image healthBarImage;
 	private EDirection currentDirection;
 	private Point currentWaypoint;
-	private Queue<Point> fixedWaypoints;
-	
+	private LinkedList<Point> fixedWaypoints;
+
 	public Enemy(int maxHealth, double speed, int bounty, EFlavor enemyType, Queue<Point> waypoints, Image enemyImage) {
 		this.maxHealth = maxHealth;
 		this.curHealth = maxHealth;
 		this.alive = true;
-		this.speed = speed	;
+		this.speed = speed;
 		this.bounty = bounty;
 		this.penalty = bounty * 2;
 		this.enemyType = enemyType;
-		this.fixedWaypoints = waypoints;
+		this.fixedWaypoints = (LinkedList<Point>) waypoints;
 		this.waypoints = Level.copyWaypoints(waypoints);
 		this.currentPosition = this.waypoints.peek();
 		this.currentWaypoint = this.waypoints.poll();
-		this.enemyImage = enemyImage;	
+		this.enemyImage = enemyImage;
 		this.currentDirection = EDirection.RIGHT;
-		
+
+		this.waypoints.add(getNewEndWaypoint());
 		currentPosition.translate((int) -enemyImage.height(), 0);
 		healthBarImage = HealthBar.getHealthStatus(1);
 	}
@@ -77,26 +79,48 @@ public class Enemy implements IDrawable, IUpdateable {
 				takeDamage(1);
 				Point nextWaypoint = waypoints.poll();
 				if (nextWaypoint == null) {
-					for (Point p : fixedWaypoints) {
-						waypoints.add((Point) p.clone());
+					waypoints.add(getNewStartWaypoint());
+					for (int i = 1; i < fixedWaypoints.size() - 1; i++) {
+						waypoints.add((Point) fixedWaypoints.get(i).clone());
 					}
+					waypoints.add(getNewEndWaypoint());
 					nextWaypoint = waypoints.poll();
-					nextWaypoint.translate((int) -enemyImage.height(), 0);
 					currentPosition.setLocation(nextWaypoint);
 				}
 				adjustDirection(nextWaypoint);
 				currentWaypoint = nextWaypoint;
 			}
 			switch (currentDirection) {
-				case DOWN:  handleDown(delta);  break;
-				case LEFT:  handleLeft(delta);  break;
-				case RIGHT: handleRight(delta); break;
-				case UP:    handleUp(delta);    break;
-				default: throw new IllegalStateException("I should never be thrown!");
+			case DOWN:
+				handleDown(delta);
+				break;
+			case LEFT:
+				handleLeft(delta);
+				break;
+			case RIGHT:
+				handleRight(delta);
+				break;
+			case UP:
+				handleUp(delta);
+				break;
+			default:
+				throw new IllegalStateException("I should never be thrown!");
 			}
 		}
 	}
-	
+
+	private Point getNewEndWaypoint() {
+		Point lastWaypoint = (Point) fixedWaypoints.getLast().clone();
+		lastWaypoint.translate((int) enemyImage.height(), 0);
+		return lastWaypoint;
+	}
+
+	private Point getNewStartWaypoint() {
+		Point firstWaypoint = (Point) fixedWaypoints.getFirst().clone();
+		firstWaypoint.translate((int) -enemyImage.height(), 0);
+		return firstWaypoint;
+	}
+
 	private void adjustDirection(final Point newWaypoint) {
 		if (currentPosition.x < newWaypoint.x) {
 			currentDirection = EDirection.RIGHT;
@@ -108,34 +132,34 @@ public class Enemy implements IDrawable, IUpdateable {
 			currentDirection = EDirection.UP;
 		}
 	}
-	
+
 	private int distanceMovedSince(double delta) {
 		return (int) (speed * delta / 1000);
 	}
-	
+
 	private void handleDown(double delta) {
 		currentPosition.translate(0, distanceMovedSince(delta));
 		if (currentPosition.y > currentWaypoint.y) {
 			currentPosition.setLocation(currentWaypoint);
 		}
 	}
-	
+
 	private void handleLeft(double delta) {
-		currentPosition.translate( -distanceMovedSince(delta), 0);
+		currentPosition.translate(-distanceMovedSince(delta), 0);
 		if (currentPosition.x < currentWaypoint.x) {
 			currentPosition.setLocation(currentWaypoint);
 		}
 	}
-	
+
 	private void handleRight(double delta) {
 		currentPosition.translate(distanceMovedSince(delta), 0);
 		if (currentPosition.x > currentWaypoint.x) {
 			currentPosition.setLocation(currentWaypoint);
 		}
 	}
-	
+
 	private void handleUp(double delta) {
-		currentPosition.translate(0, - distanceMovedSince(delta));
+		currentPosition.translate(0, -distanceMovedSince(delta));
 		if (currentPosition.y < currentWaypoint.y) {
 			currentPosition.setLocation(currentWaypoint);
 		}
@@ -144,14 +168,14 @@ public class Enemy implements IDrawable, IUpdateable {
 	public void takeDamage(int damage) {
 		curHealth -= damage;
 		double relativeHealth = (double) curHealth / (double) maxHealth;
-		
+
 		if (curHealth <= 0) {
 			die();
 		} else {
 			healthBarImage = HealthBar.getHealthStatus(relativeHealth);
 		}
 	}
-	
+
 	private void die() {
 		this.alive = false;
 	}
