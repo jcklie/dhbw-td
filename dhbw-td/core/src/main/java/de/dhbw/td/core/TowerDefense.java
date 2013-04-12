@@ -43,9 +43,7 @@ public class TowerDefense implements Game {
 
 	@Override
 	public void init() {
-
-		stateOftheWorld = new GameState();
-
+		
 		/*
 		 * Register listener
 		 */
@@ -55,8 +53,12 @@ public class TowerDefense implements Game {
 
 		keyboard = new KeyboardObservable();
 		keyboard().setListener(keyboard);
-
-		// create HUD
+		
+		/*
+		 * Init components
+		 */
+		
+		stateOftheWorld = new GameState();
 		hud = new HUD(stateOftheWorld);
 
 		/*

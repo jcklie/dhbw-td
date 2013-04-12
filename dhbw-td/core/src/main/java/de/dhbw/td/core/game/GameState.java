@@ -31,7 +31,7 @@ public class GameState implements IUpdateable {
 	private final int INITIAL_CREDITS = 25;
 	private final int INITIAL_LIFEPOINTS = 100;
 	
-	private final int DELTA_FF = 4;
+	private final int FACTOR_DELTA_FF = 4;
 	
 	private int levelCount;
 	private int waveCount;
@@ -53,9 +53,6 @@ public class GameState implements IUpdateable {
 	private LevelFactory levelFactory;
 	private Level currentLevel;
 
-	/**
-	 * Constructor
-	 */
 	public GameState() {
 		
 		levelFactory = new LevelFactory();
@@ -69,7 +66,7 @@ public class GameState implements IUpdateable {
 		
 		nextLevel();
 		nextWaveController();
-		nextWave();
+		loadNextWave();
 	}
 	
 	/**
@@ -79,8 +76,8 @@ public class GameState implements IUpdateable {
 		levelCount++;
 		waveCount = 0;
 		try {
-			String levelJSON = assets().getTextSync(String.format("%slevel%s.json",
-					TowerDefense.PATH_LEVELS, levelCount));
+			String pathToImage = String.format("%slevel%s.json", TowerDefense.PATH_LEVELS, levelCount);
+			String levelJSON = assets().getTextSync(pathToImage);
 			currentLevel = levelFactory.loadLevel(levelJSON);
 			
 		} catch (Exception e) {
@@ -93,8 +90,8 @@ public class GameState implements IUpdateable {
 	 */
 	private void nextWaveController() {
 		try {
-			String waveJSON = assets().getTextSync(String.format("%swaves%s.json",
-					TowerDefense.PATH_WAVES, levelCount));
+			String pathToText = String.format("%swaves%s.json", TowerDefense.PATH_WAVES, levelCount);
+			String waveJSON = assets().getTextSync(pathToText);
 			currentWaveController = waveFactory.nextWaveController(waveJSON, currentLevel.waypoints());
 		} catch (Exception e) {
 			log().error(e.toString());
@@ -104,13 +101,13 @@ public class GameState implements IUpdateable {
 	/**
 	 * Loads the next wave in current WaveController.
 	 */
-	private void nextWave() {
+	private void loadNextWave() {
 		waveCount++;
 		currentWave = currentWaveController.nextWave();
 		enemies = currentWave.getEnemies();
 		for(int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
-			e.getCurrentPosition().translate(-(i*64), 0);
+			e.getCurrentPosition().translate(-i * currentLevel.tilesize, 0);
 		}
 		changed = true;
 	}
@@ -153,43 +150,49 @@ public class GameState implements IUpdateable {
 
 	@Override
 	public void update(double delta) {
-		
-		if(!finished) {
-		
+		if (!finished) {
+
 			// check for fast forward mode
-			if(fastForward) {
-				delta *= DELTA_FF;
+			if (fastForward) {
+				delta *= FACTOR_DELTA_FF;
 			}
 			
-			// update all enemies
-			for(int i = 0; i < enemies.size(); i++) {
-				Enemy e = enemies.get(i);
-				e.update(delta);
-				
-				// check, if enemy is still alive
-				if(!e.isAlive()) {
-					enemies.remove(e);
-				}
-				
-				// check, if there are enemies left
-				if(enemies.isEmpty()) {
-					if(currentWaveController.hasNextWave()) {
-						nextWave();
-					}
-					else {
-						if(levelCount == 6){
-							log().debug("GAME OVER");
-						}
-						else {
-							// load next level and waves
-							nextLevel();
-							nextWaveController();
-							nextWave();
-						}	
-					}
+			updateAllEnemies(delta);
+			
+			// check, if there are enemies left
+			if (enemies.isEmpty()) {
+				if (currentWaveController.hasNextWave()) {
+					loadNextWave();
+				} else {
+					loadNextLevel();
 				}
 			}
 		}	
+	}
+	
+	private void updateAllEnemies(double delta) {
+		int i = 0;
+		while(i < enemies.size()) {
+			Enemy e = enemies.get(i);
+			e.update(delta);
+
+			if (!e.isAlive()) {
+				enemies.remove(e);
+			} else {
+				i++;
+			}
+		}
+	}
+	
+	private void loadNextLevel() {
+		if (levelCount == 6) {
+			log().debug("GAME OVER");
+		} else {
+			// load next level and waves
+			nextLevel();
+			nextWaveController();
+			loadNextWave();
+		}
 	}
 	
 	/**
