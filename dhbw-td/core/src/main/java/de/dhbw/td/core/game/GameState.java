@@ -100,7 +100,7 @@ public class GameState implements IUpdateable {
 		try {
 			String pathToText = String.format("%swaves%s.json", TowerDefense.PATH_WAVES, levelCount);
 			String waveJSON = assets().getTextSync(pathToText);
-			currentWaveController = waveFactory.nextWaveController(waveJSON, currentLevel.waypoints());
+			waveController = waveFactory.nextWaveController(waveJSON, currentLevel.waypoints());
 		} catch (Exception e) {
 			log().error(e.toString());
 		}
@@ -111,7 +111,7 @@ public class GameState implements IUpdateable {
 	 */
 	private void loadNextWave() {
 		waveCount++;
-		currentWave = currentWaveController.nextWave();
+		currentWave = waveController.nextWave();
 		enemies = currentWave.getEnemies();
 		for(int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
@@ -195,7 +195,7 @@ public class GameState implements IUpdateable {
 			
 			// check, if there are enemies left
 			if (enemies.isEmpty()) {
-				if (currentWaveController.hasNextWave()) {
+				if (waveController.hasNextWave()) {
 					loadNextWave();
 				} else {
 					loadNextLevel();
