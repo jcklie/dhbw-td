@@ -3,6 +3,7 @@
  *  
  *  Contributors:
  *  Jan-Christoph Klie - First basic version
+ *  Benedict Holste - Added attributes 
  */
 
 package de.dhbw.td.core.game;
@@ -15,16 +16,40 @@ import playn.core.util.Callback;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.util.Time;
 
+/*
+ * TODO: Close this class as good as possible, so it encapsulates all setting
+ * of attributes w/o distinct setter methods
+ */
 public class GameState implements IDrawable, IUpdateable {
-
+	
+	private final int INITIAL_CREDITS = 1000;
+	private final int INITIAL_LIFEPOINTS = 100;
+	
+	private static final int SPAWN_DELAY = 1000; // ms
+	
+	private int levelCount;
+	private int waveCount;
+	
+	private int credits;
+	private int lifepoints;
+	
+	private boolean fastForward = false;
+	private boolean paused = false;
 	private boolean changed = true;
+	
 	private LinkedList<Enemy> allEnemies;
 	private List<Enemy> enemies;
 	private Time timer;
-	private static final int SPAWN_DELAY = 1000; // ms
 	public boolean allEnemiesDead = false;
 
 	public GameState() {
+		
+		levelCount = 0;
+		waveCount = 0;
+		
+		credits = INITIAL_CREDITS;
+		lifepoints = INITIAL_LIFEPOINTS;
+		
 		timer = new Time(SPAWN_DELAY, new Callback<String>() {
 
 			@Override
@@ -71,6 +96,7 @@ public class GameState implements IDrawable, IUpdateable {
 		for(int i = 0; i< enemies.size(); i++){
 			if(!enemies.get(i).isAlive()){
 				enemies.remove(i);
+				addCredits(10);
 				if(enemies.size() == 0){
 					allEnemiesDead = true;
 				}
@@ -80,4 +106,84 @@ public class GameState implements IDrawable, IUpdateable {
 		}
 
 	}
+	
+	private void addCredits(int credits) {
+		this.credits += credits;
+		changed = true;
+	}
+	
+	private void removeCredits(int credits) {
+		this.credits -= credits;
+		changed = true;
+	}
+	
+	private void addLifepoints(int lifepoints) {
+		this.lifepoints += lifepoints;
+		changed = true;
+	}
+	
+	private void removeLifepoints(int lifepoints) {
+		this.lifepoints -= lifepoints;
+	}
+	
+	public int getLevelCount() {
+		return levelCount;
+	}
+	
+	public int getWaveCount() {
+		return waveCount;
+	}
+	
+	public void setLevelCount(int levelCount) {
+		this.levelCount = levelCount;
+		changed = true;
+	}
+	
+	public void incLevelCount() {
+		levelCount++;
+		changed = true;
+	}
+	
+	public void setWaveCount(int waveCount) {
+		this.waveCount = waveCount;
+		changed = true;
+	}
+	
+	public void incWaveCount() {
+		waveCount++;
+		changed = true;
+	}
+	
+	public int getCredits() {
+		return credits;
+	}
+	
+	public int getLifepoints() {
+		return lifepoints;
+	}
+	
+	public boolean isPaused() {
+		return paused;
+	}
+	
+	public void pause() {
+		paused = true;
+	}
+	
+	public void play() {
+		paused = false;
+	}
+	
+	public boolean isFastForward() {
+		return fastForward;
+	}
+	
+	public void fastForwadOn() {
+		fastForward = true;
+	}
+	
+	public void fastForwadOff() {
+		fastForward = false;
+	}
 }
+

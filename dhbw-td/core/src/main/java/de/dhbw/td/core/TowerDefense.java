@@ -20,6 +20,7 @@ import playn.core.Surface;
 import playn.core.SurfaceLayer;
 import de.dhbw.td.core.event.KeyboardObservable;
 import de.dhbw.td.core.event.MouseObservable;
+import de.dhbw.td.core.game.Button;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.game.HUD;
 import de.dhbw.td.core.level.Level;
@@ -40,7 +41,6 @@ public class TowerDefense implements Game {
 	private SurfaceLayer TILE_LAYER;
 	private ImageLayer BACKGROUND_LAYER;
 	private SurfaceLayer HUD_LAYER;
-
 	private SurfaceLayer ENEMY_LAYER;
 
 	private Level currentLevel;
@@ -53,12 +53,30 @@ public class TowerDefense implements Game {
 	private HUD hud;
 
 	private int levelNumber;
+	
+	private static MouseObservable mouse;
+	private static KeyboardObservable keyboard;
 
 	@Override
 	public void init() {
-		levelNumber = 1;
+		
 		stateOftheWorld = new GameState();
+		
+		/*
+		 * Register listener
+		 */
+		
+		mouse = new MouseObservable();
+		mouse().setListener(mouse);
+
+		keyboard = new KeyboardObservable();
+		keyboard().setListener(keyboard);
+		
 		hud = new HUD(stateOftheWorld);
+		//mouse.addObserver(hud);
+		//keyboard.addObserver(hud);
+		
+		levelNumber = 1;
 
 		loadWaveFactory();
 		nextLevel();
@@ -68,12 +86,13 @@ public class TowerDefense implements Game {
 		 * Layer
 		 */
 		
+		// BACKGROUND layer
 		Image bg = assets().getImage("tiles/white.bmp");
 		BACKGROUND_LAYER = graphics().createImageLayer(bg);
 		BACKGROUND_LAYER.setScale(currentLevel.width(), currentLevel.height());
 		graphics().rootLayer().add(BACKGROUND_LAYER);
 
-		// Tile layer
+		// TILE layer
 		TILE_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
 		graphics().rootLayer().add(TILE_LAYER);
 
@@ -84,18 +103,6 @@ public class TowerDefense implements Game {
 		// HUD layer
 		HUD_LAYER = graphics().createSurfaceLayer(currentLevel.width(), currentLevel.height());
 		graphics().rootLayer().add(HUD_LAYER);
-		
-		/*
-		 * Register listener
-		 */
-
-		MouseObservable m = new MouseObservable();
-		mouse().setListener(m);
-		m.addObserver(hud);
-
-		KeyboardObservable k = new KeyboardObservable();
-		keyboard().setListener(k);
-		k.addObserver(hud);		
 	}
 
 	private void loadLevel(String pathToLevel, String pathToWaves) {
@@ -113,6 +120,7 @@ public class TowerDefense implements Game {
 	private void nextWave() {
 		if (waveController.hasNextWave()) {
 			int waveNumber = waveController.getWaves().peek().getWaveNumber();
+			stateOftheWorld.setWaveCount(waveNumber+1);
 			if(waveNumber == 0 || waveNumber == NUMBER_OF_WAVES - 1){
 				stateOftheWorld.newWave(waveController.nextWave().getEnemies());
 			} else {
@@ -127,6 +135,7 @@ public class TowerDefense implements Game {
 
 	private void nextLevel() {
 		if (levelNumber <= NUMBER_OF_LEVELS) {
+			stateOftheWorld.setLevelCount(levelNumber);
 			loadLevel(getLevelName(), getWaveName());
 			levelNumber++;
 			
@@ -176,5 +185,13 @@ public class TowerDefense implements Game {
 	@Override
 	public int updateRate() {
 		return 24;
+	}
+	
+	public static MouseObservable getMouse() {
+		return mouse;
+	}
+
+	public static KeyboardObservable getKeyboard() {
+		return keyboard;
 	}
 }
