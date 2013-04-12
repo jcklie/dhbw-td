@@ -19,6 +19,7 @@ import de.dhbw.td.core.game.IDrawable;
 
 public class Level implements IDrawable {
 
+	private static final int TILE_OFFSET = 64; // px
 	public final int height;
 	public final int width;
 	public final int tilesize;
@@ -28,10 +29,12 @@ public class Level implements IDrawable {
 	private Queue<Point> waypoints;
 	
 	public static Queue<Point> copyWaypoints(Queue<Point> waypoints) {
-		Queue<Point> cloned = new LinkedList<Point>();
+		LinkedList<Point> cloned = new LinkedList<Point>();
 		for (Point p : waypoints) {
 			cloned.add((Point) p.clone());
 		}
+		cloned.getFirst().translate(-TILE_OFFSET, 0);
+		cloned.getLast().translate(TILE_OFFSET, 0);
 		return cloned;		
 	}
 
