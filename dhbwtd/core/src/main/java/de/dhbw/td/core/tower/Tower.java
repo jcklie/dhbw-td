@@ -7,7 +7,11 @@
 
 package de.dhbw.td.core.tower;
 
+import static playn.core.PlayN.log;
+
 import java.awt.Point;
+import java.util.LinkedList;
+import java.util.List;
 
 import playn.core.Surface;
 import de.dhbw.td.core.enemies.Enemy;
@@ -20,15 +24,16 @@ public class Tower implements IDrawable, IUpdateable {
 	
 	private final Point position;
 	private final TowerLevel[] levels;
-	private final double cadenza;
+	private final double shotRate;
 	
 	private double lastShot;
 	private Enemy target;
+	private List<Enemy> enemies = new LinkedList<Enemy>();
 	
 	public Tower(Point position, TowerLevel[] levels, double cadenza) {
 		this.position = new Point(position);
 		this.levels = levels;
-		this.cadenza = cadenza;
+		shotRate = (60 * 1000) / cadenza;
 	}
 	
 	public boolean canUpgrade() {
@@ -61,12 +66,12 @@ public class Tower implements IDrawable, IUpdateable {
 		return getLevel().price;
 	}
 	
-	public double getCadenza() {
-		return cadenza;
-	}
-	
 	public Point getPosition() {
 		return new Point(position);
+	}
+	
+	public void setEnemies(List<Enemy> enemies) {
+		this.enemies = enemies == null ? new LinkedList<Enemy>() : enemies;
 	}
 
 	@Override
@@ -75,8 +80,46 @@ public class Tower implements IDrawable, IUpdateable {
 	}
 
 	@Override
-	public void update(double delta) {
-		/* TODO Let towers shoot */
+	public void update(double delta) {		
+		lastShot += delta;
+
+		if (lastShot >= shotRate) {
+			if (target != null && (!enemies.contains(target) || !inRange(target))) {
+				target = null;
+			}
+
+			if (target == null) {
+				double minDistance = -1;
+				for (Enemy enemy : enemies) {
+					double distance = getDistance(enemy);
+					if ((inRange(distance) && distance < minDistance) || target == null) {
+						target = enemy;
+						minDistance = distance;
+					}
+				}
+			}
+			
+			if (target != null) {
+				log().debug("Shot");
+				/* TODO KILL enemy */
+			}
+			
+			lastShot -= shotRate;
+		}
+		
+		
+	}
+	
+	private double getDistance(Enemy enemy) {
+		return position.distance(enemy.getCurrentPosition());
+	}
+	
+	private boolean inRange(Enemy enemy) {
+		return inRange(getDistance(enemy));
+	}
+	
+	private boolean inRange(double distance) {
+		return distance <= getRange();
 	}
 
 }
