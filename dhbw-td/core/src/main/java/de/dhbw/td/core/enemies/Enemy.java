@@ -28,6 +28,7 @@ import de.dhbw.td.core.util.EFlavor;
  */
 public class Enemy implements IDrawable, IUpdateable {
 
+	private static final int ENEMY_OFFSET = 64;
 	private final int bounty;
 	private final int penalty;
 	private final int maxHealth;
@@ -58,8 +59,8 @@ public class Enemy implements IDrawable, IUpdateable {
 		this.currentWaypoint = this.waypoints.poll();
 		this.enemyImage = enemyImage;
 		this.currentDirection = EDirection.RIGHT;
-		this.fixedWaypoints.getFirst().translate((int) -enemyImage.height(), 0);
-		this.fixedWaypoints.getLast().translate((int) enemyImage.height(), 0);
+		this.fixedWaypoints.getFirst().translate(-ENEMY_OFFSET, 0);
+		this.fixedWaypoints.getLast().translate(ENEMY_OFFSET, 0);
 		this.waypoints.add(fixedWaypoints.getLast());
 		currentPosition.setLocation(fixedWaypoints.getFirst());
 		healthBarImage = HealthBar.getHealthStatus(1);
