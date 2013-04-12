@@ -42,17 +42,17 @@ public class WaveControllerTest extends TestCase {
 		jason = platform.json().parse(FileUtil.readFile(f));
 
 		waypoints = new LinkedList<Point>();
-		
-		waypoints.add(new Point(0,3));
-		waypoints.add(new Point(4,3));
-		waypoints.add(new Point(4,7));
-		waypoints.add(new Point(7,7));
-		waypoints.add(new Point(7,2));
-		waypoints.add(new Point(13,2));
-		
+
+		waypoints.add(new Point(0, 3));
+		waypoints.add(new Point(4, 3));
+		waypoints.add(new Point(4, 7));
+		waypoints.add(new Point(7, 7));
+		waypoints.add(new Point(7, 2));
+		waypoints.add(new Point(13, 2));
+
 		waveLoader = new WaveFactory();
-		
-		waveController = waveLoader.nextWaveController(jason, Level.copyWaypoints(waypoints));
+		waypoints = Level.copyWaypoints(waypoints);
+		waveController = waveLoader.nextWaveController(jason, waypoints);
 		waypoints.poll();
 	}
 
