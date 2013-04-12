@@ -28,7 +28,7 @@ public class Level implements IDrawable {
 	public final Image[][] map;
 	private Queue<Point> waypoints;
 
-	public static Queue<Point> changeCopyWaypoints(Queue<Point> waypoints) {
+	private static Queue<Point> changeCopyWaypoints(Queue<Point> waypoints) {
 		LinkedList<Point> cloned = new LinkedList<Point>();
 		for (Point p : waypoints) {
 			cloned.add((Point) p.clone());
