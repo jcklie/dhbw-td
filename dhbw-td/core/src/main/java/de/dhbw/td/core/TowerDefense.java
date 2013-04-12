@@ -190,4 +190,8 @@ public class TowerDefense implements Game {
 	public static MouseObservable getMouse() {
 		return mouse;
 	}
+
+	public static KeyboardObservable getKeyboard() {
+		return keyboard;
+	}
 }

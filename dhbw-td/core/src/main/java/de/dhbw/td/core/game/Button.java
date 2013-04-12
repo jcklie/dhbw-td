@@ -1,24 +1,32 @@
 package de.dhbw.td.core.game;
 
 import de.dhbw.td.core.event.ICallbackFunction;
+import de.dhbw.td.core.event.IKeyboardObserver;
 import de.dhbw.td.core.event.IMouseObserver;
 import playn.core.Image;
+import playn.core.Key;
+import playn.core.Keyboard.Event;
 import playn.core.Surface;
+import playn.core.Keyboard.TypedEvent;
 import playn.core.Mouse.ButtonEvent;
 import static playn.core.PlayN.log;
 import static playn.core.PlayN.assets;
 
-public class Button implements IDrawable, IMouseObserver{
+public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	
-	int x;
+	private int x;
 	int y;
 	
-	int width;
-	int height;
+	private int width;
+	private int height;
 	
-	Image image;
+	private boolean visible;
 	
-	ICallbackFunction callback;
+	private Image image;
+	
+	private ICallbackFunction callback;
+	
+	private Key key;
 	
 	public Button(int x, int y, int width, int height, String imagePath) {
 		this.x = x;
@@ -26,6 +34,7 @@ public class Button implements IDrawable, IMouseObserver{
 		this.width = width;
 		this.height = height;
 		this.image = assets().getImageSync(imagePath);
+		visible = true;
 	}
 	
 	public Button(int x, int y, int width, int height, String imagePath, ICallbackFunction callback) {
@@ -43,13 +52,46 @@ public class Button implements IDrawable, IMouseObserver{
 	
 	@Override
 	public void alert(ButtonEvent e) {
-		if(isHit((int)e.x(), (int)e.y())) {
+		if(isHit((int)e.x(), (int)e.y()) && callback != null) {
+			callback.execute();
+		}
+	}
+	
+	@Override
+	public void alert(Event e) {
+		if(key == e.key() && callback != null) {
 			callback.execute();
 		}
 	}
 	
 	@Override
 	public void draw(Surface surf) {
-		surf.drawImage(image, x, y, width, height);
+		if(visible) {
+			surf.drawImage(image, x, y, width, height);
+		}
+	}
+	
+	public void setImage(String imagePath) {
+		this.image = assets().getImageSync(imagePath);
+	}
+	
+	public Image getImage() {
+		return image;
+	}
+	
+	public void setCallback(ICallbackFunction callback) {
+		this.callback = callback;
+	}
+	
+	public void setKey(Key key) {
+		this.key = key;
+	}
+	
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+	
+	public boolean isVisible() {
+		return visible;
 	}
 }
