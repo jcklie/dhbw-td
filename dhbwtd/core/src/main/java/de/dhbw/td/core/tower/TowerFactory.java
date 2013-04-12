@@ -1,10 +1,9 @@
 package de.dhbw.td.core.tower;
 
-import static playn.core.PlayN.json;
 import static playn.core.PlayN.assets;
+import static playn.core.PlayN.json;
 import static playn.core.PlayN.log;
 
-import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import playn.core.Image;
 import playn.core.Json;
 import playn.core.Json.Array;
 import de.dhbw.td.core.util.EFlavor;
+import de.dhbw.td.core.util.Point;
 
 /**
  * 
@@ -76,7 +76,7 @@ public class TowerFactory {
 	}
 	
 	private String getPathToFile(EFlavor flavor) {
-		return String.format("%s/%s.json", PATH, getName(flavor));
+		return PATH + "/" + getName(flavor);
 	}
 	
 	private Image getImage(String src) {		

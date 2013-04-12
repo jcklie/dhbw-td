@@ -7,7 +7,6 @@
 
 package de.dhbw.td.core.util;
 
-import static playn.core.PlayN.log;
 
 /**
  * Rewrite of java.awt.Point, since GWT does not compile awt packages
@@ -97,6 +96,12 @@ public class Point implements Cloneable {
 	public void setLocation(Point p) {
 		this.x = p.x;
 		this.y = p.y;
+	}
+	
+	public double distance(Point p) {
+		double px = p.getX() - this.getX();
+		double py = p.getY() - this.getY();
+		return Math.sqrt(px * px + py * py);
 	}
 
 }
