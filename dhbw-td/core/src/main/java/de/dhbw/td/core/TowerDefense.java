@@ -34,6 +34,7 @@ public class TowerDefense implements Game {
 	private SurfaceLayer TILE_LAYER;
 	private SurfaceLayer HUD_LAYER;
 	private SurfaceLayer ENEMY_LAYER;
+	private SurfaceLayer TOWER_LAYER;
 
 	private GameState stateOftheWorld;
 	private HUD hud;
@@ -79,6 +80,10 @@ public class TowerDefense implements Game {
 		// ENEMY layer
 		ENEMY_LAYER = graphics().createSurfaceLayer(width, height);
 		graphics().rootLayer().add(ENEMY_LAYER);
+		
+		// TOWER layer
+		TOWER_LAYER = graphics().createSurfaceLayer(width, height);
+		graphics().rootLayer().add(TOWER_LAYER);
 
 		// HUD layer
 		HUD_LAYER = graphics().createSurfaceLayer(width, height);
@@ -88,14 +93,19 @@ public class TowerDefense implements Game {
 	@Override
 	public void paint(float alpha) {
 
-		Surface tileSurface = TILE_LAYER.surface();
-		stateOftheWorld.drawLevel(tileSurface);
-
 		Surface enemySurface = ENEMY_LAYER.surface();
 		stateOftheWorld.drawEnemies(enemySurface);
 
 		Surface hudSurface = HUD_LAYER.surface();
 		hud.draw(hudSurface);
+		
+		Surface towerSurface = TOWER_LAYER.surface();
+		//stateOftheWorld.drawTowers(towerSurface);
+		
+		if(stateOftheWorld.hasNewLevel()) {
+			Surface tileSurface = TILE_LAYER.surface();
+			stateOftheWorld.drawLevel(tileSurface);
+		}
 	}
 
 	@Override

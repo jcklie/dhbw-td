@@ -9,6 +9,15 @@ package de.dhbw.td.core.event;
 
 import playn.core.Mouse.ButtonEvent;
 
+/**
+ * 
+ * @author Benedict Holste <benedict@bholste.net>
+ *
+ */
 public interface IMouseObserver {
+	/**
+	 * 
+	 * @param e
+	 */
 	public void alert(ButtonEvent e);
 }

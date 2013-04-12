@@ -8,8 +8,16 @@
 package de.dhbw.td.core.event;
 
 import playn.core.Keyboard.Event;
-import playn.core.Keyboard.TypedEvent;
 
+/**
+ * 
+ * @author Benedict Holste <benedict@bholste.net>
+ *
+ */
 public interface IKeyboardObserver {
+	/**
+	 * 
+	 * @param e
+	 */
 	public void alert(Event e);
 }

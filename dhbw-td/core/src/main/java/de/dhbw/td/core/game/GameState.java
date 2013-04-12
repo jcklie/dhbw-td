@@ -18,6 +18,7 @@ import de.dhbw.td.core.TowerDefense;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.level.LevelFactory;
+import de.dhbw.td.core.tower.Tower;
 import de.dhbw.td.core.waves.Wave;
 import de.dhbw.td.core.waves.WaveController;
 import de.dhbw.td.core.waves.WaveFactory;
@@ -31,7 +32,7 @@ public class GameState implements IUpdateable {
 	private final int INITIAL_CREDITS = 25;
 	private final int INITIAL_LIFEPOINTS = 100;
 	
-	private final int DELTA_FF = 4;
+	private final int DELTA_FF = 100;
 	
 	private int levelCount;
 	private int waveCount;
@@ -43,11 +44,13 @@ public class GameState implements IUpdateable {
 	private boolean paused = false;
 	private boolean changed = true;
 	private boolean finished = false;
+	private boolean newLevel = false;
 	
+	private List<Tower> towers;
 	private List<Enemy> enemies;
 	
 	private WaveFactory waveFactory;
-	private WaveController currentWaveController;
+	private WaveController waveController;
 	private Wave currentWave;
 	
 	private LevelFactory levelFactory;
@@ -86,6 +89,8 @@ public class GameState implements IUpdateable {
 		} catch (Exception e) {
 			log().error(e.toString());
 		}
+		changed = true;
+		newLevel = true;
 	}
 	
 	/**
@@ -95,7 +100,7 @@ public class GameState implements IUpdateable {
 		try {
 			String waveJSON = assets().getTextSync(String.format("%swaves%s.json",
 					TowerDefense.PATH_WAVES, levelCount));
-			currentWaveController = waveFactory.nextWaveController(waveJSON, currentLevel.waypoints());
+			waveController = waveFactory.nextWaveController(waveJSON, currentLevel.waypoints());
 		} catch (Exception e) {
 			log().error(e.toString());
 		}
@@ -106,13 +111,13 @@ public class GameState implements IUpdateable {
 	 */
 	private void nextWave() {
 		waveCount++;
-		currentWave = currentWaveController.nextWave();
+		currentWave = waveController.nextWave();
 		enemies = currentWave.getEnemies();
 		for(int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
 			e.getCurrentPosition().translate(-(i*64), 0);
 		}
-		changed = true;
+		newLevel = true;
 	}
 
 	/**
@@ -123,6 +128,14 @@ public class GameState implements IUpdateable {
 	public boolean hasChanged() {
 		if (changed) {
 			changed = false;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean hasNewLevel() {
+		if(newLevel) {
+			newLevel = false;
 			return true;
 		}
 		return false;
@@ -148,7 +161,25 @@ public class GameState implements IUpdateable {
 	 * @param surf The Surface to draw on
 	 */
 	public void drawLevel(Surface surf) {
+		if(newLevel) {
+			surf.clear();
+			log().debug("Clear TILE_LAYER");
+		}	
 		currentLevel.draw(surf);
+		log().debug("Draw TILE_LAYER");
+		newLevel = false;
+	}
+	
+	/**
+	 * Draws all placed towers.
+	 * 
+	 * @param surf The surface to draw on
+	 */
+	public void drawTowers(Surface surf) {
+		surf.clear();
+		for(Tower t : towers) {
+			t.draw(surf);
+		}
 	}
 
 	@Override
@@ -169,11 +200,12 @@ public class GameState implements IUpdateable {
 				// check, if enemy is still alive
 				if(!e.isAlive()) {
 					enemies.remove(e);
+					addCredits(10);
 				}
 				
 				// check, if there are enemies left
 				if(enemies.isEmpty()) {
-					if(currentWaveController.hasNextWave()) {
+					if(waveController.hasNextWave()) {
 						nextWave();
 					}
 					else {
