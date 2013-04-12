@@ -10,6 +10,7 @@ package de.dhbw.td.core.event;
 import java.util.ArrayList;
 
 import playn.core.Keyboard;
+import playn.core.Keyboard.Event;
 import playn.core.Keyboard.TypedEvent;
 
 public class KeyboardObservable extends Keyboard.Adapter {
@@ -25,6 +26,11 @@ public class KeyboardObservable extends Keyboard.Adapter {
 	
 	@Override
 	public void onKeyTyped(TypedEvent event) {
+		//alertObservers(event);
+	}
+	
+	@Override
+	public void onKeyDown(Event event) {
 		alertObservers(event);
 	}
 	
@@ -51,7 +57,7 @@ public class KeyboardObservable extends Keyboard.Adapter {
 	 * 
 	 * @param e
 	 */
-	private void alertObservers(TypedEvent e) {
+	private void alertObservers(Event e) {
 		for(IKeyboardObserver observer : observers) {
 			observer.alert(e);
 		}

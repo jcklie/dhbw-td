@@ -3,6 +3,7 @@
  *  
  *  Contributors:
  *  Jan-Christoph Klie - First basic version
+ *  Benedict Holste - Added attributes 
  */
 
 package de.dhbw.td.core.game;
@@ -20,7 +21,7 @@ import de.dhbw.td.core.util.Time;
  * of attributes w/o distinct setter methods
  */
 public class GameState implements IDrawable, IUpdateable {
-
+	
 	private final int INITIAL_CREDITS = 1000;
 	private final int INITIAL_LIFEPOINTS = 100;
 	
@@ -32,6 +33,7 @@ public class GameState implements IDrawable, IUpdateable {
 	private int credits;
 	private int lifepoints;
 	
+	private boolean fastForward = false;
 	private boolean paused = false;
 	private boolean changed = true;
 	
@@ -159,4 +161,29 @@ public class GameState implements IDrawable, IUpdateable {
 	public int getLifepoints() {
 		return lifepoints;
 	}
+	
+	public boolean isPaused() {
+		return paused;
+	}
+	
+	public void pause() {
+		paused = true;
+	}
+	
+	public void play() {
+		paused = false;
+	}
+	
+	public boolean isFastForward() {
+		return fastForward;
+	}
+	
+	public void fastForwadOn() {
+		fastForward = true;
+	}
+	
+	public void fastForwadOff() {
+		fastForward = false;
+	}
 }
+

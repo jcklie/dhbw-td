@@ -11,22 +11,32 @@ package de.dhbw.td.core.game;
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
+
+import java.util.ArrayList;
+
 import playn.core.Canvas;
 import playn.core.CanvasImage;
 import playn.core.Font;
 import playn.core.Image;
+import playn.core.Key;
+import playn.core.Keyboard.Event;
 import playn.core.Keyboard.TypedEvent;
 import playn.core.Mouse.ButtonEvent;
+import playn.core.util.Callback;
 import playn.core.Surface;
 import playn.core.TextFormat;
 import playn.core.TextLayout;
 import de.dhbw.td.core.TowerDefense;
+import de.dhbw.td.core.event.ICallbackFunction;
 import de.dhbw.td.core.event.IKeyboardObserver;
 import de.dhbw.td.core.event.IMouseObserver;
 
 /**
- * Jan-Christoph Klie - <jcklie@de.ibm.com>
+ * UI-related class for visualizing the current game state and implementing
+ * the user interaction trough mouse and keyboard events.
+ * 
  * @author Benedict Holste <benedict@bholste.net>
+ * @author Jan-Christoph Klie <jcklie@de.ibm.com>
  *
  */
 public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
@@ -42,8 +52,8 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	private final int OFFSET_IMAGE_HEART 	= 7;
 	private final int OFFSET_IMAGE_CREDITS 	= 9;
 	private final int OFFSET_IMAGE_COG	 	= 13;
-	private final int OFFSET_IMAGE_PAUSE	= 0;
-	private final int OFFSET_IMAGE_PLAY	= 1;
+	private final int OFFSET_IMAGE_PLAYPAUSE = 0;
+	private final int OFFSET_IMAGE_FORWARD	= 1;
 	
 	private final int OFFSET_IMAGE_MATH 	= 8;
 	private final int OFFSET_IMAGE_CODE 	= 9;
@@ -76,13 +86,23 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	
 	private GameState stateOfTheWorld;
 	
+	private ArrayList<Button> buttons;
+	
+	private boolean changed;
+	
 	/**
+	 * Constructor
 	 * 
-	 * @param state
+	 * @param state an object representing the game state to be visualized
 	 */
 	public HUD(GameState state) {
 		
 		stateOfTheWorld = state;
+		
+		changed = true;
+		
+		buttons = new ArrayList<Button>();
+		createButtons();
 		
 		canvasImage = graphics().createImage( graphics().width(), graphics().height() );
 		canvas = canvasImage.canvas();
@@ -93,26 +113,181 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		// load HUD images
 		clockImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "clock.bmp");
 		heartImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "heart.bmp");
-		cogImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "cog.bmp");
+		//cogImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "cog.bmp");
 		creditsImage= assets().getImageSync(TowerDefense.PATH_IMAGES + "credits.bmp");
-		pauseImage= assets().getImageSync(TowerDefense.PATH_IMAGES + "pause.png");
-		playImage= assets().getImageSync(TowerDefense.PATH_IMAGES + "play.png");
+//		pauseImage= assets().getImageSync(TowerDefense.PATH_IMAGES + "pause.png");
+//		playImage= assets().getImageSync(TowerDefense.PATH_IMAGES + "play.png");
 		
 		// load tower images
-		mathTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "math.png");
-		codeTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "code.png");
-		wiwiTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "wiwi.png");
-		socialTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "social.png");
-		techinfTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "techinf.png");
-		theoinfTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "theoinf.png");
+		//mathTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "math.png");
+		//codeTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "code.png");
+		//wiwiTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "wiwi.png");
+//		socialTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "social.png");
+//		techinfTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "techinf.png");
+//		theoinfTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "theoinf.png");
 		
+		
+	}
+	
+	/**
+	 * Creates the HUD buttons and registers their
+	 * mouse and keyboard listeners.
+	 */
+	private void createButtons() {
+		
+		final Button cog = new Button(OFFSET_IMAGE_COG*TILE_SIZE, OFFSET_HEAD, TILE_SIZE, TILE_SIZE,
+				TowerDefense.PATH_IMAGES + "cog.bmp", new ICallbackFunction() {
+					
+					@Override
+					public void execute() {
+						log().debug("Clicked Settings");
+					}
+				});
+		cog.setKey(Key.ESCAPE);
+		TowerDefense.getMouse().addObserver(cog);
+		TowerDefense.getKeyboard().addObserver(cog);
+		buttons.add(cog);
+		
+		final Button mathTower = new Button(OFFSET_IMAGE_MATH*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
+				TowerDefense.PATH_TOWERS + "math.png", new ICallbackFunction() {
+					
+					@Override
+					public void execute() {
+						log().debug("Clicked MathTower");
+					}
+				});
+		TowerDefense.getMouse().addObserver(mathTower);
+		buttons.add(mathTower);
+		
+		final Button codeTower = new Button(OFFSET_IMAGE_CODE*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
+				TowerDefense.PATH_TOWERS + "code.png", new ICallbackFunction() {
+					
+					@Override
+					public void execute() {
+						log().debug("Clicked CodeTower");
+					}
+				});
+		TowerDefense.getMouse().addObserver(codeTower);
+		buttons.add(codeTower);
+		
+		final Button wiwiTower = new Button(OFFSET_IMAGE_WIWI*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
+				TowerDefense.PATH_TOWERS + "wiwi.png", new ICallbackFunction() {
+					
+					@Override
+					public void execute() {
+						log().debug("Clicked WiwiTower");
+					}
+				});
+		TowerDefense.getMouse().addObserver(wiwiTower);
+		buttons.add(wiwiTower);
+		
+		final Button theoinfTower = new Button(OFFSET_IMAGE_THEOINF*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
+				TowerDefense.PATH_TOWERS + "theoinf.png", new ICallbackFunction() {
+					
+					@Override
+					public void execute() {
+						log().debug("Clicked theoinfTower");
+					}
+				});
+		TowerDefense.getMouse().addObserver(theoinfTower);
+		buttons.add(theoinfTower);
+		
+		final Button techinfTower = new Button(OFFSET_IMAGE_TECHINF*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
+				TowerDefense.PATH_TOWERS + "techinf.png", new ICallbackFunction() {
+					
+					@Override
+					public void execute() {
+						log().debug("Clicked techinfTower");
+					}
+				});
+		TowerDefense.getMouse().addObserver(techinfTower);
+		buttons.add(techinfTower);
+		
+		final Button socialTower = new Button(OFFSET_IMAGE_SOCIAL*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
+				TowerDefense.PATH_TOWERS + "social.png");
+		socialTower.setCallback(new ICallbackFunction() {
+					
+					@Override
+					public void execute() {
+						log().debug("Clicked socialTower");
+					}
+				});
+		TowerDefense.getMouse().addObserver(socialTower);
+		buttons.add(socialTower);
+		
+		final Button playPause = new Button(OFFSET_IMAGE_PLAYPAUSE*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
+				TowerDefense.PATH_IMAGES + "pause.png");
+		
+		playPause.setCallback(new ICallbackFunction() {
+					
+					@Override
+					public void execute() {
+						log().debug("Clicked playPause");
+						
+						if(!stateOfTheWorld.isPaused()) {
+							stateOfTheWorld.pause();
+							 playPause.setImage(TowerDefense.PATH_IMAGES + "play.png");
+						}
+						else {
+							stateOfTheWorld.play();
+							playPause.setImage(TowerDefense.PATH_IMAGES + "pause.png");
+						}
+						log().debug("Paused is " + String.valueOf(stateOfTheWorld.isPaused()));
+						changed = true;
+					}
+				});
+		playPause.setKey(Key.P);
+		TowerDefense.getMouse().addObserver(playPause);
+		TowerDefense.getKeyboard().addObserver(playPause);
+		buttons.add(playPause);
+		
+		final Button fastForward = new Button(OFFSET_IMAGE_FORWARD*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
+				TowerDefense.PATH_IMAGES + "fast_forward.png");
+		
+		fastForward.setVisible(false);
+		
+		fastForward.setCallback(new ICallbackFunction() {
+					
+					@Override
+					public void execute() {
+						if(stateOfTheWorld.isFastForward()) {
+							fastForward.setVisible(false);
+							stateOfTheWorld.fastForwadOff();
+						}
+						else {
+							fastForward.setVisible(true);
+							stateOfTheWorld.fastForwadOn();
+						}
+						changed = true;
+						log().debug("FastForwad is " + String.valueOf(stateOfTheWorld.isFastForward()));
+					}
+				});
+		
+		fastForward.setKey(Key.F);
+		TowerDefense.getMouse().addObserver(fastForward);
+		TowerDefense.getKeyboard().addObserver(fastForward);
+		buttons.add(fastForward);
+	}
+	
+	/**
+	 * 
+	 * @return true, if the HUD has changed
+	 */
+	private boolean hasChanged() {
+		if(changed) {
+			changed = false;
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public void draw(Surface surf) {
 		
 		// check, if world has changed
-		if(stateOfTheWorld.hasChanged()) {
+		if(stateOfTheWorld.hasChanged() || hasChanged()) {
+			
+			log().debug("DRAW");
 			
 			// clear the surface
 			surf.clear();
@@ -123,7 +298,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 			canvas.drawImage(clockImage, OFFSET_IMAGE_CLOCK*TILE_SIZE, OFFSET_HEAD);
 			canvas.drawImage(heartImage, OFFSET_IMAGE_HEART*TILE_SIZE, OFFSET_HEAD);
 			canvas.drawImage(creditsImage, OFFSET_IMAGE_CREDITS*TILE_SIZE, OFFSET_HEAD);
-			canvas.drawImage(cogImage, OFFSET_IMAGE_COG*TILE_SIZE, OFFSET_HEAD);
+			//canvas.drawImage(cogImage, OFFSET_IMAGE_COG*TILE_SIZE, OFFSET_HEAD);
 			
 			TextLayout clockText = graphics().layoutText(String.format("%s. Semester - %s.Woche", stateOfTheWorld.getLevelCount(),
 					stateOfTheWorld.getWaveCount()), textFormat);
@@ -136,18 +311,23 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 			canvas.fillText(creditsText, OFFSET_TEXT_CREDITS*TILE_SIZE, 16);
 			
 			// draw HUD foot
-			canvas.drawImage(pauseImage, OFFSET_IMAGE_PAUSE*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
-			canvas.drawImage(playImage, OFFSET_IMAGE_PLAY*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
+//			canvas.drawImage(pauseImage, OFFSET_IMAGE_PAUSE*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
+//			canvas.drawImage(playImage, OFFSET_IMAGE_PLAY*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
 			
-			canvas.drawImage(mathTowerImage, OFFSET_IMAGE_MATH*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
-			canvas.drawImage(codeTowerImage, OFFSET_IMAGE_CODE*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
-			canvas.drawImage(wiwiTowerImage, OFFSET_IMAGE_WIWI*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
-			canvas.drawImage(socialTowerImage, OFFSET_IMAGE_SOCIAL*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
-			canvas.drawImage(techinfTowerImage, OFFSET_IMAGE_TECHINF*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
-			canvas.drawImage(theoinfTowerImage, OFFSET_IMAGE_THEOINF*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
+			//canvas.drawImage(mathTowerImage, OFFSET_IMAGE_MATH*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
+			//canvas.drawImage(codeTowerImage, OFFSET_IMAGE_CODE*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
+			//canvas.drawImage(wiwiTowerImage, OFFSET_IMAGE_WIWI*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
+			//canvas.drawImage(socialTowerImage, OFFSET_IMAGE_SOCIAL*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
+			//canvas.drawImage(techinfTowerImage, OFFSET_IMAGE_TECHINF*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
+			//canvas.drawImage(theoinfTowerImage, OFFSET_IMAGE_THEOINF*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
 			
 			// draw the canvas onto the surface
 			surf.drawImage(canvasImage, 0, 0);
+			
+			// draw the buttons
+			for(Button b : buttons) {
+				b.draw(surf);
+			}
 		}		
 	}
 
@@ -158,7 +338,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	}
 	
 	@Override
-	public void alert(TypedEvent e) {
+	public void alert(Event e) {
 		// TODO Auto-generated method stub
 		log().info(this.toString() + " " + e.toString());
 	}

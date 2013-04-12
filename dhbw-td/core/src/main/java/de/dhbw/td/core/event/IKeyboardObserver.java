@@ -7,8 +7,9 @@
 
 package de.dhbw.td.core.event;
 
+import playn.core.Keyboard.Event;
 import playn.core.Keyboard.TypedEvent;
 
 public interface IKeyboardObserver {
-	public void alert(TypedEvent e);
+	public void alert(Event e);
 }
