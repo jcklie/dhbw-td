@@ -1,0 +1,11 @@
+{
+	"levels": [
+		{"damage": 14, "range": 150, "price":  8, "image": "theoinf.png"},
+		{"damage": 19, "range": 160, "price": 15, "image": "theoinf.png"},
+		{"damage": 29, "range": 160, "price": 22, "image": "theoinf.png"},
+		{"damage": 37, "range": 160, "price": 29, "image": "theoinf.png"},
+		{"damage": 45, "range": 170, "price": 36, "image": "theoinf.png"}
+	],
+	"levelCount": 5,
+	"cadenza": 20
+}
