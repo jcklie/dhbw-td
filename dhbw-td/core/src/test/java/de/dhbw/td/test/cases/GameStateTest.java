@@ -57,6 +57,6 @@ public class GameStateTest extends TestCase {
 	
 	public void testNewWave(){
 		List<Enemy> enemies = waveController.nextWave().getEnemies();
-		stateOfTheWorld.newWave(enemies);
+		//stateOfTheWorld.newWave(enemies);
 	}
 }

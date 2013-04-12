@@ -20,9 +20,7 @@ import playn.core.Font;
 import playn.core.Image;
 import playn.core.Key;
 import playn.core.Keyboard.Event;
-import playn.core.Keyboard.TypedEvent;
 import playn.core.Mouse.ButtonEvent;
-import playn.core.util.Callback;
 import playn.core.Surface;
 import playn.core.TextFormat;
 import playn.core.TextLayout;
@@ -72,17 +70,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	
 	private Image clockImage;
 	private Image heartImage;
-	private Image cogImage;
 	private Image creditsImage;
-	private Image pauseImage;
-	private Image playImage;
-	
-	private Image mathTowerImage;
-	private Image codeTowerImage;
-	private Image socialTowerImage;
-	private Image wiwiTowerImage;
-	private Image techinfTowerImage;
-	private Image theoinfTowerImage;
 	
 	private GameState stateOfTheWorld;
 	
@@ -113,20 +101,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		// load HUD images
 		clockImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "clock.bmp");
 		heartImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "heart.bmp");
-		//cogImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "cog.bmp");
-		creditsImage= assets().getImageSync(TowerDefense.PATH_IMAGES + "credits.bmp");
-//		pauseImage= assets().getImageSync(TowerDefense.PATH_IMAGES + "pause.png");
-//		playImage= assets().getImageSync(TowerDefense.PATH_IMAGES + "play.png");
-		
-		// load tower images
-		//mathTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "math.png");
-		//codeTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "code.png");
-		//wiwiTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "wiwi.png");
-//		socialTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "social.png");
-//		techinfTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "techinf.png");
-//		theoinfTowerImage = assets().getImageSync(TowerDefense.PATH_TOWERS + "theoinf.png");
-		
-		
+		creditsImage= assets().getImageSync(TowerDefense.PATH_IMAGES + "credits.bmp");	
 	}
 	
 	/**
@@ -252,11 +227,11 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 					public void execute() {
 						if(stateOfTheWorld.isFastForward()) {
 							fastForward.setVisible(false);
-							stateOfTheWorld.fastForwadOff();
+							stateOfTheWorld.fastForwardOff();
 						}
 						else {
 							fastForward.setVisible(true);
-							stateOfTheWorld.fastForwadOn();
+							stateOfTheWorld.fastForwardOn();
 						}
 						changed = true;
 						log().debug("FastForwad is " + String.valueOf(stateOfTheWorld.isFastForward()));
@@ -298,9 +273,8 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 			canvas.drawImage(clockImage, OFFSET_IMAGE_CLOCK*TILE_SIZE, OFFSET_HEAD);
 			canvas.drawImage(heartImage, OFFSET_IMAGE_HEART*TILE_SIZE, OFFSET_HEAD);
 			canvas.drawImage(creditsImage, OFFSET_IMAGE_CREDITS*TILE_SIZE, OFFSET_HEAD);
-			//canvas.drawImage(cogImage, OFFSET_IMAGE_COG*TILE_SIZE, OFFSET_HEAD);
 			
-			TextLayout clockText = graphics().layoutText(String.format("%s. Semester - %s.Woche", stateOfTheWorld.getLevelCount(),
+			TextLayout clockText = graphics().layoutText(String.format("%s. Semester - %s. Woche", stateOfTheWorld.getLevelCount(),
 					stateOfTheWorld.getWaveCount()), textFormat);
 			canvas.fillText(clockText, OFFSET_TEXT_CLOCK*TILE_SIZE, 16);
 			
@@ -309,17 +283,6 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 			
 			TextLayout creditsText = graphics().layoutText(String.valueOf(stateOfTheWorld.getCredits()), textFormat);
 			canvas.fillText(creditsText, OFFSET_TEXT_CREDITS*TILE_SIZE, 16);
-			
-			// draw HUD foot
-//			canvas.drawImage(pauseImage, OFFSET_IMAGE_PAUSE*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
-//			canvas.drawImage(playImage, OFFSET_IMAGE_PLAY*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
-			
-			//canvas.drawImage(mathTowerImage, OFFSET_IMAGE_MATH*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
-			//canvas.drawImage(codeTowerImage, OFFSET_IMAGE_CODE*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
-			//canvas.drawImage(wiwiTowerImage, OFFSET_IMAGE_WIWI*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
-			//canvas.drawImage(socialTowerImage, OFFSET_IMAGE_SOCIAL*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
-			//canvas.drawImage(techinfTowerImage, OFFSET_IMAGE_TECHINF*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
-			//canvas.drawImage(theoinfTowerImage, OFFSET_IMAGE_THEOINF*TILE_SIZE, OFFSET_FOOT*TILE_SIZE);
 			
 			// draw the canvas onto the surface
 			surf.drawImage(canvasImage, 0, 0);
