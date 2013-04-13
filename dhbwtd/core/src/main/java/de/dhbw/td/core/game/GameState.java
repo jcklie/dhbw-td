@@ -81,6 +81,8 @@ public class GameState implements IUpdateable {
 		credits = INITIAL_CREDITS;
 		lifepoints = INITIAL_LIFEPOINTS;
 		
+		lastAction = EAction.NONE;
+		
 		levelCount = 0;
 		waveCount = 0;
 		
