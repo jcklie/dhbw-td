@@ -22,6 +22,15 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	private ICallbackFunction callback;	
 	private Key key;
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param imagePath
+	 */
 	public Button(int x, int y, int width, int height, String imagePath) {
 		this.x = x;
 		this.y = y;
@@ -36,8 +45,14 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 		this.callback = callback;
 	}
 	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	private boolean isHit(int x, int y) {
-		if((this.x < x && x < this.x + width) && (this.y < y && y < y + height)) {
+		if((this.x < x && x < this.x + width) && (this.y < y && y < this.y + height)) {
 			log().debug(this.toString() + " HIT");
 			return true;
 		}
