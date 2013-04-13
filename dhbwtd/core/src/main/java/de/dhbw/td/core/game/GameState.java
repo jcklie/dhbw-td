@@ -32,7 +32,7 @@ public class GameState implements IUpdateable {
 	private final int INITIAL_CREDITS = 25;
 	private final int INITIAL_LIFEPOINTS = 100;
 	
-	private final int FACTOR_DELTA_FF = 4;
+	private final int FACTOR_DELTA_FF = 10;
 	
 	private int levelCount;
 	private int waveCount;
@@ -212,6 +212,7 @@ public class GameState implements IUpdateable {
 
 			if (!e.isAlive()) {
 				enemies.remove(e);
+				addCredits(e.getBounty());
 			} else {
 				i++;
 			}

@@ -95,18 +95,23 @@ public class TowerDefense implements Game {
 	@Override
 	public void paint(float alpha) {
 
-		Surface enemySurface = ENEMY_LAYER.surface();
-		stateOftheWorld.drawEnemies(enemySurface);
-
-		Surface hudSurface = HUD_LAYER.surface();
-		hud.draw(hudSurface);
+		if(!stateOftheWorld.isPaused()) {
+			
+			System.out.println("DRAW");
 		
-		Surface towerSurface = TOWER_LAYER.surface();
-		//stateOftheWorld.drawTowers(towerSurface);
-		
-		if(stateOftheWorld.hasNewLevel()) {
-			Surface tileSurface = TILE_LAYER.surface();
-			stateOftheWorld.drawLevel(tileSurface);
+			Surface enemySurface = ENEMY_LAYER.surface();
+			stateOftheWorld.drawEnemies(enemySurface);
+	
+			Surface hudSurface = HUD_LAYER.surface();
+			hud.draw(hudSurface);
+			
+			Surface towerSurface = TOWER_LAYER.surface();
+			//stateOftheWorld.drawTowers(towerSurface);
+			
+			if(stateOftheWorld.hasNewLevel()) {
+				Surface tileSurface = TILE_LAYER.surface();
+				stateOftheWorld.drawLevel(tileSurface);
+			}
 		}
 	}
 
