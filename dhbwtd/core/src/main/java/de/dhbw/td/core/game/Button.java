@@ -82,8 +82,8 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 		}
 	}
 	
-	public void setImage(String imagePath) {
-		this.image = assets().getImageSync(imagePath);
+	public void setImage(Image image) {
+		this.image = image;
 	}
 	
 	public Image getImage() {
