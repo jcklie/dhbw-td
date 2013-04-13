@@ -20,6 +20,7 @@ public final class ImageContainer {
 	public Image FAST_FORWARD;
 	public Image COG;
 	public Image HEART;
+	public Image CREDITS;
 	
 	/*
 	 * MAP TILES
@@ -67,6 +68,7 @@ public final class ImageContainer {
 		FAST_FORWARD = assets().getImageSync(PATH_IMAGES + "fast_forward.png");
 		COG = assets().getImageSync(PATH_IMAGES + "cog.png");
 		HEART = assets().getImageSync(PATH_IMAGES + "heart.png");
+		CREDITS = assets().getImageSync(PATH_IMAGES + "piggy.png");
 		
 		EDGE_LEFT_BOTTOM = assets().getImageSync(PATH_TILES + "edge_left_bottom.bmp");
 		EDGE_LEFT_TOP = assets().getImageSync(PATH_TILES + "edge_left_top.bmp");

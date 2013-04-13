@@ -29,6 +29,7 @@ import de.dhbw.td.core.event.ICallbackFunction;
 import de.dhbw.td.core.event.IKeyboardObserver;
 import de.dhbw.td.core.event.IMouseObserver;
 import de.dhbw.td.core.game.GameState.EAction;
+import de.dhbw.td.core.util.ImageContainer;
 
 /**
  * UI-related class for visualizing the current game state and implementing
@@ -70,10 +71,6 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	private Canvas canvas;
 	private TextFormat textFormat;
 	
-	private Image clockImage;
-	private Image heartImage;
-	private Image creditsImage;
-	
 	private GameState gameState;
 	
 	private ArrayList<Button> buttons;
@@ -99,11 +96,6 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		
 		Font miso = graphics().createFont("Miso", Font.Style.PLAIN, fontSize);
 		textFormat = new TextFormat().withFont(miso);
-		
-		// load HUD images
-		clockImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "clock.bmp");
-		heartImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "heart.bmp");
-		creditsImage= assets().getImageSync(TowerDefense.PATH_IMAGES + "credits.bmp");
 		
 		TowerDefense.getMouse().addObserver(this);
 		TowerDefense.getKeyboard().addObserver(this);
@@ -131,7 +123,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addMathButton() {		
 		final Button mathTower = new Button(OFFSET_IMAGE_MATH*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
-				TowerDefense.PATH_TOWERS + "math.png", new ICallbackFunction() {
+				ImageContainer.getInstance().MATH_TOWER, new ICallbackFunction() {
 					
 					@Override
 					public void execute() {
@@ -148,7 +140,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addCodeButton() {
 		final Button codeTower = new Button(OFFSET_IMAGE_CODE*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
-				TowerDefense.PATH_TOWERS + "code.png", new ICallbackFunction() {
+				ImageContainer.getInstance().CODE_TOWER, new ICallbackFunction() {
 					
 					@Override
 					public void execute() {
@@ -165,7 +157,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addEconomicsButton() {		
 		final Button economicsTower = new Button(OFFSET_IMAGE_WIWI*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
-				TowerDefense.PATH_TOWERS + "wiwi.png", new ICallbackFunction() {
+				ImageContainer.getInstance().WIWI_TOWER, new ICallbackFunction() {
 					
 					@Override
 					public void execute() {
@@ -182,7 +174,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addTheoreticalComputerSciencesButton() {
 		final Button tcsTower = new Button(OFFSET_IMAGE_THEOINF * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, TowerDefense.PATH_TOWERS + "theoinf.png", new ICallbackFunction() {
+				TILE_SIZE, ImageContainer.getInstance().THEOINF_TOWER, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
@@ -199,7 +191,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addComputerEngineeringButton() {
 		final Button techinfTower = new Button(OFFSET_IMAGE_TECHINF * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, TowerDefense.PATH_TOWERS + "techinf.png", new ICallbackFunction() {
+				TILE_SIZE, ImageContainer.getInstance().TECHINF_TOWER, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
@@ -216,7 +208,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addSocialButton() {
 		final Button socialTower = new Button(OFFSET_IMAGE_SOCIAL * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, TowerDefense.PATH_TOWERS + "social.png");
+				TILE_SIZE, ImageContainer.getInstance().SOCIAL_TOWER);
 		socialTower.setCallback(new ICallbackFunction() {
 
 			@Override
@@ -234,7 +226,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addPlayButton() {
 		final Button playPause = new Button(OFFSET_IMAGE_PLAYPAUSE * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, TowerDefense.PATH_IMAGES + "pause.png");
+				TILE_SIZE, ImageContainer.getInstance().PAUSE);
 
 		playPause.setCallback(new ICallbackFunction() {
 
@@ -245,10 +237,10 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 				if (!gameState.isPaused()) {
 					gameState.pause();
-					playPause.setImage(TowerDefense.PATH_IMAGES + "play.png");
+					playPause.setImage(ImageContainer.getInstance().PLAY);
 				} else {
 					gameState.play();
-					playPause.setImage(TowerDefense.PATH_IMAGES + "pause.png");
+					playPause.setImage(ImageContainer.getInstance().PAUSE);
 				}
 
 				changed = true;
@@ -265,7 +257,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addFastForwardButton() {
 		final Button fastForwardButton = new Button(OFFSET_IMAGE_FORWARD * TILE_SIZE, OFFSET_FOOT * TILE_SIZE,
-				TILE_SIZE, TILE_SIZE, TowerDefense.PATH_IMAGES + "fast_forward.png");
+				TILE_SIZE, TILE_SIZE, ImageContainer.getInstance().FAST_FORWARD);
 
 		fastForwardButton.setVisible(false);
 
@@ -298,8 +290,9 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 * Adds the Menu Button
 	 */
 	private void addMenuButton() {
-		final Button menuButton = new Button(OFFSET_IMAGE_COG * TILE_SIZE, OFFSET_HEAD, TILE_SIZE, TILE_SIZE,
-				TowerDefense.PATH_IMAGES + "cog.bmp", new ICallbackFunction() {
+		final Button menuButton = new Button(OFFSET_IMAGE_COG * TILE_SIZE, OFFSET_HEAD,
+				(int)ImageContainer.getInstance().COG.width(), (int)ImageContainer.getInstance().COG.height(),
+				ImageContainer.getInstance().COG, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
@@ -335,9 +328,9 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 			canvas.clear();
 			
 			// Draw HUD head
-			canvas.drawImage(clockImage, OFFSET_IMAGE_CLOCK*TILE_SIZE, OFFSET_HEAD);
-			canvas.drawImage(heartImage, OFFSET_IMAGE_HEART*TILE_SIZE, OFFSET_HEAD);
-			canvas.drawImage(creditsImage, OFFSET_IMAGE_CREDITS*TILE_SIZE, OFFSET_HEAD);
+			canvas.drawImage(ImageContainer.getInstance().CLOCK, OFFSET_IMAGE_CLOCK*TILE_SIZE, OFFSET_HEAD);
+			canvas.drawImage(ImageContainer.getInstance().HEART, OFFSET_IMAGE_HEART*TILE_SIZE, OFFSET_HEAD);
+			canvas.drawImage(ImageContainer.getInstance().CREDITS, OFFSET_IMAGE_CREDITS*TILE_SIZE, OFFSET_HEAD);
 			
 			// Draw text labels
 			
