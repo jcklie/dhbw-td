@@ -16,8 +16,11 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	private final int x;
 	private final int y;	
 	private final int width;
-	private final int height;	
-	private boolean visible;	
+	private final int height;
+	
+	private boolean visible;
+	private boolean enabled;
+	
 	private Image image;	
 	private ICallbackFunction callback;	
 	private Key key;
@@ -38,6 +41,7 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 		this.height = height;
 		this.image = assets().getImageSync(imagePath);
 		visible = true;
+		enabled = true;
 	}
 	
 	public Button(int x, int y, int width, int height, String imagePath, ICallbackFunction callback) {
@@ -102,5 +106,17 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	
 	public boolean isVisible() {
 		return visible;
+	}
+	
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
+	public void enable() {
+		enabled = true;
+	}
+	
+	public void disable() {
+		enabled = false;
 	}
 }
