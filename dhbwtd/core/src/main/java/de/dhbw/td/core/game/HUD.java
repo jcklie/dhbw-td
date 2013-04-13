@@ -8,7 +8,7 @@
 
 package de.dhbw.td.core.game;
 
-import static playn.core.PlayN.assets;
+import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
 
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import playn.core.Canvas;
 import playn.core.CanvasImage;
 import playn.core.Font;
-import playn.core.Image;
 import playn.core.Key;
 import playn.core.Keyboard.Event;
 import playn.core.Mouse.ButtonEvent;
@@ -28,6 +27,8 @@ import de.dhbw.td.core.TowerDefense;
 import de.dhbw.td.core.event.ICallbackFunction;
 import de.dhbw.td.core.event.IKeyboardObserver;
 import de.dhbw.td.core.event.IMouseObserver;
+import de.dhbw.td.core.game.GameState.EAction;
+
 
 /**
  * UI-related class for visualizing the current game state and implementing
@@ -69,11 +70,8 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	private Canvas canvas;
 	private TextFormat textFormat;
 	
-	private Image clockImage;
-	private Image heartImage;
-	private Image creditsImage;
-	
 	private GameState gameState;
+	private Menu menu;
 	
 	private ArrayList<Button> buttons;
 	
@@ -84,9 +82,10 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 * 
 	 * @param state an object representing the game state to be visualized
 	 */
-	public HUD(GameState state) {
+	public HUD(GameState state, Menu menu) {
 		
 		gameState = state;
+		this.menu = menu;
 		
 		changed = true;
 		
@@ -99,10 +98,8 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		Font miso = graphics().createFont("Miso", Font.Style.PLAIN, fontSize);
 		textFormat = new TextFormat().withFont(miso);
 		
-		// load HUD images
-		clockImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "clock.bmp");
-		heartImage = assets().getImageSync(TowerDefense.PATH_IMAGES + "heart.bmp");
-		creditsImage= assets().getImageSync(TowerDefense.PATH_IMAGES + "credits.bmp");	
+		TowerDefense.getMouse().addObserver(this);
+		TowerDefense.getKeyboard().addObserver(this);
 	}
 	
 	/**
@@ -122,38 +119,50 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		addMenuButton();
 	}
 	
+	/**
+	 * Adds the MathTower Button
+	 */
 	private void addMathButton() {		
 		final Button mathTower = new Button(OFFSET_IMAGE_MATH*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
-				TowerDefense.PATH_TOWERS + "math.png", new ICallbackFunction() {
+				resources().MATH_TOWER, new ICallbackFunction() {
 					
 					@Override
 					public void execute() {
-						log().debug("Clicked MathTower");
+						gameState.setLastAction(EAction.NEW_MATH_TOWER);
+						log().debug("SELECT MATH_TOWER");
 					}
 				});
 		TowerDefense.getMouse().addObserver(mathTower);
 		buttons.add(mathTower);
 	}
 	
+	/**
+	 * Adds the CodingTower Button
+	 */
 	private void addCodeButton() {
 		final Button codeTower = new Button(OFFSET_IMAGE_CODE*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
-				TowerDefense.PATH_TOWERS + "code.png", new ICallbackFunction() {
+				resources().CODE_TOWER, new ICallbackFunction() {
 					
 					@Override
 					public void execute() {
-						log().debug("Clicked CodeTower");
+						gameState.setLastAction(EAction.NEW_CODE_TOWER);
+						log().debug("SELECT CODE_TOWER");
 					}
 				});
 		TowerDefense.getMouse().addObserver(codeTower);
 		buttons.add(codeTower);
 	}
 	
+	/**
+	 * Adds the EconomicsTower Button
+	 */
 	private void addEconomicsButton() {		
 		final Button economicsTower = new Button(OFFSET_IMAGE_WIWI*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
-				TowerDefense.PATH_TOWERS + "wiwi.png", new ICallbackFunction() {
+				resources().WIWI_TOWER, new ICallbackFunction() {
 					
 					@Override
 					public void execute() {
+						gameState.setLastAction(EAction.NEW_WIWI_TOWER);
 						log().debug("Clicked WiwiTower");
 					}
 				});
@@ -161,13 +170,16 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		buttons.add(economicsTower);
 	}
 	
-
+	/**
+	 * Adds the TheoInfTower Button
+	 */
 	private void addTheoreticalComputerSciencesButton() {
 		final Button tcsTower = new Button(OFFSET_IMAGE_THEOINF * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, TowerDefense.PATH_TOWERS + "theoinf.png", new ICallbackFunction() {
+				TILE_SIZE, resources().THEOINF_TOWER, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
+						gameState.setLastAction(EAction.NEW_THEOINF_TOWER);
 						log().debug("Clicked theoinfTower");
 					}
 				});
@@ -175,12 +187,16 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		buttons.add(tcsTower);
 	}
 	
+	/**
+	 * Adds the TechInfTower Button
+	 */
 	private void addComputerEngineeringButton() {
 		final Button techinfTower = new Button(OFFSET_IMAGE_TECHINF * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, TowerDefense.PATH_TOWERS + "techinf.png", new ICallbackFunction() {
+				TILE_SIZE, resources().TECHINF_TOWER, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
+						gameState.setLastAction(EAction.NEW_TECHINF_TOWER);
 						log().debug("Clicked techinfTower");
 					}
 				});
@@ -188,13 +204,17 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		buttons.add(techinfTower);
 	}
 	
+	/**
+	 * Adds the SocialTower Button
+	 */
 	private void addSocialButton() {
 		final Button socialTower = new Button(OFFSET_IMAGE_SOCIAL * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, TowerDefense.PATH_TOWERS + "social.png");
+				TILE_SIZE, resources().SOCIAL_TOWER);
 		socialTower.setCallback(new ICallbackFunction() {
 
 			@Override
 			public void execute() {
+				gameState.setLastAction(EAction.NEW_SOCIAL_TOWER);
 				log().debug("Clicked socialTower");
 			}
 		});
@@ -202,21 +222,26 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		buttons.add(socialTower);
 	}
 	
+	/**
+	 * Adds the Play/Pause Button
+	 */
 	private void addPlayButton() {
 		final Button playPause = new Button(OFFSET_IMAGE_PLAYPAUSE * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, TowerDefense.PATH_IMAGES + "pause.png");
+				TILE_SIZE, resources().PAUSE);
 
 		playPause.setCallback(new ICallbackFunction() {
 
 			@Override
 			public void execute() {
+				
+				gameState.setLastAction(EAction.PLAY_PAUSE);
 
 				if (!gameState.isPaused()) {
 					gameState.pause();
-					playPause.setImage(TowerDefense.PATH_IMAGES + "play.png");
+					playPause.setImage(resources().PLAY);
 				} else {
 					gameState.play();
-					playPause.setImage(TowerDefense.PATH_IMAGES + "pause.png");
+					playPause.setImage(resources().PAUSE);
 				}
 
 				changed = true;
@@ -228,9 +253,12 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		buttons.add(playPause);
 	}
 	
+	/**
+	 * Adds the Fast Forward Button
+	 */
 	private void addFastForwardButton() {
 		final Button fastForwardButton = new Button(OFFSET_IMAGE_FORWARD * TILE_SIZE, OFFSET_FOOT * TILE_SIZE,
-				TILE_SIZE, TILE_SIZE, TowerDefense.PATH_IMAGES + "fast_forward.png");
+				TILE_SIZE, TILE_SIZE, resources().FAST_FORWARD);
 
 		fastForwardButton.setVisible(false);
 
@@ -238,6 +266,9 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 			@Override
 			public void execute() {
+				
+				gameState.setLastAction(EAction.FAST_FORWARD);
+				
 				if (gameState.isFastForward()) {
 					fastForwardButton.setVisible(false);
 					gameState.fastForwardOff();
@@ -256,13 +287,24 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		buttons.add(fastForwardButton);
 	}
 	
+	/**
+	 * Adds the Menu Button
+	 */
 	private void addMenuButton() {
-		final Button menuButton = new Button(OFFSET_IMAGE_COG * TILE_SIZE, OFFSET_HEAD, TILE_SIZE, TILE_SIZE,
-				TowerDefense.PATH_IMAGES + "cog.bmp", new ICallbackFunction() {
+		final Button menuButton = new Button(OFFSET_IMAGE_COG * TILE_SIZE,
+				OFFSET_HEAD, TILE_SIZE, TILE_SIZE, resources().COG, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
-						log().debug("Clicked Settings");
+
+						if (!gameState.isPaused()) {
+							gameState.pause();
+							menu.setMenu(true);
+						} else {
+							gameState.play();
+							menu.setClear(true);
+						}
+
 					}
 				});
 		menuButton.setKey(Key.ESCAPE);
@@ -288,14 +330,14 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		
 		// check, if world has changed
 		if(gameState.hasChanged() || hasChanged()) {
-
+			
 			surf.clear();			
 			canvas.clear();
 			
 			// Draw HUD head
-			canvas.drawImage(clockImage, OFFSET_IMAGE_CLOCK*TILE_SIZE, OFFSET_HEAD);
-			canvas.drawImage(heartImage, OFFSET_IMAGE_HEART*TILE_SIZE, OFFSET_HEAD);
-			canvas.drawImage(creditsImage, OFFSET_IMAGE_CREDITS*TILE_SIZE, OFFSET_HEAD);
+			canvas.drawImage(resources().CLOCK, OFFSET_IMAGE_CLOCK*TILE_SIZE, OFFSET_HEAD);
+			canvas.drawImage(resources().HEART, OFFSET_IMAGE_HEART*TILE_SIZE, OFFSET_HEAD);
+			canvas.drawImage(resources().CREDITS, OFFSET_IMAGE_CREDITS*TILE_SIZE, OFFSET_HEAD);
 			
 			// Draw text labels
 			
@@ -309,12 +351,20 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 			
 			surf.drawImage(canvasImage, 0, 0);
 			
+			// draw the Buttons
 			for(Button b : buttons) {
 				b.draw(surf);
 			}
 		}		
 	}
 	
+	/**
+	 * Draws text on the HUD
+	 * 
+	 * @param o o.toString() will be drawn
+	 * @param x the x-coordinate
+	 * @param y the y-coordinate
+	 */
 	private void drawText(Object o, int x, int y) {
 		TextLayout clockText = graphics().layoutText(o.toString(), textFormat);
 		canvas.fillText(clockText,x, y);
@@ -322,11 +372,36 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 	@Override
 	public void alert(ButtonEvent e) {
-		log().info(this.toString() + " " + e.toString());
+
 	}
 	
 	@Override
 	public void alert(Event e) {
-		log().info(this.toString() + " " + e.toString());
+		
+		switch (gameState.getLastAction()) {
+		
+		case NEW_MATH_TOWER:
+			
+			break;
+			
+		case NEW_CODE_TOWER:
+			break;
+			
+		case NEW_SOCIAL_TOWER:
+			break;
+			
+		case NEW_TECHINF_TOWER:
+			break;
+			
+		case NEW_THEOINF_TOWER:
+			break;
+			
+		case NEW_WIWI_TOWER:
+			break;
+
+		default:
+			break;
+		}
+		
 	}
 }

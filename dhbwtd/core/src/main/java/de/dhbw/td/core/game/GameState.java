@@ -19,6 +19,9 @@ import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.level.LevelFactory;
 import de.dhbw.td.core.tower.Tower;
+import de.dhbw.td.core.tower.TowerFactory;
+import de.dhbw.td.core.util.EFlavor;
+import de.dhbw.td.core.util.Point;
 import de.dhbw.td.core.waves.Wave;
 import de.dhbw.td.core.waves.WaveController;
 import de.dhbw.td.core.waves.WaveFactory;
@@ -29,10 +32,16 @@ import de.dhbw.td.core.waves.WaveFactory;
  */
 public class GameState implements IUpdateable {
 	
+	public enum EAction {
+		NONE, NEW_MATH_TOWER, NEW_CODE_TOWER, NEW_SOCIAL_TOWER,
+		NEW_THEOINF_TOWER, NEW_TECHINF_TOWER, NEW_WIWI_TOWER,
+		SELECTED_TOWER, MENU, PLAY_PAUSE, FAST_FORWARD;
+	}
+	
 	private final int INITIAL_CREDITS = 25;
 	private final int INITIAL_LIFEPOINTS = 100;
 	
-	private final int FACTOR_DELTA_FF = 4;
+	private final int FACTOR_DELTA_FF = 10;
 	
 	private int levelCount;
 	private int waveCount;
@@ -55,6 +64,10 @@ public class GameState implements IUpdateable {
 	
 	private LevelFactory levelFactory;
 	private Level currentLevel;
+	
+	private TowerFactory towerFactory; 
+	
+	private EAction lastAction;
 
 	/**
 	 * Constructor
@@ -63,6 +76,7 @@ public class GameState implements IUpdateable {
 		
 		levelFactory = new LevelFactory();
 		waveFactory = new WaveFactory();
+		towerFactory = new TowerFactory();
 		
 		credits = INITIAL_CREDITS;
 		lifepoints = INITIAL_LIFEPOINTS;
@@ -118,6 +132,15 @@ public class GameState implements IUpdateable {
 			e.getCurrentPosition().translate(-i * currentLevel.tilesize, 0);
 		}
 		changed = true;
+	}
+	
+	/**
+	 * 
+	 * @param flavour
+	 * @param position
+	 */
+	public void buildTower(EFlavor flavor, Point position) {
+		towerFactory.getTower(flavor, position);
 	}
 
 	/**
@@ -212,6 +235,7 @@ public class GameState implements IUpdateable {
 
 			if (!e.isAlive()) {
 				enemies.remove(e);
+				addCredits(e.getBounty());
 			} else {
 				i++;
 			}
@@ -331,7 +355,7 @@ public class GameState implements IUpdateable {
 	
 	/**
 	 * 
-	 * @return true, if fast forward mode is enabled
+	 * @return <b>true</b>, if fast forward mode is enabled
 	 */
 	public boolean isFastForward() {
 		return fastForward;
@@ -357,5 +381,22 @@ public class GameState implements IUpdateable {
 	 */
 	public Level getCurrentLevel() {
 		return currentLevel;
+	}
+	
+	/**
+	 * Sets the last action performed.
+	 * 
+	 * @param action The action to be set as last action
+	 */
+	public void setLastAction(EAction action) {
+		this.lastAction = action;
+	}
+	
+	/**
+	 * 
+	 * @return the last action performed
+	 */
+	public EAction getLastAction() {
+		return lastAction;
 	}
 }
