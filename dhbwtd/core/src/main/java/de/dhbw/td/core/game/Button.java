@@ -1,6 +1,5 @@
 package de.dhbw.td.core.game;
 
-import static playn.core.PlayN.assets;
 import playn.core.Image;
 import playn.core.Key;
 import playn.core.Keyboard.Event;
@@ -20,7 +19,7 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	private boolean visible;
 	private boolean enabled;
 	
-	private Image image;	
+	private Image image;
 	private ICallbackFunction callback;	
 	private Key key;
 	

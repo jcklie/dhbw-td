@@ -1,15 +1,19 @@
 package de.dhbw.td.core.util;
 
-import playn.core.Image;
 import static playn.core.PlayN.assets;
+import playn.core.Image;
 
-public final class ImageContainer {
+public enum ResourceContainer {
+	
+	CONTAINER;
+	
+	public static ResourceContainer resources() {
+		return CONTAINER;
+	}
 	
 	private final String PATH_IMAGES = "images/";
 	private final String PATH_TILES = "tiles/";
 	private final String PATH_TOWERS = "tower/";
-	
-	private static ImageContainer container;
 	
 	/*
 	 * HUD IMAGES
@@ -60,7 +64,7 @@ public final class ImageContainer {
 	public Image HEALTHBAR_90;
 	public Image HEALTHBAR_100;
 	
-	private ImageContainer() {
+	private ResourceContainer() {
 		
 		CLOCK = assets().getImageSync(PATH_IMAGES + "clock.png");
 		PLAY = assets().getImageSync(PATH_IMAGES + "play.png");
@@ -95,14 +99,4 @@ public final class ImageContainer {
 		HEALTHBAR_100 = assets().getImageSync(PATH_IMAGES + "100.png");
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public static synchronized ImageContainer getInstance() {
-		if(container == null) {
-			container = new ImageContainer();
-		}
-		return container;
-	}
 }
