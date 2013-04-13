@@ -45,18 +45,18 @@ public class CheatModule implements IKeyboardObserver {
 	
 	private void handleCheatz() {
 		if( in("BALLERBURGFTW")) {			
-			Sound mySound = assets().getSound("sound/win_sequenze");
-			mySound.play();
-			buffer.delete(0, buffer.length());
+			playSound("sound/win_sequenze");
 		} else if (in("GRUSEL")) {
-			Sound mySound = assets().getSound("sound/intro_xD");			
-			mySound.play();
-			buffer.delete(0, buffer.length());
+			playSound("sound/intro_xD");
 		} else if (in("SOUNDDEMO")) {
-			Sound mySound = assets().getSound("sound/fancy_riff3");			
-			mySound.play();
-			buffer.delete(0, buffer.length());
+			playSound("sound/fancy_riff3");
 		}
+	}
+	
+	private void playSound( String name ) {
+		Sound mySound = assets().getSound(name);
+		mySound.play();
+		buffer.delete(0, buffer.length());
 	}
 
 }
