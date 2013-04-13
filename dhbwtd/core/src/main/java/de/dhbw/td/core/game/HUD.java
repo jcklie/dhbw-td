@@ -124,7 +124,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addMathButton() {		
 		final Button mathTower = new Button(OFFSET_IMAGE_MATH*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
-				resources().MATH_TOWER, new ICallbackFunction() {
+				resources().IMAGE_MATH_TOWER, new ICallbackFunction() {
 					
 					@Override
 					public void execute() {
@@ -141,7 +141,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addCodeButton() {
 		final Button codeTower = new Button(OFFSET_IMAGE_CODE*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
-				resources().CODE_TOWER, new ICallbackFunction() {
+				resources().IMAGE_CODE_TOWER, new ICallbackFunction() {
 					
 					@Override
 					public void execute() {
@@ -158,7 +158,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addEconomicsButton() {		
 		final Button economicsTower = new Button(OFFSET_IMAGE_WIWI*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
-				resources().WIWI_TOWER, new ICallbackFunction() {
+				resources().IMAGE_WIWI_TOWER, new ICallbackFunction() {
 					
 					@Override
 					public void execute() {
@@ -175,7 +175,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addTheoreticalComputerSciencesButton() {
 		final Button tcsTower = new Button(OFFSET_IMAGE_THEOINF * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, resources().THEOINF_TOWER, new ICallbackFunction() {
+				TILE_SIZE, resources().IMAGE_THEOINF_TOWER, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
@@ -192,7 +192,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addComputerEngineeringButton() {
 		final Button techinfTower = new Button(OFFSET_IMAGE_TECHINF * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, resources().TECHINF_TOWER, new ICallbackFunction() {
+				TILE_SIZE, resources().IMAGE_TECHINF_TOWER, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
@@ -209,7 +209,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addSocialButton() {
 		final Button socialTower = new Button(OFFSET_IMAGE_SOCIAL * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, resources().SOCIAL_TOWER);
+				TILE_SIZE, resources().IMAGE_SOCIAL_TOWER);
 		socialTower.setCallback(new ICallbackFunction() {
 
 			@Override
@@ -227,7 +227,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addPlayButton() {
 		final Button playPause = new Button(OFFSET_IMAGE_PLAYPAUSE * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, resources().PAUSE);
+				TILE_SIZE, resources().IMAGE_PAUSE);
 
 		playPause.setCallback(new ICallbackFunction() {
 
@@ -238,10 +238,10 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 				if (!gameState.isPaused()) {
 					gameState.pause();
-					playPause.setImage(resources().PLAY);
+					playPause.setImage(resources().IMAGE_PLAY);
 				} else {
 					gameState.play();
-					playPause.setImage(resources().PAUSE);
+					playPause.setImage(resources().IMAGE_PAUSE);
 				}
 
 				changed = true;
@@ -258,7 +258,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addFastForwardButton() {
 		final Button fastForwardButton = new Button(OFFSET_IMAGE_FORWARD * TILE_SIZE, OFFSET_FOOT * TILE_SIZE,
-				TILE_SIZE, TILE_SIZE, resources().FAST_FORWARD);
+				TILE_SIZE, TILE_SIZE, resources().IMAGE_FAST_FORWARD);
 
 		fastForwardButton.setVisible(false);
 
@@ -292,7 +292,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private void addMenuButton() {
 		final Button menuButton = new Button(OFFSET_IMAGE_COG * TILE_SIZE,
-				OFFSET_HEAD, TILE_SIZE, TILE_SIZE, resources().COG, new ICallbackFunction() {
+				OFFSET_HEAD, TILE_SIZE, TILE_SIZE, resources().IMAGE_COG, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
@@ -335,9 +335,9 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 			canvas.clear();
 			
 			// Draw HUD head
-			canvas.drawImage(resources().CLOCK, OFFSET_IMAGE_CLOCK*TILE_SIZE, OFFSET_HEAD);
-			canvas.drawImage(resources().HEART, OFFSET_IMAGE_HEART*TILE_SIZE, OFFSET_HEAD);
-			canvas.drawImage(resources().CREDITS, OFFSET_IMAGE_CREDITS*TILE_SIZE, OFFSET_HEAD);
+			canvas.drawImage(resources().IMAGE_CLOCK, OFFSET_IMAGE_CLOCK*TILE_SIZE, OFFSET_HEAD);
+			canvas.drawImage(resources().IMAGE_HEART, OFFSET_IMAGE_HEART*TILE_SIZE, OFFSET_HEAD);
+			canvas.drawImage(resources().IMAGE_CREDITS, OFFSET_IMAGE_CREDITS*TILE_SIZE, OFFSET_HEAD);
 			
 			// Draw text labels
 			

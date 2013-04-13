@@ -84,7 +84,7 @@ public class Menu implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 	private void addResumeGameButton() {
 		final Button resumeGame = new Button(OFFSET_LEFT * TILE_SIZE, 104,
-				TILE_SIZE * 4, TILE_SIZE, resources().MENU_RESUME, new ICallbackFunction() {
+				TILE_SIZE * 4, TILE_SIZE, resources().IMAGE_MENU_RESUME, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
@@ -100,7 +100,7 @@ public class Menu implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 	private void addNewGameButton() {
 		final Button newGame = new Button(OFFSET_LEFT * TILE_SIZE, 191,
-				TILE_SIZE * 4, TILE_SIZE, resources().MENU_NEW, new ICallbackFunction() {
+				TILE_SIZE * 4, TILE_SIZE, resources().IMAGE_MENU_NEW, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
@@ -113,7 +113,7 @@ public class Menu implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 	private void addEndGameButton() {
 		final Button endGame = new Button(OFFSET_LEFT * TILE_SIZE, 278,
-				TILE_SIZE * 4, TILE_SIZE, resources().MENU_QUIT, new ICallbackFunction() {
+				TILE_SIZE * 4, TILE_SIZE, resources().IMAGE_MENU_QUIT, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
@@ -126,7 +126,7 @@ public class Menu implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 	private void addCreditsButton() {
 		final Button creditsButton = new Button(OFFSET_LEFT * TILE_SIZE, 365,
-				TILE_SIZE * 4, TILE_SIZE, resources().MENU_CREDITS, new ICallbackFunction() {
+				TILE_SIZE * 4, TILE_SIZE, resources().IMAGE_MENU_CREDITS, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
@@ -140,7 +140,7 @@ public class Menu implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 	private void addHelpButton() {
 		final Button help = new Button(OFFSET_LEFT * TILE_SIZE, 452,
-				TILE_SIZE * 4, TILE_SIZE, resources().MENU_HELP,
+				TILE_SIZE * 4, TILE_SIZE, resources().IMAGE_MENU_HELP,
 				new ICallbackFunction() {
 
 					@Override
@@ -183,7 +183,7 @@ public class Menu implements IDrawable, IMouseObserver, IKeyboardObserver {
 			surf.clear();
 			canvas.clear();
 
-			canvas.drawImage(resources().MENU_BACKGROUND, 0, 0);
+			canvas.drawImage(resources().IMAGE_MENU_BACKGROUND, 0, 0);
 			surf.drawImage(canvasImage, 0, 0);
 
 			for (Button b : buttons) {
@@ -193,13 +193,13 @@ public class Menu implements IDrawable, IMouseObserver, IKeyboardObserver {
 			surf.clear();
 			canvas.clear();
 
-			canvas.drawImage(resources().MENU_BACKGROUND, 0, 0);
-			canvas.drawImage(resources().MENU_CREDITS, 0, 0);
+			canvas.drawImage(resources().IMAGE_MENU_BACKGROUND, 0, 0);
+			canvas.drawImage(resources().IMAGE_MENU_CREDITS, 0, 0);
 		} else if (helpChanged()) {
 			surf.clear();
 			canvas.clear();
 
-			canvas.drawImage(resources().MENU_QUIT, 0, 0);
+			canvas.drawImage(resources().IMAGE_MENU_QUIT, 0, 0);
 		} else if (clear) {
 			surf.clear();
 			canvas.clear();
