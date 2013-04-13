@@ -23,9 +23,7 @@ public class CheatModule implements IKeyboardObserver {
 	}
 
 	@Override
-	public void alert(Event e) {
-		System.out.println(buffer);
-		
+	public void alert(Event e) {		
 		if(e.key().toString().length() > 1) {
 			return;
 		}
@@ -34,7 +32,9 @@ public class CheatModule implements IKeyboardObserver {
 		
 		if( buffer.length() > MAX_BUFFER_SIZE) {
 			buffer.deleteCharAt(0);
-		}		
+		}
+		
+		System.out.println(buffer);
 		
 		handleCheatz();
 	}
@@ -45,12 +45,17 @@ public class CheatModule implements IKeyboardObserver {
 	
 	private void handleCheatz() {
 		if( in("BALLERBURGFTW")) {			
-			Sound mySound = assets().getSound("sound/intro_xD");
+			Sound mySound = assets().getSound("sound/win_sequenze");
+			mySound.play();
+			buffer.delete(0, buffer.length());
+		} else if (in("GRUSEL")) {
+			Sound mySound = assets().getSound("sound/intro_xD");			
 			mySound.play();
 			buffer.delete(0, buffer.length());
 		} else if (in("SOUNDDEMO")) {
-			Sound mySound = assets().getSound("sound/fancy_riff3");
+			Sound mySound = assets().getSound("sound/fancy_riff3");			
 			mySound.play();
+			buffer.delete(0, buffer.length());
 		}
 	}
 
