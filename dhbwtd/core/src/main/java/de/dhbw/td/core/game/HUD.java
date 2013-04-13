@@ -28,6 +28,7 @@ import de.dhbw.td.core.TowerDefense;
 import de.dhbw.td.core.event.ICallbackFunction;
 import de.dhbw.td.core.event.IKeyboardObserver;
 import de.dhbw.td.core.event.IMouseObserver;
+import de.dhbw.td.core.game.GameState.EAction;
 
 /**
  * UI-related class for visualizing the current game state and implementing
@@ -79,12 +80,6 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	
 	private boolean changed;
 	
-	private EMouseSelection mouseSelection;
-
-	private enum EMouseSelection {
-		NONE, MATH_TOWER, CODE_TOWER, SOCIAL_TOWER, THEOINF_TOWER, TECHINF_TOWER, WIWI_TOWER;
-	}
-	
 	/**
 	 * Constructor
 	 * 
@@ -95,8 +90,6 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		gameState = state;
 		
 		changed = true;
-		
-		mouseSelection = EMouseSelection.NONE;
 		
 		buttons = new ArrayList<Button>();
 		createButtons();
@@ -142,8 +135,8 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 					
 					@Override
 					public void execute() {
+						gameState.setLastAction(EAction.NEW_MATH_TOWER);
 						log().debug("SELECT MATH_TOWER");
-						mouseSelection = EMouseSelection.MATH_TOWER;
 					}
 				});
 		TowerDefense.getMouse().addObserver(mathTower);
@@ -159,8 +152,8 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 					
 					@Override
 					public void execute() {
+						gameState.setLastAction(EAction.NEW_CODE_TOWER);
 						log().debug("SELECT CODE_TOWER");
-						mouseSelection = EMouseSelection.CODE_TOWER;
 					}
 				});
 		TowerDefense.getMouse().addObserver(codeTower);
@@ -176,6 +169,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 					
 					@Override
 					public void execute() {
+						gameState.setLastAction(EAction.NEW_WIWI_TOWER);
 						log().debug("Clicked WiwiTower");
 					}
 				});
@@ -192,6 +186,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 					@Override
 					public void execute() {
+						gameState.setLastAction(EAction.NEW_THEOINF_TOWER);
 						log().debug("Clicked theoinfTower");
 					}
 				});
@@ -208,6 +203,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 					@Override
 					public void execute() {
+						gameState.setLastAction(EAction.NEW_TECHINF_TOWER);
 						log().debug("Clicked techinfTower");
 					}
 				});
@@ -225,6 +221,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 			@Override
 			public void execute() {
+				gameState.setLastAction(EAction.NEW_SOCIAL_TOWER);
 				log().debug("Clicked socialTower");
 			}
 		});
@@ -243,6 +240,8 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 			@Override
 			public void execute() {
+				
+				gameState.setLastAction(EAction.PLAY_PAUSE);
 
 				if (!gameState.isPaused()) {
 					gameState.pause();
@@ -274,6 +273,9 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 			@Override
 			public void execute() {
+				
+				gameState.setLastAction(EAction.FAST_FORWARD);
+				
 				if (gameState.isFastForward()) {
 					fastForwardButton.setVisible(false);
 					gameState.fastForwardOff();
@@ -301,9 +303,8 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 					@Override
 					public void execute() {
-						if(mouseSelection == EMouseSelection.NONE) {
+							gameState.setLastAction(EAction.MENU);
 							log().debug("CLICKED MENU");
-						}
 					}
 				});
 		menuButton.setKey(Key.ESCAPE);
@@ -329,7 +330,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		
 		// check, if world has changed
 		if(gameState.hasChanged() || hasChanged()) {
-
+			
 			surf.clear();			
 			canvas.clear();
 			
@@ -371,19 +372,36 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 	@Override
 	public void alert(ButtonEvent e) {
-		if(mouseSelection != EMouseSelection.NONE) {
-			log().info("PLACED TOWER" + mouseSelection.toString());
-		}
-		else {
-			log().info("SELECT PLACED TOWER");
-		}
+
 	}
 	
 	@Override
 	public void alert(Event e) {
-		if(mouseSelection != EMouseSelection.NONE && e.key() == Key.ESCAPE) {
-			log().info("HUD DESELECT");
-			mouseSelection = EMouseSelection.NONE;
+		
+		switch (gameState.getLastAction()) {
+		
+		case NEW_MATH_TOWER:
+			
+			break;
+			
+		case NEW_CODE_TOWER:
+			break;
+			
+		case NEW_SOCIAL_TOWER:
+			break;
+			
+		case NEW_TECHINF_TOWER:
+			break;
+			
+		case NEW_THEOINF_TOWER:
+			break;
+			
+		case NEW_WIWI_TOWER:
+			break;
+
+		default:
+			break;
 		}
+		
 	}
 }
