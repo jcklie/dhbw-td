@@ -1,8 +1,11 @@
 package de.dhbw.td.core.util;
 
 import static playn.core.PlayN.assets;
+import static playn.core.PlayN.json;
 import de.dhbw.td.core.TowerDefense;
 import playn.core.Image;
+import playn.core.Json;
+import playn.core.json.JsonParserException;
 
 public enum ResourceContainer {
 	
@@ -15,7 +18,10 @@ public enum ResourceContainer {
 	private final String PATH_IMAGES = "images/";
 	private final String PATH_TILES = "tiles/";
 	private final String PATH_TOWERS = "tower/";
-	private final String PATH_MENU = "menu/";
+	private final String PATH_MENU = "menu/";	
+	private final String PATH_LEVELS = "levels/";
+	private final String PATH_WAVES = "waves/";
+	private final String PATH_ENEMIES = "enemies/";
 	
 	/*
 	 * Menu IMAGES
@@ -78,7 +84,32 @@ public enum ResourceContainer {
 	public final Image IMAGE_HEALTHBAR_90;
 	public final Image IMAGE_HEALTHBAR_100;
 	
+	/*
+	 * ENEMY IMAGES
+	 */
+	
+	public final Image IMAGE_MATH_ENEMY;
+	public final Image IMAGE_CODE_ENEMY;
+	public final Image IMAGE_SOCIAL_ENEMY;
+	public final Image IMAGE_TECHINF_ENEMY;
+	public final Image IMAGE_THEOINF_ENEMY;
+	public final Image IMAGE_WIWI_ENEMY;
+	
+	/*
+	 * LEVELS
+	 */
+	/*public final Json.Object LEVEL1;
+	public final Json.Object LEVEL2;
+	public final Json.Object LEVEL3;
+	public final Json.Object LEVEL4;
+	public final Json.Object LEVEL5;
+	public final Json.Object LEVEL6;*/
+	
 	private ResourceContainer() {
+		
+		/*
+		 * Load images
+		 */
 		
 		IMAGE_MENU_CREDITS = assets().getImageSync(PATH_MENU + "credits.png");
 		IMAGE_MENU_BACKGROUND = assets().getImageSync(PATH_MENU + "menu_bg.png");
@@ -124,6 +155,16 @@ public enum ResourceContainer {
 		IMAGE_HEALTHBAR_80 = assets().getImageSync(PATH_IMAGES + "80.png");
 		IMAGE_HEALTHBAR_90 = assets().getImageSync(PATH_IMAGES + "90.png");
 		IMAGE_HEALTHBAR_100 = assets().getImageSync(PATH_IMAGES + "100.png");
+		
+		IMAGE_MATH_ENEMY = assets().getImageSync(PATH_ENEMIES + "math.png");
+		IMAGE_CODE_ENEMY = assets().getImageSync(PATH_ENEMIES + "code.png");
+		IMAGE_SOCIAL_ENEMY = assets().getImageSync(PATH_ENEMIES + "social.png");
+		IMAGE_TECHINF_ENEMY = assets().getImageSync(PATH_ENEMIES + "techinf.png");
+		IMAGE_THEOINF_ENEMY = assets().getImageSync(PATH_ENEMIES + "theoinf.png");
+		IMAGE_WIWI_ENEMY = assets().getImageSync(PATH_ENEMIES + "wiwi.png");
+		
+		/*
+		 * Load levels and waves
+		 */
 	}
-	
 }

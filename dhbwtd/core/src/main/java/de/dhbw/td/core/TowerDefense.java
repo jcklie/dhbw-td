@@ -23,6 +23,7 @@ import de.dhbw.td.core.event.MouseObservable;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.game.HUD;
 import de.dhbw.td.core.game.Menu;
+import static de.dhbw.td.core.util.ResourceContainer.resources;
 
 public class TowerDefense implements Game {
 
@@ -48,6 +49,8 @@ public class TowerDefense implements Game {
 
 	@Override
 	public void init() {
+		
+		resources();
 		
 		/*
 		 * Register listener
