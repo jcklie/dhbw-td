@@ -1,7 +1,6 @@
 package de.dhbw.td.core.game;
 
 import static playn.core.PlayN.assets;
-import static playn.core.PlayN.log;
 import playn.core.Image;
 import playn.core.Key;
 import playn.core.Keyboard.Event;
@@ -34,18 +33,18 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 * @param height
 	 * @param imagePath
 	 */
-	public Button(int x, int y, int width, int height, String imagePath) {
+	public Button(int x, int y, int width, int height, Image image) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.image = assets().getImageSync(imagePath);
+		this.image = image;
 		visible = true;
 		enabled = true;
 	}
 	
-	public Button(int x, int y, int width, int height, String imagePath, ICallbackFunction callback) {
-		this(x, y, width, height, imagePath);
+	public Button(int x, int y, int width, int height, Image image, ICallbackFunction callback) {
+		this(x, y, width, height, image);
 		this.callback = callback;
 	}
 	
@@ -57,7 +56,6 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 */
 	private boolean isHit(int x, int y) {
 		if((this.x < x && x < this.x + width) && (this.y < y && y < this.y + height)) {
-			log().debug(this.toString() + " HIT");
 			return true;
 		}
 		return false;
@@ -65,14 +63,14 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	
 	@Override
 	public void alert(ButtonEvent e) {
-		if(isHit((int)e.x(), (int)e.y()) && callback != null) {
+		if(enabled && isHit((int)e.x(), (int)e.y()) && callback != null) {
 			callback.execute();
 		}
 	}
 	
 	@Override
 	public void alert(Event e) {
-		if(key == e.key() && callback != null) {
+		if(enabled && key == e.key() && callback != null) {
 			callback.execute();
 		}
 	}
@@ -84,8 +82,8 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 		}
 	}
 	
-	public void setImage(String imagePath) {
-		this.image = assets().getImageSync(imagePath);
+	public void setImage(Image image) {
+		this.image = image;
 	}
 	
 	public Image getImage() {
