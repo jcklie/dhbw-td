@@ -38,7 +38,7 @@ import de.dhbw.td.core.game.GameState.EAction;
  * @author Jan-Christoph Klie <jcklie@de.ibm.com>
  *
  */
-public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
+public class HUD implements IMouseObserver, IKeyboardObserver {
 	
 	private static final float fontSize = 32f;
 	
@@ -64,10 +64,16 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	private final int OFFSET_TEXT_CREDITS = 10;
 	private final int OFFSET_TEXT_CLOCK = 1;
 	private final int OFFSET_TEXT_HEART = 8;
-	private final int OFFSET_TEXT_HEAD = 16;
+	private final int OFFSET_TEXT_HEAD = 16;	
+
+	private CanvasImage creditsCanvasImage;
+	private CanvasImage semesterCanvasImage;
+	private CanvasImage lifeCanvasImage;
 	
-	private CanvasImage canvasImage;
-	private Canvas canvas;
+	private Canvas creditsCanvas;
+	private Canvas semesterCanvas;
+	private Canvas lifeCanvas;
+	
 	private TextFormat textFormat;
 	
 	private GameState gameState;
@@ -92,8 +98,14 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		buttons = new ArrayList<Button>();
 		createButtons();
 		
-		canvasImage = graphics().createImage( graphics().width(), graphics().height() );
-		canvas = canvasImage.canvas();
+		creditsCanvasImage = graphics().createImage( 3 * TILE_SIZE, TILE_SIZE );	// TODO: Confirm size
+		creditsCanvas = creditsCanvasImage.canvas();
+		
+		semesterCanvasImage = graphics().createImage( 5 * TILE_SIZE, TILE_SIZE );	// TODO: Confirm size
+		semesterCanvas = semesterCanvasImage.canvas();
+		
+		lifeCanvasImage = graphics().createImage( 3 * TILE_SIZE, TILE_SIZE );	// TODO: Confirm size
+		lifeCanvas = lifeCanvasImage.canvas();
 		
 		Font miso = graphics().createFont("Miso", Font.Style.PLAIN, fontSize);
 		textFormat = new TextFormat().withFont(miso);
@@ -325,37 +337,40 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 		return false;
 	}
 
-	@Override
-	public void draw(Surface surf) {
-		
-		// check, if world has changed
+	public void drawIcons(Surface surf) {
 		if(gameState.hasChanged() || hasChanged()) {
-			
-			surf.clear();			
-			canvas.clear();
-			
+			// check, if world has changed
+			surf.clear();
+	
 			// Draw HUD head
-			canvas.drawImage(resources().CLOCK, OFFSET_IMAGE_CLOCK*TILE_SIZE, OFFSET_HEAD);
-			canvas.drawImage(resources().HEART, OFFSET_IMAGE_HEART*TILE_SIZE, OFFSET_HEAD);
-			canvas.drawImage(resources().CREDITS, OFFSET_IMAGE_CREDITS*TILE_SIZE, OFFSET_HEAD);
-			
-			// Draw text labels
-			
-			String clockText = gameState.getLevelCount() + ". Semester - " +  gameState.getWaveCount()+ ". Woche";
-			
-			drawText(clockText, OFFSET_TEXT_CLOCK*TILE_SIZE, OFFSET_TEXT_HEAD);
-			drawText(gameState.getLifepoints(), OFFSET_TEXT_HEART*TILE_SIZE, OFFSET_TEXT_HEAD);
-			drawText(gameState.getCredits(), OFFSET_TEXT_CREDITS*TILE_SIZE, OFFSET_TEXT_HEAD);
-			
-			// Draw changes to the surface
-			
-			surf.drawImage(canvasImage, 0, 0);
+			surf.drawImage(resources().CLOCK, OFFSET_IMAGE_CLOCK * TILE_SIZE, OFFSET_HEAD);
+			surf.drawImage(resources().HEART, OFFSET_IMAGE_HEART * TILE_SIZE, OFFSET_HEAD);
+			surf.drawImage(resources().CREDITS, OFFSET_IMAGE_CREDITS * TILE_SIZE, OFFSET_HEAD);
 			
 			// draw the Buttons
-			for(Button b : buttons) {
+			for (Button b : buttons) {
 				b.draw(surf);
 			}
-		}		
+		}
+	}
+	
+	public void drawCredit(Surface surf) {	
+		creditsCanvas.clear();
+		drawText(creditsCanvas, gameState.getCredits(), 0, 0);
+		surf.drawImage(creditsCanvasImage, OFFSET_TEXT_CREDITS*TILE_SIZE, OFFSET_TEXT_HEAD);			
+	}
+	
+	public void drawLifes(Surface surf) {	
+		lifeCanvas.clear();
+		drawText(lifeCanvas, gameState.getLifepoints(),0, 0);
+		surf.drawImage(lifeCanvasImage, OFFSET_TEXT_HEART*TILE_SIZE, OFFSET_TEXT_HEAD);
+	}
+	
+	public void drawSemester(Surface surf) {			
+		semesterCanvas.clear();
+		String clockText = gameState.getLevelCount() + ". Semester - " + gameState.getWaveCount() + ". Woche";			
+		drawText(semesterCanvas, clockText, 0, 0);
+		surf.drawImage(semesterCanvasImage, OFFSET_TEXT_CLOCK*TILE_SIZE, OFFSET_TEXT_HEAD);	
 	}
 	
 	/**
@@ -365,9 +380,9 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 * @param x the x-coordinate
 	 * @param y the y-coordinate
 	 */
-	private void drawText(Object o, int x, int y) {
-		TextLayout clockText = graphics().layoutText(o.toString(), textFormat);
-		canvas.fillText(clockText,x, y);
+	private void drawText(Canvas canvas, Object o, int x, int y) {
+		TextLayout text = graphics().layoutText(o.toString(), textFormat);
+		canvas.fillText(text,x, y);
 	}
 
 	@Override

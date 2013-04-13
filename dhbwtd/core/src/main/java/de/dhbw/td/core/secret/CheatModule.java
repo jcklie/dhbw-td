@@ -56,6 +56,7 @@ public class CheatModule implements IKeyboardObserver {
 	private void playSound( String name ) {
 		Sound mySound = assets().getSound(name);
 		mySound.play();
+		mySound.setLooping(true);
 		buffer.delete(0, buffer.length());
 	}
 
