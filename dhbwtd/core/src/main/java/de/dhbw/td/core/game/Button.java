@@ -33,18 +33,18 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 * @param height
 	 * @param imagePath
 	 */
-	public Button(int x, int y, int width, int height, String imagePath) {
+	public Button(int x, int y, int width, int height, Image image) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.image = assets().getImageSync(imagePath);
+		this.image = image;
 		visible = true;
 		enabled = true;
 	}
 	
-	public Button(int x, int y, int width, int height, String imagePath, ICallbackFunction callback) {
-		this(x, y, width, height, imagePath);
+	public Button(int x, int y, int width, int height, Image image, ICallbackFunction callback) {
+		this(x, y, width, height, image);
 		this.callback = callback;
 	}
 	
