@@ -3,7 +3,7 @@
  *  
  *  Contributors:
  *  Jan-Christoph Klie - All
- *  Tobias Roeding - Add support for changing to the next level/wave when finished current
+ *  Tobias Roeding - Add support for changing to the next level/wave when finished current, Add menu support
  *  Benedict Holste - Clean up and refactoring
  */
 
@@ -22,6 +22,7 @@ import de.dhbw.td.core.event.KeyboardObservable;
 import de.dhbw.td.core.event.MouseObservable;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.game.HUD;
+import de.dhbw.td.core.game.Menu;
 
 public class TowerDefense implements Game {
 
@@ -29,15 +30,18 @@ public class TowerDefense implements Game {
 	public static final String PATH_IMAGES = "images/";
 	public static final String PATH_WAVES = "waves/";
 	public static final String PATH_TOWERS = "tower/";
+	public static final String PATH_MENU = "menu/";
 
 	private ImageLayer BACKGROUND_LAYER;
 	private SurfaceLayer TILE_LAYER;
 	private SurfaceLayer HUD_LAYER;
 	private SurfaceLayer ENEMY_LAYER;
 	private SurfaceLayer TOWER_LAYER;
+	private SurfaceLayer MENU_LAYER;
 
 	private GameState stateOftheWorld;
 	private HUD hud;
+	private Menu menu;
 
 	private static MouseObservable mouse;
 	private static KeyboardObservable keyboard;
@@ -60,7 +64,8 @@ public class TowerDefense implements Game {
 		 */
 		
 		stateOftheWorld = new GameState();
-		hud = new HUD(stateOftheWorld);
+		menu = new Menu(stateOftheWorld);
+		hud = new HUD(stateOftheWorld, menu);
 
 		/*
 		 * Layer
@@ -90,6 +95,9 @@ public class TowerDefense implements Game {
 		// HUD layer
 		HUD_LAYER = graphics().createSurfaceLayer(width, height);
 		graphics().rootLayer().add(HUD_LAYER);
+		
+		MENU_LAYER = graphics().createSurfaceLayer(width, height);
+		graphics().rootLayer().add(MENU_LAYER);
 	}
 
 	@Override
@@ -100,6 +108,9 @@ public class TowerDefense implements Game {
 
 		Surface hudSurface = HUD_LAYER.surface();
 		hud.draw(hudSurface);
+		
+		Surface menuSurface = MENU_LAYER.surface();
+		menu.draw(menuSurface);
 		
 		Surface towerSurface = TOWER_LAYER.surface();
 		//stateOftheWorld.drawTowers(towerSurface);

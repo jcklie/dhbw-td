@@ -71,6 +71,7 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	private TextFormat textFormat;
 	
 	private GameState gameState;
+	private Menu menu;
 	
 	private ArrayList<Button> buttons;
 	
@@ -81,9 +82,10 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 * 
 	 * @param state an object representing the game state to be visualized
 	 */
-	public HUD(GameState state) {
+	public HUD(GameState state, Menu menu) {
 		
 		gameState = state;
+		this.menu = menu;
 		
 		changed = true;
 		
@@ -289,14 +291,20 @@ public class HUD implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 * Adds the Menu Button
 	 */
 	private void addMenuButton() {
-		final Button menuButton = new Button(OFFSET_IMAGE_COG * TILE_SIZE, OFFSET_HEAD,
-				(int)resources().COG.width(), (int)resources().COG.height(),
-				resources().COG, new ICallbackFunction() {
+		final Button menuButton = new Button(OFFSET_IMAGE_COG * TILE_SIZE,
+				OFFSET_HEAD, TILE_SIZE, TILE_SIZE, resources().COG, new ICallbackFunction() {
 
 					@Override
 					public void execute() {
-							gameState.setLastAction(EAction.MENU);
-							log().debug("CLICKED MENU");
+
+						if (!gameState.isPaused()) {
+							gameState.pause();
+							menu.setMenu(true);
+						} else {
+							gameState.play();
+							menu.setClear(true);
+						}
+
 					}
 				});
 		menuButton.setKey(Key.ESCAPE);

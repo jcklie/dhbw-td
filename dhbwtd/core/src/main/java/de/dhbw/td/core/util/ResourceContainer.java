@@ -1,6 +1,7 @@
 package de.dhbw.td.core.util;
 
 import static playn.core.PlayN.assets;
+import de.dhbw.td.core.TowerDefense;
 import playn.core.Image;
 
 public enum ResourceContainer {
@@ -14,6 +15,18 @@ public enum ResourceContainer {
 	private final String PATH_IMAGES = "images/";
 	private final String PATH_TILES = "tiles/";
 	private final String PATH_TOWERS = "tower/";
+	private final String PATH_MENU = "menu/";
+	
+	/*
+	 * Menu IMAGES
+	 */
+	
+	public Image MENU_CREDITS;
+	public Image MENU_BACKGROUND;
+	public Image MENU_HELP;
+	public Image MENU_RESUME;
+	public Image MENU_QUIT;
+	public Image MENU_NEW;
 	
 	/*
 	 * HUD IMAGES
@@ -65,6 +78,13 @@ public enum ResourceContainer {
 	public Image HEALTHBAR_100;
 	
 	private ResourceContainer() {
+		
+		MENU_CREDITS = assets().getImageSync(PATH_MENU + "credits.png");
+		MENU_BACKGROUND = assets().getImageSync(PATH_MENU + "menu_bg.png");
+		MENU_HELP = assets().getImageSync(PATH_MENU + "help.png");
+		MENU_RESUME = assets().getImageSync(PATH_MENU + "resume_game.png");
+		MENU_QUIT = assets().getImageSync(PATH_MENU + "quit_game.png");
+		MENU_NEW = assets().getImage(PATH_MENU + "new_game.png");
 		
 		CLOCK = assets().getImageSync(PATH_IMAGES + "clock.png");
 		PLAY = assets().getImageSync(PATH_IMAGES + "play.png");
