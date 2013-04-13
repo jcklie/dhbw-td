@@ -11,18 +11,21 @@ import playn.core.PlayN;
 import playn.java.JavaPlatform;
 import playn.java.JavaPlatform.Config;
 import de.dhbw.td.core.TowerDefense;
+import de.dhbw.td.core.secret.CheatModule;
 
 public class TowerDefenseJava {
 
 	public static void main(String[] args) {
 		Config config = new Config();
 	    config.width = 896;
-	    config.height = 640;
+	    config.height = 640;	    
 	    
 	    JavaPlatform platform = JavaPlatform.register(config);
 		platform.assets().setPathPrefix("de/dhbw/td/resources");
 		platform.setTitle("DHBW Tower Defense");		
 		platform.graphics().registerFont("Miso", "fonts/miso.otf");
-		PlayN.run(new TowerDefense());
+		
+		TowerDefense towerDefense = new TowerDefense();
+		PlayN.run(towerDefense);
 	}
 }

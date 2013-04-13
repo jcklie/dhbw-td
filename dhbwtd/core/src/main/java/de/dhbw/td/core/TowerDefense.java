@@ -23,6 +23,7 @@ import de.dhbw.td.core.event.MouseObservable;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.game.HUD;
 import de.dhbw.td.core.game.Menu;
+import de.dhbw.td.core.secret.CheatModule;
 
 public class TowerDefense implements Game {
 
@@ -31,6 +32,9 @@ public class TowerDefense implements Game {
 	public static final String PATH_WAVES = "waves/";
 	public static final String PATH_TOWERS = "tower/";
 	public static final String PATH_MENU = "menu/";
+	
+	private static MouseObservable mouse;
+	private static KeyboardObservable keyboard;
 
 	private ImageLayer BACKGROUND_LAYER;
 	private SurfaceLayer TILE_LAYER;
@@ -42,10 +46,9 @@ public class TowerDefense implements Game {
 	private GameState stateOftheWorld;
 	private HUD hud;
 	private Menu menu;
-
-	private static MouseObservable mouse;
-	private static KeyboardObservable keyboard;
-
+	
+	private CheatModule module;
+	
 	@Override
 	public void init() {
 		
@@ -66,6 +69,7 @@ public class TowerDefense implements Game {
 		stateOftheWorld = new GameState();
 		menu = new Menu(stateOftheWorld);
 		hud = new HUD(stateOftheWorld, menu);
+		module = new CheatModule(stateOftheWorld);
 
 		/*
 		 * Layer

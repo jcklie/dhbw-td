@@ -2,7 +2,7 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Jan-Christoph Klie - First basic version
+ *  Jan-Christoph Klie - First basic version + refactor
  *  Benedict Holste - The more advanced version
  */
 

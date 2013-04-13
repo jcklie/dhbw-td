@@ -1,3 +1,12 @@
+/*  Copyright (C) 2013 by Jan-Christoph Klie, Inc. All rights reserved.
+ *  Released under the terms of the GNU General Public License version 3 or later.
+ *  
+ *  Contributors:
+ *  Benedict Holste - Idea and first implementation
+ *  Jan-Christoph Klie - Changed singleton to single enum + extension + refactor
+ *  
+ */
+
 package de.dhbw.td.core.util;
 
 import static playn.core.PlayN.assets;
