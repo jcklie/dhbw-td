@@ -11,7 +11,6 @@ package de.dhbw.td.core.level;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import playn.core.Image;
 import playn.core.Surface;
 import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.util.Point;
@@ -24,7 +23,7 @@ public class Level implements IDrawable {
 	public final int tilesize;
 	public final int startx;
 	public final int starty;
-	public final Image[][] map;
+	public final de.dhbw.td.core.util.ETileType[][] map;
 	private Queue<Point> waypoints;
 
 	private static Queue<Point> changeCopyWaypoints(Queue<Point> waypoints) {
@@ -45,7 +44,7 @@ public class Level implements IDrawable {
 		return cloned;
 	}
 
-	public Level(Image[][] map, Queue<Point> waypoints, int tilesize, int width, int height, int startx, int starty) {
+	public Level(de.dhbw.td.core.util.ETileType[][] map, Queue<Point> waypoints, int tilesize, int width, int height, int startx, int starty) {
 		this.tilesize = tilesize;
 		this.width = width;
 		this.height = height;
@@ -82,7 +81,7 @@ public class Level implements IDrawable {
 		surf.clear();
 		for (int row = 0; row < height; row++) {
 			for (int col = 0; col < width; col++) {
-				surf.drawImage(map[row][col], col * tilesize, row * tilesize);
+				surf.drawImage(map[row][col].image(), col * tilesize, row * tilesize);
 			}
 		}
 	}
