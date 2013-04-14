@@ -28,6 +28,8 @@ import de.dhbw.td.core.event.ICallbackFunction;
 import de.dhbw.td.core.event.IKeyboardObserver;
 import de.dhbw.td.core.event.IMouseObserver;
 import de.dhbw.td.core.game.GameState.EAction;
+import de.dhbw.td.core.util.EFlavor;
+import de.dhbw.td.core.util.Point;
 
 
 /**
@@ -387,7 +389,10 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 
 	@Override
 	public void alert(ButtonEvent e) {
+		log().debug(e.toString());
+		log().info(String.valueOf(gameState.checkMap(e.x(), e.y())));
 
+		gameState.addTower(EFlavor.MATH, new Point((int)e.x(), (int)e.y()));
 	}
 	
 	@Override

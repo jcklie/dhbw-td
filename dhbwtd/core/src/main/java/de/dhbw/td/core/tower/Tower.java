@@ -80,7 +80,8 @@ public class Tower implements IDrawable, IUpdateable {
 	}
 
 	@Override
-	public void update(double delta) {		
+	public void update(double delta) {
+		//log().debug("Update");
 		lastShot += delta;
 
 		if (lastShot >= shotRate) {
@@ -100,7 +101,8 @@ public class Tower implements IDrawable, IUpdateable {
 			}
 			
 			if (target != null) {
-				log().debug("Shot");
+				log().debug("Shoting at " + target.getEnemyType());
+				target.takeDamage(getDamage());
 				/* TODO KILL enemy */
 			}
 			
