@@ -2,7 +2,7 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Jan-Christoph Klie - First basic version
+ *  Jan-Christoph Klie - First basic version + refactor
  *  Benedict Holste - The more advanced version
  */
 
@@ -151,11 +151,16 @@ public class GameState implements IUpdateable {
 	 * @return true, if game state has changed
 	 */
 	public boolean hasChanged() {
-		if (changed) {
-			changed = false;
-			return true;
-		}
-		return false;
+		return changed;
+	}
+	
+	/**
+	 * Used to indicate to the game state that
+	 * with the change has been dealt and
+	 * can now be seen as not changed
+	 */
+	public void changeProcessed() {
+		changed = false;
 	}
 	
 	public boolean hasNewLevel() {
