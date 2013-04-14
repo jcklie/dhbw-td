@@ -69,6 +69,7 @@ public enum ResourceContainer {
 	public final Image IMAGE_PATH_VERTICAL;
 	public final Image IMAGE_PATH_INTERSECTION;
 	public final Image IMAGE_GRID;
+	public final Image IMAGE_WHITE;
 	
 	/*
 	 * TOWER IMAGES
@@ -161,6 +162,7 @@ public enum ResourceContainer {
 		IMAGE_START = getImage(PATH_TILES + "start.bmp");
 		IMAGE_FINISH = getImage(PATH_TILES + "finish.bmp");
 		IMAGE_GRID = getImage(PATH_TILES + "grid.bmp");
+		IMAGE_WHITE = getImage(PATH_TILES + "white.bmp");
 		
 		IMAGE_MATH_TOWER = getImage(PATH_TOWERS + "math.png");
 		IMAGE_CODE_TOWER = getImage(PATH_TOWERS + "code.png");

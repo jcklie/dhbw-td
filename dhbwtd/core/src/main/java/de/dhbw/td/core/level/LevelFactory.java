@@ -19,6 +19,7 @@ import playn.core.Image;
 import playn.core.Json;
 import de.dhbw.td.core.util.Point;
 import de.dhbw.td.core.util.EDirection;
+import de.dhbw.td.core.util.ETileType;
 
 /**
  * 
@@ -27,58 +28,6 @@ import de.dhbw.td.core.util.EDirection;
  */
 public class LevelFactory {
 
-	private enum ETileType {
-
-		GRID("grid.bmp"), WHITE("white.bmp"), EDGE_LEFT_BOTTOM("edge_left_bottom.bmp"), EDGE_LEFT_TOP(
-				"edge_left_top.bmp"), EDGE_RIGHT_BOTTOM("edge_right_bottom.bmp"), EDGE_RIGHT_TOP("edge_right_top.bmp"), PATH_EMPTY(
-				"path_empty.bmp"), PATH_HORIZONTAL("path_horizontal.bmp"), PATH_VERTICAL("path_vertical.bmp"), PATH_START(
-				"start.bmp"), PATH_END("finish.bmp"), TOWER_DUMMY("code.png");
-
-		public final String resourceName;
-
-		private static final String pathToTiles = "tiles";
-
-		public static String getPathToImage(int tileID) {
-			ETileType tileType = createFromTileId(tileID);
-			return pathToTiles + "/" + tileType.resourceName;
-		}
-
-		private static ETileType createFromTileId(int id) {
-			switch (id) {
-			case 0:
-				return GRID;
-			case 1:
-				return WHITE;
-			case 2:
-				return EDGE_LEFT_BOTTOM;
-			case 3:
-				return EDGE_LEFT_TOP;
-			case 4:
-				return EDGE_RIGHT_BOTTOM;
-			case 5:
-				return EDGE_RIGHT_TOP;
-			case 6:
-				return PATH_EMPTY;
-			case 7:
-				return PATH_HORIZONTAL;
-			case 8:
-				return PATH_VERTICAL;
-			case 9:
-				return PATH_START;
-			case 10:
-				return PATH_END;
-			case 11:
-				return TOWER_DUMMY;
-			default:
-				throw new IllegalArgumentException("No ETileType with Tile ID:" + id);
-			}
-		}
-
-		ETileType(String resourceName) {
-			this.resourceName = resourceName;
-		}
-	}
-
 	private int width;
 	private int height;
 	private int tilesize;
@@ -86,6 +35,11 @@ public class LevelFactory {
 	private int starty;
 	private Json.Array grid;
 
+	/**
+	 * Initializes the LevelFactory object
+	 * 
+	 * @param parsedJson
+	 */
 	private void init(Json.Object parsedJson) {
 		width = parsedJson.getInt("width");
 		height = parsedJson.getInt("height");
@@ -103,26 +57,22 @@ public class LevelFactory {
 	public Level loadLevel(Json.Object parsedJson) {
 		init(parsedJson);
 
-		Image[][] tileMap = loadTileMap();
 		Queue<Point> waypoints = generateWaypoints();
+		
+		ETileType[][] map = loadMap();
 
-		return new Level(tileMap, waypoints, tilesize, width, height, startx, starty);
+		return new Level(map, waypoints, tilesize, width, height, startx, starty);
 	}
-
-	private Image[][] loadTileMap() {
-		Image[][] tileMap = new Image[height][width];
-
+	
+	private ETileType[][] loadMap() {
+		ETileType[][] map = new ETileType[height][width];
 		for (int row = 0; row < height; row++) {
 			Json.Array gridRow = grid.getArray(row);
-
 			for (int col = 0; col < width; col++) {
-				int tileID = gridRow.getInt(col);
-				String pathToImage = ETileType.getPathToImage(tileID);
-				tileMap[row][col] = assets().getImageSync(pathToImage);
+				map[row][col] = ETileType.createFromTileId(gridRow.getInt(col));
 			}
 		}
-
-		return tileMap;
+		return map;
 	}
 
 	private class DirectionContainer {
