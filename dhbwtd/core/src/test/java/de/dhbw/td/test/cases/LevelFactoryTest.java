@@ -28,6 +28,7 @@ import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.level.LevelFactory;
 import de.dhbw.td.core.util.Point;
 import de.dhbw.td.test.util.FileUtil;
+import de.dhbw.td.core.util.ETileType;
 
 public class LevelFactoryTest extends TestCase {
 
@@ -85,7 +86,7 @@ public class LevelFactoryTest extends TestCase {
 		waypoints.add(new Point(7*64,2*64));
 		waypoints.add(new Point(13*64,2*64));
 		
-		return new Level(new Image[10][14], waypoints, 64, 14, 10, 0, 3);
+		return new Level(new ETileType[10][14], waypoints, 64, 14, 10, 0, 3);
 	}
 	
 	private Level buildExpectedLvlWithIntersect() {
@@ -100,7 +101,7 @@ public class LevelFactoryTest extends TestCase {
 		waypoints.add(new Point(7*64,2*64));
 		waypoints.add(new Point(13*64,2*64));
 		
-		return new Level(new Image[10][14], waypoints, 64, 14, 10, 0, 3);
+		return new Level(new ETileType[10][14], waypoints, 64, 14, 10, 0, 3);
 	}
 	
 	private void assertLevelParameterEquals(Level expected, Level given) {
