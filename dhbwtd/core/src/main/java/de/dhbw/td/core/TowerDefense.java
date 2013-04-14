@@ -71,7 +71,7 @@ public class TowerDefense implements Game {
 		stateOftheWorld = new GameState();
 		menu = new Menu(stateOftheWorld);
 		hud = new HUD(stateOftheWorld, menu);
-		module = new CheatModule(stateOftheWorld);
+		module = new CheatModule(stateOftheWorld, hud);
 
 		/*
 		 * Layer
