@@ -14,6 +14,7 @@ import java.util.Queue;
 import playn.core.Surface;
 import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.util.Point;
+import de.dhbw.td.core.util.ETileType;
 
 public class Level implements IDrawable {
 
@@ -23,7 +24,7 @@ public class Level implements IDrawable {
 	public final int tilesize;
 	public final int startx;
 	public final int starty;
-	public final de.dhbw.td.core.util.ETileType[][] map;
+	public final ETileType[][] map;
 	private Queue<Point> waypoints;
 
 	private static Queue<Point> changeCopyWaypoints(Queue<Point> waypoints) {
@@ -44,7 +45,7 @@ public class Level implements IDrawable {
 		return cloned;
 	}
 
-	public Level(de.dhbw.td.core.util.ETileType[][] map, Queue<Point> waypoints, int tilesize, int width, int height, int startx, int starty) {
+	public Level(ETileType[][] map, Queue<Point> waypoints, int tilesize, int width, int height, int startx, int starty) {
 		this.tilesize = tilesize;
 		this.width = width;
 		this.height = height;
