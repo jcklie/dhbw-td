@@ -1,9 +1,8 @@
 package de.dhbw.td.core.tower;
 
-import javax.vecmath.Vector2d;
-
 import playn.core.Image;
 import playn.core.Surface;
+import pythagoras.d.Vector;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.game.IUpdateable;
@@ -37,9 +36,9 @@ public class Projectile implements IDrawable, IUpdateable {
 		}
 		
 		//Calculates the move vector
-		Vector2d vector = getVector();
-		vector.scale(speed / vector.length());
-		vector = new Vector2d((vector.x * delta / 1000), (vector.y * delta / 1000));
+		Vector vector = getVector();
+		vector = vector.scale(speed / vector.length());
+		vector.set((vector.x * delta / 1000), (vector.y * delta / 1000));
 		
 		//Check if projectile will hit the target, otherwies move the projectile
 		if (Math.abs(target.getCurrentPosition().getX() - currentPosition.getX()) <= Math.abs(vector.x) &&
@@ -55,8 +54,8 @@ public class Projectile implements IDrawable, IUpdateable {
 	 * Calculates vector between target and current position
 	 * @return The calculated vector
 	 */
-	private Vector2d getVector() {
-		return new Vector2d(target.getCurrentPosition().getX() - currentPosition.getX(), 
+	private Vector getVector() {
+		return new Vector(target.getCurrentPosition().getX() - currentPosition.getX(), 
 				target.getCurrentPosition().getY() - currentPosition.getY());
 	}
 
