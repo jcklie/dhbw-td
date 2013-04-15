@@ -299,7 +299,7 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	 * Adds the Menu Button
 	 */
 	private void addMenuButton() {
-		final Button menuButton = new Button.Builder(resources().IMAGE_COG)
+		final Button menuButton = new Button.Builder(resources().IMAGE_SETTINGS)
 				.x(OFFSET_IMAGE_COG*TILE_SIZE).y(OFFSET_HEAD*TILE_SIZE).build();
 		menuButton.setCallback(new ICallbackFunction() {
 
