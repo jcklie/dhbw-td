@@ -21,10 +21,10 @@ import playn.core.SurfaceLayer;
 import de.dhbw.td.core.event.KeyboardObservable;
 import de.dhbw.td.core.event.MouseObservable;
 import de.dhbw.td.core.game.GameState;
-import de.dhbw.td.core.game.HUD;
-import de.dhbw.td.core.game.IngameMenu;
-import de.dhbw.td.core.game.MainMenu;
 import de.dhbw.td.core.secret.CheatModule;
+import de.dhbw.td.core.ui.HUD;
+import de.dhbw.td.core.ui.IngameMenu;
+import de.dhbw.td.core.ui.MainMenu;
 
 public class TowerDefense implements Game {
 
@@ -114,7 +114,6 @@ public class TowerDefense implements Game {
 		graphics().rootLayer().add(MENU_LAYER);
 	}
 
-
 	@Override
 	public void paint(float alpha) {
 		if(false) {
@@ -128,7 +127,7 @@ public class TowerDefense implements Game {
 			ingameMenu.draw(menuSurface);
 			
 			Surface towerSurface = TOWER_LAYER.surface();
-			//stateOftheWorld.drawTowers(towerSurface);
+			stateOftheWorld.drawTowers(towerSurface);
 			
 			// Draw hud
 			hud.drawIcons(HUD_LAYER.surface());

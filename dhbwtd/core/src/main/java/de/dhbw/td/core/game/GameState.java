@@ -11,6 +11,8 @@ package de.dhbw.td.core.game;
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.log;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import playn.core.Surface;
@@ -21,6 +23,7 @@ import de.dhbw.td.core.level.LevelFactory;
 import de.dhbw.td.core.tower.Tower;
 import de.dhbw.td.core.tower.TowerFactory;
 import de.dhbw.td.core.util.EFlavor;
+import de.dhbw.td.core.util.ETileType;
 import de.dhbw.td.core.util.Point;
 import de.dhbw.td.core.waves.Wave;
 import de.dhbw.td.core.waves.WaveController;
@@ -68,6 +71,8 @@ public class GameState implements IUpdateable {
 	private TowerFactory towerFactory; 
 	
 	private EAction lastAction;
+	
+	private boolean[][] map;
 
 	/**
 	 * Constructor
@@ -77,6 +82,8 @@ public class GameState implements IUpdateable {
 		levelFactory = new LevelFactory();
 		waveFactory = new WaveFactory();
 		towerFactory = new TowerFactory();
+		
+		towers = new ArrayList<Tower>();
 		
 		credits = INITIAL_CREDITS;
 		lifepoints = INITIAL_LIFEPOINTS;
@@ -101,7 +108,7 @@ public class GameState implements IUpdateable {
 			String pathToImage = TowerDefense.PATH_LEVELS + "level" + levelCount + ".json";
 			String levelJSON = assets().getTextSync(pathToImage);
 			currentLevel = levelFactory.loadLevel(levelJSON);
-			
+			map = createMap(currentLevel);
 		} catch (Exception e) {
 			log().error(e.toString());
 		}
@@ -131,9 +138,45 @@ public class GameState implements IUpdateable {
 		enemies = currentWave.getEnemies();
 		for(int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
-			e.getCurrentPosition().translate(-i * currentLevel.tilesize, 0);
+			e.getCurrentPosition().translate(-i * currentLevel.tilesize(), 0);
+		}
+		for(int i = 0; i < towers.size(); i++) {
+			Tower t = towers.get(i);
+			t.setEnemies(enemies);
 		}
 		changed = true;
+	}
+	
+	private boolean[][] createMap(Level lvl) {
+		
+		log().debug(lvl.rows() + ", " + lvl.cols());
+		
+		boolean[][] m = new boolean[lvl.rows()][lvl.cols()];
+		for( int i = 0; i < m.length; i++ )
+			   Arrays.fill( m[i], true );
+		
+		for(int row = 0; row < lvl.rows(); row++) {
+			for(int col = 0; col < lvl.cols(); col++) {
+				if(lvl.map()[row][col] != ETileType.GRID) {
+					m[row][col] = false;
+				}
+				System.out.print(String.valueOf(m[row][col]) + " \t");
+			}
+			System.out.println();
+		}
+		
+		return m;
+	}
+	
+	public boolean checkMap(float x, float y) {
+		int col = (int)Math.floor(x/currentLevel.tilesize());
+		int row = (int)Math.floor(y/currentLevel.tilesize());
+		log().debug("checking " + row + ", " + col);
+		return map[row][col];
+	}
+	
+	public int toTile(int pos) {
+		return (int)Math.floor(pos/64);
 	}
 	
 	/**
@@ -141,8 +184,14 @@ public class GameState implements IUpdateable {
 	 * @param flavour
 	 * @param position
 	 */
-	public void buildTower(EFlavor flavor, Point position) {
-		towerFactory.getTower(flavor, position);
+	public void addTower(EFlavor flavor, Point position) {
+		if(checkMap(position.getX(), position.getY())) {
+			Tower t = towerFactory.getTower(flavor, new Point(toTile(position.getX())*64, toTile(position.getY())*64));
+			t.setEnemies(enemies);
+			towers.add(t);
+			log().debug(String.format("%s, %s", toTile(position.getY()), toTile(position.getX())));
+			map[toTile(position.getY())][toTile(position.getX())] = false;
+		}
 	}
 
 	/**
@@ -221,6 +270,7 @@ public class GameState implements IUpdateable {
 				delta *= FACTOR_DELTA_FF;
 			}
 			
+			updateTowers(delta);
 			updateAllEnemies(delta);
 			
 			// check, if there are enemies left
@@ -232,6 +282,13 @@ public class GameState implements IUpdateable {
 				}
 			}
 		}	
+	}
+	
+	private void updateTowers(double delta) {
+		for(int i = 0; i < towers.size(); i++) {
+			Tower t = towers.get(i);
+			t.update(delta);
+		}
 	}
 	
 	private void updateAllEnemies(double delta) {
