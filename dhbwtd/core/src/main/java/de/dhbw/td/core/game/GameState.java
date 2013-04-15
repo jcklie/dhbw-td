@@ -10,6 +10,7 @@ package de.dhbw.td.core.game;
 
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.log;
+import static de.dhbw.td.core.util.GameConstants.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +45,7 @@ public class GameState implements IUpdateable {
 	private final int INITIAL_CREDITS = 25;
 	private final int INITIAL_LIFEPOINTS = 100;
 	
-	private final int FACTOR_DELTA_FF = 10;
+	private final double FACTOR_DELTA_FF = 0.5;
 	
 	private int levelCount;
 	private int waveCount;
