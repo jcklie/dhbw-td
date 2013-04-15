@@ -59,11 +59,11 @@ public class IngameMenu implements IDrawable, IMouseObserver, IKeyboardObserver 
 	}
 
 	private void createButtons() {
-		addResumeGameButton();
+		/*addResumeGameButton();
 		addNewGameButton();
 		addEndGameButton();
 		addCreditsButton();
-		addHelpButton();
+		addHelpButton();*/
 	}
 
 	public void setMenu(boolean value) {
@@ -82,7 +82,7 @@ public class IngameMenu implements IDrawable, IMouseObserver, IKeyboardObserver 
 		clear = value;
 	}
 
-	private void addResumeGameButton() {
+	/*private void addResumeGameButton() {
 		final Button resumeGame = new Button(OFFSET_LEFT * TILE_SIZE, 104,
 				TILE_SIZE * 4, TILE_SIZE, resources().IMAGE_MENU_RESUME, new ICallbackFunction() {
 
@@ -150,7 +150,7 @@ public class IngameMenu implements IDrawable, IMouseObserver, IKeyboardObserver 
 				});
 		TowerDefense.getMouse().addObserver(help);
 		buttons.add(help);
-	}
+	}*/
 
 	private boolean menuChanged() {
 		if (menu) {

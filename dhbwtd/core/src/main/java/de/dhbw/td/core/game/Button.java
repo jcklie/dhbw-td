@@ -1,5 +1,6 @@
 package de.dhbw.td.core.game;
 
+import static de.dhbw.td.core.util.GameConstants.*;
 import playn.core.Image;
 import playn.core.Key;
 import playn.core.Keyboard.Event;
@@ -11,40 +12,95 @@ import de.dhbw.td.core.event.IMouseObserver;
 
 public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	
-	private final int x;
-	private final int y;	
-	private final int width;
-	private final int height;
+	private int x;
+	private int y;	
+	private int width;
+	private int height;
 	
 	private boolean visible;
 	private boolean enabled;
 	
-	private Image image;
-	private ICallbackFunction callback;	
+	private Image image;	
 	private Key key;
 	
-	/**
-	 * Constructor
-	 * 
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
-	 * @param imagePath
-	 */
-	public Button(int x, int y, int width, int height, Image image) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		this.image = image;
-		visible = true;
-		enabled = true;
+	private ICallbackFunction callback;
+	
+	public static class Builder {
+		
+		// Reqired parameters
+		private final Image image;
+		
+		// Optional parameters
+		private int x;
+		private int y;
+		private int width;
+		private int height;
+		private boolean visible;
+		private boolean enabled;
+		private Key key;
+		private ICallbackFunction callback;
+		
+		public Builder(Image image) {
+			this.y = HEIGHT_PIXEL/2-(int)image.height()/2;
+			this.x = WIDTH_PIXEL/2-(int)image.width()/2;
+			this.image = image;
+			this.width = (int)image.width();
+			this.height = (int)image.height();
+			this.visible = true;
+			this.enabled = true;
+			this.callback = new ICallbackFunction() {
+				
+				@Override
+				public void execute() {
+					// TODO Auto-generated method stub
+					
+				}
+			};
+		}
+		
+		public Builder x(int val) {
+			x = val; return this;
+		}
+		
+		public Builder y(int val) {
+			y = val; return this;
+		}
+		
+		public Builder width(int val) {
+			width = val; return this;
+		}
+		
+		public Builder height(int val) {
+			height = val; return this;
+		}
+		
+		public Builder visible(boolean val) {
+			visible = val; return this;
+		}
+		
+		public Builder enabled(boolean val) {
+			enabled = val; return this;
+		}
+		
+		public Builder key(Key val) {
+			key = val; return this;
+		}
+		
+		public Button build() {
+			return new Button(this);
+		}
 	}
 	
-	public Button(int x, int y, int width, int height, Image image, ICallbackFunction callback) {
-		this(x, y, width, height, image);
-		this.callback = callback;
+	private Button(Builder builder) {
+		x = builder.x;
+		y = builder.y;
+		width = builder.width;
+		height = builder.height;
+		image = builder.image;
+		enabled = builder.enabled;
+		visible = builder.visible;
+		key = builder.key;
+		callback = builder.callback;
 	}
 	
 	/**

@@ -9,6 +9,7 @@
 package de.dhbw.td.core.game;
 
 import static de.dhbw.td.core.util.ResourceContainer.resources;
+import static de.dhbw.td.core.util.GameConstants.*;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
 
@@ -137,15 +138,14 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	 * Adds the MathTower Button
 	 */
 	private void addMathButton() {		
-		final Button mathTower = new Button(OFFSET_IMAGE_MATH*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
-				resources().IMAGE_MATH_TOWER, new ICallbackFunction() {
-					
-					@Override
-					public void execute() {
-						gameState.setLastAction(EAction.NEW_MATH_TOWER);
-						log().debug("SELECT MATH_TOWER");
-					}
-				});
+		final Button mathTower = new Button.Builder(resources().IMAGE_MATH_TOWER)
+			.x(OFFSET_IMAGE_MATH*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
+		mathTower.setCallback(new ICallbackFunction() {
+			@Override
+			public void execute() {
+				log().debug("Clicked MathTower");
+			}
+		});
 		TowerDefense.getMouse().addObserver(mathTower);
 		buttons.add(mathTower);
 	}
@@ -154,15 +154,14 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	 * Adds the CodingTower Button
 	 */
 	private void addCodeButton() {
-		final Button codeTower = new Button(OFFSET_IMAGE_CODE*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
-				resources().IMAGE_CODE_TOWER, new ICallbackFunction() {
-					
-					@Override
-					public void execute() {
-						gameState.setLastAction(EAction.NEW_CODE_TOWER);
-						log().debug("SELECT CODE_TOWER");
-					}
-				});
+		final Button codeTower = new Button.Builder(resources().IMAGE_CODE_TOWER)
+			.x(OFFSET_IMAGE_CODE*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
+		codeTower.setCallback(new ICallbackFunction() {
+			@Override
+			public void execute() {
+				log().debug("Clicked CodeTower");
+			}
+		});
 		TowerDefense.getMouse().addObserver(codeTower);
 		buttons.add(codeTower);
 	}
@@ -171,15 +170,14 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	 * Adds the EconomicsTower Button
 	 */
 	private void addEconomicsButton() {		
-		final Button economicsTower = new Button(OFFSET_IMAGE_WIWI*TILE_SIZE, OFFSET_FOOT*TILE_SIZE, TILE_SIZE, TILE_SIZE,
-				resources().IMAGE_WIWI_TOWER, new ICallbackFunction() {
-					
-					@Override
-					public void execute() {
-						gameState.setLastAction(EAction.NEW_WIWI_TOWER);
-						log().debug("Clicked WiwiTower");
-					}
-				});
+		final Button economicsTower = new Button.Builder(resources().IMAGE_WIWI_TOWER)
+			.x(OFFSET_IMAGE_WIWI*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
+		economicsTower.setCallback(new ICallbackFunction() {
+			@Override
+			public void execute() {
+				log().debug("Clicked WiwiTower");
+			}
+		});
 		TowerDefense.getMouse().addObserver(economicsTower);
 		buttons.add(economicsTower);
 	}
@@ -188,15 +186,14 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	 * Adds the TheoInfTower Button
 	 */
 	private void addTheoreticalComputerSciencesButton() {
-		final Button tcsTower = new Button(OFFSET_IMAGE_THEOINF * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, resources().IMAGE_THEOINF_TOWER, new ICallbackFunction() {
-
-					@Override
-					public void execute() {
-						gameState.setLastAction(EAction.NEW_THEOINF_TOWER);
-						log().debug("Clicked theoinfTower");
-					}
-				});
+		final Button tcsTower = new Button.Builder(resources().IMAGE_THEOINF_TOWER)
+			.x(OFFSET_IMAGE_THEOINF*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
+		tcsTower.setCallback(new ICallbackFunction() {
+			@Override
+			public void execute() {
+				log().debug("Clicked TheoInfTower");
+			}
+		});
 		TowerDefense.getMouse().addObserver(tcsTower);
 		buttons.add(tcsTower);
 	}
@@ -205,15 +202,14 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	 * Adds the TechInfTower Button
 	 */
 	private void addComputerEngineeringButton() {
-		final Button techinfTower = new Button(OFFSET_IMAGE_TECHINF * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, resources().IMAGE_TECHINF_TOWER, new ICallbackFunction() {
-
-					@Override
-					public void execute() {
-						gameState.setLastAction(EAction.NEW_TECHINF_TOWER);
-						log().debug("Clicked techinfTower");
-					}
-				});
+		final Button techinfTower = new Button.Builder(resources().IMAGE_TECHINF_TOWER)
+			.x(OFFSET_IMAGE_TECHINF*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
+		techinfTower.setCallback(new ICallbackFunction() {
+			@Override
+			public void execute() {
+				log().debug("Clicked TechInfTower");
+			}
+		});
 		TowerDefense.getMouse().addObserver(techinfTower);
 		buttons.add(techinfTower);
 	}
@@ -222,14 +218,12 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	 * Adds the SocialTower Button
 	 */
 	private void addSocialButton() {
-		final Button socialTower = new Button(OFFSET_IMAGE_SOCIAL * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, resources().IMAGE_SOCIAL_TOWER);
+		final Button socialTower = new Button.Builder(resources().IMAGE_SOCIAL_TOWER)
+			.x(OFFSET_IMAGE_SOCIAL*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
 		socialTower.setCallback(new ICallbackFunction() {
-
 			@Override
 			public void execute() {
-				gameState.setLastAction(EAction.NEW_SOCIAL_TOWER);
-				log().debug("Clicked socialTower");
+				log().debug("Clicked SocialTower");
 			}
 		});
 		TowerDefense.getMouse().addObserver(socialTower);
@@ -240,27 +234,26 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	 * Adds the Play/Pause Button
 	 */
 	private void addPlayButton() {
-		final Button playPause = new Button(OFFSET_IMAGE_PLAYPAUSE * TILE_SIZE, OFFSET_FOOT * TILE_SIZE, TILE_SIZE,
-				TILE_SIZE, resources().IMAGE_PAUSE);
-
+		final Button playPause = new Button.Builder(resources().IMAGE_PAUSE)
+			.x(OFFSET_IMAGE_PLAYPAUSE*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
 		playPause.setCallback(new ICallbackFunction() {
 
-			@Override
-			public void execute() {
-				
-				gameState.setLastAction(EAction.PLAY_PAUSE);
-
-				if (!gameState.isPaused()) {
-					gameState.pause();
-					playPause.setImage(resources().IMAGE_PLAY);
-				} else {
-					gameState.play();
-					playPause.setImage(resources().IMAGE_PAUSE);
-				}
-
-				changed = true;
-			}
-		});
+					@Override
+					public void execute() {
+						
+						gameState.setLastAction(EAction.PLAY_PAUSE);
+		
+						if (!gameState.isPaused()) {
+							gameState.pause();
+							playPause.setImage(resources().IMAGE_PLAY);
+						} else {
+							gameState.play();
+							playPause.setImage(resources().IMAGE_PAUSE);
+						}
+		
+						changed = true;
+					}
+				});
 		playPause.setKey(Key.P);
 		TowerDefense.getMouse().addObserver(playPause);
 		TowerDefense.getKeyboard().addObserver(playPause);
@@ -271,8 +264,8 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	 * Adds the Fast Forward Button
 	 */
 	private void addFastForwardButton() {
-		final Button fastForwardButton = new Button(OFFSET_IMAGE_FORWARD * TILE_SIZE, OFFSET_FOOT * TILE_SIZE,
-				TILE_SIZE, TILE_SIZE, resources().IMAGE_FAST_FORWARD);
+		final Button fastForwardButton = new Button.Builder(resources().IMAGE_FAST_FORWARD)
+			.x(OFFSET_IMAGE_FORWARD*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
 
 		fastForwardButton.setVisible(false);
 
@@ -305,8 +298,9 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	 * Adds the Menu Button
 	 */
 	private void addMenuButton() {
-		final Button menuButton = new Button(OFFSET_IMAGE_COG * TILE_SIZE,
-				OFFSET_HEAD, TILE_SIZE, TILE_SIZE, resources().IMAGE_COG, new ICallbackFunction() {
+		final Button menuButton = new Button.Builder(resources().IMAGE_COG)
+				.x(OFFSET_IMAGE_COG*TILE_SIZE).y(OFFSET_HEAD*TILE_SIZE).build();
+		menuButton.setCallback(new ICallbackFunction() {
 
 					@Override
 					public void execute() {
