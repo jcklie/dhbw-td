@@ -48,7 +48,7 @@ public class TowerFactory {
 			levels[i] = getLevel(jsonLevels.getObject(i));
 		}
 		
-		return new Tower(position, levels, jsonTower.getDouble("cadenza"));
+		return new Tower(flavor, position, levels, jsonTower.getDouble("cadenza"));
 	}
 	
 	private TowerLevel getLevel(Json.Object level) {

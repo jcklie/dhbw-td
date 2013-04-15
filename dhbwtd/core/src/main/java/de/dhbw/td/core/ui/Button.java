@@ -1,4 +1,4 @@
-package de.dhbw.td.core.game;
+package de.dhbw.td.core.ui;
 
 import static de.dhbw.td.core.util.GameConstants.*;
 import playn.core.Image;
@@ -9,6 +9,7 @@ import playn.core.Surface;
 import de.dhbw.td.core.event.ICallbackFunction;
 import de.dhbw.td.core.event.IKeyboardObserver;
 import de.dhbw.td.core.event.IMouseObserver;
+import de.dhbw.td.core.game.IDrawable;
 
 public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	

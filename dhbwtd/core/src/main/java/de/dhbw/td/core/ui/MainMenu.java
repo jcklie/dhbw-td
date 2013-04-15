@@ -6,7 +6,7 @@
  *  
  */
 
-package de.dhbw.td.core.game;
+package de.dhbw.td.core.ui;
 
 import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.log;
@@ -21,6 +21,8 @@ import de.dhbw.td.core.TowerDefense;
 import de.dhbw.td.core.event.ICallbackFunction;
 import de.dhbw.td.core.event.IKeyboardObserver;
 import de.dhbw.td.core.event.IMouseObserver;
+import de.dhbw.td.core.game.GameState;
+import de.dhbw.td.core.game.IDrawable;
 
 public class MainMenu implements IDrawable, IMouseObserver, IKeyboardObserver {
 	

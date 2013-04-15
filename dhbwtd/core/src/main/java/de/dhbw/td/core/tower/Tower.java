@@ -16,12 +16,15 @@ import playn.core.Surface;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.game.IUpdateable;
+import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.core.util.Point;
 
 public class Tower implements IDrawable, IUpdateable {
 	
 	private int level;
 	
+	
+	private final EFlavor flavor;
 	private final Point position;
 	private final TowerLevel[] levels;
 	private final double shotRate;
@@ -30,9 +33,10 @@ public class Tower implements IDrawable, IUpdateable {
 	private Enemy target;
 	private List<Enemy> enemies = new LinkedList<Enemy>();
 	
-	public Tower(Point position, TowerLevel[] levels, double cadenza) {
+	public Tower(EFlavor flavor, Point position, TowerLevel[] levels, double cadenza) {
 		this.position = new Point(position);
 		this.levels = levels;
+		this.flavor = flavor;
 		shotRate = (60 * 1000) / cadenza;
 	}
 	
@@ -81,7 +85,7 @@ public class Tower implements IDrawable, IUpdateable {
 
 	@Override
 	public void update(double delta) {
-		//log().debug("Update");
+
 		lastShot += delta;
 
 		if (lastShot >= shotRate) {
@@ -100,10 +104,9 @@ public class Tower implements IDrawable, IUpdateable {
 				}
 			}
 			
-			if (target != null) {
-				log().debug("Shoting at " + target.getEnemyType());
-				target.takeDamage(getDamage());
-				/* TODO KILL enemy */
+			if (target != null && inRange(target)) {
+				log().debug("Shoting at " + target.getEnemyType() + " Distance " + getDistance(target));
+				target.takeDamage(flavor == target.getEnemyType() ? getDamage()*2 : getDamage());
 			}
 			
 			lastShot -= shotRate;
@@ -113,7 +116,9 @@ public class Tower implements IDrawable, IUpdateable {
 	}
 	
 	private double getDistance(Enemy enemy) {
-		return position.distance(enemy.getCurrentPosition());
+		double d = position.distance(enemy.getCurrentPosition());
+		log().debug("Distance " + d + " Range " + getRange());
+		return d;
 	}
 	
 	private boolean inRange(Enemy enemy) {

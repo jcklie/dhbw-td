@@ -11,9 +11,9 @@ import playn.core.Keyboard.Event;
 import playn.core.Sound;
 import de.dhbw.td.core.TowerDefense;
 import de.dhbw.td.core.event.IKeyboardObserver;
-import de.dhbw.td.core.game.Button;
 import de.dhbw.td.core.game.GameState;
-import de.dhbw.td.core.game.HUD;
+import de.dhbw.td.core.ui.Button;
+import de.dhbw.td.core.ui.HUD;
 import de.dhbw.td.core.util.ResourceContainer;
 
 
