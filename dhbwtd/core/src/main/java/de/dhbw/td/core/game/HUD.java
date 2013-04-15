@@ -79,7 +79,7 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	private TextFormat textFormat;
 	
 	private GameState gameState;
-	private Menu menu;
+	private IngameMenu menu;
 	
 	private ArrayList<Button> buttons;
 	
@@ -90,7 +90,7 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	 * 
 	 * @param state an object representing the game state to be visualized
 	 */
-	public HUD(GameState state, Menu menu) {
+	public HUD(GameState state, IngameMenu menu) {
 		
 		gameState = state;
 		this.menu = menu;

@@ -38,12 +38,14 @@ public enum ResourceContainer {
 	 * Menu IMAGES
 	 */
 	
-	public final Image IMAGE_MENU_CREDITS;
-	public final Image IMAGE_MENU_BACKGROUND;
+	public final Image IMAGE_MENU_MAIN_BACKGROUND;
+	public final Image IMAGE_MENU_INGAME_BACKGROUND;
+	public final Image IMAGE_MENU_CREDITS;	
 	public final Image IMAGE_MENU_HELP;
 	public final Image IMAGE_MENU_RESUME;
 	public final Image IMAGE_MENU_QUIT;
 	public final Image IMAGE_MENU_NEW;
+	
 	
 	/*
 	 * HUD IMAGES
@@ -137,12 +139,14 @@ public enum ResourceContainer {
 		/*
 		 * Load images
 		 */
-		IMAGE_MENU_CREDITS = getImage(PATH_MENU + "credits.png");
-		IMAGE_MENU_BACKGROUND = getImage(PATH_MENU + "menu_bg.png");
+		
+		IMAGE_MENU_NEW = assets().getImage(PATH_MENU + "new_game.png");
+		IMAGE_MENU_INGAME_BACKGROUND = getImage(PATH_MENU + "ingame_menu_bg.png");
+		IMAGE_MENU_CREDITS = getImage(PATH_MENU + "credits.png");		
+		IMAGE_MENU_MAIN_BACKGROUND = getImage(PATH_MENU + "main_menu_bg.png");
 		IMAGE_MENU_HELP = getImage(PATH_MENU + "help.png");
 		IMAGE_MENU_RESUME = getImage(PATH_MENU + "resume_game.png");
-		IMAGE_MENU_QUIT = getImage(PATH_MENU + "quit_game.png");
-		IMAGE_MENU_NEW = assets().getImage(PATH_MENU + "new_game.png");
+		IMAGE_MENU_QUIT = getImage(PATH_MENU + "quit_game.png");		
 		
 		IMAGE_CLOCK = getImage(PATH_IMAGES + "clock.png");
 		IMAGE_PLAY = getImage(PATH_IMAGES + "play.png");
