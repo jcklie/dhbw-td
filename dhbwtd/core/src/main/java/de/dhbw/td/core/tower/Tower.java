@@ -21,10 +21,9 @@ import de.dhbw.td.core.util.Point;
 
 public class Tower implements IDrawable, IUpdateable {
 	
-	private static final int PROJECTILE_SPEED = 600;
+	private static final int PROJECTILE_SPEED = 450;
 	
 	private int level;
-	
 	
 	private final EFlavor flavor;
 	private final Point position;
@@ -123,7 +122,8 @@ public class Tower implements IDrawable, IUpdateable {
 			if (target != null && inRange(target)) {
 				hasShot = true;	
 				log().debug("Shoting at " + target.getEnemyType() + " Distance " + getDistance(target));
-				projectiles.add(new Projectile(getPosition(), getDamage(), PROJECTILE_SPEED, target, getLevel().image));
+				Projectile p = new Projectile(getPosition(), getDamage(), flavor, PROJECTILE_SPEED, target, getLevel().image);
+				projectiles.add(p);
 			} else {
 				hasShot = false;
 			}
