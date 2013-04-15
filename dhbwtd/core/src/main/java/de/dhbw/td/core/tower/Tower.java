@@ -7,6 +7,8 @@
 
 package de.dhbw.td.core.tower;
 
+import static playn.core.PlayN.log;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,14 +17,16 @@ import playn.core.Surface;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.game.IUpdateable;
+import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.core.util.Point;
 
 public class Tower implements IDrawable, IUpdateable {
-	
-	private static final int PROJECTILE_SPEED = 600;
+
+	private static final int PROJECTILE_SPEED = 450;
 	
 	private int level;
 	
+	private final EFlavor flavor;
 	private final Point position;
 	private final TowerLevel[] levels;
 	private final double shotRate;
@@ -36,9 +40,10 @@ public class Tower implements IDrawable, IUpdateable {
 	
 	private List<Projectile> projectiles = new LinkedList<Projectile>();
 	
-	public Tower(Point position, TowerLevel[] levels, double cadenza, Image projectile) {
+	public Tower(EFlavor flavor, Point position, TowerLevel[] levels, double cadenza, Image projectile) {
 		this.position = new Point(position);
 		this.levels = levels;
+		this.flavor = flavor;
 		shotRate = (60 * 1000) / cadenza;
 		this.projectile = projectile;
 	}
@@ -117,9 +122,11 @@ public class Tower implements IDrawable, IUpdateable {
 			}
 			
 			//Check if tower can shoot
-			if (target != null) {
-				hasShot = true;				
-				projectiles.add(new Projectile(getPosition(), getDamage(), PROJECTILE_SPEED, target, projectile));
+			if (target != null && inRange(target)) {
+				hasShot = true;	
+				log().debug("Shoting at " + target.getEnemyType() + " Distance " + getDistance(target));
+				Projectile p = new Projectile(getPosition(), getDamage(), flavor, PROJECTILE_SPEED, target, getLevel().image);
+				projectiles.add(p);
 			} else {
 				hasShot = false;
 			}

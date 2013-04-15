@@ -32,7 +32,7 @@ public class TowerFactory {
 		if (jsonTower == null) {
 			log().debug("Load tower: " + flavor);
 			try {
-				String jsonString = assets().getTextSync(getPathToFile(flavor));
+				String jsonString = assets().getTextSync(getPathToFile(flavor)+".json");
 				jsonTower = json().parse(jsonString);
 				loadedTowers.put(flavor, jsonTower);
 			} catch (Exception e) {
@@ -48,8 +48,8 @@ public class TowerFactory {
 		for (int i = 0; i < levelCount; i++) {
 			levels[i] = getLevel(jsonLevels.getObject(i));
 		}
-
-		return new Tower(position, levels, jsonTower.getDouble("cadenza"), 
+		
+		return new Tower(flavor, position, levels, jsonTower.getDouble("cadenza"), 
 				getProjectileImage(jsonTower.getString("projectile")));
 	}
 

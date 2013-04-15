@@ -1,11 +1,14 @@
 package de.dhbw.td.core.tower;
 
+import static playn.core.PlayN.log;
+
 import playn.core.Image;
 import playn.core.Surface;
 import pythagoras.d.Vector;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.game.IUpdateable;
+import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.core.util.Point;
 
 public class Projectile implements IDrawable, IUpdateable {
@@ -14,14 +17,16 @@ public class Projectile implements IDrawable, IUpdateable {
 	private final double speed;
 	private final Enemy target;
 	private final Image image;
+	private final EFlavor flavor;
 	
 	private boolean hit;
 	
 	private Point currentPosition;
 	
-	public Projectile(Point position, int damage, double speed, Enemy target, Image image) {
+	public Projectile(Point position, int damage, EFlavor flavor, double speed, Enemy target, Image image) {
 		this.currentPosition = new Point(position);
 		this.damage = damage;
+		this.flavor = flavor;
 		this.speed = speed;
 		this.target = target;
 		this.image = image;
@@ -44,10 +49,15 @@ public class Projectile implements IDrawable, IUpdateable {
 		if (Math.abs(target.getCurrentPosition().getX() - currentPosition.getX()) <= Math.abs(vector.x) &&
 				Math.abs(target.getCurrentPosition().getY() - currentPosition.getY()) <= Math.abs(vector.y)) {
 			hit = true;
-			target.takeDamage(damage);
+			target.takeDamage(calcDamage(damage));
 		} else {
 			currentPosition.translate((int) vector.x, (int) vector.y);
 		}
+	}
+	
+	private int calcDamage(int damage) {
+		log().debug("CRIT");
+		return flavor == target.getEnemyType() ? 2 * damage : damage;
 	}
 
 	/**

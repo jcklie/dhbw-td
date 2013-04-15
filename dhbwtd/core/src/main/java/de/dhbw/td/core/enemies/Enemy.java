@@ -19,6 +19,7 @@ import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.util.EDirection;
 import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.core.util.Point;
+import static playn.core.PlayN.log;
 
 /**
  * Enemies are the things tower kill for money
@@ -74,7 +75,7 @@ public class Enemy implements IDrawable, IUpdateable {
 	public void update(double delta) {
 		if (isAlive()) {
 			if (currentPosition.equals(currentWaypoint)) {
-				takeDamage(1);
+				//takeDamage(1);
 				Point nextWaypoint = waypoints.poll();
 				if (nextWaypoint == null) {
 					for (Point p : fixedWaypoints) {
@@ -150,6 +151,7 @@ public class Enemy implements IDrawable, IUpdateable {
 	}
 
 	public void takeDamage(int damage) {
+		log().debug("Getting demage " + damage);
 		curHealth -= damage;
 		double relativeHealth = (double) curHealth / (double) maxHealth;
 
