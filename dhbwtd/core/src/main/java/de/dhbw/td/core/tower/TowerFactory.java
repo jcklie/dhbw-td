@@ -32,7 +32,7 @@ public class TowerFactory {
 		if (jsonTower == null) {
 			log().debug("Load tower: " + flavor);
 			try {
-				String jsonString = assets().getTextSync(getPathToFile(flavor)+".json");
+				String jsonString = assets().getTextSync(getPathToFile(flavor));
 				jsonTower = json().parse(jsonString);
 				loadedTowers.put(flavor, jsonTower);
 			} catch (Exception e) {
