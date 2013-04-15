@@ -33,6 +33,7 @@ public enum ResourceContainer {
 	private final String PATH_WAVES = "waves/";
 	private final String PATH_ENEMIES = "enemies/";
 	private final String PATH_SOUNDS = "sound/";
+	private final String PATH_PROJETILES = "projectiles/";
 	
 	/*
 	 * Menu IMAGES
@@ -108,6 +109,11 @@ public enum ResourceContainer {
 	public final Image IMAGE_TECHINF_ENEMY;
 	public final Image IMAGE_THEOINF_ENEMY;
 	public final Image IMAGE_WIWI_ENEMY;
+
+	/*
+	 * PROJECTILES
+	 */
+	public final Image IMAGE_PROJECTILE; 
 	
 	/*
 	 * SOUNDS
@@ -174,6 +180,8 @@ public enum ResourceContainer {
 		IMAGE_TECHINF_TOWER = getImage(PATH_TOWERS + "techinf.png");
 		IMAGE_THEOINF_TOWER = getImage(PATH_TOWERS + "theoinf.png");
 		IMAGE_WIWI_TOWER = getImage(PATH_TOWERS + "wiwi.png");
+		
+		IMAGE_PROJECTILE = getImage(PATH_PROJETILES + "generic.png");
 		
 		IMAGE_HEALTHBAR_0 = getImage(PATH_IMAGES + "0.png");
 		IMAGE_HEALTHBAR_10 = getImage(PATH_IMAGES + "10.png");
