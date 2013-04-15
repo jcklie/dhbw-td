@@ -128,7 +128,7 @@ public class TowerDefense implements Game {
 			ingameMenu.draw(menuSurface);
 			
 			Surface towerSurface = TOWER_LAYER.surface();
-			//stateOftheWorld.drawTowers(towerSurface);
+			stateOftheWorld.drawTowers(towerSurface);
 			
 			// Draw hud
 			hud.drawIcons(HUD_LAYER.surface());

@@ -11,6 +11,7 @@ package de.dhbw.td.core.game;
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.log;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import playn.core.Surface;
@@ -222,6 +223,7 @@ public class GameState implements IUpdateable {
 			}
 			
 			updateAllEnemies(delta);
+			updateAllTowers(delta);
 			
 			// check, if there are enemies left
 			if (enemies.isEmpty()) {
@@ -246,6 +248,13 @@ public class GameState implements IUpdateable {
 			} else {
 				i++;
 			}
+		}
+	}
+	
+	private void updateAllTowers(double delta) {
+		for (Tower t : towers) {
+			t.setEnemies(enemies);
+			t.update(delta);
 		}
 	}
 	
