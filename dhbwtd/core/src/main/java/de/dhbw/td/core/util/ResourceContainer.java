@@ -56,7 +56,7 @@ public enum ResourceContainer {
 	public final Image IMAGE_FAST_FORWARD;
 	public final Image IMAGE_COG;
 	public final Image IMAGE_HEART;
-	public final Image IMAGE_CREDITS;
+	public final Image IMAGE_KNOWLEDGE;
 	
 	/*
 	 * MAP TILES
@@ -154,7 +154,7 @@ public enum ResourceContainer {
 		IMAGE_FAST_FORWARD = getImage(PATH_IMAGES + "fast_forward.png");
 		IMAGE_COG = getImage(PATH_IMAGES + "cog.png");
 		IMAGE_HEART = getImage(PATH_IMAGES + "heart.png");
-		IMAGE_CREDITS = getImage(PATH_IMAGES + "piggy.png");
+		IMAGE_KNOWLEDGE = getImage(PATH_IMAGES + "knowledge.png");
 		
 		IMAGE_EDGE_LEFT_BOTTOM = getImage(PATH_TILES + "edge_left_bottom.bmp");
 		IMAGE_EDGE_LEFT_TOP = getImage(PATH_TILES + "edge_left_top.bmp");
