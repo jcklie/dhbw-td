@@ -10,6 +10,7 @@ package de.dhbw.td.core.tower;
 import java.util.LinkedList;
 import java.util.List;
 
+import playn.core.Image;
 import playn.core.Surface;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.IDrawable;
@@ -25,6 +26,7 @@ public class Tower implements IDrawable, IUpdateable {
 	private final Point position;
 	private final TowerLevel[] levels;
 	private final double shotRate;
+	private final Image projectile;
 	
 	private double lastShot;
 	private boolean hasShot;
@@ -34,10 +36,11 @@ public class Tower implements IDrawable, IUpdateable {
 	
 	private List<Projectile> projectiles = new LinkedList<Projectile>();
 	
-	public Tower(Point position, TowerLevel[] levels, double cadenza) {
+	public Tower(Point position, TowerLevel[] levels, double cadenza, Image projectile) {
 		this.position = new Point(position);
 		this.levels = levels;
 		shotRate = (60 * 1000) / cadenza;
+		this.projectile = projectile;
 	}
 	
 	public boolean canUpgrade() {
@@ -116,7 +119,7 @@ public class Tower implements IDrawable, IUpdateable {
 			//Check if tower can shoot
 			if (target != null) {
 				hasShot = true;				
-				projectiles.add(new Projectile(getPosition(), getDamage(), PROJECTILE_SPEED, target, getLevel().image));
+				projectiles.add(new Projectile(getPosition(), getDamage(), PROJECTILE_SPEED, target, projectile));
 			} else {
 				hasShot = false;
 			}

@@ -19,7 +19,8 @@ import de.dhbw.td.core.util.Point;
  */
 public class TowerFactory {
 
-	private static final String PATH = "tower";
+	private static final String PATH_TOWERS = "tower";
+	private static final String PATH_PROJECTILES = "tower";
 
 	private Map<EFlavor, Json.Object> loadedTowers = new HashMap<EFlavor, Json.Object>();
 	private Map<String, Image> loadedImages = new HashMap<String, Image>();
@@ -48,12 +49,13 @@ public class TowerFactory {
 			levels[i] = getLevel(jsonLevels.getObject(i));
 		}
 
-		return new Tower(position, levels, jsonTower.getDouble("cadenza"));
+		return new Tower(position, levels, jsonTower.getDouble("cadenza"), 
+				getProjectileImage(jsonTower.getString("projectile")));
 	}
 
 	private TowerLevel getLevel(Json.Object level) {
 		return new TowerLevel(level.getInt("range"), level.getInt("damage"),
-				level.getInt("price"), getImage(level.getString("image")));
+				level.getInt("price"), getTowerImage(level.getString("image")));
 	}
 
 	private String getName(EFlavor flavor) {
@@ -76,15 +78,24 @@ public class TowerFactory {
 	}
 
 	private String getPathToFile(EFlavor flavor) {
-		return String.format("%s/%s.json", PATH, getName(flavor));
+		return String.format("%s/%s.json", PATH_TOWERS, getName(flavor));
 	}
 
+	private Image getTowerImage(String src) {
+		return getImage(String.format("%s/%s", PATH_TOWERS, src));
+		
+	}
+	
+	private Image getProjectileImage(String src) {
+		return getImage(String.format("%s/%s", PATH_PROJECTILES, src));
+	}
+	
 	private Image getImage(String src) {
 		Image image = loadedImages.get(src);
 		// Load image of src if still not loaded
 		if (image == null) {
 			log().debug("Load image: " + src);
-			image = assets().getImageSync(String.format("%s/%s", PATH, src));
+			image = assets().getImageSync(src);
 			loadedImages.put(src, image);
 		}
 		return image;

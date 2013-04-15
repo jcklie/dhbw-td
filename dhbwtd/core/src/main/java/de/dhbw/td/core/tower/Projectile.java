@@ -38,7 +38,7 @@ public class Projectile implements IDrawable, IUpdateable {
 		//Calculates the move vector
 		Vector vector = getVector();
 		vector = vector.scale(speed / vector.length());
-		vector.set((vector.x * delta / 1000), (vector.y * delta / 1000));
+		vector.set(vector.x * delta / 1000, vector.y * delta / 1000);
 		
 		//Check if projectile will hit the target, otherwies move the projectile
 		if (Math.abs(target.getCurrentPosition().getX() - currentPosition.getX()) <= Math.abs(vector.x) &&
