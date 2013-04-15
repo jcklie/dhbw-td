@@ -120,6 +120,7 @@ public class TowerDefense implements Game {
 		if(false) {
 			mainMenu.draw(MENU_LAYER.surface());
 		} else {
+			
 			Surface enemySurface = ENEMY_LAYER.surface();
 			stateOftheWorld.drawEnemies(enemySurface);
 			
