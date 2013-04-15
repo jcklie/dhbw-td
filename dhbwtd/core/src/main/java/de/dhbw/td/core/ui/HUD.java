@@ -86,6 +86,11 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	private ArrayList<Button> buttons;
 	
 	private boolean changed;
+	private boolean active;
+	
+	public HUD() {
+		
+	}
 	
 	/**
 	 * Constructor
@@ -333,6 +338,18 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 		}
 		return false;
 	}
+	
+	public boolean active() {
+		return active;
+	}
+	
+	public void activate() {
+		active = true;
+	}
+	
+	public void deactivate() {
+		active = false;
+	}
 
 	public void drawIcons(Surface surf) {
 		if(gameState.hasChanged() || hasChanged()) {
@@ -392,31 +409,6 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 	
 	@Override
 	public void alert(Event e) {
-		
-		switch (gameState.getLastAction()) {
-		
-		case NEW_MATH_TOWER:
-			
-			break;
-			
-		case NEW_CODE_TOWER:
-			break;
-			
-		case NEW_SOCIAL_TOWER:
-			break;
-			
-		case NEW_TECHINF_TOWER:
-			break;
-			
-		case NEW_THEOINF_TOWER:
-			break;
-			
-		case NEW_WIWI_TOWER:
-			break;
-
-		default:
-			break;
-		}
 		
 	}
 }

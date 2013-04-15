@@ -32,14 +32,15 @@ public class MainMenu implements IDrawable, IMouseObserver, IKeyboardObserver {
 	private final int OFFSET_TOP_HELP = 365;
 	private final int OFFSET_TOP_CREDITS = 452;
 	private final int OFFSET_TOP_END = 539;
-
-	private final int OFFSET_LEFT = 5;	
 	
-	private GameState state;
 	private List<Button> buttons;
 	
-	public MainMenu(GameState state) {
-		this.state = state;
+	private boolean active;
+	
+	public MainMenu() {
+		
+		active = false;
+		
 		buttons = new LinkedList<Button>();
 		
 		addNewGameButton();
@@ -100,6 +101,18 @@ public class MainMenu implements IDrawable, IMouseObserver, IKeyboardObserver {
 		TowerDefense.getMouse().addObserver(endGame);
 		buttons.add(endGame);
 	}
+	
+	public boolean active() {
+		return active;
+	}
+	
+	public void activate() {
+		active = true;
+	}
+	
+	public void deactivate() {
+		active = false;
+	}
 
 	@Override
 	public void alert(Event e) {		
@@ -113,6 +126,7 @@ public class MainMenu implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 	@Override
 	public void draw(Surface surf) {
+		log().debug("Drawing");
 		surf.drawImage(resources().IMAGE_MENU_MAIN_BACKGROUND, 0, 0);
 		for(Button b : buttons) {
 			b.draw(surf);

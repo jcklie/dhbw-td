@@ -25,6 +25,7 @@ import de.dhbw.td.core.secret.CheatModule;
 import de.dhbw.td.core.ui.HUD;
 import de.dhbw.td.core.ui.IngameMenu;
 import de.dhbw.td.core.ui.MainMenu;
+import de.dhbw.td.core.ui.UIController;
 
 public class TowerDefense implements Game {
 
@@ -54,6 +55,8 @@ public class TowerDefense implements Game {
 	
 	private CheatModule module;
 	
+	UIController ui;
+	
 	@Override
 	public void init() {
 		
@@ -72,10 +75,13 @@ public class TowerDefense implements Game {
 		 */
 		
 		stateOftheWorld = new GameState();
+		ui = new UIController(stateOftheWorld);
+		
+		/*
 		mainMenu = new MainMenu(stateOftheWorld);
 		ingameMenu = new IngameMenu(stateOftheWorld);
 		hud = new HUD(stateOftheWorld, ingameMenu);
-		module = new CheatModule(stateOftheWorld, hud);
+		module = new CheatModule(stateOftheWorld, hud);*/
 
 		/*
 		 * Layer
@@ -116,7 +122,7 @@ public class TowerDefense implements Game {
 
 	@Override
 	public void paint(float alpha) {
-		if(false) {
+		/*if(false) {
 			mainMenu.draw(MENU_LAYER.surface());
 		} else {
 			Surface enemySurface = ENEMY_LAYER.surface();
@@ -143,7 +149,9 @@ public class TowerDefense implements Game {
 				Surface tileSurface = TILE_LAYER.surface();
 				stateOftheWorld.drawLevel(tileSurface);
 			}
-		}
+		}*/
+		
+		ui.drawComponents();
 	}
 
 	@Override

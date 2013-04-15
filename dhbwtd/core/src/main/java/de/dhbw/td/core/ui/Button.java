@@ -42,8 +42,8 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 		private ICallbackFunction callback;
 		
 		public Builder(Image image) {
-			this.y = HEIGHT_PIXEL/2-(int)image.height()/2;
-			this.x = WIDTH_PIXEL/2-(int)image.width()/2;
+			this.y = HEIGHT/2-(int)image.height()/2;
+			this.x = WIDTH/2-(int)image.width()/2;
 			this.image = image;
 			this.width = (int)image.width();
 			this.height = (int)image.height();

@@ -48,6 +48,10 @@ public class IngameMenu implements IDrawable, IMouseObserver, IKeyboardObserver 
 	private boolean help = false;
 	private boolean clear = false;
 
+	public IngameMenu() {
+		
+	}
+	
 	public IngameMenu(GameState stateOftheWorld) {
 
 		this.stateOftheWorld = stateOftheWorld;
