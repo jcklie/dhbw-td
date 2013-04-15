@@ -25,7 +25,7 @@ import de.dhbw.td.core.event.IKeyboardObserver;
 import de.dhbw.td.core.event.IMouseObserver;
 
 
-public class Menu implements IDrawable, IMouseObserver, IKeyboardObserver {
+public class IngameMenu implements IDrawable, IMouseObserver, IKeyboardObserver {
 
 	private static final int TILE_SIZE = 64;
 
@@ -46,7 +46,7 @@ public class Menu implements IDrawable, IMouseObserver, IKeyboardObserver {
 	private boolean help = false;
 	private boolean clear = false;
 
-	public Menu(GameState stateOftheWorld) {
+	public IngameMenu(GameState stateOftheWorld) {
 
 		this.stateOftheWorld = stateOftheWorld;
 
@@ -183,7 +183,7 @@ public class Menu implements IDrawable, IMouseObserver, IKeyboardObserver {
 			surf.clear();
 			canvas.clear();
 
-			canvas.drawImage(resources().IMAGE_MENU_BACKGROUND, 0, 0);
+			canvas.drawImage(resources().IMAGE_MENU_INGAME_BACKGROUND, 0, 0);
 			surf.drawImage(canvasImage, 0, 0);
 
 			for (Button b : buttons) {
@@ -193,7 +193,7 @@ public class Menu implements IDrawable, IMouseObserver, IKeyboardObserver {
 			surf.clear();
 			canvas.clear();
 
-			canvas.drawImage(resources().IMAGE_MENU_BACKGROUND, 0, 0);
+			canvas.drawImage(resources().IMAGE_MENU_INGAME_BACKGROUND, 0, 0);
 			canvas.drawImage(resources().IMAGE_MENU_CREDITS, 0, 0);
 		} else if (helpChanged()) {
 			surf.clear();

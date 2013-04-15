@@ -22,7 +22,8 @@ import de.dhbw.td.core.event.KeyboardObservable;
 import de.dhbw.td.core.event.MouseObservable;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.game.HUD;
-import de.dhbw.td.core.game.Menu;
+import de.dhbw.td.core.game.IngameMenu;
+import de.dhbw.td.core.game.MainMenu;
 import de.dhbw.td.core.secret.CheatModule;
 
 public class TowerDefense implements Game {
@@ -47,7 +48,9 @@ public class TowerDefense implements Game {
 
 	private GameState stateOftheWorld;
 	private HUD hud;
-	private Menu menu;
+	
+	private MainMenu mainMenu;
+	private IngameMenu ingameMenu;
 	
 	private CheatModule module;
 	
@@ -69,8 +72,9 @@ public class TowerDefense implements Game {
 		 */
 		
 		stateOftheWorld = new GameState();
-		menu = new Menu(stateOftheWorld);
-		hud = new HUD(stateOftheWorld, menu);
+		mainMenu = new MainMenu(stateOftheWorld);
+		ingameMenu = new IngameMenu(stateOftheWorld);
+		hud = new HUD(stateOftheWorld, ingameMenu);
 		module = new CheatModule(stateOftheWorld, hud);
 
 		/*
@@ -81,7 +85,7 @@ public class TowerDefense implements Game {
 		int height = stateOftheWorld.getCurrentLevel().height();
 
 		// BACKGROUND layer
-		Image bg = assets().getImage("tiles/white.bmp");
+		Image bg = assets().getImageSync("tiles/white.bmp");
 		BACKGROUND_LAYER = graphics().createImageLayer(bg);
 		BACKGROUND_LAYER.setScale(width, height);
 		graphics().rootLayer().add(BACKGROUND_LAYER);
@@ -110,32 +114,36 @@ public class TowerDefense implements Game {
 		graphics().rootLayer().add(MENU_LAYER);
 	}
 
+
 	@Override
 	public void paint(float alpha) {
-
-		Surface enemySurface = ENEMY_LAYER.surface();
-		stateOftheWorld.drawEnemies(enemySurface);
-		
-		Surface menuSurface = MENU_LAYER.surface();
-		menu.draw(menuSurface);
-		
-		Surface towerSurface = TOWER_LAYER.surface();
-		//stateOftheWorld.drawTowers(towerSurface);
-		
-		// Draw hud
-		hud.drawIcons(HUD_LAYER.surface());
-		Surface labelSurface = LABEL_LAYER.surface();
-		labelSurface.clear();
-		
-		hud.drawCredit(labelSurface);
-		hud.drawLifes(labelSurface);
-		hud.drawSemester(labelSurface);
-		
-		stateOftheWorld.changeProcessed();
-		
-		if(stateOftheWorld.hasNewLevel()) {
-			Surface tileSurface = TILE_LAYER.surface();
-			stateOftheWorld.drawLevel(tileSurface);
+		if(false) {
+			mainMenu.draw(MENU_LAYER.surface());
+		} else {
+			Surface enemySurface = ENEMY_LAYER.surface();
+			stateOftheWorld.drawEnemies(enemySurface);
+			
+			Surface menuSurface = MENU_LAYER.surface();
+			ingameMenu.draw(menuSurface);
+			
+			Surface towerSurface = TOWER_LAYER.surface();
+			//stateOftheWorld.drawTowers(towerSurface);
+			
+			// Draw hud
+			hud.drawIcons(HUD_LAYER.surface());
+			Surface labelSurface = LABEL_LAYER.surface();
+			labelSurface.clear();
+			
+			hud.drawCredit(labelSurface);
+			hud.drawLifes(labelSurface);
+			hud.drawSemester(labelSurface);
+			
+			stateOftheWorld.changeProcessed();
+			
+			if(stateOftheWorld.hasNewLevel()) {
+				Surface tileSurface = TILE_LAYER.surface();
+				stateOftheWorld.drawLevel(tileSurface);
+			}
 		}
 	}
 
