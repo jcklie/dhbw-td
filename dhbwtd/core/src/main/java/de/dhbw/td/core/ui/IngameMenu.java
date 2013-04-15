@@ -5,7 +5,7 @@
  *  Tobias Roeding - all
  */
 
-package de.dhbw.td.core.game;
+package de.dhbw.td.core.ui;
 
 import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.graphics;
@@ -23,6 +23,8 @@ import de.dhbw.td.core.TowerDefense;
 import de.dhbw.td.core.event.ICallbackFunction;
 import de.dhbw.td.core.event.IKeyboardObserver;
 import de.dhbw.td.core.event.IMouseObserver;
+import de.dhbw.td.core.game.GameState;
+import de.dhbw.td.core.game.IDrawable;
 
 
 public class IngameMenu implements IDrawable, IMouseObserver, IKeyboardObserver {
@@ -59,11 +61,11 @@ public class IngameMenu implements IDrawable, IMouseObserver, IKeyboardObserver 
 	}
 
 	private void createButtons() {
-		addResumeGameButton();
+		/*addResumeGameButton();
 		addNewGameButton();
 		addEndGameButton();
 		addCreditsButton();
-		addHelpButton();
+		addHelpButton();*/
 	}
 
 	public void setMenu(boolean value) {
@@ -82,7 +84,7 @@ public class IngameMenu implements IDrawable, IMouseObserver, IKeyboardObserver 
 		clear = value;
 	}
 
-	private void addResumeGameButton() {
+	/*private void addResumeGameButton() {
 		final Button resumeGame = new Button(OFFSET_LEFT * TILE_SIZE, 104,
 				TILE_SIZE * 4, TILE_SIZE, resources().IMAGE_MENU_RESUME, new ICallbackFunction() {
 
@@ -150,7 +152,7 @@ public class IngameMenu implements IDrawable, IMouseObserver, IKeyboardObserver 
 				});
 		TowerDefense.getMouse().addObserver(help);
 		buttons.add(help);
-	}
+	}*/
 
 	private boolean menuChanged() {
 		if (menu) {

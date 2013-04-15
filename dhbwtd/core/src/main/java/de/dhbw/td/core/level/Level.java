@@ -19,12 +19,12 @@ import de.dhbw.td.core.util.ETileType;
 public class Level implements IDrawable {
 
 	private static final int TILE_OFFSET = 64; // px
-	public final int height;
-	public final int width;
-	public final int tilesize;
-	public final int startx;
-	public final int starty;
-	public final ETileType[][] map;
+	private final int height;
+	private final int width;
+	private final int tilesize;
+	private final int startx;
+	private final int starty;
+	private final ETileType[][] map;
 	private Queue<Point> waypoints;
 
 	private static Queue<Point> changeCopyWaypoints(Queue<Point> waypoints) {
@@ -59,6 +59,14 @@ public class Level implements IDrawable {
 
 		this.map = map;
 	}
+	
+	public int rows() {
+		return height;
+	}
+
+	public int cols() {
+		return width;
+	}
 
 	public int width() {
 		return width * tilesize;
@@ -66,6 +74,14 @@ public class Level implements IDrawable {
 
 	public int height() {
 		return height * tilesize;
+	}
+	
+	public int tilesize() {
+		return tilesize;
+	}
+	
+	public ETileType[][] map() {
+		return map;
 	}
 
 	/**

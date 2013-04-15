@@ -16,23 +16,33 @@ import playn.core.Surface;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.game.IUpdateable;
+import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.core.util.Point;
 
 public class Tower implements IDrawable, IUpdateable {
 	
+	private static final int PROJECTILE_SPEED = 600;
+	
 	private int level;
 	
+	
+	private final EFlavor flavor;
 	private final Point position;
 	private final TowerLevel[] levels;
 	private final double shotRate;
 	
 	private double lastShot;
+	private boolean hasShot;
+	
 	private Enemy target;
 	private List<Enemy> enemies = new LinkedList<Enemy>();
 	
-	public Tower(Point position, TowerLevel[] levels, double cadenza) {
+	private List<Projectile> projectiles = new LinkedList<Projectile>();
+	
+	public Tower(EFlavor flavor, Point position, TowerLevel[] levels, double cadenza) {
 		this.position = new Point(position);
 		this.levels = levels;
+		this.flavor = flavor;
 		shotRate = (60 * 1000) / cadenza;
 	}
 	
@@ -77,19 +87,29 @@ public class Tower implements IDrawable, IUpdateable {
 	@Override
 	public void draw(Surface surf) {
 		surf.drawImage(getLevel().image, position.getX(), position.getY());
+		
+		for (Projectile projectile : projectiles) {
+			projectile.draw(surf);
+		}
 	}
 
 	@Override
 	public void update(double delta) {		
 		lastShot += delta;
 
-		if (lastShot >= shotRate) {
-			if (target != null && (!enemies.contains(target) || !inRange(target))) {
+		//Check if time to shoot or not has been shot in last interval
+		if (lastShot >= shotRate || !hasShot) {
+		
+			//Check if last target is still valid
+			if (target != null && (!target.isAlive() || !inRange(target))) {
 				target = null;
 			}
 
+			//Search new target
 			if (target == null) {
 				double minDistance = -1;
+				
+				//Search the nearest enemy which is in range
 				for (Enemy enemy : enemies) {
 					double distance = getDistance(enemy);
 					if ((inRange(distance) && distance < minDistance) || target == null) {
@@ -99,25 +119,55 @@ public class Tower implements IDrawable, IUpdateable {
 				}
 			}
 			
-			if (target != null) {
-				log().debug("Shot");
-				/* TODO KILL enemy */
+			//Check if tower can shoot
+			if (target != null && inRange(target)) {
+				hasShot = true;	
+				log().debug("Shoting at " + target.getEnemyType() + " Distance " + getDistance(target));
+				projectiles.add(new Projectile(getPosition(), getDamage(), PROJECTILE_SPEED, target, getLevel().image));
+			} else {
+				hasShot = false;
 			}
 			
-			lastShot -= shotRate;
+			lastShot = 0;
 		}
 		
-		
+		//Update projectiles and delete all projectiles which has hit a tower
+		int i = 0;
+		while(i < projectiles.size()) {
+			Projectile p = projectiles.get(i);
+			p.update(delta);
+
+			if (p.hasHit()) {
+				projectiles.remove(p);
+			} else {
+				i++;
+			}
+		}
 	}
 	
+	/**
+	 * Calculates the distance between an enemy and the tower
+	 * @param enemy The enemy
+	 * @return The calculated distance
+	 */
 	private double getDistance(Enemy enemy) {
 		return position.distance(enemy.getCurrentPosition());
 	}
 	
+	/**
+	 * Checks if the enemy is in range of the tower
+	 * @param enemy The enemy
+	 * @return True if enemy can be shot by the tower, otherwise false	
+	 */
 	private boolean inRange(Enemy enemy) {
 		return inRange(getDistance(enemy));
 	}
 	
+	/**
+	 * Checks if given distance is lower than range
+	 * @param distance The distance
+	 * @return True if distance is small enough, otherwise false
+	 */
 	private boolean inRange(double distance) {
 		return distance <= getRange();
 	}
