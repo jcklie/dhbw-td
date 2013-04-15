@@ -345,7 +345,7 @@ public class HUD implements IMouseObserver, IKeyboardObserver {
 			// Draw HUD head
 			surf.drawImage(resources().IMAGE_CLOCK, OFFSET_IMAGE_CLOCK * TILE_SIZE, OFFSET_HEAD);
 			surf.drawImage(resources().IMAGE_HEART, OFFSET_IMAGE_HEART * TILE_SIZE, OFFSET_HEAD);
-			surf.drawImage(resources().IMAGE_CREDITS, OFFSET_IMAGE_CREDITS * TILE_SIZE, OFFSET_HEAD);
+			surf.drawImage(resources().IMAGE_KNOWLEDGE, OFFSET_IMAGE_CREDITS * TILE_SIZE, OFFSET_HEAD);
 			
 			// draw the Buttons
 			for (Button b : buttons) {
