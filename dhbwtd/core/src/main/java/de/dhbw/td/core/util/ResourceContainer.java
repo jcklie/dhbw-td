@@ -55,7 +55,7 @@ public enum ResourceContainer {
 	public final Image IMAGE_PLAY;
 	public final Image IMAGE_PAUSE;
 	public final Image IMAGE_FAST_FORWARD;
-	public final Image IMAGE_COG;
+	public final Image IMAGE_SETTINGS;
 	public final Image IMAGE_HEART;
 	public final Image IMAGE_KNOWLEDGE;
 	
@@ -158,7 +158,7 @@ public enum ResourceContainer {
 		IMAGE_PLAY = getImage(PATH_IMAGES + "play.png");
 		IMAGE_PAUSE = getImage(PATH_IMAGES + "pause.png");
 		IMAGE_FAST_FORWARD = getImage(PATH_IMAGES + "fast_forward.png");
-		IMAGE_COG = getImage(PATH_IMAGES + "cog.png");
+		IMAGE_SETTINGS = getImage(PATH_IMAGES + "settings.png");
 		IMAGE_HEART = getImage(PATH_IMAGES + "heart.png");
 		IMAGE_KNOWLEDGE = getImage(PATH_IMAGES + "knowledge.png");
 		
