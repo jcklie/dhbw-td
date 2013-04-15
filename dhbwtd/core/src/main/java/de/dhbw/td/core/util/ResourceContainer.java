@@ -153,7 +153,7 @@ public enum ResourceContainer {
 		IMAGE_PAUSE = getImage(PATH_IMAGES + "pause.png");
 		IMAGE_FAST_FORWARD = getImage(PATH_IMAGES + "fast_forward.png");
 		IMAGE_COG = getImage(PATH_IMAGES + "cog.png");
-		IMAGE_HEART = getImage(PATH_IMAGES + "heart.png");
+		IMAGE_HEART = getImage(PATH_IMAGES + "Life_Icon.png");
 		IMAGE_CREDITS = getImage(PATH_IMAGES + "piggy.png");
 		
 		IMAGE_EDGE_LEFT_BOTTOM = getImage(PATH_TILES + "edge_left_bottom.bmp");
