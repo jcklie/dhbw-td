@@ -19,6 +19,9 @@ public class Projectile implements IDrawable, IUpdateable {
 	private final Image image;
 	private final EFlavor flavor;
 	
+	private final float hwidth;
+	private final float hheight;
+	
 	private boolean hit;
 	
 	private Point currentPosition;
@@ -30,6 +33,8 @@ public class Projectile implements IDrawable, IUpdateable {
 		this.speed = speed;
 		this.target = target;
 		this.image = image;
+		this.hwidth = image.width() / 2;
+		this.hheight = image.height() / 2;
 	}
 
 	@Override
@@ -72,7 +77,11 @@ public class Projectile implements IDrawable, IUpdateable {
 	@Override
 	public void draw(Surface surf) {
 		if (!hit) {
-			surf.drawImage(image, currentPosition.getX(), currentPosition.getY());
+			surf.save();
+			surf.translate(currentPosition.getX() + hwidth, currentPosition.getY() + hwidth);
+			surf.rotate((float) (getVector().angle() + Math.PI / 2));
+			surf.drawImage(image, -hwidth, -hheight);
+			surf.restore();
 		}
 	}
 	

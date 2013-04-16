@@ -21,6 +21,7 @@ import playn.core.SurfaceLayer;
 import de.dhbw.td.core.event.KeyboardObservable;
 import de.dhbw.td.core.event.MouseObservable;
 import de.dhbw.td.core.game.GameState;
+import de.dhbw.td.core.secret.CheatModule;
 import de.dhbw.td.core.ui.HUD;
 import de.dhbw.td.core.ui.IngameMenu;
 import de.dhbw.td.core.ui.MainMenu;
@@ -51,7 +52,7 @@ public class TowerDefense implements Game {
 	private MainMenu mainMenu;
 	private IngameMenu ingameMenu;
 	
-	
+	private CheatModule module;
 	
 	@Override
 	public void init() {
@@ -74,7 +75,7 @@ public class TowerDefense implements Game {
 		mainMenu = new MainMenu(stateOftheWorld);
 		ingameMenu = new IngameMenu(stateOftheWorld);
 		hud = new HUD(stateOftheWorld, ingameMenu);
-		
+		module = new CheatModule(stateOftheWorld, hud);
 
 		/*
 		 * Layer
