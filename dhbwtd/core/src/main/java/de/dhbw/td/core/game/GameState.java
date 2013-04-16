@@ -45,7 +45,7 @@ public class GameState implements IUpdateable {
 	private final int INITIAL_CREDITS = 25;
 	private final int INITIAL_LIFEPOINTS = 100;
 	
-	private final double FACTOR_DELTA_FF = 0.3;
+	private final double FACTOR_DELTA_FF = 1000;
 	
 	private int levelCount;
 	private int waveCount;

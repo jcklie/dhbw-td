@@ -125,7 +125,7 @@ public class Tower implements IDrawable, IUpdateable {
 			if (target != null && inRange(target)) {
 				hasShot = true;	
 				log().debug("Shoting at " + target.getEnemyType() + " Distance " + getDistance(target));
-				Projectile p = new Projectile(getPosition(), getDamage(), flavor, PROJECTILE_SPEED, target, projectile);
+				Projectile p = new Projectile(getPosition(), getDamage(), flavor, PROJECTILE_SPEED, target, getLevel().image);
 				projectiles.add(p);
 			} else {
 				hasShot = false;
