@@ -20,7 +20,7 @@ import de.dhbw.td.core.util.Point;
 public class TowerFactory {
 
 	private static final String PATH_TOWERS = "tower";
-	private static final String PATH_PROJECTILES = "tower";
+	private static final String PATH_PROJECTILES = "projectiles";
 
 	private Map<EFlavor, Json.Object> loadedTowers = new HashMap<EFlavor, Json.Object>();
 	private Map<String, Image> loadedImages = new HashMap<String, Image>();

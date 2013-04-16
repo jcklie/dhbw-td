@@ -8,18 +8,15 @@
 
 package de.dhbw.td.core.level;
 
-import static playn.core.PlayN.assets;
 import static playn.core.PlayN.json;
-
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-import playn.core.Image;
 import playn.core.Json;
-import de.dhbw.td.core.util.Point;
 import de.dhbw.td.core.util.EDirection;
 import de.dhbw.td.core.util.ETileType;
+import de.dhbw.td.core.util.Point;
 
 /**
  * 
