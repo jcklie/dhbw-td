@@ -15,6 +15,8 @@ import static playn.core.PlayN.log;
 
 import java.util.ArrayList;
 
+import de.dhbw.td.core.ui.EUserAction;
+
 import playn.core.Canvas;
 import playn.core.CanvasImage;
 import playn.core.Font;

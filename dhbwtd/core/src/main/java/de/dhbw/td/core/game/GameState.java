@@ -16,6 +16,7 @@ import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.level.LevelFactory;
 import de.dhbw.td.core.tower.Tower;
 import de.dhbw.td.core.tower.TowerFactory;
+import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.core.waves.Wave;
 import de.dhbw.td.core.waves.WaveController;
 import de.dhbw.td.core.waves.WaveFactory;
@@ -125,8 +126,9 @@ public class GameState implements IUpdateable {
 	/**
 	 * Builds a new tower
 	 */
-	public boolean buildTower() {
-		return true;
+	public void buildTower(EFlavor flavor, int x, int y) {
+		Tower tower = towerFactory.constructTower(flavor, x, y);
+		towers.add(tower);
 	}
 
 	/**

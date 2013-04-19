@@ -1,6 +1,8 @@
 package de.dhbw.td.core.ui;
 
-import static de.dhbw.td.core.util.GameConstants.*;
+import static de.dhbw.td.core.util.GameConstants.COLS;
+import static de.dhbw.td.core.util.GameConstants.FONTSIZE;
+import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
 import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
@@ -8,18 +10,16 @@ import static playn.core.PlayN.log;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.dhbw.td.core.game.GameState;
-import de.dhbw.td.core.util.ICallback;
-
-import playn.core.Game;
-import playn.core.Keyboard.Event;
-import playn.core.Mouse.ButtonEvent;
 import playn.core.Canvas;
 import playn.core.CanvasImage;
 import playn.core.Font;
+import playn.core.Keyboard.Event;
+import playn.core.Mouse.ButtonEvent;
 import playn.core.Surface;
 import playn.core.TextFormat;
 import playn.core.TextLayout;
+import de.dhbw.td.core.game.GameState;
+import de.dhbw.td.core.util.ICallback;
 
 public class HUD implements IDrawable, IUIEventListener {
 	
@@ -68,10 +68,12 @@ public class HUD implements IDrawable, IUIEventListener {
 	private List<Button> buttons;
 	
 	private GameState gameState;
+	private Executor executor;
 	
 	public HUD(GameState gameState) {
 		
 		this.gameState = gameState;
+		executor = new Executor(gameState);
 		
 		buttons = new LinkedList<Button>();
 		createButtons();
@@ -138,7 +140,7 @@ public class HUD implements IDrawable, IUIEventListener {
 			@Override
 			public EUserAction execute() {
 				log().debug("Clicked MathTower");
-				return EUserAction.NONE;
+				return EUserAction.NEW_MATH_TOWER;
 			}
 		});
 		buttons.add(mathTower);
@@ -292,33 +294,23 @@ public class HUD implements IDrawable, IUIEventListener {
 	@Override
 	public EUserAction onClick(ButtonEvent event) {
 		EUserAction nextAction = EUserAction.NONE;
+		int x = (int) event.x();
+		int y = (int) event.y();
+		
 		for (Button b : buttons) {
-			if (b.isHit((int) event.x(), (int) event.y())) {
+			if (b.isHit(x, y)) {
 				nextAction = b.callback().execute();
 				break;
 			}
 		}
-		//handleAction(nextAction);
+		
+		log().debug("HUD recieved: " + nextAction);
+		handleAction(nextAction, x, y);
 		return nextAction;
 	}
 	
-	private void handleAction(EUserAction nextAction) {
-		switch(nextAction) {
-		case NEW_MATH_TOWER:
-			break;
-		case NEW_CODE_TOWER:
-			break;
-		case NEW_ECO_TOWER:
-			break;
-		case NEW_SOCIAL_TOWER:
-			break;
-		case NEW_TECH_INF_TOWER:
-			break;
-		case NEW_THEO_INF_TOWER:
-			break;
-		default:
-			throw new IllegalStateException("This should not be thrown!");
-		}
+	private void handleAction(EUserAction nextAction, int x, int y) {
+		executor.handleNewState(nextAction, x, y);
 	}
 
 	@Override

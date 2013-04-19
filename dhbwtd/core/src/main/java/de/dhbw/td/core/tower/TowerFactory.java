@@ -25,7 +25,7 @@ public class TowerFactory {
 	private Map<EFlavor, Json.Object> loadedTowers = new HashMap<EFlavor, Json.Object>();
 	private Map<String, Image> loadedImages = new HashMap<String, Image>();
 
-	public Tower getTower(EFlavor flavor, Point position) {
+	public Tower constructTower(EFlavor flavor, Point position) {
 		Json.Object jsonTower = loadedTowers.get(flavor);
 
 		// Load and parse json of tower if still not loaded
@@ -51,6 +51,10 @@ public class TowerFactory {
 		
 		return new Tower(flavor, position, levels, jsonTower.getDouble("cadenza"), 
 				getProjectileImage(jsonTower.getString("projectile")));
+	}
+	
+	public Tower constructTower(EFlavor flavor, int x, int y) {
+		return constructTower(flavor, new Point(x, y));
 	}
 
 	private TowerLevel getLevel(Json.Object level) {

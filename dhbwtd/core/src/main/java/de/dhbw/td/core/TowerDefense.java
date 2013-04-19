@@ -1,19 +1,15 @@
 package de.dhbw.td.core;
 
-import static de.dhbw.td.core.util.GameConstants.*;
-import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.keyboard;
-import static playn.core.PlayN.mouse;
 import static playn.core.PlayN.log;
-import de.dhbw.td.core.game.GameState;
-import de.dhbw.td.core.ui.EUserAction;
-import de.dhbw.td.core.ui.EndScreen;
-import de.dhbw.td.core.ui.GameDrawer;
-import de.dhbw.td.core.ui.HUD;
-import de.dhbw.td.core.ui.IUIEventListener;
-import de.dhbw.td.core.ui.IngameMenu;
-import de.dhbw.td.core.ui.MainMenu;
+import static playn.core.PlayN.mouse;
+
+import static de.dhbw.td.core.util.GameConstants.FACTOR_DELTA_FF;
+import static de.dhbw.td.core.util.GameConstants.HEIGHT;
+import static de.dhbw.td.core.util.GameConstants.WIDTH;
+import static de.dhbw.td.core.util.ResourceContainer.resources;
+
 import playn.core.Events;
 import playn.core.Game;
 import playn.core.Keyboard;
@@ -25,11 +21,17 @@ import playn.core.Mouse.MotionEvent;
 import playn.core.Mouse.WheelEvent;
 import playn.core.SurfaceLayer;
 
-public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
+import de.dhbw.td.core.game.GameState;
+import de.dhbw.td.core.ui.EUIState;
+import de.dhbw.td.core.ui.EUserAction;
+import de.dhbw.td.core.ui.EndScreen;
+import de.dhbw.td.core.ui.GameDrawer;
+import de.dhbw.td.core.ui.HUD;
+import de.dhbw.td.core.ui.IUIEventListener;
+import de.dhbw.td.core.ui.IngameMenu;
+import de.dhbw.td.core.ui.MainMenu;
 
-	private enum EUIState {
-		MAIN_MENU, INGAME_MENU, GAME, END_SCREEN;
-	}
+public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 
 	/*
 	 * States
@@ -119,8 +121,7 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 
 		case GAME:
 			clearLayers();
-			gameDrawer.drawComponents(BACKGROUND_LAYER.surface(),
-					SPRITE_LAYER.surface());
+			gameDrawer.drawComponents(BACKGROUND_LAYER.surface(), SPRITE_LAYER.surface());
 			hud.draw(BACKGROUND_LAYER.surface());
 			break;
 
@@ -143,22 +144,22 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 		EUserAction action = EUserAction.NONE;
 
 		switch (currentUIState) {
-
-		case MAIN_MENU:
-			action = dispatchToComponent(mainMenu, event);
-			break;
-
-		case INGAME_MENU:
-			action = dispatchToComponent(ingameMenu, event);
-			break;
-
-		case GAME:
-			action = dispatchToComponent(hud, event);
-			break;
-
-		case END_SCREEN:
-			action = dispatchToComponent(endScreen, event);
-			break;
+	
+			case MAIN_MENU:
+				action = dispatchToComponent(mainMenu, event);
+				break;
+	
+			case INGAME_MENU:
+				action = dispatchToComponent(ingameMenu, event);
+				break;
+	
+			case GAME:
+				action = dispatchToComponent(hud, event);
+				break;
+	
+			case END_SCREEN:
+				action = dispatchToComponent(endScreen, event);
+				break;
 		}
 
 		log().debug("returned Action " + action);
@@ -169,46 +170,43 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 	/**
 	 * Handles the specified action.
 	 * 
-	 * @param action
-	 *            the action to be handled
+	 * @param action the action to be handled
 	 */
 	private void handleAction(EUserAction action) {
 		switch (action) {
-		case RESUME_GAME:
-			currentUIState = EUIState.GAME;
-			paused = false;
-			break;
-		case NEW_GAME:
-			currentUIState = EUIState.GAME;
-			gameState.reset();
-			fastForward = false;
-			paused = false;
-			break;
-		case QUIT_GAME:
-			System.exit(0);
-			break;
-		case MAIN_MENU:
-			currentUIState = EUIState.MAIN_MENU;
-			break;
-		case INAGAME_MENU:
-			currentUIState = EUIState.INGAME_MENU;
-			paused = true;
-			break;
-		case NONE:
-			break;
+			case RESUME_GAME:
+				currentUIState = EUIState.GAME;
+				paused = false;
+				break;
+			case NEW_GAME:
+				currentUIState = EUIState.GAME;
+				gameState.reset();
+				fastForward = false;
+				paused = false;
+				break;
+			case QUIT_GAME:
+				System.exit(0);
+				break;
+			case MAIN_MENU:
+				currentUIState = EUIState.MAIN_MENU;
+				break;
+			case INAGAME_MENU:
+				currentUIState = EUIState.INGAME_MENU;
+				paused = true;
+				break;
+			case NONE:
+				break;
+			
 		}
 	}
 
 	/**
 	 * Dispatches an event to a specified IUIListener.
 	 * 
-	 * @param comp
-	 *            the IUIListener component to dispatch to
-	 * @param event
-	 *            the event to dispatch
+	 * @param comp the IUIListener component to dispatch to
+	 * @param event the event to dispatch
 	 */
-	private EUserAction dispatchToComponent(IUIEventListener comp,
-			Events.Input event) {
+	private EUserAction dispatchToComponent(IUIEventListener comp, 	Events.Input event) {
 		/*
 		 * Use instanceof instead of another switch-case to get rid of code
 		 * duplication. DRY!
