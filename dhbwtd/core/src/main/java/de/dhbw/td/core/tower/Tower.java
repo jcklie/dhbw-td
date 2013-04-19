@@ -15,8 +15,8 @@ import java.util.List;
 import playn.core.Image;
 import playn.core.Surface;
 import de.dhbw.td.core.enemies.Enemy;
-import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.game.IUpdateable;
+import de.dhbw.td.core.ui.IDrawable;
 import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.core.util.Point;
 
@@ -44,7 +44,7 @@ public class Tower implements IDrawable, IUpdateable {
 		this.position = new Point(position);
 		this.levels = levels;
 		this.flavor = flavor;
-		shotRate = (60 * 1000) / cadenza;
+		this.shotRate = (60 * 1000) / cadenza;
 		this.projectile = projectile;
 	}
 	
@@ -62,23 +62,27 @@ public class Tower implements IDrawable, IUpdateable {
 		this.target = target;
 	}
 	
-	private TowerLevel getLevel() {
+	private TowerLevel level() {
 		return levels[level];
 	}
 	
-	public int getDamage() {
-		return getLevel().damage;
+	public EFlavor flavor() {
+		return flavor;
 	}
 	
-	public int getRange() {
-		return getLevel().range;
+	public int demage() {
+		return level().damage;
 	}
 	
-	public int getPrice() {
-		return getLevel().price;
+	public int range() {
+		return level().range;
 	}
 	
-	public Point getPosition() {
+	public int price() {
+		return level().price;
+	}
+	
+	public Point position() {
 		return new Point(position);
 	}
 	
@@ -88,7 +92,7 @@ public class Tower implements IDrawable, IUpdateable {
 
 	@Override
 	public void draw(Surface surf) {
-		surf.drawImage(getLevel().image, position.getX(), position.getY());
+		surf.drawImage(level().image, position.x(), position.y());
 		
 		for (Projectile projectile : projectiles) {
 			projectile.draw(surf);
@@ -103,7 +107,7 @@ public class Tower implements IDrawable, IUpdateable {
 		if (lastShot >= shotRate || !hasShot) {
 		
 			//Check if last target is still valid
-			if (target != null && (!target.isAlive() || !inRange(target))) {
+			if (target != null && (!target.alive() || !inRange(target))) {
 				target = null;
 			}
 
@@ -114,7 +118,7 @@ public class Tower implements IDrawable, IUpdateable {
 				//Search the nearest enemy which is in range
 				for (Enemy enemy : enemies) {
 					double distance = getDistance(enemy);
-					if ((enemy.isAlive() && inRange(distance)) && (distance < minDistance || target == null)) {
+					if ((enemy.alive() && inRange(distance)) && (distance < minDistance || target == null)) {
 						target = enemy;
 						minDistance = distance;
 					}
@@ -124,8 +128,8 @@ public class Tower implements IDrawable, IUpdateable {
 			//Check if tower can shoot
 			if (target != null && inRange(target)) {
 				hasShot = true;	
-				log().debug("Shoting at " + target.getEnemyType() + " Distance " + getDistance(target));
-				Projectile p = new Projectile(getPosition(), getDamage(), flavor, PROJECTILE_SPEED, target, projectile);
+				log().debug("Shoting at " + target.enemyType() + " Distance " + getDistance(target));
+				Projectile p = new Projectile(position(), demage(), flavor, PROJECTILE_SPEED, target, projectile);
 				projectiles.add(p);
 			} else {
 				hasShot = false;
@@ -154,7 +158,7 @@ public class Tower implements IDrawable, IUpdateable {
 	 * @return The calculated distance
 	 */
 	private double getDistance(Enemy enemy) {
-		return position.distance(enemy.getCurrentPosition());
+		return position.distance(enemy.position());
 	}
 	
 	/**
@@ -172,7 +176,7 @@ public class Tower implements IDrawable, IUpdateable {
 	 * @return True if distance is small enough, otherwise false
 	 */
 	private boolean inRange(double distance) {
-		return distance <= getRange();
+		return distance <= range();
 	}
 
 }

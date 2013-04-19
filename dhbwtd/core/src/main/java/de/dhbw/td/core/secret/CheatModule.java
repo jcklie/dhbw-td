@@ -6,15 +6,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
+import de.dhbw.td.backup.Button;
+import de.dhbw.td.backup.GameState;
+import de.dhbw.td.backup.HUD;
+import de.dhbw.td.backup.IKeyboardObserver;
+import de.dhbw.td.backup.TowerDefense;
+
 import playn.core.Image;
 import playn.core.Keyboard.Event;
 import playn.core.Sound;
-import de.dhbw.td.core.TowerDefense;
-import de.dhbw.td.core.event.IKeyboardObserver;
-import de.dhbw.td.core.game.GameState;
-import de.dhbw.td.core.ui.Button;
-import de.dhbw.td.core.ui.HUD;
-import de.dhbw.td.core.util.ResourceContainer;
 
 
 public class CheatModule implements IKeyboardObserver {

@@ -11,7 +11,6 @@ import playn.core.PlayN;
 import playn.java.JavaPlatform;
 import playn.java.JavaPlatform.Config;
 import de.dhbw.td.core.TowerDefense;
-import de.dhbw.td.core.secret.CheatModule;
 
 public class TowerDefenseJava {
 

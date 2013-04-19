@@ -1,17 +1,12 @@
 package de.dhbw.td.core.ui;
 
-import static de.dhbw.td.core.util.GameConstants.*;
+import static de.dhbw.td.core.util.GameConstants.HEIGHT;
+import static de.dhbw.td.core.util.GameConstants.WIDTH;
 import playn.core.Image;
-import playn.core.Key;
-import playn.core.Keyboard.Event;
-import playn.core.Mouse.ButtonEvent;
 import playn.core.Surface;
-import de.dhbw.td.core.event.ICallbackFunction;
-import de.dhbw.td.core.event.IKeyboardObserver;
-import de.dhbw.td.core.event.IMouseObserver;
-import de.dhbw.td.core.game.IDrawable;
+import de.dhbw.td.core.util.ICallback;
 
-public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
+public class Button implements IDrawable {
 	
 	private int x;
 	private int y;	
@@ -21,10 +16,9 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	private boolean visible;
 	private boolean enabled;
 	
-	private Image image;	
-	private Key key;
+	private Image image;
 	
-	private ICallbackFunction callback;
+	private ICallback<EUserAction> callback;
 	
 	public static class Builder {
 		
@@ -38,23 +32,21 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 		private int height;
 		private boolean visible;
 		private boolean enabled;
-		private Key key;
-		private ICallbackFunction callback;
+		private ICallback<EUserAction> callback;
 		
 		public Builder(Image image) {
-			this.y = HEIGHT_PIXEL/2-(int)image.height()/2;
-			this.x = WIDTH_PIXEL/2-(int)image.width()/2;
+			this.y = HEIGHT/2-(int)image.height()/2;
+			this.x = WIDTH/2-(int)image.width()/2;
 			this.image = image;
 			this.width = (int)image.width();
 			this.height = (int)image.height();
 			this.visible = true;
 			this.enabled = true;
-			this.callback = new ICallbackFunction() {
+			this.callback = new ICallback<EUserAction>() {
 				
 				@Override
-				public void execute() {
-					// TODO Auto-generated method stub
-					
+				public EUserAction execute() {
+					return EUserAction.NONE;
 				}
 			};
 		}
@@ -83,10 +75,6 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 			enabled = val; return this;
 		}
 		
-		public Builder key(Key val) {
-			key = val; return this;
-		}
-		
 		public Button build() {
 			return new Button(this);
 		}
@@ -100,7 +88,6 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 		image = builder.image;
 		enabled = builder.enabled;
 		visible = builder.visible;
-		key = builder.key;
 		callback = builder.callback;
 	}
 	
@@ -110,25 +97,11 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 	 * @param y
 	 * @return
 	 */
-	private boolean isHit(int x, int y) {
-		if((this.x < x && x < this.x + width) && (this.y < y && y < this.y + height)) {
+	public boolean isHit(int x, int y) {
+		if(enabled && (this.x < x && x < this.x + width) && (this.y < y && y < this.y + height)) {
 			return true;
 		}
 		return false;
-	}
-	
-	@Override
-	public void alert(ButtonEvent e) {
-		if(enabled && isHit((int)e.x(), (int)e.y()) && callback != null) {
-			callback.execute();
-		}
-	}
-	
-	@Override
-	public void alert(Event e) {
-		if(enabled && key == e.key() && callback != null) {
-			callback.execute();
-		}
 	}
 	
 	@Override
@@ -142,16 +115,12 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 		this.image = image;
 	}
 	
-	public Image getImage() {
-		return image;
-	}
-	
-	public void setCallback(ICallbackFunction callback) {
+	public void setCallback(ICallback<EUserAction> callback) {
 		this.callback = callback;
 	}
 	
-	public void setKey(Key key) {
-		this.key = key;
+	public ICallback<EUserAction> callback() {
+		return callback;
 	}
 	
 	public void setVisible(boolean visible) {
@@ -166,6 +135,10 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 		return enabled;
 	}
 	
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	
 	public void enable() {
 		enabled = true;
 	}
@@ -174,3 +147,4 @@ public class Button implements IDrawable, IMouseObserver, IKeyboardObserver {
 		enabled = false;
 	}
 }
+

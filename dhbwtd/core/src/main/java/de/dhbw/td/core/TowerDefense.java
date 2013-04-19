@@ -1,156 +1,102 @@
-/*  Copyright (C) 2013 by Jan-Christoph Klie, Inc. All rights reserved.
- *  Released under the terms of the GNU General Public License version 3 or later.
- *  
- *  Contributors:
- *  Jan-Christoph Klie - All
- *  Tobias Roeding - Add support for changing to the next level/wave when finished current, Add menu support
- *  Benedict Holste - Clean up and refactoring
- */
-
 package de.dhbw.td.core;
 
-import static playn.core.PlayN.assets;
+import static de.dhbw.td.core.util.GameConstants.*;
+import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.keyboard;
 import static playn.core.PlayN.mouse;
-import playn.core.Game;
-import playn.core.Image;
-import playn.core.ImageLayer;
-import playn.core.Surface;
-import playn.core.SurfaceLayer;
-import de.dhbw.td.core.event.KeyboardObservable;
-import de.dhbw.td.core.event.MouseObservable;
+import static playn.core.PlayN.log;
 import de.dhbw.td.core.game.GameState;
-import de.dhbw.td.core.secret.CheatModule;
+import de.dhbw.td.core.ui.EUserAction;
+import de.dhbw.td.core.ui.EndScreen;
+import de.dhbw.td.core.ui.GameDrawer;
 import de.dhbw.td.core.ui.HUD;
+import de.dhbw.td.core.ui.IUIEventListener;
 import de.dhbw.td.core.ui.IngameMenu;
 import de.dhbw.td.core.ui.MainMenu;
+import playn.core.Events;
+import playn.core.Game;
+import playn.core.Keyboard;
+import playn.core.Keyboard.Event;
+import playn.core.Keyboard.TypedEvent;
+import playn.core.Mouse;
+import playn.core.Mouse.ButtonEvent;
+import playn.core.Mouse.MotionEvent;
+import playn.core.Mouse.WheelEvent;
+import playn.core.SurfaceLayer;
 
-public class TowerDefense implements Game {
+public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 
-	public static final String PATH_LEVELS = "levels/";
-	public static final String PATH_IMAGES = "images/";
-	public static final String PATH_WAVES = "waves/";
-	public static final String PATH_TOWERS = "tower/";
-	public static final String PATH_MENU = "menu/";
-	
-	private static MouseObservable mouse;
-	private static KeyboardObservable keyboard;
-
-	private ImageLayer BACKGROUND_LAYER;
-	
-	private SurfaceLayer TILE_LAYER;	
-	private SurfaceLayer LABEL_LAYER;
-	private SurfaceLayer ENEMY_LAYER;
-	private SurfaceLayer TOWER_LAYER;
-	private SurfaceLayer MENU_LAYER;
-	private SurfaceLayer HUD_LAYER;
-
-	private GameState stateOftheWorld;
-	private HUD hud;
-	
-	private MainMenu mainMenu;
-	private IngameMenu ingameMenu;
-	
-	private CheatModule module;
-	
-	@Override
-	public void init() {
-		
-		/*
-		 * Register listener
-		 */
-
-		mouse = new MouseObservable();
-		mouse().setListener(mouse);
-
-		keyboard = new KeyboardObservable();
-		keyboard().setListener(keyboard);
-		
-		/*
-		 * Init components
-		 */
-		
-		stateOftheWorld = new GameState();
-		mainMenu = new MainMenu(stateOftheWorld);
-		ingameMenu = new IngameMenu(stateOftheWorld);
-		hud = new HUD(stateOftheWorld, ingameMenu);
-		module = new CheatModule(stateOftheWorld, hud);
-
-		/*
-		 * Layer
-		 */
-
-		int width = stateOftheWorld.getCurrentLevel().width();
-		int height = stateOftheWorld.getCurrentLevel().height();
-
-		// BACKGROUND layer
-		Image bg = assets().getImageSync("tiles/white.bmp");
-		BACKGROUND_LAYER = graphics().createImageLayer(bg);
-		BACKGROUND_LAYER.setScale(width, height);
-		graphics().rootLayer().add(BACKGROUND_LAYER);
-
-		// TILE layer
-		TILE_LAYER = graphics().createSurfaceLayer(width, height);
-		graphics().rootLayer().add(TILE_LAYER);
-
-		// ENEMY layer
-		ENEMY_LAYER = graphics().createSurfaceLayer(width, height);
-		graphics().rootLayer().add(ENEMY_LAYER);
-		
-		// TOWER layer
-		TOWER_LAYER = graphics().createSurfaceLayer(width, height);
-		graphics().rootLayer().add(TOWER_LAYER);
-
-		// HUD layer
-		HUD_LAYER = graphics().createSurfaceLayer(width, height);
-		graphics().rootLayer().add(HUD_LAYER);
-		
-		// LABEL layer
-		LABEL_LAYER = graphics().createSurfaceLayer(width, height);
-		graphics().rootLayer().add(LABEL_LAYER);
-		
-		MENU_LAYER = graphics().createSurfaceLayer(width, height);
-		graphics().rootLayer().add(MENU_LAYER);
+	private enum EUIState {
+		MAIN_MENU, INGAME_MENU, GAME, END_SCREEN;
 	}
 
+	/*
+	 * States
+	 */
+	private EUIState currentUIState;
+	private GameState gameState;
+
+	/*
+	 * UI COMPONENTS
+	 */
+	private MainMenu mainMenu;
+	private HUD hud;
+	private IngameMenu ingameMenu;
+	private EndScreen endScreen;
+	private GameDrawer gameDrawer;
+
+	/*
+	 * LAYERS
+	 */
+	private SurfaceLayer BACKGROUND_LAYER;
+	private SurfaceLayer SPRITE_LAYER;
+
+	private boolean paused;
+	private boolean fastForward;
+
 	@Override
-	public void paint(float alpha) {
-		if(false) {
-			mainMenu.draw(MENU_LAYER.surface());
-		} else {
-			
-			Surface enemySurface = ENEMY_LAYER.surface();
-			stateOftheWorld.drawEnemies(enemySurface);
-			
-			Surface menuSurface = MENU_LAYER.surface();
-			ingameMenu.draw(menuSurface);
-			
-			Surface towerSurface = TOWER_LAYER.surface();
-			stateOftheWorld.drawTowers(towerSurface);
-			
-			// Draw hud
-			hud.drawIcons(HUD_LAYER.surface());
-			Surface labelSurface = LABEL_LAYER.surface();
-			labelSurface.clear();
-			
-			hud.drawCredit(labelSurface);
-			hud.drawLifes(labelSurface);
-			hud.drawSemester(labelSurface);
-			
-			stateOftheWorld.changeProcessed();
-			
-			if(stateOftheWorld.hasNewLevel()) {
-				Surface tileSurface = TILE_LAYER.surface();
-				stateOftheWorld.drawLevel(tileSurface);
-			}
-		}
+	public void init() {
+
+		paused = true;
+		fastForward = false;
+
+		// initialize ResourceContainer
+		resources();
+
+		// create layers
+		BACKGROUND_LAYER = graphics().createSurfaceLayer(WIDTH, HEIGHT);
+		graphics().rootLayer().add(BACKGROUND_LAYER);
+
+		SPRITE_LAYER = graphics().createSurfaceLayer(WIDTH, HEIGHT);
+		graphics().rootLayer().add(SPRITE_LAYER);
+		
+		gameState = new GameState();
+
+		// initialize UI Components
+		mainMenu = new MainMenu();
+		hud = new HUD(gameState);
+		ingameMenu = new IngameMenu();
+		endScreen = new EndScreen();
+
+		gameDrawer = new GameDrawer(gameState);
+
+		// set Mouse and Keyboard Listener
+		mouse().setListener(this);
+		keyboard().setListener(this);
+
+		// set UIState
+		currentUIState = EUIState.MAIN_MENU;
 	}
 
 	@Override
 	public void update(float delta) {
-		if (!stateOftheWorld.isPaused()) {
-			stateOftheWorld.update(delta);
+		if (!paused) {
+			if (fastForward) {
+				gameState.update(delta * FACTOR_DELTA_FF);
+			} else {
+				gameState.update(delta);
+			}
 		}
 	}
 
@@ -159,19 +105,176 @@ public class TowerDefense implements Game {
 		return 24;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public static MouseObservable getMouse() {
-		return mouse;
+	@Override
+	public void paint(float alpha) {
+		switch (currentUIState) {
+		case MAIN_MENU:
+			mainMenu.draw(BACKGROUND_LAYER.surface());
+			break;
+
+		case INGAME_MENU:
+			//SPRITE_LAYER.surface().clear();
+			ingameMenu.draw(SPRITE_LAYER.surface());
+			break;
+
+		case GAME:
+			clearLayers();
+			gameDrawer.drawComponents(BACKGROUND_LAYER.surface(),
+					SPRITE_LAYER.surface());
+			hud.draw(BACKGROUND_LAYER.surface());
+			break;
+
+		case END_SCREEN:
+			endScreen.draw(BACKGROUND_LAYER.surface());
+			break;
+		}
 	}
 
 	/**
+	 * Dispatches a Mouse or Keyboard event to the current active UI component
+	 * and receives the action response
 	 * 
-	 * @return 
+	 * @param event
+	 *            the {@code Keyboard.Event} or {@code Mouse.ButtonEvent} event
+	 *            to dispatch
 	 */
-	public static KeyboardObservable getKeyboard() {
-		return keyboard;
+	private void dispatchEvent(Events.Input event) {
+
+		EUserAction action = EUserAction.NONE;
+
+		switch (currentUIState) {
+
+		case MAIN_MENU:
+			action = dispatchToComponent(mainMenu, event);
+			break;
+
+		case INGAME_MENU:
+			action = dispatchToComponent(ingameMenu, event);
+			break;
+
+		case GAME:
+			action = dispatchToComponent(hud, event);
+			break;
+
+		case END_SCREEN:
+			action = dispatchToComponent(endScreen, event);
+			break;
+		}
+
+		log().debug("returned Action " + action);
+
+		handleAction(action);
+	}
+
+	/**
+	 * Handles the specified action.
+	 * 
+	 * @param action
+	 *            the action to be handled
+	 */
+	private void handleAction(EUserAction action) {
+		switch (action) {
+		case RESUME_GAME:
+			currentUIState = EUIState.GAME;
+			paused = false;
+			break;
+		case NEW_GAME:
+			currentUIState = EUIState.GAME;
+			gameState.reset();
+			fastForward = false;
+			paused = false;
+			break;
+		case QUIT_GAME:
+			System.exit(0);
+			break;
+		case MAIN_MENU:
+			currentUIState = EUIState.MAIN_MENU;
+			break;
+		case INAGAME_MENU:
+			currentUIState = EUIState.INGAME_MENU;
+			paused = true;
+			break;
+		case NONE:
+			break;
+		}
+	}
+
+	/**
+	 * Dispatches an event to a specified IUIListener.
+	 * 
+	 * @param comp
+	 *            the IUIListener component to dispatch to
+	 * @param event
+	 *            the event to dispatch
+	 */
+	private EUserAction dispatchToComponent(IUIEventListener comp,
+			Events.Input event) {
+		/*
+		 * Use instanceof instead of another switch-case to get rid of code
+		 * duplication. DRY!
+		 */
+		if (event instanceof ButtonEvent) {
+			return comp.onClick((ButtonEvent) event);
+		} else if (event instanceof Event) {
+			return comp.onKey((Event) event);
+		}
+		return EUserAction.NONE;
+	}
+
+	/**
+	 * Clears all Layers.
+	 */
+	private void clearLayers() {
+		BACKGROUND_LAYER.surface().clear();
+		SPRITE_LAYER.surface().clear();
+	}
+
+	@Override
+	public void onMouseDown(ButtonEvent event) {
+		dispatchEvent(event);
+	}
+
+	@Override
+	public void onMouseUp(ButtonEvent event) {/* NOOP! */
+	}
+
+	@Override
+	public void onMouseMove(MotionEvent event) {/* NOOP! */
+	}
+
+	@Override
+	public void onMouseWheelScroll(WheelEvent event) {/* NOOP! */
+	}
+
+	@Override
+	public void onKeyDown(Event event) {
+		if (currentUIState == EUIState.GAME) {
+			switch (event.key()) {
+			case P:
+				if(!paused) {
+					paused = true;
+				} else {
+					paused = false;
+				}
+				return;
+
+			case F:
+				if (!fastForward) {
+					fastForward = true;
+				} else {
+					fastForward = false;
+				}
+				return;
+			}
+		}
+		dispatchEvent(event);
+	}
+
+	@Override
+	public void onKeyTyped(TypedEvent event) {/* NOOP! */
+	}
+
+	@Override
+	public void onKeyUp(Event event) {/* NOOP! */
 	}
 }

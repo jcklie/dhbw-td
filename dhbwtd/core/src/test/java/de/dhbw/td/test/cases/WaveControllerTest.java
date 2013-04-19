@@ -16,12 +16,12 @@ import junit.framework.TestCase;
 import playn.core.Json;
 import playn.core.Platform;
 import playn.java.JavaPlatform;
-import de.dhbw.td.core.enemies.Enemy;
-import de.dhbw.td.core.level.Level;
-import de.dhbw.td.core.util.Point;
-import de.dhbw.td.core.waves.Wave;
-import de.dhbw.td.core.waves.WaveController;
-import de.dhbw.td.core.waves.WaveFactory;
+import de.dhbw.td.backup.Enemy;
+import de.dhbw.td.backup.Level;
+import de.dhbw.td.backup.Point;
+import de.dhbw.td.backup.Wave;
+import de.dhbw.td.backup.WaveController;
+import de.dhbw.td.backup.WaveFactory;
 import de.dhbw.td.test.util.FileUtil;
 
 public class WaveControllerTest extends TestCase {

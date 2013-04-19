@@ -55,7 +55,7 @@ public class Point implements Cloneable {
 	 * 
 	 * @return the X coordinate of the point
 	 */
-	public int getX() {
+	public int x() {
 		return x;
 	}
 
@@ -64,7 +64,7 @@ public class Point implements Cloneable {
 	 * 
 	 * @return the Y coordinate of the point
 	 */
-	public int getY() {
+	public int y() {
 		return y;
 	}
 
@@ -99,8 +99,8 @@ public class Point implements Cloneable {
 	}
 	
 	public double distance(Point p) {
-		double px = p.getX() - this.getX();
-		double py = p.getY() - this.getY();
+		double px = p.x() - this.x();
+		double py = p.y() - this.y();
 		return Math.sqrt(px * px + py * py);
 	}
 

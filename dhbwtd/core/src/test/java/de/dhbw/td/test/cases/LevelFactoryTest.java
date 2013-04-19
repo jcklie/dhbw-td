@@ -24,11 +24,11 @@ import playn.core.Image;
 import playn.core.Json;
 import playn.core.Platform;
 import playn.java.JavaPlatform;
-import de.dhbw.td.core.level.Level;
-import de.dhbw.td.core.level.LevelFactory;
-import de.dhbw.td.core.util.Point;
+import de.dhbw.td.backup.ETileType;
+import de.dhbw.td.backup.Level;
+import de.dhbw.td.backup.LevelFactory;
+import de.dhbw.td.backup.Point;
 import de.dhbw.td.test.util.FileUtil;
-import de.dhbw.td.core.util.ETileType;
 
 public class LevelFactoryTest extends TestCase {
 

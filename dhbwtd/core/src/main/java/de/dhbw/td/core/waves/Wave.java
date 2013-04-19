@@ -8,7 +8,6 @@
 package de.dhbw.td.core.waves;
 
 import java.util.Collections;
-
 import java.util.List;
 
 import de.dhbw.td.core.enemies.Enemy;
@@ -41,7 +40,7 @@ public class Wave {
 	 * 
 	 * @return enemyCount as integer
 	 */
-	public int getEnemyCount() {
+	public int enemyCount() {
 		return enemyCount;
 	}
 
@@ -49,7 +48,7 @@ public class Wave {
 	 * 
 	 * @return waveNumber as integer
 	 */
-	public int getWaveNumber() {
+	public int waveNumber() {
 		return waveNumber;
 	}
 
@@ -57,7 +56,7 @@ public class Wave {
 	 * 
 	 * @return enemies as List<Enemy>
 	 */
-	public List<Enemy> getEnemies() {
+	public List<Enemy> enemies() {
 		return enemies;
 	}
 }

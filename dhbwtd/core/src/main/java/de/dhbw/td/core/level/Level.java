@@ -11,12 +11,8 @@ package de.dhbw.td.core.level;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import playn.core.Surface;
-import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.util.Point;
-import de.dhbw.td.core.util.ETileType;
-
-public class Level implements IDrawable {
+public class Level {
 
 	private static final int TILE_OFFSET = 64; // px
 	private final int height;
@@ -79,28 +75,15 @@ public class Level implements IDrawable {
 	public int tilesize() {
 		return tilesize;
 	}
-	
+
 	public ETileType[][] map() {
 		return map;
 	}
 
 	/**
-	 * Creates a deep copy of the waypoints in this level
-	 * 
-	 * @return Returns a -copy- of the waypoints specified for this level
+	 * @return a <b>copy</b> of the waypoints specified for this level
 	 */
 	public Queue<Point> waypoints() {
 		return changeCopyWaypoints(waypoints);
 	}
-
-	@Override
-	public void draw(Surface surf) {
-		surf.clear();
-		for (int row = 0; row < height; row++) {
-			for (int col = 0; col < width; col++) {
-				surf.drawImage(map[row][col].image(), col * tilesize, row * tilesize);
-			}
-		}
-	}
-
 }

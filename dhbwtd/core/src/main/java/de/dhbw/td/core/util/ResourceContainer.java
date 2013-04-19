@@ -41,11 +41,13 @@ public enum ResourceContainer {
 	
 	public final Image IMAGE_MENU_MAIN_BACKGROUND;
 	public final Image IMAGE_MENU_INGAME_BACKGROUND;
-	public final Image IMAGE_MENU_CREDITS;	
-	public final Image IMAGE_MENU_HELP;
+	public final Image IMAGE_MENU_CREDITS;
+	public final Image IMAGE_BTN_CREDITS;	
+	public final Image IMAGE_BTN_HELP;
 	public final Image IMAGE_MENU_RESUME;
 	public final Image IMAGE_MENU_QUIT;
 	public final Image IMAGE_MENU_NEW;
+	public final Image IMAGE_MENU_HELPSCREEN;
 	
 	
 	/*
@@ -58,6 +60,8 @@ public enum ResourceContainer {
 	public final Image IMAGE_SETTINGS;
 	public final Image IMAGE_HEART;
 	public final Image IMAGE_KNOWLEDGE;
+	public final Image IMAGE_SELL;
+	public final Image IMAGE_UPGRADE;
 	
 	/*
 	 * MAP TILES
@@ -146,13 +150,15 @@ public enum ResourceContainer {
 		 * Load images
 		 */
 		
-		IMAGE_MENU_NEW = assets().getImage(PATH_MENU + "new_game.png");
+		IMAGE_MENU_NEW = getImage(PATH_MENU + "btn_new_game.png");
 		IMAGE_MENU_INGAME_BACKGROUND = getImage(PATH_MENU + "ingame_menu_bg.png");
-		IMAGE_MENU_CREDITS = getImage(PATH_MENU + "credits.png");		
+		IMAGE_BTN_CREDITS = getImage(PATH_MENU + "btn_credits.png");		
 		IMAGE_MENU_MAIN_BACKGROUND = getImage(PATH_MENU + "main_menu_bg.png");
-		IMAGE_MENU_HELP = getImage(PATH_MENU + "help.png");
-		IMAGE_MENU_RESUME = getImage(PATH_MENU + "resume_game.png");
-		IMAGE_MENU_QUIT = getImage(PATH_MENU + "quit_game.png");		
+		IMAGE_BTN_HELP = getImage(PATH_MENU + "btn_help.png");
+		IMAGE_MENU_RESUME = getImage(PATH_MENU + "btn_resume_game.png");
+		IMAGE_MENU_QUIT = getImage(PATH_MENU + "btn_quit_game.png");
+		IMAGE_MENU_HELPSCREEN = getImage(PATH_MENU + "help_screen.png");
+		IMAGE_MENU_CREDITS = getImage(PATH_MENU + "credits_screen.png");
 		
 		IMAGE_CLOCK = getImage(PATH_IMAGES + "clock.png");
 		IMAGE_PLAY = getImage(PATH_IMAGES + "play.png");
@@ -161,6 +167,8 @@ public enum ResourceContainer {
 		IMAGE_SETTINGS = getImage(PATH_IMAGES + "settings.png");
 		IMAGE_HEART = getImage(PATH_IMAGES + "heart.png");
 		IMAGE_KNOWLEDGE = getImage(PATH_IMAGES + "knowledge.png");
+		IMAGE_SELL = getImage(PATH_IMAGES + "sell.png");
+		IMAGE_UPGRADE = getImage(PATH_IMAGES + "upgrade.png");
 		
 		IMAGE_EDGE_LEFT_BOTTOM = getImage(PATH_TILES + "edge_left_bottom.bmp");
 		IMAGE_EDGE_LEFT_TOP = getImage(PATH_TILES + "edge_left_top.bmp");

@@ -13,10 +13,8 @@ import java.util.Queue;
 
 import playn.core.Image;
 import playn.core.Surface;
-import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.game.IUpdateable;
 import de.dhbw.td.core.level.Level;
-import de.dhbw.td.core.util.EDirection;
 import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.core.util.Point;
 import static playn.core.PlayN.log;
@@ -27,7 +25,7 @@ import static playn.core.PlayN.log;
  * @author Martin Kiessling, Tobias Roeding, Jan-Christoph Klie
  * 
  */
-public class Enemy implements IDrawable, IUpdateable {
+public class Enemy implements IUpdateable {
 
 	private final int bounty;
 	private final int penalty;
@@ -64,18 +62,10 @@ public class Enemy implements IDrawable, IUpdateable {
 	}
 
 	@Override
-	public void draw(Surface surf) {
-		if (isAlive()) {
-			surf.drawImage(enemyImage, currentPosition.getX(), currentPosition.getY());
-			surf.drawImage(healthBarImage, currentPosition.getX() + 7, currentPosition.getY() + 2);
-		}
-	}
-
-	@Override
 	public void update(double delta) {
-		if (isAlive()) {
+		if (alive()) {
 			if (currentPosition.equals(currentWaypoint)) {
-				//takeDamage(1);
+				takeDamage(1);
 				Point nextWaypoint = waypoints.poll();
 				if (nextWaypoint == null) {
 					for (Point p : fixedWaypoints) {
@@ -107,13 +97,13 @@ public class Enemy implements IDrawable, IUpdateable {
 	}
 
 	private void adjustDirection(final Point newWaypoint) {
-		if (currentPosition.getX() < newWaypoint.getX()) {
+		if (currentPosition.x() < newWaypoint.x()) {
 			currentDirection = EDirection.RIGHT;
-		} else if (currentPosition.getX() > newWaypoint.getX()) {
+		} else if (currentPosition.x() > newWaypoint.x()) {
 			currentDirection = EDirection.LEFT;
-		} else if (currentPosition.getY() < newWaypoint.getY()) {
+		} else if (currentPosition.y() < newWaypoint.y()) {
 			currentDirection = EDirection.DOWN;
-		} else if (currentPosition.getY() > newWaypoint.getY()) {
+		} else if (currentPosition.y() > newWaypoint.y()) {
 			currentDirection = EDirection.UP;
 		}
 	}
@@ -124,34 +114,33 @@ public class Enemy implements IDrawable, IUpdateable {
 
 	private void handleDown(double delta) {
 		currentPosition.translate(0, distanceMovedSince(delta));
-		if (currentPosition.getY() > currentWaypoint.getY()) {
+		if (currentPosition.y() > currentWaypoint.y()) {
 			currentPosition.setLocation(currentWaypoint);
 		}
 	}
 
 	private void handleLeft(double delta) {
 		currentPosition.translate(-distanceMovedSince(delta), 0);
-		if (currentPosition.getX() < currentWaypoint.getX()) {
+		if (currentPosition.x() < currentWaypoint.x()) {
 			currentPosition.setLocation(currentWaypoint);
 		}
 	}
 
 	private void handleRight(double delta) {
 		currentPosition.translate(distanceMovedSince(delta), 0);
-		if (currentPosition.getX() > currentWaypoint.getX()) {
+		if (currentPosition.x() > currentWaypoint.x()) {
 			currentPosition.setLocation(currentWaypoint);
 		}
 	}
 
 	private void handleUp(double delta) {
 		currentPosition.translate(0, -distanceMovedSince(delta));
-		if (currentPosition.getY() < currentWaypoint.getY()) {
+		if (currentPosition.y() < currentWaypoint.y()) {
 			currentPosition.setLocation(currentWaypoint);
 		}
 	}
 
 	public void takeDamage(int damage) {
-		log().debug("Getting demage " + damage);
 		curHealth -= damage;
 		double relativeHealth = (double) curHealth / (double) maxHealth;
 
@@ -162,6 +151,9 @@ public class Enemy implements IDrawable, IUpdateable {
 		}
 	}
 
+	/**
+	 * Kills the enemy
+	 */
 	private void die() {
 		this.alive = false;
 	}
@@ -170,7 +162,7 @@ public class Enemy implements IDrawable, IUpdateable {
 	 * 
 	 * @return current position as Point
 	 */
-	public Point getCurrentPosition() {
+	public Point position() {
 		return currentPosition;
 	}
 
@@ -178,7 +170,7 @@ public class Enemy implements IDrawable, IUpdateable {
 	 * 
 	 * @return current Health as integer
 	 */
-	public int getCurHealth() {
+	public int curHealth() {
 		return curHealth;
 	}
 
@@ -186,7 +178,7 @@ public class Enemy implements IDrawable, IUpdateable {
 	 * 
 	 * @return speed as double
 	 */
-	public double getSpeed() {
+	public double speed() {
 		return speed;
 	}
 
@@ -194,7 +186,7 @@ public class Enemy implements IDrawable, IUpdateable {
 	 * 
 	 * @return get maximum health as integer
 	 */
-	public int getMaxHealth() {
+	public int maxHealth() {
 		return maxHealth;
 	}
 
@@ -202,7 +194,7 @@ public class Enemy implements IDrawable, IUpdateable {
 	 * 
 	 * @return boolean if enemy is alive
 	 */
-	public boolean isAlive() {
+	public boolean alive() {
 		return alive;
 	}
 
@@ -210,7 +202,7 @@ public class Enemy implements IDrawable, IUpdateable {
 	 * 
 	 * @return get bounty of enemy as integer
 	 */
-	public int getBounty() {
+	public int bounty() {
 		return bounty;
 	}
 
@@ -218,7 +210,7 @@ public class Enemy implements IDrawable, IUpdateable {
 	 * 
 	 * @return get penalty of enemy as integer
 	 */
-	public int getPenalty() {
+	public int penalty() {
 		return penalty;
 	}
 
@@ -226,7 +218,7 @@ public class Enemy implements IDrawable, IUpdateable {
 	 * 
 	 * @return get enemy type as EEnemyType
 	 */
-	public EFlavor getEnemyType() {
+	public EFlavor enemyType() {
 		return enemyType;
 	}
 
@@ -234,7 +226,7 @@ public class Enemy implements IDrawable, IUpdateable {
 	 * 
 	 * @return get waypoint queue as Queue<Point>
 	 */
-	public Queue<Point> getWaypoints() {
+	public Queue<Point> waypoints() {
 		return waypoints;
 	}
 }

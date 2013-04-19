@@ -1,13 +1,12 @@
 package de.dhbw.td.core.tower;
 
 import static playn.core.PlayN.log;
-
 import playn.core.Image;
 import playn.core.Surface;
 import pythagoras.d.Vector;
 import de.dhbw.td.core.enemies.Enemy;
-import de.dhbw.td.core.game.IDrawable;
 import de.dhbw.td.core.game.IUpdateable;
+import de.dhbw.td.core.ui.IDrawable;
 import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.core.util.Point;
 
@@ -40,19 +39,19 @@ public class Projectile implements IDrawable, IUpdateable {
 	@Override
 	public void update(double delta) {
 		//Check if target is still alive
-		if (!target.isAlive()) {
+		if (!target.alive()) {
 			hit = true;
 			return;
 		}
 		
 		//Calculates the move vector
-		Vector vector = getVector();
+		Vector vector = vector();
 		vector = vector.scale(speed / vector.length());
 		vector.set(vector.x * delta / 1000, vector.y * delta / 1000);
 		
 		//Check if projectile will hit the target, otherwies move the projectile
-		if (Math.abs(target.getCurrentPosition().getX() - currentPosition.getX()) <= Math.abs(vector.x) &&
-				Math.abs(target.getCurrentPosition().getY() - currentPosition.getY()) <= Math.abs(vector.y)) {
+		if (Math.abs(target.position().x() - currentPosition.x()) <= Math.abs(vector.x) &&
+				Math.abs(target.position().y() - currentPosition.y()) <= Math.abs(vector.y)) {
 			hit = true;
 			target.takeDamage(calcDamage(damage));
 		} else {
@@ -62,24 +61,24 @@ public class Projectile implements IDrawable, IUpdateable {
 	
 	private int calcDamage(int damage) {
 		log().debug("CRIT");
-		return flavor == target.getEnemyType() ? 2 * damage : damage;
+		return flavor == target.enemyType() ? 2 * damage : damage;
 	}
 
 	/**
 	 * Calculates vector between target and current position
 	 * @return The calculated vector
 	 */
-	private Vector getVector() {
-		return new Vector(target.getCurrentPosition().getX() - currentPosition.getX(), 
-				target.getCurrentPosition().getY() - currentPosition.getY());
+	private Vector vector() {
+		return new Vector(target.position().x() - currentPosition.x(), 
+				target.position().y() - currentPosition.y());
 	}
 
 	@Override
 	public void draw(Surface surf) {
 		if (!hit) {
 			surf.save();
-			surf.translate(currentPosition.getX() + hwidth, currentPosition.getY() + hwidth);
-			surf.rotate((float) (getVector().angle() + Math.PI / 2));
+			surf.translate(currentPosition.x() + hwidth, currentPosition.y() + hwidth);
+			surf.rotate((float) (vector().angle() + Math.PI / 2));
 			surf.drawImage(image, -hwidth, -hheight);
 			surf.restore();
 		}

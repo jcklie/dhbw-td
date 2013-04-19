@@ -1,222 +1,186 @@
-/*  Copyright (C) 2013 by Tobias Roeding, Inc. All rights reserved.
- *  Released under the terms of the GNU General Public License version 3 or later.
- *  
- *  Contributors:
- *  Tobias Roeding - all
- */
-
 package de.dhbw.td.core.ui;
 
+import static de.dhbw.td.core.util.GameConstants.*;
 import static de.dhbw.td.core.util.ResourceContainer.resources;
-import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
-
 import java.util.ArrayList;
+import java.util.List;
 
-import playn.core.Canvas;
-import playn.core.CanvasImage;
-import playn.core.Image;
 import playn.core.Keyboard.Event;
-import playn.core.Mouse.ButtonEvent;
 import playn.core.Surface;
-import de.dhbw.td.core.TowerDefense;
-import de.dhbw.td.core.event.ICallbackFunction;
-import de.dhbw.td.core.event.IKeyboardObserver;
-import de.dhbw.td.core.event.IMouseObserver;
-import de.dhbw.td.core.game.GameState;
-import de.dhbw.td.core.game.IDrawable;
+import playn.core.Mouse.ButtonEvent;
+import de.dhbw.td.core.ui.Button;
+import de.dhbw.td.core.util.ICallback;
 
-
-public class IngameMenu implements IDrawable, IMouseObserver, IKeyboardObserver {
-
-	private static final int TILE_SIZE = 64;
-
-	private final int OFFSET_HEAD = 0;
-	private final int OFFSET_FOOT = 9;
-
-	private final int OFFSET_LEFT = 5;
-
-	private CanvasImage canvasImage;
-	private Canvas canvas;
-
-	private ArrayList<Button> buttons;
-
-	private GameState stateOftheWorld;
-
-	private boolean menu = false;
-	private boolean credits = false;
-	private boolean help = false;
-	private boolean clear = false;
-
-	public IngameMenu(GameState stateOftheWorld) {
-
-		this.stateOftheWorld = stateOftheWorld;
-
+public class IngameMenu implements IDrawable, IUIEventListener {
+	
+	/*
+	 * BUTTON COORDINATES
+	 */
+	private final int BTN_RESUME_Y = 104;
+	private final int BTN_NEWGAME_Y = 191;
+	private final int BTN_HELP_Y = 278;
+	private final int BTN_CREDITS_Y = 365;
+	private final int BTN_QUITGAME_Y = 452;
+	
+	private List<Button> buttons;
+	
+	private boolean showHelp;
+	private boolean showCredits;
+	private boolean drawn;
+	
+	/**
+	 * Constructor for initialization
+	 */
+	public IngameMenu() {
 		buttons = new ArrayList<Button>();
 		createButtons();
-
-		canvasImage = graphics().createImage(graphics().width(), graphics().height());
-		canvas = canvasImage.canvas();
-
+		showHelp = false;
+		showCredits = false;
+		drawn = false;
 	}
-
+	
+	/**
+	 * Creates the menu's buttons.
+	 */
 	private void createButtons() {
-		/*addResumeGameButton();
-		addNewGameButton();
-		addEndGameButton();
-		addCreditsButton();
-		addHelpButton();*/
-	}
 
-	public void setMenu(boolean value) {
-		menu = value;
-	}
+		/* RESUME BUTTON */
+		Button resumeButton = new Button.Builder(resources().IMAGE_MENU_RESUME).
+				y(BTN_RESUME_Y).build();
+		resumeButton.setCallback(new ICallback<EUserAction>() {
+			
+			@Override
+			public EUserAction execute() {
+				log().debug("Clicked resumeButton");
+				return EUserAction.RESUME_GAME;
+			}
+		});
+		buttons.add(resumeButton);
 
-	public void setCredits(boolean value) {
-		credits = value;
-	}
-
-	public void setHelp(boolean value) {
-		help = value;
-	}
-
-	public void setClear(boolean value) {
-		clear = value;
-	}
-
-	/*private void addResumeGameButton() {
-		final Button resumeGame = new Button(OFFSET_LEFT * TILE_SIZE, 104,
-				TILE_SIZE * 4, TILE_SIZE, resources().IMAGE_MENU_RESUME, new ICallbackFunction() {
-
-					@Override
-					public void execute() {
-						if (stateOftheWorld.isPaused()) {
-							stateOftheWorld.play();
-							clear = true;
-						}
-					}
-				});
-		TowerDefense.getMouse().addObserver(resumeGame);
-		buttons.add(resumeGame);
-	}
-
-	private void addNewGameButton() {
-		final Button newGame = new Button(OFFSET_LEFT * TILE_SIZE, 191,
-				TILE_SIZE * 4, TILE_SIZE, resources().IMAGE_MENU_NEW, new ICallbackFunction() {
-
-					@Override
-					public void execute() {
-						log().debug("Clicked NewGame");
-					}
-				});
-		TowerDefense.getMouse().addObserver(newGame);
-		buttons.add(newGame);
-	}
-
-	private void addEndGameButton() {
-		final Button endGame = new Button(OFFSET_LEFT * TILE_SIZE, 278,
-				TILE_SIZE * 4, TILE_SIZE, resources().IMAGE_MENU_QUIT, new ICallbackFunction() {
-
-					@Override
-					public void execute() {
-						log().debug("Clicked EndGame");
-					}
-				});
-		TowerDefense.getMouse().addObserver(endGame);
-		buttons.add(endGame);
-	}
-
-	private void addCreditsButton() {
-		final Button creditsButton = new Button(OFFSET_LEFT * TILE_SIZE, 365,
-				TILE_SIZE * 4, TILE_SIZE, resources().IMAGE_MENU_CREDITS, new ICallbackFunction() {
-
-					@Override
-					public void execute() {
-						log().debug("Clicked CreditsButton");
-						credits = true;
-					}
-				});
-		TowerDefense.getMouse().addObserver(creditsButton);
+		/* NEW_GAME BUTTON */
+		Button newGameButton = new Button.Builder(resources().IMAGE_MENU_NEW).
+				y(BTN_NEWGAME_Y).build();
+		newGameButton.setCallback(new ICallback<EUserAction>() {
+			
+			@Override
+			public EUserAction execute() {
+				log().debug("Clicked newGameButton");
+				return EUserAction.NEW_GAME;
+			}
+		});
+		buttons.add(newGameButton);
+		
+		/* END_GAME BUTTON */
+		Button endGameButton = new Button.Builder(resources().IMAGE_MENU_QUIT).
+				y(BTN_QUITGAME_Y).build();
+		endGameButton.setCallback(new ICallback<EUserAction>() {
+			
+			@Override
+			public EUserAction execute() {
+				log().debug("Clicked EndGameButton");
+				return EUserAction.QUIT_GAME;
+			}
+		});
+		buttons.add(endGameButton);
+		
+		/* CREDITS BUTTON */
+		Button creditsButton = new Button.Builder(resources().IMAGE_BTN_CREDITS).
+				y(BTN_CREDITS_Y).build();
+		creditsButton.setCallback(new ICallback<EUserAction>() {
+			
+			@Override
+			public EUserAction execute() {
+				log().debug("Clicked CreditsButton");
+				showCredits(true);
+				return EUserAction.NONE;
+			}
+		});
 		buttons.add(creditsButton);
+		
+		/* HELP BUTTON */
+		Button helpButton = new Button.Builder(resources().IMAGE_BTN_HELP).
+				y(BTN_HELP_Y).build();
+		helpButton.setCallback(new ICallback<EUserAction>() {
+			
+			@Override
+			public EUserAction execute() {
+				log().debug("Clicked HelpButton");
+				showHelp(true);
+				return EUserAction.NONE;
+			}
+		});
+		buttons.add(helpButton);
 	}
-
-	private void addHelpButton() {
-		final Button help = new Button(OFFSET_LEFT * TILE_SIZE, 452,
-				TILE_SIZE * 4, TILE_SIZE, resources().IMAGE_MENU_HELP,
-				new ICallbackFunction() {
-
-					@Override
-					public void execute() {
-						log().debug("Clicked Help");
-					}
-				});
-		TowerDefense.getMouse().addObserver(help);
-		buttons.add(help);
-	}*/
-
-	private boolean menuChanged() {
-		if (menu) {
-			menu = false;
-			return true;
+	
+	/**
+	 * Enables or disables all the menu's buttons
+	 * @param enabled <b>true</b> for enabling, false for disabling
+	 */
+	private void setButtonsEnabled(boolean enabled) {
+		for (Button b : buttons) {
+			b.setEnabled(enabled);
 		}
-		return false;
 	}
 
-	private boolean creditsChanged() {
-		if (credits) {
-			credits = false;
-			return true;
+	/**
+	 * Shows or hides the help screen.
+	 * @param show
+	 */
+	private void showHelp(boolean show) {
+		setButtonsEnabled(!show);
+		showHelp = show;
+	}
+
+	/**
+	 * Shows or hides the credits screen.
+	 * @param show
+	 */
+	private void showCredits(boolean show) {
+		setButtonsEnabled(!show);
+		showCredits = show;
+	}
+	
+	@Override
+	public EUserAction onClick(ButtonEvent event) {
+		for (Button b : buttons) {
+			if (b.isHit((int) event.x(), (int) event.y())) {
+				return b.callback().execute();
+			}
 		}
-		return false;
+		return EUserAction.NONE;
 	}
-
-	private boolean helpChanged() {
-		if (help) {
-			help = false;
-			return true;
+	
+	@Override
+	public EUserAction onKey(Event event) {
+		switch (event.key()) {
+		case ESCAPE:
+			if (showHelp) {
+				showHelp(false);
+			} else if (showCredits) {
+				showCredits(false);
+			}
+			else {	
+				return EUserAction.RESUME_GAME;
+			}
+			break;
 		}
-		return false;
+		return EUserAction.NONE;
 	}
-
+	
 	@Override
 	public void draw(Surface surf) {
-		if (menuChanged()) {
-			log().debug("Menu");
-			surf.clear();
-			canvas.clear();
-
-			canvas.drawImage(resources().IMAGE_MENU_INGAME_BACKGROUND, 0, 0);
-			surf.drawImage(canvasImage, 0, 0);
-
+		surf.clear();
+		//log().debug("Drawing IngameMenu on " + surf.toString());
+		if (showHelp) {
+			surf.drawImage(resources().IMAGE_MENU_HELPSCREEN, 0, 0);
+		} else if (showCredits) {
+			surf.drawImage(resources().IMAGE_MENU_CREDITS, 0, 0);
+		} else {
+			surf.drawImage(resources().IMAGE_MENU_INGAME_BACKGROUND, 0, 0);
 			for (Button b : buttons) {
 				b.draw(surf);
 			}
-		} else if (creditsChanged()) {
-			surf.clear();
-			canvas.clear();
-
-			canvas.drawImage(resources().IMAGE_MENU_INGAME_BACKGROUND, 0, 0);
-			canvas.drawImage(resources().IMAGE_MENU_CREDITS, 0, 0);
-		} else if (helpChanged()) {
-			surf.clear();
-			canvas.clear();
-
-			canvas.drawImage(resources().IMAGE_MENU_QUIT, 0, 0);
-		} else if (clear) {
-			surf.clear();
-			canvas.clear();
-			clear = false;
 		}
-
-	}
-
-	@Override
-	public void alert(ButtonEvent e) {
-		log().info(this.toString() + " " + e.toString());
-	}
-
-	@Override
-	public void alert(Event e) {
-		log().info(this.toString() + " " + e.toString());
 	}
 }
