@@ -2,6 +2,7 @@ package de.dhbw.td.core.ui;
 
 import static playn.core.PlayN.log;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,9 +62,7 @@ public class Executor {
 	public void handleNewState(EUserAction newState, int x, int y) {
 		this.x = x;
 		this.y = y;
-		log().debug(NEW_TOWER_ACTIONS.toString());
-		log().debug(newState.toString());
-		log().debug(Boolean.toString(NEW_TOWER_ACTIONS.contains(newState)));
+
 		if( wasItIntendedToBuildTower(newState)) {
 			handleNewTower(newState, x, y );
 		} else {
@@ -90,18 +89,20 @@ public class Executor {
 	private void handleNewTower(EUserAction newState, int x, int y) {
 		log().debug("Handle tower");
 		IAction<EFlavor> action = fsm.transit(newState);
-		EFlavor flavor = newTowerToFlavor(newState);
+		EFlavor flavor = newTowerToFlavor(fsm.lastState());
+		log().debug("F: " + flavor);
 		action.execute(flavor);
 	}
 	
 	private IAction<EFlavor> buildTower = new IAction<EFlavor>() {
 		public void execute(EFlavor... args) {
-			log().debug("I want to build a " + args);
+			log().debug("I want to build a " + Arrays.toString(args));
 			gameState.buildTower(args[0], x, y);
 		}
 	};
 	
 	private EFlavor newTowerToFlavor(EUserAction state) {
+		log().debug("Mapping :" + state);
 		return mappingActionToFlavor.get(state);
 	}
 

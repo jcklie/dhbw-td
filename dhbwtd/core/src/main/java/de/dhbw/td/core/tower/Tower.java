@@ -9,6 +9,7 @@ package de.dhbw.td.core.tower;
 
 import static playn.core.PlayN.log;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -84,6 +85,18 @@ public class Tower implements IDrawable, IUpdateable {
 	
 	public Point position() {
 		return new Point(position);
+	}
+	
+	public int x() {
+		return position.x();
+	}
+	
+	public int y() {
+		return position.y();
+	}
+	
+	public List<Projectile> projectiles() {
+		return projectiles;
 	}
 	
 	public void setEnemies(List<Enemy> enemies) {

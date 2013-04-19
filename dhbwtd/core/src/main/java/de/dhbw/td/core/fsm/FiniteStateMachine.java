@@ -1,5 +1,6 @@
 package de.dhbw.td.core.fsm;
 
+import static playn.core.PlayN.log;
 
 /**
  * 
@@ -13,6 +14,7 @@ public class FiniteStateMachine<E extends Enum<E>, R> {
 	
 	private IAction<R>[][] transitionTable;
 	private E currentState;
+	private E lastState;
 	
 	private final int N; // NUMBER_OF_STATES
 	
@@ -25,6 +27,7 @@ public class FiniteStateMachine<E extends Enum<E>, R> {
 		
 		initTransitionTable();	
 		currentState = startingState;
+		lastState = startingState;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -55,12 +58,18 @@ public class FiniteStateMachine<E extends Enum<E>, R> {
 	
 	public IAction<R> transit(E nextState) {
 		IAction<R> actionOnTransit = getAction(currentState, nextState);
+		lastState = currentState;
 		currentState = nextState;
+		log().debug("FSM state:" + currentState);
 		return actionOnTransit;
 	}
 	
 	public E currentState() {
 		return currentState;
+	}
+	
+	public E lastState() {
+		return lastState;
 	}
 
 }
