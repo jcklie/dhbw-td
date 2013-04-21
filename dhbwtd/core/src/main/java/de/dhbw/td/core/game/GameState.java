@@ -101,6 +101,8 @@ public class GameState implements IUpdateable {
 			currentWave = getNextWave();
 			enemies = copyEnemiesFromWave(currentWave);
 			plat = createMap(currentLevel);
+			
+			towers = new LinkedList<Tower>();
 		}
 	}
 	
