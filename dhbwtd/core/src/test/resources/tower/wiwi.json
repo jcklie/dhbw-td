@@ -8,5 +8,6 @@
 		{"damage": 38, "range": 100, "price": 30, "image": "wiwi.png"}
 	],
 	"levelCount": 6,
-	"cadenza": 40
+	"cadenza": 40,
+	"projectile": "wiwi.png"
 }

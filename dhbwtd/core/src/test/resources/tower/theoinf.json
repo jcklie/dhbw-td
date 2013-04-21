@@ -7,5 +7,6 @@
 		{"damage": 45, "range": 170, "price": 36, "image": "theoinf.png"}
 	],
 	"levelCount": 5,
-	"cadenza": 20
+	"cadenza": 20,
+	"projectile": "theoinf.png"
 }

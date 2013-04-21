@@ -10,19 +10,19 @@ import junit.framework.TestCase;
 import playn.core.Json;
 import playn.core.Platform;
 import playn.java.JavaPlatform;
-import de.dhbw.td.backup.Enemy;
-import de.dhbw.td.backup.GameState;
-import de.dhbw.td.backup.Point;
-import de.dhbw.td.backup.WaveController;
-import de.dhbw.td.backup.WaveFactory;
+import pythagoras.i.Point;
+import de.dhbw.td.core.enemies.Enemy;
+import de.dhbw.td.core.game.GameState;
+import de.dhbw.td.core.waves.WaveController;
+import de.dhbw.td.core.waves.WaveControllerFactory;
 import de.dhbw.td.test.util.FileUtil;
 
 public class GameStateTest extends TestCase {
 	
-	private WaveFactory waveLoader;
+	private WaveControllerFactory waveLoader;
 	private WaveController waveController;
 	private Json.Object jason;
-	private Queue<Point> waypoints;
+	private Point[] waypoints;
 	private GameState stateOfTheWorld;
 	
 	@Override
@@ -35,19 +35,18 @@ public class GameStateTest extends TestCase {
 		Platform platform = JavaPlatform.register();
 		jason = platform.json().parse(FileUtil.readFile(f));
 
-		waypoints = new LinkedList<Point>();
+		waypoints = createWaypoints();
 
-		waypoints.add(new Point(0, 3));
-		waypoints.add(new Point(4, 3));
-		waypoints.add(new Point(4, 7));
-		waypoints.add(new Point(7, 7));
-		waypoints.add(new Point(7, 2));
-		waypoints.add(new Point(13, 2));
 
-		waveLoader = new WaveFactory();
-		waveController = waveLoader.nextWaveController(jason, waypoints);
+		waveLoader = new WaveControllerFactory();
+		waveController = waveLoader.constructWaveController(jason, waypoints);
 		
 		stateOfTheWorld = new GameState();
+	}
+	
+	private Point[] createWaypoints() {
+		Point[] wp = {new Point(0, 3), new Point(4, 3), new Point(4, 7), new Point(7, 7), new Point(7, 2), new Point(13, 2) };
+		return wp;
 	}
 
 	@Override
@@ -56,7 +55,7 @@ public class GameStateTest extends TestCase {
 	}
 	
 	public void testNewWave(){
-		List<Enemy> enemies = waveController.nextWave().getEnemies();
+		List<Enemy> enemies = waveController.nextWave().enemies();
 		//stateOfTheWorld.newWave(enemies);
 	}
 }

@@ -9,6 +9,7 @@
 
 package de.dhbw.td.test.cases;
 
+import static de.dhbw.td.core.util.GameConstants.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,29 +77,33 @@ public class LevelFactoryTest extends TestCase {
 	}
 
 	private Level buildExpectedBasicLevel() {
-		Queue<Point> waypoints = new LinkedList<Point>();
-		
-		waypoints.add(new Point(0*64,3*64));
-		waypoints.add(new Point(4*64,3*64));
-		waypoints.add(new Point(4*64,7*64));
-		waypoints.add(new Point(7*64,7*64));
-		waypoints.add(new Point(7*64,2*64));
-		waypoints.add(new Point(13*64,2*64));
-		
+		Point[] waypoints = tileWaypointsToPixel(createWaypointsBasic());
 		return new Level(new ETileType[10][14], waypoints, 64, 14, 10, 0, 3);
 	}
 	
-	private Level buildExpectedLvlWithIntersect() {
-		Queue<Point> waypoints = new LinkedList<Point>();
+	private Point[] createWaypointsBasic() {
+		Point[] wp = {new Point(0, 3), new Point(4, 3), new Point(4, 7), new Point(7, 7), new Point(7, 2), new Point(13, 2) };
+		return wp;
+	}
+	
+	private Point[] createWaypointsWithIntersect() {
+		Point[] wp = {new Point(0, 3), new Point(4, 3), new Point(4, 9), new Point(2, 9), new Point(2, 7), new Point(7, 7),new Point(7, 2) ,new Point(13, 2) };
+		return wp;
+	}
+	
+	private Point[] tileWaypointsToPixel(Point[] tileCoordWaypoints) {
+		Point[] wp = new Point[tileCoordWaypoints.length];
 		
-		waypoints.add(new Point(0*64,3*64));
-		waypoints.add(new Point(4*64,3*64));
-		waypoints.add(new Point(4*64,9*64));
-		waypoints.add(new Point(2*64,9*64));
-		waypoints.add(new Point(2*64,7*64));
-		waypoints.add(new Point(7*64,7*64));
-		waypoints.add(new Point(7*64,2*64));
-		waypoints.add(new Point(13*64,2*64));
+		for(int i = 0; i < wp.length; i++) {
+			Point p = tileCoordWaypoints[i];
+			wp[i] = new Point(p.x *TILE_SIZE, p.y * TILE_SIZE);
+
+		}
+		return wp;
+	}
+	
+	private Level buildExpectedLvlWithIntersect() {
+		Point[] waypoints = tileWaypointsToPixel(createWaypointsWithIntersect());
 		
 		return new Level(new ETileType[10][14], waypoints, 64, 14, 10, 0, 3);
 	}
@@ -113,14 +118,13 @@ public class LevelFactoryTest extends TestCase {
 	}
 	
 	private void assertLevelWaypointsEquals(Level expected, Level given) {
-		Queue<Point> correctWaypoints = expected.waypoints();
-		Queue<Point> generatedWaypoints = given.waypoints();
+		Point[] correctWaypoints = expected.waypoints();
+		Point[]  generatedWaypoints = given.waypoints();
 
-		while(!correctWaypoints.isEmpty()){
-			assertFalse(generatedWaypoints.isEmpty());
-			assertEquals(correctWaypoints.poll(), generatedWaypoints.poll());
+		for(int i = 0; i < generatedWaypoints.length; i++) {
+			assertEquals(correctWaypoints[i], generatedWaypoints[i]);
 		}
-		assertTrue(generatedWaypoints.isEmpty());
+
 	}
 
 	@Test

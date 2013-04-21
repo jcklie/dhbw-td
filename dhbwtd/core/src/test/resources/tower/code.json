@@ -6,5 +6,6 @@
 		{"damage": 15, "range": 100, "price": 47, "image": "code.png"}
 	],
 	"levelCount": 4,
-	"cadenza": 100
+	"cadenza": 100,
+	"projectile": "code.png"
 }

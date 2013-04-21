@@ -16,20 +16,20 @@ import junit.framework.TestCase;
 import playn.core.Json;
 import playn.core.Platform;
 import playn.java.JavaPlatform;
-import de.dhbw.td.backup.Enemy;
-import de.dhbw.td.backup.Level;
-import de.dhbw.td.backup.Point;
-import de.dhbw.td.backup.Wave;
-import de.dhbw.td.backup.WaveController;
-import de.dhbw.td.backup.WaveFactory;
+import pythagoras.i.Point;
+import de.dhbw.td.core.enemies.Enemy;
+import de.dhbw.td.core.level.Level;
+import de.dhbw.td.core.waves.Wave;
+import de.dhbw.td.core.waves.WaveController;
+import de.dhbw.td.core.waves.WaveControllerFactory;
 import de.dhbw.td.test.util.FileUtil;
 
 public class WaveControllerTest extends TestCase {
 
-	private WaveFactory waveLoader;
+	private WaveControllerFactory waveLoader;
 	private WaveController waveController;
 	private Json.Object jason;
-	private Queue<Point> waypoints;
+	private Point[] waypoints;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -41,19 +41,16 @@ public class WaveControllerTest extends TestCase {
 		Platform platform = JavaPlatform.register();
 		jason = platform.json().parse(FileUtil.readFile(f));
 
-		waypoints = new LinkedList<Point>();
+		waypoints = createWaypoints();
 
-		waypoints.add(new Point(0, 3));
-		waypoints.add(new Point(4, 3));
-		waypoints.add(new Point(4, 7));
-		waypoints.add(new Point(7, 7));
-		waypoints.add(new Point(7, 2));
-		waypoints.add(new Point(13, 2));
-
-		waveLoader = new WaveFactory();
+		waveLoader = new WaveControllerFactory();
 		waypoints = Level.copyWaypoints(waypoints);
-		waveController = waveLoader.nextWaveController(jason, waypoints);
-		waypoints.poll();
+		waveController = waveLoader.constructWaveController(jason, waypoints);
+	}
+	
+	private Point[] createWaypoints() {
+		Point[] wp = {new Point(0, 3), new Point(4, 3), new Point(4, 7), new Point(7, 7), new Point(7, 2), new Point(13, 2) };
+		return wp;
 	}
 
 	@Override
@@ -70,16 +67,16 @@ public class WaveControllerTest extends TestCase {
 		for (int i = 0; i < 12; i++) {
 			// test if every wave has the correct number and if the waves are in
 			// order
-			assertEquals(i, waveController.getWaves().peek().getWaveNumber());
+			assertEquals(i, waveController.getWaves().peek().waveNumber());
 			// test if wave has 12 enemies listed
-			assertEquals(12, waveController.getWaves().poll().getEnemyCount());
+			assertEquals(12, waveController.getWaves().poll().enemyCount());
 		}
 	}
 
 	public void testNextWaveFunction() {
 		for (int i = 0; i < 12; i++) {
 			// test if nextWave function returns the next wave in order
-			assertEquals(i, waveController.nextWave().getWaveNumber());
+			assertEquals(i, waveController.nextWave().waveNumber());
 		}
 	}
 
@@ -88,22 +85,22 @@ public class WaveControllerTest extends TestCase {
 		// (example last wavecontroller, last wave)
 		int cnt = 0;
 		do {
-			waveController = waveLoader.nextWaveController(jason, Level.copyWaypoints(waypoints));
+			waveController = waveLoader.constructWaveController(jason, Level.copyWaypoints(waypoints));
 			cnt++;
 		} while (cnt < 5);
 		// test if attributes of enemies equals values of sem6 - wave 12
 		Wave testWave = null;
 		do {
 			testWave = waveController.nextWave();
-		} while (testWave.getWaveNumber() < 11);
+		} while (testWave.waveNumber() < 11);
 		for (int i = 0; i < 12; i++) {
-			Enemy testEnemy = testWave.getEnemies().get(i);
-			assertEquals(29, testEnemy.getMaxHealth());
-			assertEquals(29, testEnemy.getCurHealth());
-			assertTrue(testWave.getEnemies().get(i).isAlive());
-			assertEquals(100.0, testEnemy.getSpeed(), 0.001);
-			assertEquals(1, testEnemy.getBounty());
-			assertEquals(2, testEnemy.getPenalty());
+			Enemy testEnemy = testWave.enemies().get(i);
+			assertEquals(29, testEnemy.maxHealth());
+			assertEquals(29, testEnemy.curHealth());
+			assertTrue(testWave.enemies().get(i).alive());
+			assertEquals(100.0, testEnemy.speed(), 0.001);
+			assertEquals(1, testEnemy.bounty());
+			assertEquals(2, testEnemy.penalty());
 		}
 	}
 
@@ -111,14 +108,14 @@ public class WaveControllerTest extends TestCase {
 		// test if attributes of enemies equals values of sem1 - wave 1
 		Wave testWave = waveController.getWaves().peek();
 		for (int i = 0; i < 12; i++) {
-			Enemy testEnemy = testWave.getEnemies().get(i);
-			assertEquals(10, testEnemy.getMaxHealth());
-			assertEquals(10, testEnemy.getCurHealth());
-			assertTrue(testEnemy.isAlive());
-			assertEquals(400.0, testEnemy.getSpeed(), 0.001);
-			assertEquals(1, testEnemy.getBounty());
-			assertEquals(2, testEnemy.getPenalty());
-			assertEquals(waypoints, testEnemy.getWaypoints());
+			Enemy testEnemy = testWave.enemies().get(i);
+			assertEquals(10, testEnemy.maxHealth());
+			assertEquals(10, testEnemy.curHealth());
+			assertTrue(testEnemy.alive());
+			assertEquals(400.0, testEnemy.speed(), 0.001);
+			assertEquals(1, testEnemy.bounty());
+			assertEquals(2, testEnemy.penalty());
+
 		}
 	}
 }
