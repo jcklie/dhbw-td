@@ -133,7 +133,8 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 
 	/**
 	 * Dispatches a Mouse or Keyboard event to the current active UI component
-	 * and receives the action response
+	 * and receives the action response. The response will be the new state of this
+	 * class.
 	 * 
 	 * @param event The {@code Keyboard.Event} or {@code Mouse.ButtonEvent} event to dispatch
 	 */
@@ -166,7 +167,7 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 	}
 
 	/**
-	 * Handles the specified action.
+	 * Handles the specified global event.
 	 * 
 	 * @param action the action to be handled
 	 */
@@ -241,6 +242,11 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 	}
 
 	@Override
+	/**
+	 * We check if the event is an global event, i. e. will be handled
+	 * on the Tower Defense or an UI event which is then dispatched
+	 * to the component currently active.
+	 */
 	public void onKeyDown(Event event) {
 		if (currentUIState == EUIState.GAME) {
 			switch (event.key()) {
@@ -259,6 +265,8 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 					fastForward = false;
 				}
 				return;
+			default:
+				; // We are not interested in other key strokes
 			
 			}
 		}

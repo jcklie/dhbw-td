@@ -50,6 +50,10 @@ public class Executor {
 		initTowerStates();
 	}
 	
+	/**
+	 * We want to build a tower if we were in NEW_<FOO>_TOWER state
+	 * and then move to NONE
+	 */
 	private void initTowerStates() {
 		for(EUserAction source : NEW_TOWER_ACTIONS) {
 			fsm.addTransition(source, EUserAction.NONE, buildTower);
