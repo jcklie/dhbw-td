@@ -32,7 +32,6 @@ public class CheatModule implements Keyboard.Listener{
 		this.hud = hud;
 		
 		buffer = new StringBuffer(MAX_BUFFER_SIZE);
-		TowerDefense.getKeyboard().addObserver(this);
 		
 		king = assets().getImageSync("tower/king.png");
 	}
