@@ -1,7 +1,8 @@
 package de.dhbw.td.core.ui;
 
 public enum EUserAction {
-	NONE, PAUSE_GAME,
+	NONE,
+	PAUSE_GAME,
 	NEW_GAME, 
 	RESUME_GAME,
 	QUIT_GAME, 

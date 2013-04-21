@@ -32,4 +32,16 @@ public class GameConstants {
 	public static final String PATH_ENEMIES = "enemies/";
 	public static final String PATH_SOUNDS = "sound/";
 	public static final String PATH_PROJETILES = "projectiles/";
+	
+	/*
+	 * ENEMY CONSTANTS
+	 */
+	
+	public static final int NUMBER_OF_WAVES = 12;
+	public static final int NUMBER_OF_ATTRIBUTES = 3;
+	public static final int UB_ENEMY_TYPES = 6;
+	
+	public static int toTile(int pos) {
+		return (int)Math.floor(pos/64);
+	}
 }

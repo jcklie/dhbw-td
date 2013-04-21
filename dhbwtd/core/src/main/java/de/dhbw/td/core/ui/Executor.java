@@ -52,9 +52,6 @@ public class Executor {
 	
 	private void initTowerStates() {
 		for(EUserAction source : NEW_TOWER_ACTIONS) {
-			for(EUserAction target : NEW_TOWER_ACTIONS) {
-				fsm.addTransition(source, target, buildTower);
-			}
 			fsm.addTransition(source, EUserAction.NONE, buildTower);
 		}
 	}
@@ -68,6 +65,10 @@ public class Executor {
 		} else {
 			handleSimpleState(newState);
 		}
+	}
+	
+	public void handleNewState(EUserAction newState) {
+		handleSimpleState(newState);
 	}
 	
 	/**

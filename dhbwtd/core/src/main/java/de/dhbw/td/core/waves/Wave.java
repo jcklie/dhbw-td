@@ -3,10 +3,14 @@
  *  
  *  Contributors:
  *  Martin Kiessling, Tobias Roeding - All
+ *  Jan-Christoph Klie - Refactor + commentz
  */
 
 package de.dhbw.td.core.waves;
 
+import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,7 +18,7 @@ import de.dhbw.td.core.enemies.Enemy;
 
 /**
  * 
- * @author Martin Kiessling, Tobias Roeding
+ * @author Martin Kiessling, Tobias Roeding, Jan-Christoph Klie
  * @version 1.0
  * 
  */
@@ -27,36 +31,44 @@ public class Wave {
 	/**
 	 * 
 	 * @param waveNumber represents the number of the current Wave in the queue
-	 * @param enemies is a list containing all enemies for this wave
+	 * @param enemyList Contains all enemies for this wave
 	 */
-	public Wave(int waveNumber, List<Enemy> enemies) {
-		this.enemyCount = enemies.size();
-		this.waveNumber = waveNumber;
-		this.enemies = enemies;
-		enemies = Collections.unmodifiableList(enemies);
+	public Wave(int waveNumber, List<Enemy> enemyList) {
+		this.enemyCount = enemyList.size();
+		this.waveNumber = waveNumber;		
+		this.enemies = arrangeEnemiesInRankAndFile(enemyList);
+	}
+	
+	/**
+	 * We move the enemies off the screen so there is an actual gap between
+	 * them. Purpose of it is that they appear one after another on the map
+	 * and not stacked.
+	 */
+	private List<Enemy> arrangeEnemiesInRankAndFile(List<Enemy> enemyList) {
+		List<Enemy> movedEnemies = new ArrayList<Enemy>(enemyList.size());
+		
+		int offset = 0;
+		for( Enemy e : enemyList) {
+			Enemy movedEnemy = new Enemy(e);
+			movedEnemy.position().translate(offset, 0);
+			offset -= 2*TILE_SIZE;
+			
+			movedEnemies.add(movedEnemy);
+		}
+		
+		return movedEnemies;
 	}
 
 	/**
 	 * 
-	 * @return enemyCount as integer
-	 */
-	public int enemyCount() {
-		return enemyCount;
-	}
-
-	/**
-	 * 
-	 * @return waveNumber as integer
-	 */
-	public int waveNumber() {
-		return waveNumber;
-	}
-
-	/**
-	 * 
-	 * @return enemies as List<Enemy>
+	 * @return A - defensive copy - of this waves' enemy list
 	 */
 	public List<Enemy> enemies() {
-		return enemies;
+		return Collections.unmodifiableList(enemies);
 	}
+	
+	public int enemyCount() { return enemyCount; }
+	public int waveNumber() { return waveNumber; }
+	
+	
 }

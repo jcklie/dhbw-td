@@ -8,16 +8,9 @@
 
 package de.dhbw.td.core.enemies;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
-import playn.core.Image;
-import playn.core.Surface;
+import pythagoras.i.Point;
 import de.dhbw.td.core.game.IUpdateable;
-import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.util.EFlavor;
-import de.dhbw.td.core.util.Point;
-import static playn.core.PlayN.log;
 
 /**
  * Enemies are the things tower kill for money
@@ -35,47 +28,54 @@ public class Enemy implements IUpdateable {
 
 	private int curHealth;
 	private boolean alive;
-	private Queue<Point> waypoints;
+	private Point[] waypoints;
 	private Point currentPosition;
-	private Image enemyImage;
-	private Image healthBarImage;
 	private EDirection currentDirection;
-	private Point currentWaypoint;
-	private LinkedList<Point> fixedWaypoints;
+	private int pointerTocurrentWaypoint;
 
-	public Enemy(int maxHealth, double speed, int bounty, EFlavor enemyType, Queue<Point> waypoints, Image enemyImage) {
+	public Enemy(int maxHealth, double speed, int bounty, EFlavor enemyType, Point[] waypoints) {
 		this.maxHealth = maxHealth;
-		this.curHealth = maxHealth;
-		this.alive = true;
 		this.speed = speed;
 		this.bounty = bounty;
-		this.penalty = bounty * 2;
-		this.enemyType = enemyType;
-		this.fixedWaypoints = (LinkedList<Point>) waypoints;
-		this.waypoints = Level.copyWaypoints(waypoints);
-		this.currentPosition = this.waypoints.peek();
-		this.currentWaypoint = this.waypoints.poll();
-		this.enemyImage = enemyImage;
-		this.currentDirection = EDirection.RIGHT;
-		currentPosition.setLocation(currentWaypoint);
-		healthBarImage = HealthBar.getHealthStatus(1);
+		this.enemyType = enemyType;		
+		this.waypoints = waypoints;	
+		
+		curHealth = maxHealth;
+		alive = true;		
+		penalty = bounty * 2;		
+		currentDirection = EDirection.RIGHT;		
+		pointerTocurrentWaypoint= 0;
+		
+		currentPosition = new Point(currentWaypoint());
+	}
+	
+	/**
+	 * Copy constructor
+	 * @param e The enemy which attributes shall be copied
+	 */
+	public Enemy(Enemy e) {
+		this(e.maxHealth, e.speed, e.bounty, e.enemyType, e.waypoints );
+		this.currentPosition = e.currentPosition;
 	}
 
 	@Override
 	public void update(double delta) {
-		if (alive()) {
-			if (currentPosition.equals(currentWaypoint)) {
-				takeDamage(1);
-				Point nextWaypoint = waypoints.poll();
-				if (nextWaypoint == null) {
-					for (Point p : fixedWaypoints) {
-						waypoints.add(new Point(p));
-					}
-					nextWaypoint = waypoints.poll();
-					currentPosition.setLocation(nextWaypoint);
+		if (alive()) {			
+			if (currentPosition.equals( currentWaypoint())) {
+				pointerTocurrentWaypoint++;
+				
+				/*
+				 * If the last waypoint is reached, teleport to
+				 * first waypoint
+				 */
+				if(isLastWaypoint() ) {
+					pointerTocurrentWaypoint = 0;
+					currentPosition.setLocation(currentWaypoint());
 				}
-				adjustDirection(nextWaypoint);
-				currentWaypoint = nextWaypoint;
+
+				takeDamage(1);
+				
+				adjustDirection(currentWaypoint());
 			}
 			switch (currentDirection) {
 			case DOWN:
@@ -94,6 +94,14 @@ public class Enemy implements IUpdateable {
 				throw new IllegalStateException("I should never be thrown!");
 			}
 		}
+	}
+	
+	private Point currentWaypoint() {
+		return waypoints[pointerTocurrentWaypoint];
+	}
+	
+	private boolean isLastWaypoint() {
+		return pointerTocurrentWaypoint == waypoints.length - 1;
 	}
 
 	private void adjustDirection(final Point newWaypoint) {
@@ -114,40 +122,37 @@ public class Enemy implements IUpdateable {
 
 	private void handleDown(double delta) {
 		currentPosition.translate(0, distanceMovedSince(delta));
-		if (currentPosition.y() > currentWaypoint.y()) {
-			currentPosition.setLocation(currentWaypoint);
+		if (currentPosition.y() > currentWaypoint().y()) {
+			currentPosition.setLocation(currentWaypoint());
 		}
 	}
 
 	private void handleLeft(double delta) {
 		currentPosition.translate(-distanceMovedSince(delta), 0);
-		if (currentPosition.x() < currentWaypoint.x()) {
-			currentPosition.setLocation(currentWaypoint);
+		if (currentPosition.x() < currentWaypoint().x()) {
+			currentPosition.setLocation(currentWaypoint());
 		}
 	}
 
 	private void handleRight(double delta) {
 		currentPosition.translate(distanceMovedSince(delta), 0);
-		if (currentPosition.x() > currentWaypoint.x()) {
-			currentPosition.setLocation(currentWaypoint);
+		if (currentPosition.x() > currentWaypoint().x()) {
+			currentPosition.setLocation(currentWaypoint());
 		}
 	}
 
 	private void handleUp(double delta) {
 		currentPosition.translate(0, -distanceMovedSince(delta));
-		if (currentPosition.y() < currentWaypoint.y()) {
-			currentPosition.setLocation(currentWaypoint);
+		if (currentPosition.y() < currentWaypoint().y()) {
+			currentPosition.setLocation(currentWaypoint());
 		}
 	}
 
 	public void takeDamage(int damage) {
 		curHealth -= damage;
-		double relativeHealth = (double) curHealth / (double) maxHealth;
-
+		
 		if (curHealth <= 0) {
 			die();
-		} else {
-			healthBarImage = HealthBar.getHealthStatus(relativeHealth);
 		}
 	}
 
@@ -158,75 +163,16 @@ public class Enemy implements IUpdateable {
 		this.alive = false;
 	}
 
-	/**
-	 * 
-	 * @return current position as Point
-	 */
-	public Point position() {
-		return currentPosition;
-	}
-
-	/**
-	 * 
-	 * @return current Health as integer
-	 */
-	public int curHealth() {
-		return curHealth;
-	}
-
-	/**
-	 * 
-	 * @return speed as double
-	 */
-	public double speed() {
-		return speed;
-	}
-
-	/**
-	 * 
-	 * @return get maximum health as integer
-	 */
-	public int maxHealth() {
-		return maxHealth;
-	}
-
-	/**
-	 * 
-	 * @return boolean if enemy is alive
-	 */
-	public boolean alive() {
-		return alive;
-	}
-
-	/**
-	 * 
-	 * @return get bounty of enemy as integer
-	 */
-	public int bounty() {
-		return bounty;
-	}
-
-	/**
-	 * 
-	 * @return get penalty of enemy as integer
-	 */
-	public int penalty() {
-		return penalty;
-	}
-
-	/**
-	 * 
-	 * @return get enemy type as EEnemyType
-	 */
-	public EFlavor enemyType() {
-		return enemyType;
-	}
-
-	/**
-	 * 
-	 * @return get waypoint queue as Queue<Point>
-	 */
-	public Queue<Point> waypoints() {
-		return waypoints;
+	public Point position() { return currentPosition;	}
+	public int curHealth() { return curHealth; }
+	public double speed() { return speed;	}
+	public int maxHealth() { return maxHealth; }
+	public boolean alive() { return alive; }
+	public int bounty() { return bounty; }
+	public int penalty() { return penalty;	 }
+	public EFlavor enemyType() { return enemyType; }
+	
+	public String toString() {
+		return position().toString();
 	}
 }

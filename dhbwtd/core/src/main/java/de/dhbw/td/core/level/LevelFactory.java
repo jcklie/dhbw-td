@@ -14,8 +14,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import playn.core.Json;
+import pythagoras.i.Point;
 import de.dhbw.td.core.enemies.EDirection;
-import de.dhbw.td.core.util.Point;
+
 
 /**
  * 
@@ -45,19 +46,19 @@ public class LevelFactory {
 		grid = parsedJson.getArray("tiles");
 	}
 
-	public Level loadLevel(String jsonString) {
+	public Level constructLevel(String jsonString) {
 		Json.Object configuration = json().parse(jsonString);
-		return loadLevel(configuration);
+		return constructLevel(configuration);
 	}
 
-	public Level loadLevel(Json.Object parsedJson) {
+	public Level constructLevel(Json.Object parsedJson) {
 		init(parsedJson);
 
-		Queue<Point> waypoints = generateWaypoints();
+		Queue<Point> waypointList = generateWaypoints();
 		
 		ETileType[][] map = loadMap();
-
-		return new Level(map, waypoints, tilesize, width, height, startx, starty);
+		Point[] waypointArray = new Point[waypointList.size()];
+		return new Level(map, waypointList.toArray(waypointArray), tilesize, width, height, startx, starty);
 	}
 	
 	private ETileType[][] loadMap() {

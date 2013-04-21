@@ -1,11 +1,13 @@
 package de.dhbw.td.core.ui;
 
-import static de.dhbw.td.core.util.GameConstants.*;
+import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
 import static de.dhbw.td.core.util.ResourceContainer.resources;
 
 import java.util.List;
 
-
+import playn.core.Image;
+import playn.core.Surface;
+import pythagoras.i.Point;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.enemies.HealthBar;
 import de.dhbw.td.core.game.GameState;
@@ -14,10 +16,6 @@ import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.tower.Projectile;
 import de.dhbw.td.core.tower.Tower;
 import de.dhbw.td.core.util.EFlavor;
-import de.dhbw.td.core.util.Point;
-
-import playn.core.Image;
-import playn.core.Surface;
 
 public class GameDrawer implements IDrawable {
 
@@ -62,24 +60,12 @@ public class GameDrawer implements IDrawable {
 	 * @param surf the surface to draw on
 	 */
 	private void drawEnemy(Enemy enemy, Surface surf) {
-		Image img = getEnemyImage(enemy.enemyType());
+		Image img = resources().getEnemyImage(enemy.enemyType());
 		Point p = enemy.position();
 		surf.drawImage(img, p.x(), p.y());
 		double relativeHealth = (double) enemy.curHealth()/(double)enemy.maxHealth();
 		Image healthBarImage = HealthBar.getHealthStatus(relativeHealth);
 		surf.drawImage(healthBarImage, enemy.position().x() + 7, enemy.position().y() + 2);
-	}
-	
-	private Image getEnemyImage(EFlavor enemyType) {
-		switch (enemyType) {
-			case MATH: 	return resources().IMAGE_MATH_ENEMY;
-			case THEORETICAL_COMPUTER_SCIENCE: return resources().IMAGE_THEOINF_ENEMY;
-			case COMPUTER_ENGINEERING: return resources().IMAGE_TECHINF_ENEMY;
-			case ECONOMICS: return resources().IMAGE_WIWI_ENEMY;
-			case PROGRAMMING: return resources().IMAGE_CODE_ENEMY;
-			case SOCIAL: return resources().IMAGE_SOCIAL_ENEMY;
-			default: throw new RuntimeException("I should not be thrown!");
-		}
 	}
 
 	private void drawEnemies(List<Enemy> enemies, Surface surf) {
@@ -97,10 +83,8 @@ public class GameDrawer implements IDrawable {
 	/**
 	 * Draws a level onto the specified surface
 	 * 
-	 * @param level
-	 *            the level to draw
-	 * @param surf
-	 *            the surface to draw on
+	 * @param level the level to draw
+	 * @param surf the surface to draw on
 	 */
 	private void drawLevel(Level level, Surface surf) {
 		ETileType map[][] = level.map();

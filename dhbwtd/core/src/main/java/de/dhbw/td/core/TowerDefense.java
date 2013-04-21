@@ -135,9 +135,7 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 	 * Dispatches a Mouse or Keyboard event to the current active UI component
 	 * and receives the action response
 	 * 
-	 * @param event
-	 *            the {@code Keyboard.Event} or {@code Mouse.ButtonEvent} event
-	 *            to dispatch
+	 * @param event The {@code Keyboard.Event} or {@code Mouse.ButtonEvent} event to dispatch
 	 */
 	private void dispatchEvent(Events.Input event) {
 
@@ -196,7 +194,8 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 				break;
 			case NONE:
 				break;
-			
+		default:
+			; // The event was no UI change event			
 		}
 	}
 
@@ -219,9 +218,6 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 		return EUserAction.NONE;
 	}
 
-	/**
-	 * Clears all Layers.
-	 */
 	private void clearLayers() {
 		BACKGROUND_LAYER.surface().clear();
 		SPRITE_LAYER.surface().clear();
@@ -263,6 +259,7 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 					fastForward = false;
 				}
 				return;
+			
 			}
 		}
 		dispatchEvent(event);

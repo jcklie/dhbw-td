@@ -9,17 +9,17 @@ package de.dhbw.td.core.tower;
 
 import static playn.core.PlayN.log;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import playn.core.Image;
 import playn.core.Surface;
+import pythagoras.i.Point;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.IUpdateable;
 import de.dhbw.td.core.ui.IDrawable;
 import de.dhbw.td.core.util.EFlavor;
-import de.dhbw.td.core.util.Point;
+
 
 public class Tower implements IDrawable, IUpdateable {
 

@@ -4,11 +4,12 @@ import static playn.core.PlayN.log;
 import playn.core.Image;
 import playn.core.Surface;
 import pythagoras.d.Vector;
+import pythagoras.i.Point;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.IUpdateable;
 import de.dhbw.td.core.ui.IDrawable;
 import de.dhbw.td.core.util.EFlavor;
-import de.dhbw.td.core.util.Point;
+
 
 public class Projectile implements IDrawable, IUpdateable {
 	

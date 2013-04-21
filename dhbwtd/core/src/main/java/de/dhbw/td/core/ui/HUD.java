@@ -95,6 +95,8 @@ public class HUD implements IDrawable, IUIEventListener {
 	 * Creates the buttons
 	 */
 	private void createButtons() {
+		addSellButton();
+		addUpgradeButton();
 		
 		addMathButton();
 		addCodeButton();
@@ -106,7 +108,10 @@ public class HUD implements IDrawable, IUIEventListener {
 		//addPlayButton();
 		//addFastForwardButton();
 		addMenuButton();
-		
+	}
+	
+	
+	private void addSellButton() {
 		Button sellButton = new Button.Builder(resources().IMAGE_SELL).
 				x(OFFSET_BTN_SELL*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
 		sellButton.setCallback(new ICallback<EUserAction>() {
@@ -117,7 +122,9 @@ public class HUD implements IDrawable, IUIEventListener {
 			}
 		});
 		buttons.add(sellButton);
-		
+	}
+	
+	private void addUpgradeButton() {
 		Button upgradeButton = new Button.Builder(resources().IMAGE_UPGRADE).
 				x(OFFSET_BTN_UPGRADE*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
 		upgradeButton.setCallback(new ICallback<EUserAction>() {
@@ -280,11 +287,11 @@ public class HUD implements IDrawable, IUIEventListener {
 	}
 	
 	/**
-	 * Draws text on the HUD
+	 * Draws toString of object on the given canvas
 	 * 
 	 * @param o o.toString() will be drawn
-	 * @param x the x-coordinate
-	 * @param y the y-coordinate
+	 * @param x the x-coordinate of the upper left corner of the textbox to be drawn
+	 * @param y the y-coordinate of the upper left corner of the textbox to be drawn
 	 */
 	private void drawText(Canvas canvas, Object o, int x, int y) {
 		TextLayout text = graphics().layoutText(o.toString(), textFormat);
@@ -316,9 +323,28 @@ public class HUD implements IDrawable, IUIEventListener {
 	@Override
 	public EUserAction onKey(Event event) {
 		switch(event.key()) {
-		case ESCAPE:
-			return EUserAction.INAGAME_MENU;
+		case ESCAPE: return EUserAction.INAGAME_MENU;
+		case K1:
+			executor.handleNewState(EUserAction.NEW_MATH_TOWER);
+			return EUserAction.NEW_MATH_TOWER;
+		case K2:
+			executor.handleNewState(EUserAction.NEW_CODE_TOWER);
+			return EUserAction.NEW_CODE_TOWER;
+		case K3:
+			executor.handleNewState(EUserAction.NEW_ECO_TOWER);
+			return EUserAction.NEW_ECO_TOWER;
+		case K4:
+			executor.handleNewState(EUserAction.NEW_SOCIAL_TOWER);
+			return EUserAction.NEW_SOCIAL_TOWER;
+		case K5:
+			executor.handleNewState(EUserAction.NEW_TECH_INF_TOWER);
+			return EUserAction.NEW_TECH_INF_TOWER;
+		case K6:
+			executor.handleNewState(EUserAction.NEW_THEO_INF_TOWER);
+			return EUserAction.NEW_THEO_INF_TOWER;
+		default:
+			return EUserAction.NONE;
 		}
-		return EUserAction.NONE;
+		
 	}
 }

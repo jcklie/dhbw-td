@@ -1,17 +1,23 @@
 package de.dhbw.td.core.game;
 
+import static de.dhbw.td.core.util.GameConstants.COLS;
 import static de.dhbw.td.core.util.GameConstants.INITIAL_CREDITS;
 import static de.dhbw.td.core.util.GameConstants.INITIAL_LIFEPOINTS;
 import static de.dhbw.td.core.util.GameConstants.NO_OF_LEVELZ;
-import static de.dhbw.td.core.util.GameConstants.PATH_LEVELS;
-import static de.dhbw.td.core.util.GameConstants.PATH_WAVES;
-import static playn.core.PlayN.assets;
+import static de.dhbw.td.core.util.GameConstants.ROWS;
+import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
+import static de.dhbw.td.core.util.GameConstants.WIDTH;
+import static de.dhbw.td.core.util.GameConstants.toTile;
+import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.log;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import playn.core.Json;
+import pythagoras.i.Point;
 import de.dhbw.td.core.enemies.Enemy;
+import de.dhbw.td.core.level.ETileType;
 import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.level.LevelFactory;
 import de.dhbw.td.core.tower.Tower;
@@ -19,14 +25,14 @@ import de.dhbw.td.core.tower.TowerFactory;
 import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.core.waves.Wave;
 import de.dhbw.td.core.waves.WaveController;
-import de.dhbw.td.core.waves.WaveFactory;
+import de.dhbw.td.core.waves.WaveControllerFactory;
 
 public class GameState implements IUpdateable {
 
 	private int credits;
 	private int lifepoints;
 
-	private int levelCount;
+	private int levelNumber;
 	private int waveCount;
 
 	private List<Enemy> enemies;
@@ -35,22 +41,23 @@ public class GameState implements IUpdateable {
 	private LevelFactory levelFactory;
 	private Level currentLevel;
 
-	private WaveFactory waveFactory;
+	private WaveControllerFactory waveFactory;
 	private WaveController currentWaveController;
 	private Wave currentWave;
 
 	private TowerFactory towerFactory;
+	
+	private boolean[][] plat;
 
 	public GameState() {
-
 		credits = INITIAL_CREDITS;
 		lifepoints = INITIAL_LIFEPOINTS;
 
-		levelCount = 0;
+		levelNumber = 0;
 		waveCount = 0;
 
 		levelFactory = new LevelFactory();
-		waveFactory = new WaveFactory();
+		waveFactory = new WaveControllerFactory();
 		towerFactory = new TowerFactory();
 
 		enemies = new LinkedList<Enemy>();
@@ -58,118 +65,140 @@ public class GameState implements IUpdateable {
 
 		loadNextLevel();
 	}
-
+	
+	/**
+	 * I want to let the enemies spawn off the screen
+	 * and let them go one tile after the end, therefore
+	 * I adjust the waypoint level I get from the Level object
+	 * and put two offscreen waypoints at the beginning
+	 * respecitve to the end
+	 * @param waypointArray
+	 * @return
+	 */
+	private Point[] beautifyWaypoints(Point[] waypointArray ) {
+		int noOfWaypoints = waypointArray.length;
+		Point firstWayPoint = waypointArray[0];
+		Point lastWayPoint = waypointArray[ noOfWaypoints - 1];
+		
+		Point[] beautifiedWaypoints = new Point[noOfWaypoints + 2];
+		System.arraycopy(waypointArray, 0, beautifiedWaypoints, 1, noOfWaypoints);
+		
+		beautifiedWaypoints[0] = new Point(-TILE_SIZE, firstWayPoint.y  );
+		beautifiedWaypoints[beautifiedWaypoints.length - 1] = new Point(TILE_SIZE + WIDTH, lastWayPoint.y  );
+		return beautifiedWaypoints;
+	}
+	
 	/**
 	 * Loads the next level, including the according
 	 * wave controller and the first wave
 	 */
 	private void loadNextLevel() {
-		if (levelCount == NO_OF_LEVELZ) {
+		if (levelNumber == NO_OF_LEVELZ) {
 			log().debug("GAME OVER");
-		} else {
-			nextLevel();
-			nextWaveController();
-			loadNextWave();
+		} else {	
+			currentLevel = getNextLevelFromFactory();
+			currentWaveController = getNextWaveControllerFromFactory();
+			currentWave = getNextWave();
+			enemies = copyEnemiesFromWave(currentWave);
+			plat = createMap(currentLevel);
 		}
+	}
+	
+	private List<Enemy> copyEnemiesFromWave(Wave wave) {
+		List<Enemy> enemyList = new LinkedList<Enemy>();
+		for(Enemy e : wave.enemies()) {
+			enemyList.add( new  Enemy(e));
+		}
+		return enemyList;
 	}
 
 	/**
-	 * Loads the next level
+	 * Loads the next level - increments levelNumber and resets waveCount
 	 */
-	private void nextLevel() {
-		levelCount++;
+	private Level getNextLevelFromFactory() {
+		levelNumber++;
 		waveCount = 0;
-		try {
-			String pathToImage = PATH_LEVELS + "level" + levelCount + ".json";
-			log().debug(pathToImage);
-			String levelJSON = assets().getTextSync(pathToImage);
-			currentLevel = levelFactory.loadLevel(levelJSON);
-			// map = createMap(currentLevel);
-		} catch (Exception e) {
-			log().error(e.toString());
-		}
+		
+		log().debug("Level " + levelNumber);
+		Json.Object levelJson = resources().getLevelJson(levelNumber);
+		return  levelFactory.constructLevel(levelJson);
 	}
 
 	/**
 	 * Loads the WaveController for the next level.
 	 */
-	private void nextWaveController() {
-		log().debug("loading next wavecontroller");
-		try {
-			String pathToText = PATH_WAVES + "waves" + levelCount + ".json";
-			String waveJSON = assets().getTextSync(pathToText);
-			currentWaveController = waveFactory.nextWaveController(waveJSON,
-					currentLevel.waypoints());
-		} catch (Exception e) {
-			log().error(e.toString());
-		}
+	private WaveController getNextWaveControllerFromFactory() {
+		Json.Object waveControllerJson = resources().getWaveControllerJson(levelNumber);
+		Point[] beautifiedWayPoints = beautifyWaypoints(currentLevel.waypoints());
+		return  waveFactory.constructWaveController(waveControllerJson, beautifiedWayPoints );
 	}
 
+
 	/**
-	 * Loads the next wave in current WaveController.
+	 * Prepares the next wave - increments waveCount
+	 * @return The next wave of the wave controller
 	 */
-	private void loadNextWave() {
+	private Wave getNextWave() {
+		log().debug("Wave " + waveCount);
 		waveCount++;
-		currentWave = currentWaveController.nextWave();
-		enemies = currentWave.enemies();
-		for (int i = 0; i < enemies.size(); i++) {
-			Enemy e = enemies.get(i);
-			e.position().translate(-i * 2 * currentLevel.tilesize(),
-					0);
+		return currentWaveController.nextWave();
+	}
+
+	/**
+	 * Creates the plat - the plan storing which tiles on the map are
+	 * buildable.
+	 * 
+	 * @param lvl The level to create the plat from
+	 * @return A boolean array which tells which tiles are buildable (true) and which
+	 *         are occupied (false)
+	 */
+	private boolean[][] createMap(Level lvl) {	
+		boolean[][] m = new boolean[ROWS][COLS];
+			  
+		// We start in the second row, since the first one is for hud elements
+		for(int row = 1; row < ROWS; row++) {
+			// We end in the last but one row, since the last one is for hud elements
+			for(int col = 0; col < COLS - 1; col++) {
+				if(currentLevel.map()[row][col] == ETileType.GRID) {
+					m[row][col] = true;
+				}
+			}
 		}
-		for (int i = 0; i < towers.size(); i++) {
-			Tower t = towers.get(i);
+		
+		return m;
+	}
+	
+
+	/**
+	 * Builds a tower on the given coordinates. Does not adjust credit score.
+	 * @param flavor The type of tower to build, e.g. coding tower
+	 * @param pixelx The x coordinate in pixel
+	 * @param pixely The y coordinate in pixel
+	 */
+	public void buildTower(EFlavor flavor, int pixelx, int pixely) {
+		int tilex = toTile(pixelx);
+		int tiley = toTile(pixely);
+		if(tileIsBuildable(tilex, tiley)) {
+			Tower t = towerFactory.constructTower(flavor, tilex, tiley);
 			t.setEnemies(enemies);
+			towers.add(t);
+			setCellToOccupied(tilex, tiley);
 		}
 	}
-
-	/**
-	 * Builds a new tower
-	 */
-	public void buildTower(EFlavor flavor, int x, int y) {
-		Tower tower = towerFactory.constructTower(flavor, x, y);
-		towers.add(tower);
+	
+	private boolean tileIsBuildable(int tilex, int tiley) {
+		return plat[tiley][tilex];
+	} 
+	
+	private void setCellToOccupied(int tilex, int tiley) {
+		plat[tiley][tilex] = false;
 	}
 
-	/**
-	 * Destroys a tower
-	 */
-	public boolean destroyTower() {
-		return false;
-	}
-
-	/**
-	 * Adds a given amount of credits
-	 * 
-	 * @param val
-	 *            the amount of credits to add
-	 */
-	private void addCredits(int val) {
-		credits = credits + val;
-	}
-
-	/**
-	 * Removes a given amount of credits
-	 * 
-	 * @param val
-	 *            the 	 of credits to remove
-	 */
-	private void removeCredits(int val) {
-		credits = credits - val;
-	}
-
-	/**
-	 * Removes a given amount of lifepoints
-	 * 
-	 * @param val
-	 *            the amount of lifepoints to remove
-	 */
-	private void removeLifepoints(int val) {
-		lifepoints = lifepoints - val;
+	public void destroyTower() {
 	}
 
 	public void reset() {
-		levelCount = 0;
+		levelNumber = 0;
 		waveCount = 0;
 		credits = INITIAL_CREDITS;
 		lifepoints = INITIAL_LIFEPOINTS;
@@ -183,7 +212,7 @@ public class GameState implements IUpdateable {
 		updateEnemies(delta);
 		if (enemies.isEmpty()) {
 			if (currentWaveController.hasNextWave()) {
-				loadNextWave();
+				getNextWave();
 			} else {
 				loadNextLevel();
 			}
@@ -211,62 +240,48 @@ public class GameState implements IUpdateable {
 	 * 
 	 * @param delta
 	 */
-	private void updateTowers(double delta) {
+	public void updateTowers(double delta) {
 		for (int i = 0; i < towers.size(); i++) {
 			Tower t = towers.get(i);
 			t.update(delta);
 		}
 	}
-
-	/**
-	 * 
-	 * @return list of currently alive enemies
-	 */
-	public List<Enemy> enemies() {
-		return enemies;
-	}
-
-	/**
-	 * 
-	 * @return list of currently built towers
-	 */
-	public List<Tower> towers() {
-		return towers;
-	}
-	
-	public Level level() {
-		return currentLevel;
-	}
 	
 	/**
+	 * Adds a given amount of credits. Val has to be greater than zero
 	 * 
-	 * @return the current amount of lifepoints
+	 * @param val the amount of credits to add
 	 */
-	public int lifepoints() {
-		return lifepoints;
-	}
-	
-	/**
-	 * 
-	 * @return the current amount of credits
-	 */
-	public int credits() {
-		return credits;
+	private void addCredits(int val) {
+		assert val > 0;
+		credits = credits + val;
 	}
 
 	/**
+	 * Removes a given amount of credits.  Val has to be smaller than  zero
 	 * 
-	 * @return the current wave count
+	 * @param val the of credits to remove
 	 */
-	public int waveCount() {
-		return waveCount;
+	public void removeCredits(int val) {
+		assert val < 0;
+		credits = credits - val;
 	}
 
 	/**
+	 * Removes a given amount of lifepoints. Lifepoints
+	 * can only be reduced to a minimum of zero.
 	 * 
-	 * @return the current level count
+	 * @param amount the amount of lifepoints to remove
 	 */
-	public int levelCount() {
-		return levelCount;
+	public void removeLifepoints(int amount) {
+		lifepoints = Math.max(lifepoints - amount, 0);
 	}
+
+	public List<Enemy> enemies() { return enemies;	}
+	public List<Tower> towers() { return towers; }	
+	public Level level() { return currentLevel; }
+	public int lifepoints() { return lifepoints; }
+	public int credits() {	return credits;	}
+	public int waveCount() { return waveCount; }
+	public int levelCount() { return levelNumber;	}
 }

@@ -9,6 +9,8 @@
 
 package de.dhbw.td.core.util;
 
+import static de.dhbw.td.core.util.GameConstants.PATH_LEVELS;
+import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.json;
 import playn.core.Image;
@@ -306,4 +308,42 @@ public enum ResourceContainer {
 		return s;
 	}
 	
+	public Json.Object getLevelJson(int levelNumber) {
+		switch (levelNumber) {
+		case 1: return JSON_LEVEL1;
+		case 2: return JSON_LEVEL2;
+		case 3: return JSON_LEVEL3;
+		case 4: return JSON_LEVEL4;
+		case 5: return JSON_LEVEL5;
+		case 6: return JSON_LEVEL6;
+		default:
+			throw new IllegalArgumentException("There is no level with number " + levelNumber);
+		}
+	}
+	
+	public Json.Object getWaveControllerJson(int levelNumber) {
+		switch (levelNumber) {
+		case 1: return JSON_WAVES_LVL1;
+		case 2: return JSON_WAVES_LVL2;
+		case 3: return JSON_WAVES_LVL3;
+		case 4: return JSON_WAVES_LVL4;
+		case 5: return JSON_WAVES_LVL5;
+		case 6: return JSON_WAVES_LVL6;
+		default:
+			throw new IllegalArgumentException("There is no level with number " + levelNumber);
+		}
+	}
+	
+	public Image getEnemyImage(EFlavor enemyType) {
+		switch (enemyType) {
+			case MATH: 	return resources().IMAGE_MATH_ENEMY;
+			case THEORETICAL_COMPUTER_SCIENCE: return resources().IMAGE_THEOINF_ENEMY;
+			case COMPUTER_ENGINEERING: return resources().IMAGE_TECHINF_ENEMY;
+			case ECONOMICS: return resources().IMAGE_WIWI_ENEMY;
+			case PROGRAMMING: return resources().IMAGE_CODE_ENEMY;
+			case SOCIAL: return resources().IMAGE_SOCIAL_ENEMY;
+			default: throw new RuntimeException("I should not be thrown!");
+		}
+	}
+
 }

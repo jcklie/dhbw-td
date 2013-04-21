@@ -8,10 +8,14 @@
 
 package de.dhbw.td.core.level;
 
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
-import de.dhbw.td.core.util.Point;
+import pythagoras.i.Point;
+
+
 public class Level {
 
 	private static final int TILE_OFFSET = 64; // px
@@ -21,27 +25,9 @@ public class Level {
 	private final int startx;
 	private final int starty;
 	private final ETileType[][] map;
-	private Queue<Point> waypoints;
+	private Point[] waypoints;
 
-	private static Queue<Point> changeCopyWaypoints(Queue<Point> waypoints) {
-		LinkedList<Point> cloned = new LinkedList<Point>();
-		for (Point p : waypoints) {
-			cloned.add(new Point(p));
-		}
-		cloned.getFirst().translate(-TILE_OFFSET, 0);
-		cloned.getLast().translate(TILE_OFFSET, 0);
-		return cloned;
-	}
-
-	public static Queue<Point> copyWaypoints(Queue<Point> waypoints) {
-		LinkedList<Point> cloned = new LinkedList<Point>();
-		for (Point p : waypoints) {
-			cloned.add(new Point(p));
-		}
-		return cloned;
-	}
-
-	public Level(ETileType[][] map, Queue<Point> waypoints, int tilesize, int width, int height, int startx, int starty) {
+	public Level(ETileType[][] map,Point[] waypoints, int tilesize, int width, int height, int startx, int starty) {
 		this.tilesize = tilesize;
 		this.width = width;
 		this.height = height;
@@ -56,34 +42,27 @@ public class Level {
 		this.map = map;
 	}
 	
-	public int rows() {
-		return height;
-	}
-
-	public int cols() {
-		return width;
-	}
-
-	public int width() {
-		return width * tilesize;
-	}
-
-	public int height() {
-		return height * tilesize;
+	/**
+	 * @return a copy of the waypoints specified for this level
+	 */
+	public Point[] waypoints() {		
+		return copyWaypoints(waypoints);
 	}
 	
-	public int tilesize() {
-		return tilesize;
+	public static Point[] copyWaypoints( Point[] waypointOriginal) {
+		Point[] waypointsCopy = new Point[waypointOriginal.length];
+		for(int i = 0; i < waypointOriginal.length; i++ ) {
+			waypointsCopy[i] = waypointOriginal[i].clone();
+		}
+		return waypointsCopy;
 	}
+	
+	public int rows() { return height; }
+	public int cols() { return width; }
+	public int width() { return width * tilesize; }
+	public int height() { return height * tilesize;	}	
+	public int tilesize() { return tilesize; }
+	public ETileType[][] map() { return map; }
+	
 
-	public ETileType[][] map() {
-		return map;
-	}
-
-	/**
-	 * @return a <b>copy</b> of the waypoints specified for this level
-	 */
-	public Queue<Point> waypoints() {
-		return changeCopyWaypoints(waypoints);
-	}
 }
