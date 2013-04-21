@@ -171,8 +171,6 @@ public class Enemy implements IUpdateable {
 	public int bounty() { return bounty; }
 	public int penalty() { return penalty;	 }
 	public EFlavor enemyType() { return enemyType; }
-	
-	public String toString() {
-		return position().toString();
-	}
+	public Point currentPosition() { return currentPosition; };
+
 }

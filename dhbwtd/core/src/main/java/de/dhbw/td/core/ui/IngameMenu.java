@@ -164,6 +164,8 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 				return EUserAction.RESUME_GAME;
 			}
 			break;
+		default:
+			// We do not care about other key strokes
 		}
 		return EUserAction.NONE;
 	}

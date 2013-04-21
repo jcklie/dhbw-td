@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import junit.framework.TestCase;
-import de.dhbw.td.backup.EFlavor;
-import de.dhbw.td.backup.Enemy;
-import de.dhbw.td.backup.Point;
+import pythagoras.i.Point;
+import de.dhbw.td.core.enemies.Enemy;
+import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.test.mock.MockImage;
 
 public class EnemyTest extends TestCase {
@@ -16,7 +16,7 @@ public class EnemyTest extends TestCase {
 	
 	@Override
 	protected void setUp() throws Exception {
-		enemy = new Enemy(10, 1, 1, EFlavor.PROGRAMMING, getWaypoints(), new MockImage());
+		enemy = new Enemy(10, 1, 1, EFlavor.PROGRAMMING, getWaypoints());
 	}
 	
 	@Override
@@ -32,15 +32,8 @@ public class EnemyTest extends TestCase {
 	 * o <- o
 	 * @return Waypoint queue 
 	 */
-	private Queue<Point> getWaypoints() {
-		Queue<Point> waypoints = new LinkedList<Point>();
-		
-		waypoints.add(new Point(0,0));
-		waypoints.add(new Point(1,0));
-		waypoints.add(new Point(1,1));
-		waypoints.add(new Point(0,1));
-		waypoints.add(new Point(0,0));
-		
+	private Point[] getWaypoints() {
+		Point[] waypoints = {new Point(0,0), new Point(1,0), new Point(1,1),new Point(0,1),new Point(0,0) };
 		return waypoints;
 	}
 	
@@ -51,20 +44,21 @@ public class EnemyTest extends TestCase {
 	 * a movement of one position.
 	 */
 	public void testEnemyUpdate() {		
-		Queue<Point> wp = getWaypoints();
-		assertEquals(wp.poll(), enemy.getCurrentPosition());		
+		Point[] wp = getWaypoints();
+		int i = 0;
+		assertEquals(wp[i++], enemy.currentPosition());		
 		enemy.update(1000);
 		
-		assertEquals(wp.poll(), enemy.getCurrentPosition());		
+		assertEquals(wp[i++], enemy.currentPosition());		
 		enemy.update(1000);
 		
-		assertEquals(wp.poll(), enemy.getCurrentPosition());		
+		assertEquals(wp[i++], enemy.currentPosition());		
 		enemy.update(1000);
 		
-		assertEquals(wp.poll(), enemy.getCurrentPosition());		
+		assertEquals(wp[i++], enemy.currentPosition());		
 		enemy.update(1000);
 		
-		assertEquals(wp.poll(), enemy.getCurrentPosition());		
+		assertEquals(wp[i++], enemy.currentPosition());		
 		enemy.update(1000);
 	}	
 

@@ -20,14 +20,13 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import playn.core.Image;
 import playn.core.Json;
 import playn.core.Platform;
 import playn.java.JavaPlatform;
-import de.dhbw.td.backup.ETileType;
-import de.dhbw.td.backup.Level;
-import de.dhbw.td.backup.LevelFactory;
-import de.dhbw.td.backup.Point;
+import pythagoras.i.Point;
+import de.dhbw.td.core.level.ETileType;
+import de.dhbw.td.core.level.Level;
+import de.dhbw.td.core.level.LevelFactory;
 import de.dhbw.td.test.util.FileUtil;
 
 public class LevelFactoryTest extends TestCase {
@@ -65,8 +64,8 @@ public class LevelFactoryTest extends TestCase {
 		expectedBasicLevel = buildExpectedBasicLevel();
 		expectedLvlWithIntersect = buildExpectedLvlWithIntersect();
 		
-		basicLvl = factory.loadLevel(basicLvlJson);
-		lvlWithIntersect = factory.loadLevel(lvlWithIntersectJson);
+		basicLvl = factory.constructLevel(basicLvlJson);
+		lvlWithIntersect = factory.constructLevel(lvlWithIntersectJson);
 	}
 	
 	@Override
