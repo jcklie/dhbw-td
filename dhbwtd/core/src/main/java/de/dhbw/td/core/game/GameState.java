@@ -50,11 +50,6 @@ public class GameState implements IUpdateable {
 	private boolean[][] plat;
 
 	public GameState() {
-		credits = INITIAL_CREDITS;
-		lifepoints = INITIAL_LIFEPOINTS;
-
-		levelNumber = 0;
-		waveCount = 0;
 
 		levelFactory = new LevelFactory();
 		waveFactory = new WaveControllerFactory();
@@ -62,8 +57,8 @@ public class GameState implements IUpdateable {
 
 		enemies = new LinkedList<Enemy>();
 		towers = new LinkedList<Tower>();
-
-		loadNextLevel();
+		
+		reset();
 	}
 	
 	/**
@@ -214,7 +209,8 @@ public class GameState implements IUpdateable {
 		updateEnemies(delta);
 		if (enemies.isEmpty()) {
 			if (currentWaveController.hasNextWave()) {
-				getNextWave();
+				currentWave = getNextWave();
+				enemies = copyEnemiesFromWave(currentWave);
 			} else {
 				loadNextLevel();
 			}
