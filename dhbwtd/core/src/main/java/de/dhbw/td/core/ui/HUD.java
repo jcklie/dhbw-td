@@ -163,7 +163,7 @@ public class HUD implements IDrawable, IUIEventListener {
 			@Override
 			public EUserAction execute() {
 				log().debug("Clicked CodeTower");
-				return EUserAction.NONE;
+				return EUserAction.NEW_CODE_TOWER;
 			}
 		});
 		buttons.add(codeTower);
@@ -179,7 +179,7 @@ public class HUD implements IDrawable, IUIEventListener {
 			@Override
 			public EUserAction execute() {
 				log().debug("Clicked WiwiTower");
-				return EUserAction.NONE;
+				return EUserAction.NEW_ECO_TOWER;
 			}
 		});
 		buttons.add(economicsTower);
@@ -195,7 +195,7 @@ public class HUD implements IDrawable, IUIEventListener {
 			@Override
 			public EUserAction execute() {
 				log().debug("Clicked TheoInfTower");
-				return EUserAction.NONE;
+				return EUserAction.NEW_THEO_INF_TOWER;
 			}
 		});
 		buttons.add(tcsTower);
@@ -211,7 +211,7 @@ public class HUD implements IDrawable, IUIEventListener {
 			@Override
 			public EUserAction execute() {
 				log().debug("Clicked TechInfTower");
-				return EUserAction.NONE;
+				return EUserAction.NEW_TECH_INF_TOWER;
 			}
 		});
 		buttons.add(techinfTower);
@@ -227,7 +227,7 @@ public class HUD implements IDrawable, IUIEventListener {
 			@Override
 			public EUserAction execute() {
 				log().debug("Clicked SocialTower");
-				return EUserAction.NONE;
+				return EUserAction.NEW_SOCIAL_TOWER;
 			}
 		});
 		buttons.add(socialTower);

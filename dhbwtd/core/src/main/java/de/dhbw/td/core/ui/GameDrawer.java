@@ -44,11 +44,11 @@ public class GameDrawer implements IDrawable {
 	private Image getTowerImage(EFlavor towerType) {
 		switch (towerType) {
 		case MATH: 	return resources().IMAGE_MATH_TOWER;
-		case THEORETICAL_COMPUTER_SCIENCE: return resources().IMAGE_THEOINF_ENEMY;
-		case COMPUTER_ENGINEERING: return resources().IMAGE_TECHINF_ENEMY;
-		case ECONOMICS: return resources().IMAGE_WIWI_ENEMY;
-		case PROGRAMMING: return resources().IMAGE_CODE_ENEMY;
-		case SOCIAL: return resources().IMAGE_SOCIAL_ENEMY;
+		case THEORETICAL_COMPUTER_SCIENCE: return resources().IMAGE_THEOINF_TOWER;
+		case COMPUTER_ENGINEERING: return resources().IMAGE_TECHINF_TOWER;
+		case ECONOMICS: return resources().IMAGE_WIWI_TOWER;
+		case PROGRAMMING: return resources().IMAGE_CODE_TOWER;
+		case SOCIAL: return resources().IMAGE_SOCIAL_TOWER;
 		default: throw new RuntimeException("I should not be thrown!");
 	}
 	}
