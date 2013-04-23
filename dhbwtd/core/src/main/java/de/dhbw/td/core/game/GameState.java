@@ -207,10 +207,15 @@ public class GameState implements IUpdateable {
 	@Override
 	public void update(double delta) {
 		updateEnemies(delta);
+		updateTowers(delta);
 		if (enemies.isEmpty()) {
 			if (currentWaveController.hasNextWave()) {
 				currentWave = getNextWave();
 				enemies = copyEnemiesFromWave(currentWave);
+				for (int i = 0; i < towers.size(); i++) {
+					Tower t = towers.get(i);
+					t.setEnemies(enemies);
+				}
 			} else {
 				loadNextLevel();
 			}
@@ -238,7 +243,7 @@ public class GameState implements IUpdateable {
 	 * 
 	 * @param delta
 	 */
-	public void updateTowers(double delta) {
+	private void updateTowers(double delta) {
 		for (int i = 0; i < towers.size(); i++) {
 			Tower t = towers.get(i);
 			t.update(delta);

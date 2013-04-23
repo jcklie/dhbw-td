@@ -118,22 +118,28 @@ public class Tower implements IDrawable, IUpdateable {
 
 		//Check if time to shoot or not has been shot in last interval
 		if (lastShot >= shotRate || !hasShot) {
+			
+			log().debug("Time to shoot");
 		
 			//Check if last target is still valid
 			if (target != null && (!target.alive() || !inRange(target))) {
 				target = null;
+				log().debug("Target invalid");
 			}
 
 			//Search new target
 			if (target == null) {
 				double minDistance = -1;
+				log().debug("Searching new target");
 				
 				//Search the nearest enemy which is in range
 				for (Enemy enemy : enemies) {
 					double distance = getDistance(enemy);
+					log().debug("Distance is " + distance + " but my range is " + range());
 					if ((enemy.alive() && inRange(distance)) && (distance < minDistance || target == null)) {
 						target = enemy;
 						minDistance = distance;
+						log().debug("Found new target");
 					}
 				}
 			}

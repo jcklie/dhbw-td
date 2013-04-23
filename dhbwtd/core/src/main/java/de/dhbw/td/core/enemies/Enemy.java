@@ -73,7 +73,7 @@ public class Enemy implements IUpdateable {
 					currentPosition.setLocation(currentWaypoint());
 				}
 
-				takeDamage(1);
+				//takeDamage(1);
 				
 				adjustDirection(currentWaypoint());
 			}

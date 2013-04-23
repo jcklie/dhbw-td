@@ -70,7 +70,8 @@ public class GameDrawer implements IDrawable {
 
 	private void drawEnemies(List<Enemy> enemies, Surface surf) {
 		for (Enemy e : enemies) {
-			drawEnemy(e, surf);
+			if(e.alive())
+				drawEnemy(e, surf);
 		}
 	}
 	
