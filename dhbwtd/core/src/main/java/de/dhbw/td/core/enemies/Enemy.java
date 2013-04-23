@@ -72,8 +72,6 @@ public class Enemy implements IUpdateable {
 					pointerTocurrentWaypoint = 0;
 					currentPosition.setLocation(currentWaypoint());
 				}
-
-				//takeDamage(1);
 				
 				adjustDirection(currentWaypoint());
 			}
@@ -150,7 +148,6 @@ public class Enemy implements IUpdateable {
 
 	public void takeDamage(int damage) {
 		curHealth -= damage;
-		
 		if (curHealth <= 0) {
 			die();
 		}

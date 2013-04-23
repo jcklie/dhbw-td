@@ -9,8 +9,6 @@
 
 package de.dhbw.td.core.util;
 
-import static de.dhbw.td.core.util.GameConstants.PATH_LEVELS;
-import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.json;
 import playn.core.Image;
@@ -273,12 +271,9 @@ public enum ResourceContainer {
 		Image img = assets().getImageSync(path);
 		img.addCallback(new Callback<Image>(){
 			@Override
-			public void onSuccess(Image result) {
-				// TODO Auto-generated method stub
-			}
+			public void onSuccess(Image result) {/* NOOP */}
 			@Override
 			public void onFailure(Throwable cause) {
-				// TODO Auto-generated method stub
 				throw new RuntimeException("Could not load image resource at " + cause.getMessage());
 			}
 		});
@@ -296,12 +291,10 @@ public enum ResourceContainer {
 		Sound s = assets().getSound(path);
 		s.addCallback(new Callback<Sound>(){
 			@Override
-			public void onSuccess(Sound result) {
-				// TODO Auto-generated method stub
-			}
+			public void onSuccess(Sound result) {/* NOOP */}
+			
 			@Override
 			public void onFailure(Throwable cause) {
-				// TODO Auto-generated method stub
 				throw new RuntimeException("Could not load sound resource at " + cause.getMessage());
 			}
 		});
@@ -342,7 +335,8 @@ public enum ResourceContainer {
 			case ECONOMICS: return resources().IMAGE_WIWI_ENEMY;
 			case PROGRAMMING: return resources().IMAGE_CODE_ENEMY;
 			case SOCIAL: return resources().IMAGE_SOCIAL_ENEMY;
-			default: throw new RuntimeException("I should not be thrown!");
+			default:
+				throw new RuntimeException("I should not be thrown!");
 		}
 	}
 

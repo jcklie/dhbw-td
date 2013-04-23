@@ -1,6 +1,6 @@
 {
 	"levels": [
-		{"damage":  7, "range":  60, "price":  8, "image": "code.png"},
+		{"damage":  7, "range":  70, "price":  8, "image": "code.png"},
 		{"damage": 10, "range":  80, "price": 21, "image": "code.png"},
 		{"damage": 13, "range":  90, "price": 34, "image": "code.png"},
 		{"damage": 15, "range": 100, "price": 47, "image": "code.png"}
