@@ -9,8 +9,6 @@ package de.dhbw.td.test.cases;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import junit.framework.TestCase;
 import playn.core.Json;

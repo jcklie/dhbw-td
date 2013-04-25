@@ -9,6 +9,7 @@
 
 package de.dhbw.td.core.util;
 
+import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.json;
 import playn.core.Image;
@@ -338,6 +339,18 @@ public enum ResourceContainer {
 			default:
 				throw new RuntimeException("I should not be thrown!");
 		}
+	}
+	
+	public Image getTowerImage(EFlavor towerType) {
+		switch (towerType) {
+		case MATH: 	return resources().IMAGE_MATH_TOWER;
+		case THEORETICAL_COMPUTER_SCIENCE: return resources().IMAGE_THEOINF_TOWER;
+		case COMPUTER_ENGINEERING: return resources().IMAGE_TECHINF_TOWER;
+		case ECONOMICS: return resources().IMAGE_WIWI_TOWER;
+		case PROGRAMMING: return resources().IMAGE_CODE_TOWER;
+		case SOCIAL: return resources().IMAGE_SOCIAL_TOWER;
+		default: throw new RuntimeException("I should not be thrown!");
+	}
 	}
 
 }

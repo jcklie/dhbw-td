@@ -9,13 +9,11 @@
 
 package de.dhbw.td.test.cases;
 
-import static de.dhbw.td.core.util.GameConstants.*;
+import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import junit.framework.TestCase;
 

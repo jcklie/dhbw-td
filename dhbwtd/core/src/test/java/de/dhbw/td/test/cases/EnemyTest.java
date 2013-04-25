@@ -1,14 +1,10 @@
 package de.dhbw.td.test.cases;
 
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 import junit.framework.TestCase;
 import pythagoras.i.Point;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.util.EFlavor;
-import de.dhbw.td.test.mock.MockImage;
 
 public class EnemyTest extends TestCase {
 	

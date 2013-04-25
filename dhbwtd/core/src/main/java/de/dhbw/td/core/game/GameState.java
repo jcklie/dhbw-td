@@ -94,19 +94,17 @@ public class GameState implements IUpdateable {
 			currentLevel = getNextLevelFromFactory();
 			currentWaveController = getNextWaveControllerFromFactory();
 			currentWave = getNextWave();
-			enemies = copyEnemiesFromWave(currentWave);
+			copyEnemiesFromWave(currentWave);
 			plat = createMap(currentLevel);
 			
 			towers = new LinkedList<Tower>();
 		}
 	}
 	
-	private List<Enemy> copyEnemiesFromWave(Wave wave) {
-		List<Enemy> enemyList = new LinkedList<Enemy>();
+	private void copyEnemiesFromWave(Wave wave) {
 		for(Enemy e : wave.enemies()) {
-			enemyList.add( new  Enemy(e));
+			enemies.add( new  Enemy(e));
 		}
-		return enemyList;
 	}
 
 	/**
@@ -211,11 +209,7 @@ public class GameState implements IUpdateable {
 		if (enemies.isEmpty()) {
 			if (currentWaveController.hasNextWave()) {
 				currentWave = getNextWave();
-				enemies = copyEnemiesFromWave(currentWave);
-				for (int i = 0; i < towers.size(); i++) {
-					Tower t = towers.get(i);
-					t.setEnemies(enemies);
-				}
+				copyEnemiesFromWave(currentWave);
 			} else {
 				loadNextLevel();
 			}
@@ -243,7 +237,7 @@ public class GameState implements IUpdateable {
 	 * 
 	 * @param delta
 	 */
-	private void updateTowers(double delta) {
+	public void updateTowers(double delta) {
 		for (int i = 0; i < towers.size(); i++) {
 			Tower t = towers.get(i);
 			t.update(delta);

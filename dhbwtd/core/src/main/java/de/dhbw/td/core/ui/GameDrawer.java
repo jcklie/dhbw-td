@@ -32,7 +32,7 @@ public class GameDrawer implements IDrawable {
 	 * @param surf the surface to draw on
 	 */
 	private void drawTower(Tower tower, Surface surf) {
-		Image img = getTowerImage(tower.flavor());
+		Image img = resources().getTowerImage(tower.flavor());
 
 		surf.drawImage(img, tower.x(), tower.y());
 		
@@ -41,17 +41,7 @@ public class GameDrawer implements IDrawable {
 		}
 	}
 	
-	private Image getTowerImage(EFlavor towerType) {
-		switch (towerType) {
-		case MATH: 	return resources().IMAGE_MATH_TOWER;
-		case THEORETICAL_COMPUTER_SCIENCE: return resources().IMAGE_THEOINF_TOWER;
-		case COMPUTER_ENGINEERING: return resources().IMAGE_TECHINF_TOWER;
-		case ECONOMICS: return resources().IMAGE_WIWI_TOWER;
-		case PROGRAMMING: return resources().IMAGE_CODE_TOWER;
-		case SOCIAL: return resources().IMAGE_SOCIAL_TOWER;
-		default: throw new RuntimeException("I should not be thrown!");
-	}
-	}
+
 
 	/**
 	 * Draws an enemy onto the specified surface

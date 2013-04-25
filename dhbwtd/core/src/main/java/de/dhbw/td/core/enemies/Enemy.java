@@ -8,6 +8,7 @@
 
 package de.dhbw.td.core.enemies;
 
+import static de.dhbw.td.core.util.GameConstants.*;
 import pythagoras.i.Point;
 import de.dhbw.td.core.game.IUpdateable;
 import de.dhbw.td.core.util.EFlavor;
@@ -29,7 +30,7 @@ public class Enemy implements IUpdateable {
 	private int curHealth;
 	private boolean alive;
 	private Point[] waypoints;
-	private Point currentPosition;
+	private Point position;
 	private EDirection currentDirection;
 	private int pointerTocurrentWaypoint;
 
@@ -46,7 +47,7 @@ public class Enemy implements IUpdateable {
 		currentDirection = EDirection.RIGHT;		
 		pointerTocurrentWaypoint= 0;
 		
-		currentPosition = new Point(currentWaypoint());
+		position = new Point(currentWaypoint());
 	}
 	
 	/**
@@ -55,13 +56,13 @@ public class Enemy implements IUpdateable {
 	 */
 	public Enemy(Enemy e) {
 		this(e.maxHealth, e.speed, e.bounty, e.enemyType, e.waypoints );
-		this.currentPosition = e.currentPosition;
+		this.position = e.position;
 	}
 
 	@Override
 	public void update(double delta) {
 		if (alive()) {			
-			if (currentPosition.equals( currentWaypoint())) {
+			if (position.equals( currentWaypoint())) {
 				pointerTocurrentWaypoint++;
 				
 				/*
@@ -70,7 +71,7 @@ public class Enemy implements IUpdateable {
 				 */
 				if(isLastWaypoint() ) {
 					pointerTocurrentWaypoint = 0;
-					currentPosition.setLocation(currentWaypoint());
+					position.setLocation(currentWaypoint());
 				}
 				
 				adjustDirection(currentWaypoint());
@@ -103,13 +104,13 @@ public class Enemy implements IUpdateable {
 	}
 
 	private void adjustDirection(final Point newWaypoint) {
-		if (currentPosition.x() < newWaypoint.x()) {
+		if (position.x() < newWaypoint.x()) {
 			currentDirection = EDirection.RIGHT;
-		} else if (currentPosition.x() > newWaypoint.x()) {
+		} else if (position.x() > newWaypoint.x()) {
 			currentDirection = EDirection.LEFT;
-		} else if (currentPosition.y() < newWaypoint.y()) {
+		} else if (position.y() < newWaypoint.y()) {
 			currentDirection = EDirection.DOWN;
-		} else if (currentPosition.y() > newWaypoint.y()) {
+		} else if (position.y() > newWaypoint.y()) {
 			currentDirection = EDirection.UP;
 		}
 	}
@@ -119,30 +120,30 @@ public class Enemy implements IUpdateable {
 	}
 
 	private void handleDown(double delta) {
-		currentPosition.translate(0, distanceMovedSince(delta));
-		if (currentPosition.y() > currentWaypoint().y()) {
-			currentPosition.setLocation(currentWaypoint());
+		position.translate(0, distanceMovedSince(delta));
+		if (position.y() > currentWaypoint().y()) {
+			position.setLocation(currentWaypoint());
 		}
 	}
 
 	private void handleLeft(double delta) {
-		currentPosition.translate(-distanceMovedSince(delta), 0);
-		if (currentPosition.x() < currentWaypoint().x()) {
-			currentPosition.setLocation(currentWaypoint());
+		position.translate(-distanceMovedSince(delta), 0);
+		if (position.x() < currentWaypoint().x()) {
+			position.setLocation(currentWaypoint());
 		}
 	}
 
 	private void handleRight(double delta) {
-		currentPosition.translate(distanceMovedSince(delta), 0);
-		if (currentPosition.x() > currentWaypoint().x()) {
-			currentPosition.setLocation(currentWaypoint());
+		position.translate(distanceMovedSince(delta), 0);
+		if (position.x() > currentWaypoint().x()) {
+			position.setLocation(currentWaypoint());
 		}
 	}
 
 	private void handleUp(double delta) {
-		currentPosition.translate(0, -distanceMovedSince(delta));
-		if (currentPosition.y() < currentWaypoint().y()) {
-			currentPosition.setLocation(currentWaypoint());
+		position.translate(0, -distanceMovedSince(delta));
+		if (position.y() < currentWaypoint().y()) {
+			position.setLocation(currentWaypoint());
 		}
 	}
 
@@ -159,8 +160,21 @@ public class Enemy implements IUpdateable {
 	private void die() {
 		this.alive = false;
 	}
+	
+	public boolean isOnScreen() {
+		int x = position.x;	// X position in pixel
+		int y = position.y;	// Y position in pixel
+		return x >= 0 && y >= 0 && x <= WIDTH && y <= HEIGHT;
+	}
+	
+	public Point center() {
+		int half = TILE_SIZE / 2;
+		int centerx = position.x + half;
+		int centery = position.y + half;
+		return new Point(centerx, centery);
+	}
 
-	public Point position() { return currentPosition;	}
+	public Point position() { return position;	}
 	public int curHealth() { return curHealth; }
 	public double speed() { return speed;	}
 	public int maxHealth() { return maxHealth; }
@@ -168,6 +182,6 @@ public class Enemy implements IUpdateable {
 	public int bounty() { return bounty; }
 	public int penalty() { return penalty;	 }
 	public EFlavor enemyType() { return enemyType; }
-	public Point currentPosition() { return currentPosition; };
+	public Point currentPosition() { return position; };
 
 }

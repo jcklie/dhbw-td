@@ -7,6 +7,7 @@
 
 package de.dhbw.td.core.tower;
 
+import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
 import static playn.core.PlayN.log;
 
 import java.util.LinkedList;
@@ -71,7 +72,7 @@ public class Tower implements IDrawable, IUpdateable {
 		return flavor;
 	}
 	
-	public int demage() {
+	public int damage() {
 		return level().damage;
 	}
 	
@@ -145,10 +146,10 @@ public class Tower implements IDrawable, IUpdateable {
 			}
 			
 			//Check if tower can shoot
-			if (target != null && inRange(target)) {
+			if (target != null && inRange(target) && target.isOnScreen()) {
 				hasShot = true;	
 				log().debug("Shoting at " + target.enemyType() + " Distance " + getDistance(target));
-				Projectile p = new Projectile(position(), demage(), flavor, PROJECTILE_SPEED, target, projectile);
+				Projectile p = new Projectile(center(), damage(), flavor, PROJECTILE_SPEED, target, projectile);
 				projectiles.add(p);
 			} else {
 				hasShot = false;
@@ -171,13 +172,20 @@ public class Tower implements IDrawable, IUpdateable {
 		}
 	}
 	
+	public Point center() {
+		int half = TILE_SIZE / 2;
+		int centerx = position.x + half;
+		int centery = position.y + half;
+		return new Point(centerx, centery);
+	}
+	
 	/**
 	 * Calculates the distance between an enemy and the tower
 	 * @param enemy The enemy
 	 * @return The calculated distance
 	 */
 	private double getDistance(Enemy enemy) {
-		return position.distance(enemy.position());
+		return position.distance(enemy.center());
 	}
 	
 	/**

@@ -6,8 +6,7 @@ import static playn.core.PlayN.log;
  * 
  * @author Jan-Christoph Klie
  *
- * @param <K>
- * @param <V>
+ * @param <E>
  * @param <R>
  */
 public class FiniteStateMachine<E extends Enum<E>, R> {

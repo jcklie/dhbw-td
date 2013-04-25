@@ -1,6 +1,7 @@
 package de.dhbw.td.core.tower;
 
-import static playn.core.PlayN.log;
+import static de.dhbw.td.core.util.GameConstants.FACTOR_DELTA_FF;
+
 import playn.core.Image;
 import playn.core.Surface;
 import pythagoras.d.Vector;
@@ -51,8 +52,7 @@ public class Projectile implements IDrawable, IUpdateable {
 		vector.set(vector.x * delta / 1000, vector.y * delta / 1000);
 		
 		//Check if projectile will hit the target, otherwies move the projectile
-		if (Math.abs(target.position().x() - currentPosition.x()) <= Math.abs(vector.x) &&
-				Math.abs(target.position().y() - currentPosition.y()) <= Math.abs(vector.y)) {
+		if (enemyWasHit(vector)) {
 			hit = true;
 			target.takeDamage(calcDamage(damage));
 		} else {
@@ -61,8 +61,12 @@ public class Projectile implements IDrawable, IUpdateable {
 	}
 	
 	private int calcDamage(int damage) {
-		log().debug("CRIT");
 		return flavor == target.enemyType() ? 2 * damage : damage;
+	}
+	
+	private boolean enemyWasHit(Vector v) {
+		return Math.abs(target.center().x() - currentPosition.x()) <= Math.abs(v.x) &&
+				Math.abs(target.center().y() - currentPosition.y()) <= Math.abs(v.y);
 	}
 
 	/**
@@ -70,8 +74,8 @@ public class Projectile implements IDrawable, IUpdateable {
 	 * @return The calculated vector
 	 */
 	private Vector vector() {
-		return new Vector(target.position().x() - currentPosition.x(), 
-				target.position().y() - currentPosition.y());
+		return new Vector(target.center().x() - currentPosition.x(), 
+				target.center().y() - currentPosition.y());
 	}
 
 	@Override

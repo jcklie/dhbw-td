@@ -8,22 +8,14 @@
 
 package de.dhbw.td.core.level;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
 import pythagoras.i.Point;
 
 
 public class Level {
 
-	private static final int TILE_OFFSET = 64; // px
 	private final int height;
 	private final int width;
 	private final int tilesize;
-	private final int startx;
-	private final int starty;
 	private final ETileType[][] map;
 	private Point[] waypoints;
 
@@ -31,8 +23,6 @@ public class Level {
 		this.tilesize = tilesize;
 		this.width = width;
 		this.height = height;
-		this.startx = startx;
-		this.starty = starty;
 		this.waypoints = waypoints;
 
 		if (map.length != height) {
