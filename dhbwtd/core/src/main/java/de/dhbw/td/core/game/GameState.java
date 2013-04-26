@@ -196,7 +196,10 @@ public class GameState implements IUpdateable {
 		
 		if (t != null) {
 			towers.remove(t);
+			setCellToVacant(toTile(pixelx), toTile(pixely));
 		}
+		
+		
 	}
 	
 	private Tower getTower(int pixelx, int pixely) {
@@ -219,8 +222,9 @@ public class GameState implements IUpdateable {
 	private void setCellToOccupied(int tilex, int tiley) {
 		plat[tiley][tilex] = false;
 	}
-
-	public void destroyTower() {
+	
+	private void setCellToVacant(int tilex, int tiley) {
+		plat[tiley][tilex] = true;
 	}
 
 	public void reset() {
