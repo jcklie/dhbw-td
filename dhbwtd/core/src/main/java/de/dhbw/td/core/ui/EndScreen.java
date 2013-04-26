@@ -1,16 +1,16 @@
 package de.dhbw.td.core.ui;
 
-import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.log;
+import static de.dhbw.td.core.resources.EMenuImage.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import de.dhbw.td.core.util.ICallback;
-
 import playn.core.Keyboard.Event;
 import playn.core.Mouse.ButtonEvent;
 import playn.core.Surface;
+import de.dhbw.td.core.resources.EMenuImage;
+import de.dhbw.td.core.util.ICallback;
 
 public class EndScreen implements IDrawable, IUIEventListener {
 	
@@ -33,7 +33,7 @@ public class EndScreen implements IDrawable, IUIEventListener {
 	 */
 	private void createButtons() {
 		/* NEW_GAME BUTTON */
-		Button newGameButton = new Button.Builder(resources().IMAGE_MENU_NEW).
+		Button newGameButton = new Button.Builder(NEW.image).
 				x(BTN_NEWGAME_X).y(BTN_NEWGAME_Y).build();
 		newGameButton.setCallback(new ICallback<EUserAction>() {
 			
@@ -46,7 +46,7 @@ public class EndScreen implements IDrawable, IUIEventListener {
 		buttons.add(newGameButton);
 		
 		/* QUIT_GAME BUTTON */
-		Button quitGameButton = new Button.Builder(resources().IMAGE_MENU_QUIT).
+		Button quitGameButton = new Button.Builder(QUIT.image).
 				x(BTN_QUITGAME_X).y(BTN_QUITGAME_Y).build();
 		quitGameButton.setCallback(new ICallback<EUserAction>() {
 			
@@ -59,7 +59,7 @@ public class EndScreen implements IDrawable, IUIEventListener {
 		buttons.add(quitGameButton);
 		
 		/* MAIN_MENU BUTTON */
-		Button mainMenuButton = new Button.Builder(resources().IMAGE_MENU_RESUME).
+		Button mainMenuButton = new Button.Builder(EMenuImage.RESUME.image).
 				x(BTN_MAINMENU_X).y(BTN_MAINMENU_Y).build();
 		mainMenuButton.setCallback(new ICallback<EUserAction>() {
 			
@@ -75,7 +75,7 @@ public class EndScreen implements IDrawable, IUIEventListener {
 	@Override
 	public void draw(Surface surf) {
 		surf.clear();
-		surf.drawImage(resources().IMAGE_MENU_MAIN_BACKGROUND, 0, 0);
+		surf.drawImage(MAIN_BACKGROUND.image, 0, 0);
 		for(Button b : buttons) {
 			b.draw(surf);
 		}

@@ -1,16 +1,14 @@
 package de.dhbw.td.core.ui;
 
-import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.log;
+import static de.dhbw.td.core.resources.EMenuImage.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import playn.core.Key;
 import playn.core.Keyboard.Event;
 import playn.core.Mouse.ButtonEvent;
 import playn.core.Surface;
-import de.dhbw.td.core.ui.Button;
 import de.dhbw.td.core.util.ICallback;
 
 public class MainMenu implements IDrawable, IUIEventListener {
@@ -33,7 +31,7 @@ public class MainMenu implements IDrawable, IUIEventListener {
 	}
 
 	private void createButtons() {
-		Button newGame = new Button.Builder(resources().IMAGE_MENU_NEW).y(
+		Button newGame = new Button.Builder(NEW.image).y(
 				BTN_NEWGAME_Y).build();
 		newGame.setCallback(new ICallback<EUserAction>() {
 
@@ -45,7 +43,7 @@ public class MainMenu implements IDrawable, IUIEventListener {
 		});
 		buttons.add(newGame);
 
-		Button helpButton = new Button.Builder(resources().IMAGE_BTN_HELP).y(
+		Button helpButton = new Button.Builder(BTN_HELP.image).y(
 				BTN_HELP_Y).build();
 		helpButton.setCallback(new ICallback<EUserAction>() {
 
@@ -59,7 +57,7 @@ public class MainMenu implements IDrawable, IUIEventListener {
 		buttons.add(helpButton);
 
 		Button creditsButton = new Button.Builder(
-				resources().IMAGE_BTN_CREDITS).y(BTN_CREDITS_Y).build();
+				BTN_CREDITS.image).y(BTN_CREDITS_Y).build();
 		creditsButton.setCallback(new ICallback<EUserAction>() {
 
 			@Override
@@ -71,7 +69,7 @@ public class MainMenu implements IDrawable, IUIEventListener {
 		});
 		buttons.add(creditsButton);
 
-		Button endGame = new Button.Builder(resources().IMAGE_MENU_QUIT).y(
+		Button endGame = new Button.Builder(QUIT.image).y(
 				BTN_QUITGAME_Y).build();
 		endGame.setCallback(new ICallback<EUserAction>() {
 
@@ -104,11 +102,11 @@ public class MainMenu implements IDrawable, IUIEventListener {
 	public void draw(Surface surf) {
 		surf.clear();
 		if (showHelp) {
-			surf.drawImage(resources().IMAGE_MENU_HELPSCREEN, 0, 0);
+			surf.drawImage(HELPSCREEN.image, 0, 0);
 		} else if (showCredits) {
-			surf.drawImage(resources().IMAGE_MENU_CREDITS, 0, 0);
+			surf.drawImage(CREDITS.image, 0, 0);
 		} else {
-			surf.drawImage(resources().IMAGE_MENU_MAIN_BACKGROUND, 0, 0);
+			surf.drawImage(MAIN_BACKGROUND.image, 0, 0);
 			for (Button b : buttons) {
 				b.draw(surf);
 			}

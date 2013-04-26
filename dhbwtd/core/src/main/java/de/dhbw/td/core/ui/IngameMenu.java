@@ -1,7 +1,7 @@
 package de.dhbw.td.core.ui;
 
+import static de.dhbw.td.core.resources.EMenuImage.*;
 import static de.dhbw.td.core.util.GameConstants.*;
-import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.log;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,7 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 	private void createButtons() {
 
 		/* RESUME BUTTON */
-		Button resumeButton = new Button.Builder(resources().IMAGE_MENU_RESUME).
+		Button resumeButton = new Button.Builder(RESUME.image).
 				y(BTN_RESUME_Y).build();
 		resumeButton.setCallback(new ICallback<EUserAction>() {
 			
@@ -59,7 +59,7 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 		buttons.add(resumeButton);
 
 		/* NEW_GAME BUTTON */
-		Button newGameButton = new Button.Builder(resources().IMAGE_MENU_NEW).
+		Button newGameButton = new Button.Builder(NEW.image).
 				y(BTN_NEWGAME_Y).build();
 		newGameButton.setCallback(new ICallback<EUserAction>() {
 			
@@ -72,7 +72,7 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 		buttons.add(newGameButton);
 		
 		/* END_GAME BUTTON */
-		Button endGameButton = new Button.Builder(resources().IMAGE_MENU_QUIT).
+		Button endGameButton = new Button.Builder(QUIT.image).
 				y(BTN_QUITGAME_Y).build();
 		endGameButton.setCallback(new ICallback<EUserAction>() {
 			
@@ -85,7 +85,7 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 		buttons.add(endGameButton);
 		
 		/* CREDITS BUTTON */
-		Button creditsButton = new Button.Builder(resources().IMAGE_BTN_CREDITS).
+		Button creditsButton = new Button.Builder(BTN_CREDITS.image).
 				y(BTN_CREDITS_Y).build();
 		creditsButton.setCallback(new ICallback<EUserAction>() {
 			
@@ -99,7 +99,7 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 		buttons.add(creditsButton);
 		
 		/* HELP BUTTON */
-		Button helpButton = new Button.Builder(resources().IMAGE_BTN_HELP).
+		Button helpButton = new Button.Builder(BTN_HELP.image).
 				y(BTN_HELP_Y).build();
 		helpButton.setCallback(new ICallback<EUserAction>() {
 			
@@ -175,11 +175,11 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 		surf.clear();
 		//log().debug("Drawing IngameMenu on " + surf.toString());
 		if (showHelp) {
-			surf.drawImage(resources().IMAGE_MENU_HELPSCREEN, 0, 0);
+			surf.drawImage(HELPSCREEN.image, 0, 0);
 		} else if (showCredits) {
-			surf.drawImage(resources().IMAGE_MENU_CREDITS, 0, 0);
+			surf.drawImage(CREDITS.image, 0, 0);
 		} else {
-			surf.drawImage(resources().IMAGE_MENU_INGAME_BACKGROUND, 0, 0);
+			surf.drawImage(INGAME_BACKGROUND.image, 0, 0);
 			for (Button b : buttons) {
 				b.draw(surf);
 			}

@@ -3,7 +3,7 @@ package de.dhbw.td.core.ui;
 import static de.dhbw.td.core.util.GameConstants.COLS;
 import static de.dhbw.td.core.util.GameConstants.FONTSIZE;
 import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
-import static de.dhbw.td.core.util.ResourceContainer.resources;
+import static de.dhbw.td.core.resources.EHudImage.*;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
 
@@ -112,7 +112,7 @@ public class HUD implements IDrawable, IUIEventListener {
 	
 	
 	private void addSellButton() {
-		Button sellButton = new Button.Builder(resources().IMAGE_SELL).
+		Button sellButton = new Button.Builder(SELL.image).
 				x(OFFSET_BTN_SELL*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
 		sellButton.setCallback(new ICallback<EUserAction>() {
 			@Override
@@ -125,7 +125,7 @@ public class HUD implements IDrawable, IUIEventListener {
 	}
 	
 	private void addUpgradeButton() {
-		Button upgradeButton = new Button.Builder(resources().IMAGE_UPGRADE).
+		Button upgradeButton = new Button.Builder(UPGRADE.image).
 				x(OFFSET_BTN_UPGRADE*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
 		upgradeButton.setCallback(new ICallback<EUserAction>() {
 			@Override
@@ -141,7 +141,7 @@ public class HUD implements IDrawable, IUIEventListener {
 	 * Adds the MathTower Button
 	 */
 	private void addMathButton() {		
-		final Button mathTower = new Button.Builder(resources().IMAGE_MATH_TOWER)
+		final Button mathTower = new Button.Builder(MATH_TOWER.image)
 			.x(OFFSET_BTN_MATH*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
 		mathTower.setCallback(new ICallback<EUserAction>() {
 			@Override
@@ -157,7 +157,7 @@ public class HUD implements IDrawable, IUIEventListener {
 	 * Adds the CodingTower Button
 	 */
 	private void addCodeButton() {
-		final Button codeTower = new Button.Builder(resources().IMAGE_CODE_TOWER)
+		final Button codeTower = new Button.Builder(CODE_TOWER.image)
 			.x(OFFSET_BTN_CODE*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
 		codeTower.setCallback(new ICallback<EUserAction>() {
 			@Override
@@ -173,7 +173,7 @@ public class HUD implements IDrawable, IUIEventListener {
 	 * Adds the EconomicsTower Button
 	 */
 	private void addEconomicsButton() {		
-		final Button economicsTower = new Button.Builder(resources().IMAGE_WIWI_TOWER)
+		final Button economicsTower = new Button.Builder(WIWI_TOWER.image)
 			.x(OFFSET_BTN_WIWI*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
 		economicsTower.setCallback(new ICallback<EUserAction>() {
 			@Override
@@ -189,7 +189,7 @@ public class HUD implements IDrawable, IUIEventListener {
 	 * Adds the TheoInfTower Button
 	 */
 	private void addTheoreticalComputerSciencesButton() {
-		final Button tcsTower = new Button.Builder(resources().IMAGE_THEOINF_TOWER)
+		final Button tcsTower = new Button.Builder(THEOINF_TOWER.image)
 			.x(OFFSET_BTN_THEOINF*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
 		tcsTower.setCallback(new ICallback<EUserAction>() {
 			@Override
@@ -205,7 +205,7 @@ public class HUD implements IDrawable, IUIEventListener {
 	 * Adds the TechInfTower Button
 	 */
 	private void addComputerEngineeringButton() {
-		final Button techinfTower = new Button.Builder(resources().IMAGE_TECHINF_TOWER)
+		final Button techinfTower = new Button.Builder(TECHINF_TOWER.image)
 			.x(OFFSET_BTN_TECHINF*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
 		techinfTower.setCallback(new ICallback<EUserAction>() {
 			@Override
@@ -221,7 +221,7 @@ public class HUD implements IDrawable, IUIEventListener {
 	 * Adds the SocialTower Button
 	 */
 	private void addSocialButton() {
-		final Button socialTower = new Button.Builder(resources().IMAGE_SOCIAL_TOWER)
+		final Button socialTower = new Button.Builder(SOCIAL_TOWER.image)
 			.x(OFFSET_BTN_SOCIAL*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
 		socialTower.setCallback(new ICallback<EUserAction>() {
 			@Override
@@ -237,7 +237,7 @@ public class HUD implements IDrawable, IUIEventListener {
 	 * Adds the Menu Button
 	 */
 	private void addMenuButton() {
-		Button menuButton = new Button.Builder(resources().IMAGE_SETTINGS).
+		Button menuButton = new Button.Builder(SETTINGS.image).
 				x(BTN_MENU_X).y(BTN_MENU_Y).build();
 		menuButton.setCallback(new ICallback<EUserAction>() {
 
@@ -281,9 +281,9 @@ public class HUD implements IDrawable, IUIEventListener {
 	}
 	
 	private void drawIcons(Surface surf) {
-		surf.drawImage(resources().IMAGE_CLOCK, OFFSET_IMAGE_CLOCK*TILE_SIZE, OFFSET_HEAD*TILE_SIZE);
-		surf.drawImage(resources().IMAGE_HEART, OFFSET_IMAGE_HEART*TILE_SIZE, OFFSET_HEAD*TILE_SIZE);
-		surf.drawImage(resources().IMAGE_KNOWLEDGE, OFFSET_IMAGE_KNOWLEDGE*TILE_SIZE, OFFSET_HEAD*TILE_SIZE);
+		surf.drawImage(CLOCK.image, OFFSET_IMAGE_CLOCK*TILE_SIZE, OFFSET_HEAD*TILE_SIZE);
+		surf.drawImage(HEART.image, OFFSET_IMAGE_HEART*TILE_SIZE, OFFSET_HEAD*TILE_SIZE);
+		surf.drawImage(KNOWLEDGE.image, OFFSET_IMAGE_KNOWLEDGE*TILE_SIZE, OFFSET_HEAD*TILE_SIZE);
 	}
 	
 	/**

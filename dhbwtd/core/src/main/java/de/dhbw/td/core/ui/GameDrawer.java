@@ -1,7 +1,6 @@
 package de.dhbw.td.core.ui;
 
 import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
-import static de.dhbw.td.core.util.ResourceContainer.resources;
 
 import java.util.List;
 
@@ -13,9 +12,10 @@ import de.dhbw.td.core.enemies.HealthBar;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.level.ETileType;
 import de.dhbw.td.core.level.Level;
+import de.dhbw.td.core.resources.EEnemyImage;
+import de.dhbw.td.core.resources.EHudImage;
 import de.dhbw.td.core.tower.Projectile;
 import de.dhbw.td.core.tower.Tower;
-import de.dhbw.td.core.util.EFlavor;
 
 public class GameDrawer implements IDrawable {
 
@@ -32,7 +32,7 @@ public class GameDrawer implements IDrawable {
 	 * @param surf the surface to draw on
 	 */
 	private void drawTower(Tower tower, Surface surf) {
-		Image img = resources().getTowerImage(tower.flavor());
+		Image img = EHudImage.getTowerImage(tower.flavor());
 
 		surf.drawImage(img, tower.x(), tower.y());
 		
@@ -50,7 +50,7 @@ public class GameDrawer implements IDrawable {
 	 * @param surf the surface to draw on
 	 */
 	private void drawEnemy(Enemy enemy, Surface surf) {
-		Image img = resources().getEnemyImage(enemy.enemyType());
+		Image img = EEnemyImage.getEnemyImage(enemy.enemyType());
 		Point p = enemy.position();
 		surf.drawImage(img, p.x(), p.y());
 		double relativeHealth = (double) enemy.curHealth()/(double)enemy.maxHealth();

@@ -8,7 +8,6 @@ import static de.dhbw.td.core.util.GameConstants.ROWS;
 import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
 import static de.dhbw.td.core.util.GameConstants.WIDTH;
 import static de.dhbw.td.core.util.GameConstants.toTile;
-import static de.dhbw.td.core.util.ResourceContainer.resources;
 import static playn.core.PlayN.log;
 
 import java.util.LinkedList;
@@ -20,6 +19,8 @@ import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.level.ETileType;
 import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.level.LevelFactory;
+import de.dhbw.td.core.resources.ELevelText;
+import de.dhbw.td.core.resources.EWaveText;
 import de.dhbw.td.core.tower.Tower;
 import de.dhbw.td.core.tower.TowerFactory;
 import de.dhbw.td.core.util.EFlavor;
@@ -115,7 +116,7 @@ public class GameState implements IUpdateable {
 		waveCount = 0;
 		
 		log().debug("Level " + levelNumber);
-		Json.Object levelJson = resources().getLevelJson(levelNumber);
+		Json.Object levelJson = ELevelText.getLevelJson(levelNumber);
 		return  levelFactory.constructLevel(levelJson);
 	}
 
@@ -123,7 +124,7 @@ public class GameState implements IUpdateable {
 	 * Loads the WaveController for the next level.
 	 */
 	private WaveController getNextWaveControllerFromFactory() {
-		Json.Object waveControllerJson = resources().getWaveControllerJson(levelNumber);
+		Json.Object waveControllerJson = EWaveText.getWaveControllerJson(levelNumber);
 		Point[] beautifiedWayPoints = beautifyWaypoints(currentLevel.waypoints());
 		return  waveFactory.constructWaveController(waveControllerJson, beautifiedWayPoints );
 	}
