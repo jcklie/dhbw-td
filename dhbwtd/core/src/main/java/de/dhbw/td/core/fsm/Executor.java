@@ -87,16 +87,13 @@ public class Executor {
 	}
 	
 	private void handleSimpleState(EUserAction newState) {
-		log().debug("Handle simple");
 		IAction<EFlavor> action = fsm.transit(newState);
 		action.execute();
 	}
 	
 	private void handleNewTower(EUserAction newState) {
-		log().debug("Handle new tower");
 		IAction<EFlavor> action = fsm.transit(newState);
 		EFlavor flavor = newTowerToFlavor(fsm.lastState());
-		log().debug("F: " + flavor);
 		action.execute(flavor);
 	}
 	
@@ -109,20 +106,17 @@ public class Executor {
 	
 	private IAction<EFlavor> upgradeTower = new IAction<EFlavor>() {
 		public void execute(EFlavor... args) {
-			log().debug("I want to upgrade a tower");
 			gameState.upgradeTower(x, y);
 		}
 	};
 	
 	private IAction<EFlavor> sellTower = new IAction<EFlavor>() {
 		public void execute(EFlavor... args) {
-			log().debug("I want to sell a tower");
 			gameState.sellTower(x, y);
 		}
 	};
 	
 	private EFlavor newTowerToFlavor(EUserAction state) {
-		log().debug("Mapping :" + state);
 		return mappingActionToFlavor.get(state);
 	}
 

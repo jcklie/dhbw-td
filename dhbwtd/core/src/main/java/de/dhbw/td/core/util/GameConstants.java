@@ -46,6 +46,7 @@ public class GameConstants {
 	 */
 	
 	public static final int PROJECTILE_SPEED = 450;
+	public static final double RETURN_PERCENTAGE = 0.85;
 	
 	public static int toTile(int pos) {
 		return (int)Math.floor(pos/64);

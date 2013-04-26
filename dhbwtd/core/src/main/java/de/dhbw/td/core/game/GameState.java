@@ -1,6 +1,6 @@
 package de.dhbw.td.core.game;
 
-import static de.dhbw.td.core.util.GameConstants.COLS;
+import static de.dhbw.td.core.util.GameConstants.*;
 import static de.dhbw.td.core.util.GameConstants.INITIAL_CREDITS;
 import static de.dhbw.td.core.util.GameConstants.INITIAL_LIFEPOINTS;
 import static de.dhbw.td.core.util.GameConstants.NO_OF_LEVELZ;
@@ -49,8 +49,11 @@ public class GameState implements IUpdateable {
 	private TowerFactory towerFactory;
 	
 	private boolean[][] plat;
+	
+	private EGameStatus status;
 
 	public GameState() {
+		status = EGameStatus.RUNNING;
 
 		levelFactory = new LevelFactory();
 		waveFactory = new WaveControllerFactory();
@@ -209,9 +212,11 @@ public class GameState implements IUpdateable {
 		Tower t = getTower(pixelx, pixely);
 		
 		if (t != null) {
+			int sellPrice = (int) (t.price() * RETURN_PERCENTAGE);
 			towers.remove(t);
 			setCellToVacant(toTile(pixelx), toTile(pixely));
-		}		
+			addCredits(sellPrice);
+		}
 	}
 	
 	private Tower getTower(int pixelx, int pixely) {
@@ -246,6 +251,13 @@ public class GameState implements IUpdateable {
 		lifepoints = INITIAL_LIFEPOINTS;
 		enemies.clear();
 		towers.clear();
+		
+		status = EGameStatus.RUNNING;
+
+		levelFactory = new LevelFactory();
+		waveFactory = new WaveControllerFactory();
+		towerFactory = new TowerFactory();
+
 		loadNextLevel();
 	}
 
@@ -253,14 +265,25 @@ public class GameState implements IUpdateable {
 	public void update(double delta) {
 		updateEnemies(delta);
 		updateTowers(delta);
+		
+		if( lifepoints == 0 ) {
+			status = EGameStatus.LOST;
+		}
+		
 		if (enemies.isEmpty()) {
 			if (currentWaveController.hasNextWave()) {
 				currentWave = getNextWave();
 				copyEnemiesFromWave(currentWave);
-			} else {
+			} else if(hasNextLevel() ) {
 				loadNextLevel();
+			} else {
+				status = EGameStatus.WON;
 			}
 		}
+	}
+	
+	private boolean hasNextLevel() {
+		return levelNumber < NO_OF_LEVELZ;
 	}
 
 	/**
@@ -323,7 +346,6 @@ public class GameState implements IUpdateable {
 	 * @param amount the amount of lifepoints to remove
 	 */
 	public void removeLifepoints(int amount) {
-		log().debug("DMG");
 		lifepoints = Math.max(lifepoints - amount, 0);
 	}
 
@@ -334,4 +356,5 @@ public class GameState implements IUpdateable {
 	public int credits() {	return credits;	}
 	public int waveCount() { return waveCount; }
 	public int levelCount() { return levelNumber;	}
+	public EGameStatus status() { return status; }
 }

@@ -17,6 +17,7 @@ import playn.core.Mouse.ButtonEvent;
 import playn.core.Mouse.MotionEvent;
 import playn.core.Mouse.WheelEvent;
 import playn.core.SurfaceLayer;
+import de.dhbw.td.core.game.EGameStatus;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.ui.EUIState;
 import de.dhbw.td.core.ui.EUserAction;
@@ -88,10 +89,16 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 	public void update(float delta) {
 		if (!paused) {
 			if (fastForward) {
-				gameState.update(delta * FACTOR_DELTA_FF);
-			} else {
-				gameState.update(delta);
+				delta *= FACTOR_DELTA_FF;			
 			}
+			
+			gameState.update(delta);
+			
+			switch(gameState.status()) {
+				case LOST: 	currentUIState = EUIState.END_SCREEN; break;				
+				case WON:	currentUIState = EUIState.END_SCREEN; break;
+				case RUNNING: break;
+			}			
 		}
 	}
 
