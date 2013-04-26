@@ -181,6 +181,36 @@ public class GameState implements IUpdateable {
 		}
 	}
 	
+	public void upgradeTower(int pixelx, int pixely) {
+		Tower t = getTower(pixelx, pixely);
+		
+		log().debug("Selected tower: " + t);
+		if (t != null) {
+			t.upgrade();
+		}
+	}
+	
+	public void sellTower(int pixelx, int pixely) {
+		Tower t = getTower(pixelx, pixely);
+		
+		if (t != null) {
+			towers.remove(t);
+		}
+	}
+	
+	private Tower getTower(int pixelx, int pixely) {
+		int tilex = toTile(pixelx);
+		int tiley = toTile(pixely);
+		
+		for (Tower t : towers) {
+			Point position = t.position();
+			if (toTile(position.x) == tilex && toTile(position.y) == tiley) {
+				return t;
+			}
+		}
+		return null;
+	}
+	
 	private boolean tileIsBuildable(int tilex, int tiley) {
 		return plat[tiley][tilex];
 	} 
@@ -237,7 +267,7 @@ public class GameState implements IUpdateable {
 	 * 
 	 * @param delta
 	 */
-	public void updateTowers(double delta) {
+	private void updateTowers(double delta) {
 		for (int i = 0; i < towers.size(); i++) {
 			Tower t = towers.get(i);
 			t.update(delta);
