@@ -48,6 +48,8 @@ public class Executor {
 	
 	private void initFSM() {
 		initTowerStates();
+		fsm.addTransition(EUserAction.UPGRADE, EUserAction.NONE, upgradeTower);
+		fsm.addTransition(EUserAction.SELL, EUserAction.NONE, sellTower);
 	}
 	
 	/**
@@ -65,7 +67,7 @@ public class Executor {
 		this.y = y;
 
 		if( wasItIntendedToBuildTower(newState)) {
-			handleNewTower(newState, x, y );
+			handleNewTower(newState);
 		} else {
 			handleSimpleState(newState);
 		}
@@ -91,8 +93,8 @@ public class Executor {
 		action.execute();
 	}
 	
-	private void handleNewTower(EUserAction newState, int x, int y) {
-		log().debug("Handle tower");
+	private void handleNewTower(EUserAction newState) {
+		log().debug("Handle new tower");
 		IAction<EFlavor> action = fsm.transit(newState);
 		EFlavor flavor = newTowerToFlavor(fsm.lastState());
 		log().debug("F: " + flavor);
@@ -103,6 +105,20 @@ public class Executor {
 		public void execute(EFlavor... args) {
 			log().debug("I want to build a " + Arrays.toString(args));
 			gameState.buildTower(args[0], x, y);
+		}
+	};
+	
+	private IAction<EFlavor> upgradeTower = new IAction<EFlavor>() {
+		public void execute(EFlavor... args) {
+			log().debug("I want to upgrade a tower");
+			gameState.upgradeTower(x, y);
+		}
+	};
+	
+	private IAction<EFlavor> sellTower = new IAction<EFlavor>() {
+		public void execute(EFlavor... args) {
+			log().debug("I want to sell a tower");
+			gameState.sellTower(x, y);
 		}
 	};
 	

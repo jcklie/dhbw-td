@@ -118,7 +118,7 @@ public class HUD implements IDrawable, IUIEventListener {
 			@Override
 			public EUserAction execute() {
 				log().debug("Clicked Sell");
-				return EUserAction.NONE;
+				return EUserAction.SELL;
 			}
 		});
 		buttons.add(sellButton);
@@ -131,7 +131,7 @@ public class HUD implements IDrawable, IUIEventListener {
 			@Override
 			public EUserAction execute() {
 				log().debug("Clicked Upgrade");
-				return EUserAction.NONE;
+				return EUserAction.UPGRADE;
 			}
 		});
 		buttons.add(upgradeButton);
