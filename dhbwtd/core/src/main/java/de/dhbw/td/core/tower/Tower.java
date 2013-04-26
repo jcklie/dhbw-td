@@ -205,5 +205,9 @@ public class Tower implements IDrawable, IUpdateable {
 	private boolean inRange(double distance) {
 		return distance <= range();
 	}
+	
+	public int getLevel() {
+		return level;
+	}
 
 }
