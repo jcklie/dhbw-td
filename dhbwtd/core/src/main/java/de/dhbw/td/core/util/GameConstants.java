@@ -41,6 +41,12 @@ public class GameConstants {
 	public static final int NUMBER_OF_ATTRIBUTES = 3;
 	public static final int UB_ENEMY_TYPES = 6;
 	
+	/*
+	 * Tower constants
+	 */
+	
+	public static final int PROJECTILE_SPEED = 450;
+	
 	public static int toTile(int pos) {
 		return (int)Math.floor(pos/64);
 	}

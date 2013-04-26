@@ -1,7 +1,5 @@
 package de.dhbw.td.core.tower;
 
-import static de.dhbw.td.core.util.GameConstants.FACTOR_DELTA_FF;
-
 import playn.core.Image;
 import playn.core.Surface;
 import pythagoras.d.Vector;

@@ -13,7 +13,6 @@ import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.level.ETileType;
 import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.resources.EEnemyImage;
-import de.dhbw.td.core.resources.EHudImage;
 import de.dhbw.td.core.resources.ETowerImage;
 import de.dhbw.td.core.tower.Projectile;
 import de.dhbw.td.core.tower.Tower;
@@ -33,7 +32,7 @@ public class GameDrawer implements IDrawable {
 	 * @param surf the surface to draw on
 	 */
 	private void drawTower(Tower tower, Surface surf) {
-		Image img = ETowerImage.getTowerImage(tower.flavor(), tower.getLevel() + 1);
+		Image img = ETowerImage.getTowerImage(tower.flavor(), tower.level() + 1);
 
 		surf.drawImage(img, tower.x(), tower.y());
 		

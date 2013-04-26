@@ -7,24 +7,20 @@
 
 package de.dhbw.td.core.tower;
 
+import static de.dhbw.td.core.util.GameConstants.PROJECTILE_SPEED;
 import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
-import static playn.core.PlayN.log;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import playn.core.Image;
-import playn.core.Surface;
 import pythagoras.i.Point;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.IUpdateable;
-import de.dhbw.td.core.ui.IDrawable;
 import de.dhbw.td.core.util.EFlavor;
 
 
-public class Tower implements IDrawable, IUpdateable {
-
-	private static final int PROJECTILE_SPEED = 450;
+public class Tower implements IUpdateable {
 	
 	private int level;
 	
@@ -50,54 +46,22 @@ public class Tower implements IDrawable, IUpdateable {
 		this.projectile = projectile;
 	}
 	
-	public boolean canUpgrade() {
-		return level < levels.length - 1; 
-	}
-	
 	public void upgrade() {
 		if (canUpgrade()) {
 			level++;
 		}
 	}
-	
-	public void setTarget(Enemy target) {
-		this.target = target;
+
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean canUpgrade() {
+		return level < levels.length - 1;
 	}
-	
-	private TowerLevel level() {
+
+	private TowerLevel getTowerLevel() {
 		return levels[level];
-	}
-	
-	public EFlavor flavor() {
-		return flavor;
-	}
-	
-	public int damage() {
-		return level().damage;
-	}
-	
-	public int range() {
-		return level().range;
-	}
-	
-	public int price() {
-		return level().price;
-	}
-	
-	public Point position() {
-		return new Point(position);
-	}
-	
-	public int x() {
-		return position.x();
-	}
-	
-	public int y() {
-		return position.y();
-	}
-	
-	public List<Projectile> projectiles() {
-		return projectiles;
 	}
 	
 	public void setEnemies(List<Enemy> enemies) {
@@ -105,52 +69,17 @@ public class Tower implements IDrawable, IUpdateable {
 	}
 
 	@Override
-	public void draw(Surface surf) {
-		surf.drawImage(level().image, position.x(), position.y());
-		
-		for (Projectile projectile : projectiles) {
-			projectile.draw(surf);
-		}
-	}
-
-	@Override
 	public void update(double delta) {		
 		lastShot += delta;
 
-		//Check if time to shoot or not has been shot in last interval
-		if (lastShot >= shotRate || !hasShot) {
-			
-			log().debug("Time to shoot");
+		if (hasBulletReady()) {
 		
-			//Check if last target is still valid
-			if (target != null && (!target.alive() || !inRange(target))) {
-				target = null;
-				log().debug("Target invalid");
-			}
-
-			//Search new target
-			if (target == null) {
-				double minDistance = -1;
-				log().debug("Searching new target");
-				
-				//Search the nearest enemy which is in range
-				for (Enemy enemy : enemies) {
-					double distance = getDistance(enemy);
-					log().debug("Distance is " + distance + " but my range is " + range());
-					if ((enemy.alive() && inRange(distance)) && (distance < minDistance || target == null)) {
-						target = enemy;
-						minDistance = distance;
-						log().debug("Found new target");
-					}
-				}
+			if (targetIsInvalid()) {
+				searchNewTarget();
 			}
 			
-			//Check if tower can shoot
-			if (target != null && inRange(target) && target.isOnScreen()) {
-				hasShot = true;	
-				log().debug("Shoting at " + target.enemyType() + " Distance " + getDistance(target));
-				Projectile p = new Projectile(center(), damage(), flavor, PROJECTILE_SPEED, target, projectile);
-				projectiles.add(p);
+			if( canShoot()) {
+				shoot();
 			} else {
 				hasShot = false;
 			}
@@ -158,7 +87,68 @@ public class Tower implements IDrawable, IUpdateable {
 			lastShot = 0;
 		}
 		
-		//Update projectiles and delete all projectiles which has hit a tower
+		updateProjectiles(delta);
+	}
+
+	/**
+	 * Check if time to shoot or not has been shot in last interval
+	 * @return
+	 */
+	private boolean hasBulletReady() {
+		return lastShot >= shotRate || !hasShot;
+	}
+	
+	/**
+	 * Check if last target is still valid. That might be false as a result of a
+	 * dead enemy or an enemy out of range
+	 * 
+	 * @return 
+	 */
+	private boolean targetIsInvalid() {
+		return target != null && (!target.alive() || !inRange(target));
+	}
+	
+	/**
+	 * Check if tower can shoot. This may be false if the enemy is not on the 
+	 * screen or out of range.
+	 * @return
+	 */
+	private boolean canShoot() {
+		return target != null && inRange(target) && target.isOnScreen();
+	}
+	
+	/**
+	 * Adds a new projectile to this tower which traces the current target.
+	 */
+	private void shoot() {
+		hasShot = true;	
+		Projectile p = new Projectile(center(), damage(), flavor, PROJECTILE_SPEED, target, projectile);
+		projectiles.add(p);
+	}
+	
+	/**
+	 * Scans the enemy list for the closest enemy
+	 */
+	private void searchNewTarget() {
+
+		double minDistance = -1;
+		
+		//Search the nearest enemy which is in range
+		for (Enemy enemy : enemies) {
+			double distance = getDistance(enemy);
+
+			if ((enemy.alive() && inRange(distance)) && (distance < minDistance || target == null)) {
+				target = enemy;
+				minDistance = distance;						
+			}
+		}
+	}
+	
+	/**
+	 * Update projectiles and delete all projectiles which has hit
+	 * @param delta The time passed between the last update
+	 */
+	private void updateProjectiles(double delta) {
 		int i = 0;
 		while(i < projectiles.size()) {
 			Projectile p = projectiles.get(i);
@@ -171,7 +161,7 @@ public class Tower implements IDrawable, IUpdateable {
 			}
 		}
 	}
-	
+
 	public Point center() {
 		int half = TILE_SIZE / 2;
 		int centerx = position.x + half;
@@ -206,8 +196,14 @@ public class Tower implements IDrawable, IUpdateable {
 		return distance <= range();
 	}
 	
-	public int getLevel() {
-		return level;
-	}
+	public List<Projectile> projectiles() { return projectiles; }
+	public int level() { return level; }	
+	public EFlavor flavor() { return flavor; }	
+	public int damage() { return getTowerLevel().damage; }	
+	public int range() { return getTowerLevel().range; }
+	public int price() { return getTowerLevel().price; }	
+	public Point position() { return new Point(position); 	}	
+	public int x() { return position.x(); }	
+	public int y() { return position.y(); }
 
 }
