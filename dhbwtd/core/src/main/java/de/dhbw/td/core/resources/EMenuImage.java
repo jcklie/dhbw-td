@@ -5,7 +5,7 @@ import playn.core.Image;
 
 public enum EMenuImage {
 	
-	MAIN_BACKGROUND("ingame_menu_bg.png"),
+	MAIN_BACKGROUND("main_menu_bg.png"),
 	INGAME_BACKGROUND("ingame_menu_bg.png"),
 	CREDITS("credits_screen.png"),
 	BTN_CREDITS("btn_credits.png"),	
