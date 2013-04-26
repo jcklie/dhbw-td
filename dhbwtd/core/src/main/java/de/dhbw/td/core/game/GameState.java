@@ -285,13 +285,6 @@ public class GameState implements IUpdateable {
 	 * Is used when the main menu is displayed.
 	 */
 	public void goIdle() {
-		levelNumber = 0;
-		waveCount = 0;
-		credits = INITIAL_CREDITS;
-		lifepoints = INITIAL_LIFEPOINTS;
-		enemies.clear();
-		towers.clear();
-		
 		status = EGameStatus.IDLE;
 	}
 
