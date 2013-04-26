@@ -17,7 +17,6 @@ import playn.core.Mouse.ButtonEvent;
 import playn.core.Mouse.MotionEvent;
 import playn.core.Mouse.WheelEvent;
 import playn.core.SurfaceLayer;
-import de.dhbw.td.core.game.EGameStatus;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.ui.EUIState;
 import de.dhbw.td.core.ui.EUserAction;

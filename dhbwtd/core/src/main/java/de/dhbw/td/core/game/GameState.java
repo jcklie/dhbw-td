@@ -1,9 +1,10 @@
 package de.dhbw.td.core.game;
 
-import static de.dhbw.td.core.util.GameConstants.*;
+import static de.dhbw.td.core.util.GameConstants.COLS;
 import static de.dhbw.td.core.util.GameConstants.INITIAL_CREDITS;
 import static de.dhbw.td.core.util.GameConstants.INITIAL_LIFEPOINTS;
 import static de.dhbw.td.core.util.GameConstants.NO_OF_LEVELZ;
+import static de.dhbw.td.core.util.GameConstants.RETURN_PERCENTAGE;
 import static de.dhbw.td.core.util.GameConstants.ROWS;
 import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
 import static de.dhbw.td.core.util.GameConstants.WIDTH;
@@ -194,6 +195,12 @@ public class GameState implements IUpdateable {
 		return credits >= costs;
 	}
 	
+	/**
+	 * Upgrades the tower at the given location if there
+	 * is one and the player has enough credits
+	 * @param pixelx
+	 * @param pixely
+	 */
 	public void upgradeTower(int pixelx, int pixely) {
 		Tower t = getTower(pixelx, pixely);
 
@@ -208,6 +215,12 @@ public class GameState implements IUpdateable {
 		}
 	}
 	
+	/**
+	 * Sells the tower at this location if there is one, and 
+	 * adds a given percentage of the original price to it
+	 * @param pixelx
+	 * @param pixely
+	 */
 	public void sellTower(int pixelx, int pixely) {
 		Tower t = getTower(pixelx, pixely);
 		

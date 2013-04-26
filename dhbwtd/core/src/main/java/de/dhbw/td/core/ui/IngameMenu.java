@@ -1,15 +1,21 @@
 package de.dhbw.td.core.ui;
 
-import static de.dhbw.td.core.resources.EMenuImage.*;
-import static de.dhbw.td.core.util.GameConstants.*;
+import static de.dhbw.td.core.resources.EMenuImage.BTN_CREDITS;
+import static de.dhbw.td.core.resources.EMenuImage.BTN_HELP;
+import static de.dhbw.td.core.resources.EMenuImage.CREDITS;
+import static de.dhbw.td.core.resources.EMenuImage.HELPSCREEN;
+import static de.dhbw.td.core.resources.EMenuImage.INGAME_BACKGROUND;
+import static de.dhbw.td.core.resources.EMenuImage.NEW;
+import static de.dhbw.td.core.resources.EMenuImage.QUIT;
+import static de.dhbw.td.core.resources.EMenuImage.RESUME;
 import static playn.core.PlayN.log;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import playn.core.Keyboard.Event;
-import playn.core.Surface;
 import playn.core.Mouse.ButtonEvent;
-import de.dhbw.td.core.ui.Button;
+import playn.core.Surface;
 import de.dhbw.td.core.util.ICallback;
 
 public class IngameMenu implements IDrawable, IUIEventListener {
@@ -27,7 +33,7 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 	
 	private boolean showHelp;
 	private boolean showCredits;
-	private boolean drawn;
+	
 	
 	/**
 	 * Constructor for initialization
@@ -37,7 +43,6 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 		createButtons();
 		showHelp = false;
 		showCredits = false;
-		drawn = false;
 	}
 	
 	/**

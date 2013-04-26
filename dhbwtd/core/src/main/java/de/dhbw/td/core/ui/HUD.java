@@ -36,7 +36,7 @@ public class HUD implements IDrawable, IUIEventListener {
 	private final int OFFSET_IMAGE_CLOCK 		= 0;
 	private final int OFFSET_IMAGE_HEART 		= 7;
 	private final int OFFSET_IMAGE_KNOWLEDGE 	= 9;
-	private final int OFFSET_IMAGE_COG	 		= 13;
+	
 	
 	/*
 	 * OFFSET values for FOOT images
