@@ -67,7 +67,7 @@ public class EndScreen implements IDrawable, IUIEventListener {
 		buttons.add(quitGameButton);
 		
 		/* MAIN_MENU BUTTON */
-		Button mainMenuButton = new Button.Builder(EMenuImage.RESUME.image).
+		Button mainMenuButton = new Button.Builder(EMenuImage.MAIN_MENU.image).
 				x(BTN_MAINMENU_X).y(BTN_MAINMENU_Y).build();
 		mainMenuButton.setCallback(new ICallback<EUserAction>() {
 			

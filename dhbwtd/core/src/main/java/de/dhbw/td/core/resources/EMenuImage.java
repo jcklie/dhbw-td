@@ -12,6 +12,7 @@ public enum EMenuImage {
 	BTN_CREDITS("btn_credits.png"),	
 	BTN_HELP("btn_help.png"),
 	RESUME("btn_resume_game.png"),
+	MAIN_MENU("btn_main_menu.png"),
 	QUIT("btn_quit_game.png"),
 	NEW("btn_new_game.png"),
 	HELPSCREEN("help_screen.png");
