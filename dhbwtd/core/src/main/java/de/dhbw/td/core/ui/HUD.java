@@ -55,14 +55,18 @@ public class HUD implements IDrawable, IUIEventListener {
 	private final int OFFSET_TEXT_CLOCK = 1;
 	private final int OFFSET_TEXT_HEART = 8;
 	private final int OFFSET_TEXT_HEAD = 16;
+	private final int OFFSET_TEXT_FOOT = 592;
+	private final int OFFSET_TEXT_INFORMATION = 16;
 	
 	private CanvasImage creditsCanvasImage;
 	private CanvasImage semesterCanvasImage;
 	private CanvasImage lifeCanvasImage;
+	private CanvasImage informationCanvasImage;
 	
 	private Canvas creditsCanvas;
 	private Canvas semesterCanvas;
 	private Canvas lifeCanvas;
+	private Canvas informationCanvas;
 	
 	private TextFormat textFormat;
 	
@@ -87,6 +91,9 @@ public class HUD implements IDrawable, IUIEventListener {
 		
 		lifeCanvasImage = graphics().createImage( 3 * TILE_SIZE, TILE_SIZE );	// TODO: Confirm size
 		lifeCanvas = lifeCanvasImage.canvas();
+		
+		informationCanvasImage = graphics().createImage( 5 * TILE_SIZE, TILE_SIZE ); // TODO: Confirm size
+		informationCanvas = informationCanvasImage.canvas();		
 		
 		Font miso = graphics().createFont("Miso", Font.Style.PLAIN, FONTSIZE);
 		textFormat = new TextFormat().withFont(miso);
@@ -257,6 +264,7 @@ public class HUD implements IDrawable, IUIEventListener {
 		drawSemester(surf);
 		drawLifes(surf);
 		drawCredit(surf);
+		drawInformation(surf);
 		for(Button b : buttons) {
 			b.draw(surf);
 		}
@@ -279,6 +287,13 @@ public class HUD implements IDrawable, IUIEventListener {
 		String clockText = gameState.levelCount() + ". Semester - " + gameState.waveCount() + ". Woche";			
 		drawText(semesterCanvas, clockText, 0, 0);
 		surf.drawImage(semesterCanvasImage, OFFSET_TEXT_CLOCK*TILE_SIZE, OFFSET_TEXT_HEAD);	
+	}
+	
+	private void drawInformation(Surface surf){
+		informationCanvas.clear();
+		String informationText = "Information";
+		drawText(informationCanvas, informationText, 0, 0);
+		surf.drawImage(informationCanvasImage, OFFSET_TEXT_INFORMATION, OFFSET_TEXT_FOOT);	
 	}
 	
 	private void drawIcons(Surface surf) {
