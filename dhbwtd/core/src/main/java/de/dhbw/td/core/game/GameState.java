@@ -244,6 +244,12 @@ public class GameState implements IUpdateable {
 		plat[tiley][tilex] = true;
 	}
 
+	/**
+	 * Resets all attributes as if it was newly created.
+	 * The reason not to simply use [new] is that otherwise
+	 * all references to this object would be invalid
+	 * and in need of adjusting.
+	 */
 	public void reset() {
 		levelNumber = 0;
 		waveCount = 0;
