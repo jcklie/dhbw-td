@@ -54,7 +54,7 @@ public class GameState implements IUpdateable {
 	private EGameStatus status;
 
 	public GameState() {
-		status = EGameStatus.IDLE;
+		status = EGameStatus.RUNNING;
 
 		levelFactory = new LevelFactory();
 		waveFactory = new WaveControllerFactory();
@@ -63,7 +63,7 @@ public class GameState implements IUpdateable {
 		enemies = new LinkedList<Enemy>();
 		towers = new LinkedList<Tower>();
 		
-		goIdle();
+		reset();
 	}
 	
 	/**
@@ -276,7 +276,7 @@ public class GameState implements IUpdateable {
 		levelFactory = new LevelFactory();
 		waveFactory = new WaveControllerFactory();
 		towerFactory = new TowerFactory();
-	
+
 		loadNextLevel();
 	}
 	
@@ -285,33 +285,27 @@ public class GameState implements IUpdateable {
 	 * Is used when the main menu is displayed.
 	 */
 	public void goIdle() {
-		levelNumber = 0;
-		waveCount = 0;
-		credits = INITIAL_CREDITS;
-		lifepoints = INITIAL_LIFEPOINTS;
-		enemies.clear();
-		towers.clear();
-		
-		status = EGameStatus.IDLE;
+		status = EGameStatus.IDLE;	
 	}
 
 	@Override
 	public void update(double delta) {
 		updateEnemies(delta);
 		updateTowers(delta);
-		
-		if( lifepoints == 0 ) {
-			status = EGameStatus.LOST;
-		}
-		
-		if (enemies.isEmpty()) {
-			if (currentWaveController.hasNextWave()) {
-				currentWave = getNextWave();
-				copyEnemiesFromWave(currentWave);
-			} else if(hasNextLevel() ) {
-				loadNextLevel();
-			} else {
-				status = EGameStatus.WON;
+		if(!(status == EGameStatus.IDLE)){
+			if( lifepoints == 0 ) {
+				status = EGameStatus.LOST;
+			}
+			
+			if (enemies.isEmpty()) {
+				if (currentWaveController.hasNextWave()) {
+					currentWave = getNextWave();
+					copyEnemiesFromWave(currentWave);
+				} else if(hasNextLevel() ) {
+					loadNextLevel();
+				} else {
+					status = EGameStatus.WON;
+				}
 			}
 		}
 	}

@@ -97,7 +97,7 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 				case LOST: 	  currentUIState = EUIState.END_SCREEN; break;				
 				case WON:	  currentUIState = EUIState.END_SCREEN; break;
 				case RUNNING: currentUIState = EUIState.GAME;       break;
-				case IDLE: break;
+				case IDLE:     break;
 			}			
 		}
 	}
