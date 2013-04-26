@@ -343,6 +343,12 @@ public class HUD implements IDrawable, IUIEventListener {
 		case K6:
 			executor.handleNewState(EUserAction.NEW_THEO_INF_TOWER);
 			return EUserAction.NEW_THEO_INF_TOWER;
+		case Q:
+			executor.handleNewState(EUserAction.SELL);
+			return EUserAction.SELL;
+		case W:
+			executor.handleNewState(EUserAction.UPGRADE);
+			return EUserAction.UPGRADE;
 		default:
 			return EUserAction.NONE;
 		}
