@@ -54,7 +54,7 @@ public class GameState implements IUpdateable {
 	private EGameStatus status;
 
 	public GameState() {
-		status = EGameStatus.IDLE;
+
 
 		levelFactory = new LevelFactory();
 		waveFactory = new WaveControllerFactory();
@@ -285,26 +285,27 @@ public class GameState implements IUpdateable {
 	 * Is used when the main menu is displayed.
 	 */
 	public void goIdle() {
-		status = EGameStatus.IDLE;
+		status = EGameStatus.IDLE;	
 	}
 
 	@Override
 	public void update(double delta) {
 		updateEnemies(delta);
 		updateTowers(delta);
-		
-		if( lifepoints == 0 ) {
-			status = EGameStatus.LOST;
-		}
-		
-		if (enemies.isEmpty()) {
-			if (currentWaveController.hasNextWave()) {
-				currentWave = getNextWave();
-				copyEnemiesFromWave(currentWave);
-			} else if(hasNextLevel() ) {
-				loadNextLevel();
-			} else {
-				status = EGameStatus.WON;
+		if(!(status == EGameStatus.IDLE)){
+			if( lifepoints == 0 ) {
+				status = EGameStatus.LOST;
+			}
+			
+			if (enemies.isEmpty()) {
+				if (currentWaveController.hasNextWave()) {
+					currentWave = getNextWave();
+					copyEnemiesFromWave(currentWave);
+				} else if(hasNextLevel() ) {
+					loadNextLevel();
+				} else {
+					status = EGameStatus.WON;
+				}
 			}
 		}
 	}

@@ -15,7 +15,8 @@ public enum EMenuImage {
 	MAIN_MENU("btn_main_menu.png"),
 	QUIT("btn_quit_game.png"),
 	NEW("btn_new_game.png"),
-	HELPSCREEN("help_screen.png");
+	HELPSCREEN("help_screen.png"),
+	SUCCESS("success.png");
 	
 	public final Image image;
 	
