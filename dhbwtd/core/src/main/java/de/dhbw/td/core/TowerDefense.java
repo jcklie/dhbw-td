@@ -125,6 +125,7 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 			break;
 
 		case END_SCREEN:
+			clearLayers();
 			endScreen.draw(BACKGROUND_LAYER.surface());
 			break;
 		}

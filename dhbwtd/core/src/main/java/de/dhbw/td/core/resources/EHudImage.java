@@ -5,7 +5,7 @@ import de.dhbw.td.core.util.EFlavor;
 import playn.core.Image;
 
 public enum EHudImage {
-	
+
 	CLOCK("clock.png"),
 	PLAY("play.png"),
 	PAUSE("pause.png"),

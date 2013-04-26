@@ -1,11 +1,14 @@
 package de.dhbw.td.core.ui;
 
-import static playn.core.PlayN.log;
 import static de.dhbw.td.core.resources.EMenuImage.*;
+import static de.dhbw.td.core.resources.EMenuImage.NEW;
+import static de.dhbw.td.core.resources.EMenuImage.QUIT;
+import static playn.core.PlayN.log;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import playn.core.Image;
 import playn.core.Keyboard.Event;
 import playn.core.Mouse.ButtonEvent;
 import playn.core.Surface;
@@ -15,17 +18,22 @@ import de.dhbw.td.core.util.ICallback;
 public class EndScreen implements IDrawable, IUIEventListener {
 	
 	private final int BTN_NEWGAME_X = 100;
-	private final int BTN_NEWGAME_Y = 100;
-	private final int BTN_QUITGAME_X = 200;
-	private final int BTN_QUITGAME_Y = 200;
-	private final int BTN_MAINMENU_X = 300;
-	private final int BTN_MAINMENU_Y = 300;
+	private final int BTN_NEWGAME_Y = 300;
+	
+	private final int BTN_MAINMENU_X = 100;
+	private final int BTN_MAINMENU_Y = 400;
+	
+	private final int BTN_QUITGAME_X = 100;
+	private final int BTN_QUITGAME_Y = 500;
 	
 	private List<Button> buttons;
+	private Image image;
 	
 	public EndScreen() {
 		buttons = new LinkedList<Button>();
+		image = GAMEOVER.image;
 		createButtons();
+
 	}
 	
 	/**
@@ -75,7 +83,7 @@ public class EndScreen implements IDrawable, IUIEventListener {
 	@Override
 	public void draw(Surface surf) {
 		surf.clear();
-		surf.drawImage(MAIN_BACKGROUND.image, 0, 0);
+		surf.drawImage(image, 0, 0);
 		for(Button b : buttons) {
 			b.draw(surf);
 		}
@@ -94,6 +102,10 @@ public class EndScreen implements IDrawable, IUIEventListener {
 	@Override
 	public EUserAction onKey(Event event) {
 		return EUserAction.NONE;
+	}
+	
+	public void setImage(Image image) {
+		this.image = image;
 	}
 
 }
