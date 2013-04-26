@@ -4,6 +4,6 @@ public enum EGameStatus {
 	
 	RUNNING,
 	WON,
-	LOST
-
+	LOST, 
+	IDLE;
 }

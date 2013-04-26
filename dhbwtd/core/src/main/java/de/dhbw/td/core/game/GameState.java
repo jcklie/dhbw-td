@@ -54,7 +54,7 @@ public class GameState implements IUpdateable {
 	private EGameStatus status;
 
 	public GameState() {
-		status = EGameStatus.RUNNING;
+		status = EGameStatus.IDLE;
 
 		levelFactory = new LevelFactory();
 		waveFactory = new WaveControllerFactory();
@@ -63,7 +63,7 @@ public class GameState implements IUpdateable {
 		enemies = new LinkedList<Enemy>();
 		towers = new LinkedList<Tower>();
 		
-		reset();
+		goIdle();
 	}
 	
 	/**
@@ -276,8 +276,23 @@ public class GameState implements IUpdateable {
 		levelFactory = new LevelFactory();
 		waveFactory = new WaveControllerFactory();
 		towerFactory = new TowerFactory();
-
+	
 		loadNextLevel();
+	}
+	
+	/**
+	 * Sets the current gameState to IDLE.
+	 * Is used when the main menu is displayed.
+	 */
+	public void goIdle() {
+		levelNumber = 0;
+		waveCount = 0;
+		credits = INITIAL_CREDITS;
+		lifepoints = INITIAL_LIFEPOINTS;
+		enemies.clear();
+		towers.clear();
+		
+		status = EGameStatus.IDLE;
 	}
 
 	@Override

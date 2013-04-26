@@ -245,7 +245,7 @@ public class HUD implements IDrawable, IUIEventListener {
 			@Override
 			public EUserAction execute() {
 				log().debug("Pressed Menu Button");
-				return EUserAction.INAGAME_MENU;
+				return EUserAction.INGAME_MENU;
 			}
 		});
 		buttons.add(menuButton);
@@ -324,7 +324,7 @@ public class HUD implements IDrawable, IUIEventListener {
 	@Override
 	public EUserAction onKey(Event event) {
 		switch(event.key()) {
-		case ESCAPE: return EUserAction.INAGAME_MENU;
+		case ESCAPE: return EUserAction.INGAME_MENU;
 		case K1:
 			executor.handleNewState(EUserAction.NEW_MATH_TOWER);
 			return EUserAction.NEW_MATH_TOWER;

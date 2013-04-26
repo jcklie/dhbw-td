@@ -94,9 +94,10 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 			gameState.update(delta);
 			
 			switch(gameState.status()) {
-				case LOST: 	currentUIState = EUIState.END_SCREEN; break;				
-				case WON:	currentUIState = EUIState.END_SCREEN; break;
-				case RUNNING: break;
+				case LOST: 	  currentUIState = EUIState.END_SCREEN; break;				
+				case WON:	  currentUIState = EUIState.END_SCREEN; break;
+				case RUNNING: currentUIState = EUIState.GAME;       break;
+				case IDLE: break;
 			}			
 		}
 	}
@@ -188,8 +189,10 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 				break;
 			case MAIN_MENU:
 				currentUIState = EUIState.MAIN_MENU;
+				gameState.goIdle();
+				paused = false;
 				break;
-			case INAGAME_MENU:
+			case INGAME_MENU:
 				currentUIState = EUIState.INGAME_MENU;
 				paused = true;
 				break;
