@@ -1,7 +1,6 @@
 package de.dhbw.td.core.secret;
 
 import static playn.core.PlayN.assets;
-import static playn.core.PlayN.keyboard;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -60,7 +59,7 @@ public class CheatModule implements Keyboard.Listener{
 		} else if (in("SOUNDDEMO")) {
 			playSound("sound/fancy_riff3");
 		} else if( in("ALLYOURCAREBELONGTOUS")){
-			handleAllYourCAreBelongToUs();
+			handleAllYourCareBelongToUs();
 		}
 	}
 	
@@ -78,7 +77,7 @@ public class CheatModule implements Keyboard.Listener{
 		image.set(b, king);
 	}
 	
-	private void handleAllYourCAreBelongToUs() {
+	private void handleAllYourCareBelongToUs() {
 		setAttribute(state, "status", EGameStatus.WON);
 		clear();
 	}

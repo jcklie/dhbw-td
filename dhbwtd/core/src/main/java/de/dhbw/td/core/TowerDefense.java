@@ -5,7 +5,6 @@ import static de.dhbw.td.core.util.GameConstants.HEIGHT;
 import static de.dhbw.td.core.util.GameConstants.WIDTH;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.keyboard;
-import static playn.core.PlayN.log;
 import static playn.core.PlayN.mouse;
 import playn.core.Events;
 import playn.core.Game;
