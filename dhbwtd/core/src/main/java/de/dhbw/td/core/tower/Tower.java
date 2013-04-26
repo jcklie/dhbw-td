@@ -206,6 +206,7 @@ public class Tower implements IUpdateable {
 	public int damage() { return getTowerLevel().damage; }	
 	public int range() { return getTowerLevel().range; }
 	public int price() { return getTowerLevel().price; }	
+	public int upgradeCost() { return canUpgrade() ? levels[level+1].price : 0; } 
 	public Point position() { return new Point(position); 	}	
 	public int x() { return position.x(); }	
 	public int y() { return position.y(); }

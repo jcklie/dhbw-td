@@ -29,6 +29,7 @@ public class Enemy implements IUpdateable {
 
 	private int curHealth;
 	private boolean alive;
+	private boolean reachedEnd;
 	private Point[] waypoints;
 	private Point position;
 	private EDirection currentDirection;
@@ -72,6 +73,7 @@ public class Enemy implements IUpdateable {
 				if(isLastWaypoint() ) {
 					pointerTocurrentWaypoint = 0;
 					position.setLocation(currentWaypoint());
+					reachedEnd = true;
 				}
 				
 				adjustDirection(currentWaypoint());
@@ -101,6 +103,14 @@ public class Enemy implements IUpdateable {
 	
 	private boolean isLastWaypoint() {
 		return pointerTocurrentWaypoint == waypoints.length - 1;
+	}
+	
+	public boolean hasReachedEnd() {
+		return reachedEnd;
+	}
+	
+	public void breachAcknowledged() {
+		reachedEnd = false;
 	}
 
 	private void adjustDirection(final Point newWaypoint) {

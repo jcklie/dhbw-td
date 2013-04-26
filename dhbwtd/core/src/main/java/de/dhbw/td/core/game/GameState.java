@@ -176,17 +176,31 @@ public class GameState implements IUpdateable {
 		int tiley = toTile(pixely);
 		if(tileIsBuildable(tilex, tiley)) {
 			Tower t = towerFactory.constructTower(flavor, tilex, tiley);
-			t.setEnemies(enemies);
-			towers.add(t);
-			setCellToOccupied(tilex, tiley);
+			int cost = t.price();
+			
+			if( hasSufficientFunds(cost)) {
+				t.setEnemies(enemies);
+				towers.add(t);				
+				setCellToOccupied(tilex, tiley);
+				spendCredits(cost);
+			}
 		}
+	}
+	
+	private boolean hasSufficientFunds(int costs) {
+		return credits >= costs;
 	}
 	
 	public void upgradeTower(int pixelx, int pixely) {
 		Tower t = getTower(pixelx, pixely);
-		
-		log().debug("Selected tower: " + t);
-		if (t != null) {
+
+		if (t == null) {
+			return;
+		}
+
+		int price = t.upgradeCost();
+		if (hasSufficientFunds(price)) {
+			spendCredits(price);
 			t.upgrade();
 		}
 	}
@@ -197,9 +211,7 @@ public class GameState implements IUpdateable {
 		if (t != null) {
 			towers.remove(t);
 			setCellToVacant(toTile(pixelx), toTile(pixely));
-		}
-		
-		
+		}		
 	}
 	
 	private Tower getTower(int pixelx, int pixely) {
@@ -264,6 +276,11 @@ public class GameState implements IUpdateable {
 				enemies.remove(e);
 				addCredits(e.bounty());
 			}
+			
+			if( e.hasReachedEnd()) {
+				removeLifepoints(e.penalty());
+				e.breachAcknowledged();
+			}
 		}
 	}
 
@@ -294,7 +311,7 @@ public class GameState implements IUpdateable {
 	 * 
 	 * @param val the of credits to remove
 	 */
-	public void removeCredits(int val) {
+	public void spendCredits(int val) {
 		assert val < 0;
 		credits = credits - val;
 	}
@@ -306,6 +323,7 @@ public class GameState implements IUpdateable {
 	 * @param amount the amount of lifepoints to remove
 	 */
 	public void removeLifepoints(int amount) {
+		log().debug("DMG");
 		lifepoints = Math.max(lifepoints - amount, 0);
 	}
 

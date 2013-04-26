@@ -33,7 +33,7 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 	 * States
 	 */
 	private EUIState currentUIState;
-	private GameState gameState;
+	private GameState gameState;	
 
 	/*
 	 * UI COMPONENTS
