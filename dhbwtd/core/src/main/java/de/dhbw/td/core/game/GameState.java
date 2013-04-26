@@ -54,8 +54,6 @@ public class GameState implements IUpdateable {
 	private EGameStatus status;
 
 	public GameState() {
-		status = EGameStatus.RUNNING;
-
 		levelFactory = new LevelFactory();
 		waveFactory = new WaveControllerFactory();
 		towerFactory = new TowerFactory();
@@ -63,7 +61,7 @@ public class GameState implements IUpdateable {
 		enemies = new LinkedList<Enemy>();
 		towers = new LinkedList<Tower>();
 		
-		reset();
+		goIdle();
 	}
 	
 	/**
