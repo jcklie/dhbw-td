@@ -1,6 +1,7 @@
 package de.dhbw.td.core.secret;
 
 import static playn.core.PlayN.assets;
+import static playn.core.PlayN.keyboard;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -10,6 +11,7 @@ import playn.core.Keyboard;
 import playn.core.Keyboard.Event;
 import playn.core.Keyboard.TypedEvent;
 import playn.core.Sound;
+import de.dhbw.td.core.game.EGameStatus;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.ui.Button;
 import de.dhbw.td.core.ui.HUD;
@@ -17,7 +19,7 @@ import de.dhbw.td.core.ui.HUD;
 
 public class CheatModule implements Keyboard.Listener{
 		
-	private static final int MAX_BUFFER_SIZE = 25;
+	private static final int MAX_BUFFER_SIZE = 30;
 	
 	private StringBuffer buffer;
 	private GameState state;
@@ -32,10 +34,22 @@ public class CheatModule implements Keyboard.Listener{
 		buffer = new StringBuffer(MAX_BUFFER_SIZE);
 		
 		king = assets().getImageSync("tower/king.png");
+		
+		keyboard().setListener(this);
 	}
 	
 	private boolean in(String s) {
 		return buffer.toString().contains(s);
+	}
+	
+	private void setAttribute(Object target, String fieldName, Object value) {
+		try {
+			Field field = target.getClass().getDeclaredField(fieldName);
+			field.setAccessible(true);
+			field.set(target, value);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
 	}
 	
 	private void handleCheatz() throws Exception {
@@ -45,6 +59,8 @@ public class CheatModule implements Keyboard.Listener{
 			playSound("sound/intro_xD");
 		} else if (in("SOUNDDEMO")) {
 			playSound("sound/fancy_riff3");
+		} else if( in("ALLYOURCAREBELONGTOUS")){
+			handleAllYourCAreBelongToUs();
 		}
 	}
 	
@@ -60,6 +76,10 @@ public class CheatModule implements Keyboard.Listener{
 		Field image = b.getClass().getDeclaredField("image");
 		image.setAccessible(true);
 		image.set(b, king);
+	}
+	
+	private void handleAllYourCAreBelongToUs() {
+		setAttribute(state, "status", EGameStatus.WON);
 	}
 	
 	private void playSound( String name ) {

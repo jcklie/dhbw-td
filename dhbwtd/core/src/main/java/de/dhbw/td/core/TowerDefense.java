@@ -18,6 +18,7 @@ import playn.core.Mouse.MotionEvent;
 import playn.core.Mouse.WheelEvent;
 import playn.core.SurfaceLayer;
 import de.dhbw.td.core.game.GameState;
+import de.dhbw.td.core.secret.CheatModule;
 import de.dhbw.td.core.ui.EUIState;
 import de.dhbw.td.core.ui.EUserAction;
 import de.dhbw.td.core.ui.EndScreen;
@@ -45,6 +46,7 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 	private EndScreen endScreen;
 	private SuccessScreen successScreen;
 	private GameDrawer gameDrawer;
+	private CheatModule secret;
 
 	/*
 	 * LAYERS
@@ -85,6 +87,8 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 
 		// set UIState
 		currentUIState = EUIState.MAIN_MENU;
+		
+		secret = new CheatModule(gameState, hud);
 	}
 
 	@Override
@@ -173,9 +177,6 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 				action = dispatchToComponent(successScreen, event);
 				break;
 		}
-
-		log().debug("returned Action " + action);
-
 		handleAction(action);
 	}
 
