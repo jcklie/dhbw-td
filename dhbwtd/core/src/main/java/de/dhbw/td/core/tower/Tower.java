@@ -75,11 +75,16 @@ public class Tower implements IUpdateable {
 		if (hasBulletReady()) {
 		
 			if (targetIsInvalid()) {
+				target = null;
+			}
+			
+			if( target == null ) {
 				searchNewTarget();
 			}
 			
 			if( canShoot()) {
 				shoot();
+				hasShot = true;	
 			} else {
 				hasShot = false;
 			}
@@ -121,7 +126,6 @@ public class Tower implements IUpdateable {
 	 * Adds a new projectile to this tower which traces the current target.
 	 */
 	private void shoot() {
-		hasShot = true;	
 		Projectile p = new Projectile(center(), damage(), flavor, PROJECTILE_SPEED, target, projectile);
 		projectiles.add(p);
 	}
