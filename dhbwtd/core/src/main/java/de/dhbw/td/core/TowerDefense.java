@@ -26,6 +26,7 @@ import de.dhbw.td.core.ui.HUD;
 import de.dhbw.td.core.ui.IUIEventListener;
 import de.dhbw.td.core.ui.IngameMenu;
 import de.dhbw.td.core.ui.MainMenu;
+import de.dhbw.td.core.ui.SuccessScreen;
 
 public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 
@@ -42,6 +43,7 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 	private HUD hud;
 	private IngameMenu ingameMenu;
 	private EndScreen endScreen;
+	private SuccessScreen successScreen;
 	private GameDrawer gameDrawer;
 
 	/*
@@ -73,6 +75,7 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 		hud = new HUD(gameState);
 		ingameMenu = new IngameMenu();
 		endScreen = new EndScreen();
+		successScreen = new SuccessScreen();
 
 		gameDrawer = new GameDrawer(gameState);
 
@@ -95,7 +98,7 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 			
 			switch(gameState.status()) {
 				case LOST: 	  currentUIState = EUIState.END_SCREEN; break;				
-				case WON:	  currentUIState = EUIState.END_SCREEN; break;
+				case WON:	  currentUIState = EUIState.SUCCESS_SCREEN; break;
 				case RUNNING: currentUIState = EUIState.GAME;       break;
 				case IDLE:     break;
 			}			
@@ -129,6 +132,11 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 			clearLayers();
 			endScreen.draw(BACKGROUND_LAYER.surface());
 			break;
+		
+		case SUCCESS_SCREEN:
+			clearLayers();
+			successScreen.draw(BACKGROUND_LAYER.surface());
+		break;
 		}
 	}
 
@@ -159,6 +167,10 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 	
 			case END_SCREEN:
 				action = dispatchToComponent(endScreen, event);
+				break;
+				
+			case SUCCESS_SCREEN:
+				action = dispatchToComponent(successScreen, event);
 				break;
 		}
 
