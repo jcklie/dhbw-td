@@ -265,6 +265,7 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 	 */
 	public void onKeyDown(Event event) {
 		if (currentUIState == EUIState.GAME) {
+			secret.onKeyDown(event);
 			switch (event.key()) {
 			case P:
 				if(!paused) {

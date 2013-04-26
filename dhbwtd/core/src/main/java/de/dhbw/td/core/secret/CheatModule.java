@@ -35,7 +35,7 @@ public class CheatModule implements Keyboard.Listener{
 		
 		king = assets().getImageSync("tower/king.png");
 		
-		keyboard().setListener(this);
+		
 	}
 	
 	private boolean in(String s) {
@@ -80,13 +80,14 @@ public class CheatModule implements Keyboard.Listener{
 	
 	private void handleAllYourCAreBelongToUs() {
 		setAttribute(state, "status", EGameStatus.WON);
+		clear();
 	}
 	
 	private void playSound( String name ) {
 		Sound mySound = assets().getSound(name);
 		mySound.play();
 		mySound.setLooping(true);
-		buffer.delete(0, buffer.length());
+		clear();
 	}
 
 	@Override
@@ -110,17 +111,12 @@ public class CheatModule implements Keyboard.Listener{
 		}
 		
 	}
-
-	@Override
-	public void onKeyTyped(TypedEvent event) {
-		// TODO Auto-generated method stub
-		
+	
+	private void clear() {
+		buffer.delete(0, buffer.length());
 	}
 
-	@Override
-	public void onKeyUp(Event event) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onKeyTyped(TypedEvent event) {}
+	public void onKeyUp(Event event) {}
 
 }
