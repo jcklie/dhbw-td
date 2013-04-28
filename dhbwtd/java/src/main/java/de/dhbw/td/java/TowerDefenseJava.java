@@ -32,6 +32,7 @@ public class TowerDefenseJava {
 	    config.height = 640;	    
 	    
 	    JavaPlatform platform = JavaPlatform.register(config);
+	    
 		platform.assets().setPathPrefix("de/dhbw/td/resources");
 		platform.setTitle("DHBW Tower Defense");		
 		platform.graphics().registerFont("Miso", "fonts/miso.otf");
