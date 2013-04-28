@@ -101,7 +101,17 @@ public class EndScreen implements IDrawable, IUIEventListener {
 
 	@Override
 	public EUserAction onKey(Event event) {
-		return EUserAction.NONE;
+		switch (event.key()) {
+
+		case B:
+			return EUserAction.QUIT_GAME;			
+		case N:
+			return EUserAction.NEW_GAME;	
+		case M:
+			return EUserAction.MAIN_MENU;
+		default:
+			return EUserAction.NONE;
+		}
 	}
 	
 	public void setImage(Image image) {

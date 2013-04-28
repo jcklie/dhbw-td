@@ -168,7 +168,33 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 			else {	
 				return EUserAction.RESUME_GAME;
 			}
-			break;
+			break;			
+		case C:
+			if(!showHelp) {
+				showCredits(true);
+				return EUserAction.NONE;
+			}
+			
+		case F:
+			if(!(showHelp || showCredits)) {
+				return EUserAction.RESUME_GAME;
+			}
+			
+		case H:
+			if(!showCredits) {
+				showHelp(true);
+				return EUserAction.NONE;
+			}
+			
+		case B:
+			if(!(showHelp || showCredits)) {
+				return EUserAction.QUIT_GAME;
+			}
+			
+		case N:
+			if(!(showHelp || showCredits)) {
+				return EUserAction.NEW_GAME;
+			}
 		default:
 			// We do not care about other key strokes
 		}
