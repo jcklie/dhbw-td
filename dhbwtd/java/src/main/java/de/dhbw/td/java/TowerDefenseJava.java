@@ -38,10 +38,6 @@ public class TowerDefenseJava {
 		
 		TowerDefense towerDefense = new TowerDefense();
 		
-		ByteBuffer[] list = new ByteBuffer[2];
-		list[0] = createBuffer( getImage("/icons/DHTD_32.bmp") );
-		list[1] = createBuffer( getImage("/icons/DHTD_32.bmp") );
-		Display.setIcon(list);
 		
 		PlayN.run(towerDefense);
 		
