@@ -3,6 +3,7 @@ package de.dhbw.td.core.resources;
 import static de.dhbw.td.core.util.GameConstants.PATH_TOWERS;
 import playn.core.Image;
 import de.dhbw.td.core.util.EFlavor;
+import de.dhbw.td.core.util.GameConstants;
 
 public enum ETowerImage {
 	
@@ -45,23 +46,12 @@ public enum ETowerImage {
 	
 	public static Image getTowerImage(EFlavor flavor, int levelNumber) {
 		ETowerImage towerImage;
-		String prefix = mapFlavorToImagePrefix(flavor);
+		String prefix = GameConstants.mapFlavorToImagePrefix(flavor);
 		String enumName = String.format("%s_LVL%d", prefix, levelNumber);
 		towerImage = ETowerImage.valueOf(enumName);
 		return towerImage.image;
 	}
 	
-	private static String mapFlavorToImagePrefix(EFlavor flavor) {
-		switch(flavor) {
-		case COMPUTER_ENGINEERING: return "TECHINF";
-		case ECONOMICS: return "WIWI";
-		case MATH: return "MATH";
-		case PROGRAMMING: return "CODE";
-		case SOCIAL: return "SOCIAL";
-		case THEORETICAL_COMPUTER_SCIENCE: return "THEOINF";
-		default: throw new IllegalStateException("I should not be thrown");
-		
-		}
-	}
+
 
 }

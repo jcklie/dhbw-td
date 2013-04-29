@@ -1,6 +1,7 @@
 package de.dhbw.td.core.fsm;
 
 import static playn.core.PlayN.log;
+import static de.dhbw.td.core.util.GameConstants.*;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -8,8 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.dhbw.td.core.game.GameState;
+import de.dhbw.td.core.resources.EInformationText;
 import de.dhbw.td.core.ui.EUserAction;
 import de.dhbw.td.core.util.EFlavor;
+import de.dhbw.td.core.util.GameConstants;
 
 /**
  * This class is used to hide all the nasty details related to execute the
@@ -26,17 +29,7 @@ public class Executor {
 	private int y;
 	
 	private static EnumSet<EUserAction> NEW_TOWER_ACTIONS = EnumSet.range(EUserAction.NEW_MATH_TOWER, EUserAction.NEW_SOCIAL_TOWER);
-	private static Map<EUserAction, EFlavor> mappingActionToFlavor;
-	
-	static {
-		mappingActionToFlavor = new HashMap<EUserAction, EFlavor>();
-		mappingActionToFlavor.put(EUserAction.NEW_MATH_TOWER, EFlavor.MATH);
-		mappingActionToFlavor.put(EUserAction.NEW_TECH_INF_TOWER, EFlavor.COMPUTER_ENGINEERING);
-		mappingActionToFlavor.put(EUserAction.NEW_CODE_TOWER, EFlavor.PROGRAMMING);
-		mappingActionToFlavor.put(EUserAction.NEW_THEO_INF_TOWER, EFlavor.THEORETICAL_COMPUTER_SCIENCE);
-		mappingActionToFlavor.put(EUserAction.NEW_ECO_TOWER, EFlavor.ECONOMICS);
-		mappingActionToFlavor.put(EUserAction.NEW_SOCIAL_TOWER, EFlavor.SOCIAL);
-	}
+
 	
 	public Executor(GameState gameState) {
 		this.gameState = gameState;
@@ -120,7 +113,8 @@ public class Executor {
 	
 	private IAction<EFlavor> updateInformationText = new IAction<EFlavor>() {
 		public void execute(EFlavor... args) {
-			gameState.setInformation("Build " + args[0].name());
+			String informationText = EInformationText.getInformationText(flavor, gameState.levelCount(), BASIC_COST);
+			gameState.setInformation("Baue:  " + informationText);
 		}
 	};
 	
@@ -137,7 +131,7 @@ public class Executor {
 	};
 	
 	private EFlavor newTowerToFlavor(EUserAction state) {
-		return mappingActionToFlavor.get(state);
+		return  GameConstants.mapActionToFlavor(state);
 	}
 
 

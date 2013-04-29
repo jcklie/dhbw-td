@@ -1,5 +1,10 @@
 package de.dhbw.td.core.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import de.dhbw.td.core.ui.EUserAction;
+
 public class GameConstants {
 	
 	/*
@@ -47,8 +52,35 @@ public class GameConstants {
 	
 	public static final int PROJECTILE_SPEED = 450;
 	public static final double RETURN_PERCENTAGE = 0.85;
+	public static final int BASIC_COST = 8;
 	
 	public static int toTile(int pos) {
 		return (int)Math.floor(pos/64);
+	}
+	
+	public static String mapFlavorToImagePrefix(EFlavor flavor) {
+		switch(flavor) {
+		case COMPUTER_ENGINEERING: return "TECHINF";
+		case ECONOMICS: return "WIWI";
+		case MATH: return "MATH";
+		case PROGRAMMING: return "CODE";
+		case SOCIAL: return "SOCIAL";
+		case THEORETICAL_COMPUTER_SCIENCE: return "THEOINF";
+		default: throw new IllegalStateException("I should not be thrown");
+		
+		}
+	}
+	
+	public static EFlavor mapActionToFlavor(EUserAction action) {
+		switch(action) {
+		case NEW_MATH_TOWER: return EFlavor.MATH;
+		case NEW_TECH_INF_TOWER: return EFlavor.COMPUTER_ENGINEERING;
+		case NEW_CODE_TOWER: return EFlavor.PROGRAMMING;
+		case NEW_THEO_INF_TOWER: return EFlavor.THEORETICAL_COMPUTER_SCIENCE;
+		case NEW_ECO_TOWER: return EFlavor.ECONOMICS;
+		case NEW_SOCIAL_TOWER: return EFlavor.SOCIAL;
+		default: throw new IllegalArgumentException("No mapping!");
+		}
+
 	}
 }
