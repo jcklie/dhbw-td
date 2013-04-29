@@ -1,11 +1,11 @@
 {
 	"levels": [
-		{"damage":  5, "range": 130, "price":  8, "image": "social.png"},
-		{"damage":  7, "range": 140, "price": 12, "image": "social.png"},
-		{"damage":  9, "range": 150, "price": 16, "image": "social.png"},
-		{"damage": 12, "range": 150, "price": 20, "image": "social.png"},
-		{"damage": 13, "range": 160, "price": 25, "image": "social.png"},
-		{"damage": 16, "range": 160, "price": 30, "image": "social.png"}
+		{"damage":  5, "range": 140, "price":  8, "image": "social.png"},
+		{"damage":  7, "range": 150, "price": 12, "image": "social.png"},
+		{"damage":  9, "range": 160, "price": 16, "image": "social.png"},
+		{"damage": 12, "range": 160, "price": 20, "image": "social.png"},
+		{"damage": 13, "range": 170, "price": 25, "image": "social.png"},
+		{"damage": 15, "range": 170, "price": 30, "image": "social.png"}
 	],
 	"levelCount": 6,
 	"cadenza": 60,
