@@ -74,7 +74,6 @@ public class Executor {
 		this.x = x;
 		this.y = y;
 		
-
 		handleNewState(newState);
 		
 	}
@@ -136,7 +135,7 @@ public class Executor {
 				gameState.setInformation(String.format("%s - %d", infoText, t.upgradeCost()));
 			}
 		}
-	}; 
+	};
 	
 	private EFlavor newTowerToFlavor(EUserAction state) {
 		return  GameConstants.mapActionToFlavor(state);

@@ -1,8 +1,5 @@
 package de.dhbw.td.core.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import de.dhbw.td.core.ui.EUserAction;
 
 public class GameConstants {
