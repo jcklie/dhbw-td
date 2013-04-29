@@ -69,6 +69,7 @@ public class HUD implements IDrawable, IUIEventListener {
 	private Canvas informationCanvas;
 	
 	private TextFormat textFormat;
+	private TextFormat smallerTextFormat;
 	
 	private List<Button> buttons;
 	
@@ -97,6 +98,9 @@ public class HUD implements IDrawable, IUIEventListener {
 		
 		Font miso = graphics().createFont("Miso", Font.Style.PLAIN, FONTSIZE);
 		textFormat = new TextFormat().withFont(miso);
+		
+		miso = graphics().createFont("Miso", Font.Style.PLAIN, 20);
+		smallerTextFormat = new TextFormat().withFont(miso);
 	}
 	
 	/**
@@ -298,7 +302,12 @@ public class HUD implements IDrawable, IUIEventListener {
 	
 	private void drawInformation(Surface surf){
 		informationCanvas.clear();
-		drawText(informationCanvas, gameState.information(), 0, 0);
+		String text = gameState.information();
+		if( text.contains("\n")) {
+			drawText(informationCanvas, smallerTextFormat, gameState.information(), 0, 0);
+		} else {
+			drawText(informationCanvas, gameState.information(), 0, 0);
+		}
 		surf.drawImage(informationCanvasImage, OFFSET_TEXT_INFORMATION, OFFSET_TEXT_FOOT);
 	}
 	
@@ -316,7 +325,11 @@ public class HUD implements IDrawable, IUIEventListener {
 	 * @param y the y-coordinate of the upper left corner of the textbox to be drawn
 	 */
 	private void drawText(Canvas canvas, Object o, int x, int y) {
-		TextLayout text = graphics().layoutText(o.toString(), textFormat);
+		drawText(canvas, textFormat, o, x, y);
+	}
+	
+	private void drawText(Canvas canvas, TextFormat format, Object o, int x, int y) {
+		TextLayout text = graphics().layoutText(o.toString(), format);
 		canvas.fillText(text,x, y);
 	}
 

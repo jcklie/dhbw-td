@@ -1,18 +1,17 @@
 package de.dhbw.td.core.fsm;
 
 
-public interface IAction<T> {
+public interface IAction {
 	
-	@SuppressWarnings("rawtypes")
 	IAction NONE = new IAction() {
 
 		@Override
-		public void execute(Object arg) {
+		public void execute() {
 			return;	
 		}
 		
 	};
 	
-	void execute(T arg);
+	void execute();
 
 }

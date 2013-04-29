@@ -1,5 +1,7 @@
 package de.dhbw.td.core.util;
 
+import java.util.EnumSet;
+
 import de.dhbw.td.core.ui.EUserAction;
 
 public class GameConstants {
@@ -50,6 +52,9 @@ public class GameConstants {
 	public static final int PROJECTILE_SPEED = 450;
 	public static final double RETURN_PERCENTAGE = 0.85;
 	public static final int BASIC_COST = 8;
+	public static EnumSet<EUserAction> NEW_TOWER_ACTIONS = EnumSet.range(EUserAction.NEW_MATH_TOWER, EUserAction.NEW_SOCIAL_TOWER);
+	public static EnumSet<EFlavor> TOWERS = EnumSet.range(EFlavor.MATH, EFlavor.SOCIAL);
+	
 	
 	public static int toTile(int pos) {
 		return (int)Math.floor(pos/64);

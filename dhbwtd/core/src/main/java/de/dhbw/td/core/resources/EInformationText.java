@@ -5,7 +5,7 @@ import de.dhbw.td.core.util.GameConstants;
 
 public enum EInformationText {
 	
-	CODE_LVL1("C"),
+	CODE_LVL1("C Language"),
 	CODE_LVL2("Java"),
 	CODE_LVL3("PHP"),
 	CODE_LVL4("Assembler"),
@@ -29,7 +29,7 @@ public enum EInformationText {
 	THEOINF_LVL4("Compilerbau"),
 	THEOINF_LVL5("Relationale Algebra"),
 	WIWI_LVL1("BWL"),
-	WIWI_LVL2("Business processes"),
+	WIWI_LVL2("Geschäftsprozesse"),
 	WIWI_LVL3("Worfklow management"),
 	WIWI_LVL4("eBusiness"),
 	WIWI_LVL5("Wissensmanagement"),

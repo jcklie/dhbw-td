@@ -1,10 +1,10 @@
 package de.dhbw.td.core.fsm;
 
-import java.util.EnumSet;
-
+import static de.dhbw.td.core.util.GameConstants.NEW_TOWER_ACTIONS;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.resources.EInformationText;
 import de.dhbw.td.core.tower.Tower;
+import de.dhbw.td.core.tower.TowerStats;
 import de.dhbw.td.core.ui.EUserAction;
 import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.core.util.GameConstants;
@@ -19,12 +19,10 @@ public class Executor {
 	
 	private GameState gameState;
 	private FiniteStateMachine<EUserAction, EFlavor> fsm;
+	private TowerStats stats = new TowerStats();
 	private EFlavor flavor;
 	private int x;
 	private int y;
-	
-	private static EnumSet<EUserAction> NEW_TOWER_ACTIONS = EnumSet.range(EUserAction.NEW_MATH_TOWER, EUserAction.NEW_SOCIAL_TOWER);
-
 	
 	public Executor(GameState gameState) {
 		this.gameState = gameState;
@@ -34,6 +32,7 @@ public class Executor {
 		initFSM();
 	}
 	
+
 	private void initFSM() {
 		initTowerStates();
 		initInformationTextTransitions();
@@ -68,14 +67,12 @@ public class Executor {
 			}
 		}
 	}
-	
 
 	public void handleNewState(EUserAction newState, int x, int y) {
 		this.x = x;
 		this.y = y;
 		
 		handleNewState(newState);
-		
 	}
 	
 	public void handleNewState(EUserAction newState) {
@@ -83,62 +80,74 @@ public class Executor {
 			flavor = newTowerToFlavor(newState);
 		}
 		
-		IAction<EFlavor> action = fsm.transit(newState);
-		action.execute(flavor);
+		IAction action = fsm.transit(newState);
+		action.execute();
 	}
 	
-	private IAction<EFlavor> buildTower = new IAction<EFlavor>() {
-		public void execute(EFlavor flavor) {
+	private IAction buildTower = new IAction() {
+		public void execute() {
 			gameState.buildTower(flavor, x, y);
 			gameState.clearInformation();
 		}
 	};
 	
-	private IAction<EFlavor> upgradeTower = new IAction<EFlavor>() {
-		public void execute(EFlavor flavor) {
+	private IAction upgradeTower = new IAction() {
+		public void execute() {
 			gameState.upgradeTower(x, y);
 		}
 	};
 	
-	private IAction<EFlavor> sellTower = new IAction<EFlavor>() {
-		public void execute(EFlavor flavor) {
+	private IAction sellTower = new IAction() {
+		public void execute() {
 			gameState.sellTower(x, y);
 		}
 	};
 	
-	private IAction<EFlavor> updateInformationText = new IAction<EFlavor>() {
-		public void execute(EFlavor flavor) {
+	private IAction updateInformationText = new IAction() {
+		public void execute() {
 			String informationText = EInformationText.getInformationText(flavor, gameState.levelCount());
 			gameState.setInformation("Baue:  " + informationText);
 		}
 	};
 	
-	private IAction<EFlavor> updateInformationSell = new IAction<EFlavor>() {
-		public void execute(EFlavor flavor) {
+	private IAction updateInformationSell = new IAction() {
+		public void execute() {
 			gameState.setInformation("Verkaufe");
 		}
 	};
 	
-	private IAction<EFlavor> updateInformationUpgrade = new IAction<EFlavor>() {
-		public void execute(EFlavor flavor) {
+	private IAction updateInformationUpgrade = new IAction() {
+		public void execute() {
 			gameState.setInformation("Verbessere");
 		}
 	};
 	
-	private IAction<EFlavor> setInformationAboutTower = new IAction<EFlavor>() {
-		public void execute(EFlavor flavor) {
+	private IAction setInformationAboutTower = new IAction() {
+		public void execute() {
 			Tower t = gameState.getTower(x, y);
+			System.out.println(t);
 			if( t ==  null) {
 				gameState.clearInformation();
 			} else {
-				String infoText = EInformationText.getInformationText(t.flavor(), t.level() + 1);
-				gameState.setInformation(String.format("%s - %d", infoText, t.upgradeCost()));
+				flavor = t.flavor();
+				String toolTip = buildToolTip(flavor, t.level() + 1); // + 1 since i want information about upgrade
+				gameState.setInformation(toolTip);
 			}
 		}
 	};
 	
 	private EFlavor newTowerToFlavor(EUserAction state) {
 		return  GameConstants.mapActionToFlavor(state);
+	}
+	
+	private String buildToolTip(EFlavor flavor, int level) {
+		String towerDesc = EInformationText.getInformationText(flavor, gameState.levelCount());
+		int dmg = stats.getDamage(flavor, level);
+		int range = stats.getRange(flavor, level);
+		int price = stats.getPrice(flavor, level);
+		int cadenza = stats.getCadenza(flavor);
+		
+		return String.format("%s\n DMG:%d R:%d C:%d U:%d", towerDesc, dmg, range, cadenza, price > 0 ? price : "X" );
 	}
 
 

@@ -6,18 +6,18 @@ public class Elevator {
 	private ELightState green;
 	private ELightState red;
 	
-	public final IAction<String> UP = new IAction<String>() {
+	public final IAction UP = new IAction() {
 		
 		@Override
-		public void execute(String args) {
+		public void execute() {
 			red = ELightState.OFF;	
 			green = ELightState.ON;	
 		}
 	};
 	
-	public final IAction<String> DOWN = new IAction<String>() {		
+	public final IAction DOWN = new IAction() {		
 		@Override
-		public void execute(String args) {
+		public void execute() {
 			red = ELightState.ON;	
 			green = ELightState.OFF;
 		}
