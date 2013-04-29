@@ -11,7 +11,8 @@ public enum EEnemyImage {
 	SOCIAL_ENEMY("social.png"),
 	TECHINF_ENEMY("techinf.png"),
 	THEOINF_ENEMY("theoinf.png"),
-	WIWI_ENEMY("wiwi.png");
+	WIWI_ENEMY("wiwi.png"),
+	ENDBOSS("endboss.png");
 	
 	private Image image;
 	
@@ -23,6 +24,7 @@ public enum EEnemyImage {
 			case ECONOMICS: return WIWI_ENEMY.image;
 			case PROGRAMMING: return CODE_ENEMY.image;
 			case SOCIAL: return SOCIAL_ENEMY.image;
+			case ENDBOSS: return ENDBOSS.image;
 			default: throw new RuntimeException("I should not be thrown!");
 		}
 	}

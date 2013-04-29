@@ -100,9 +100,10 @@ public class WaveControllerFactory {
 	 * @return
 	 */
 	private Wave createEndboss(Json.Array json) {
-		List<Enemy> enemy = new LinkedList<Enemy>();		
-		enemy.add(createEnemy(parseEnemyStats(json)));
-		return new Wave(42, enemy);
+		List<Enemy> enemy = new LinkedList<Enemy>();
+		int[] stats = parseEnemyStats(json);
+		enemy.add(new Enemy(stats[0], stats[1], stats[2], EFlavor.ENDBOSS, waypoints));
+		return new Wave(NUMBER_OF_WAVES, enemy);
 	}
 	
 	/**

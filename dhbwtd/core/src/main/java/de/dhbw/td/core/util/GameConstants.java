@@ -16,8 +16,8 @@ public class GameConstants {
 	 * GAME CONSTANTS
 	 */
 	public static final int FACTOR_DELTA_FF = 4;
-	public static final int INITIAL_CREDITS = 25;
-	public static final int INITIAL_LIFEPOINTS = 100;
+	public static final int INITIAL_CREDITS = 2500;
+	public static final int INITIAL_LIFEPOINTS = 10000;
 	public static final int NO_OF_LEVELZ = 6;
 	
 	/*
