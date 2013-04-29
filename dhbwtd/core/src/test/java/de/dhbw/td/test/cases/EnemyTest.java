@@ -42,19 +42,19 @@ public class EnemyTest extends TestCase {
 	public void testEnemyUpdate() {		
 		Point[] wp = getWaypoints();
 		int i = 0;
-		assertEquals(wp[i++], enemy.currentPosition());		
+		assertEquals(wp[i++], enemy.position());		
 		enemy.update(1000);
 		
-		assertEquals(wp[i++], enemy.currentPosition());		
+		assertEquals(wp[i++], enemy.position());		
 		enemy.update(1000);
 		
-		assertEquals(wp[i++], enemy.currentPosition());		
+		assertEquals(wp[i++], enemy.position());		
 		enemy.update(1000);
 		
-		assertEquals(wp[i++], enemy.currentPosition());		
+		assertEquals(wp[i++], enemy.position());		
 		enemy.update(1000);
 		
-		assertEquals(wp[i++], enemy.currentPosition());		
+		assertEquals(wp[i++], enemy.position());		
 		enemy.update(1000);
 	}	
 
