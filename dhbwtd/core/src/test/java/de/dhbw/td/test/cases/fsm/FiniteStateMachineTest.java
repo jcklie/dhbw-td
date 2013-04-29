@@ -48,7 +48,7 @@ public class FiniteStateMachineTest extends TestCase {
 		
 		// We are in GROUND and press DOWN, nothing should happen		
 		action = elevatorFSM.transit(EElevatorState.GROUND);
-		action.execute();
+		action.execute("Ground");
 		
 		assertEquals(EElevatorState.GROUND, elevatorFSM.currentState());
 		assertEquals(ELightState.OFF, elevator.green());
@@ -56,7 +56,7 @@ public class FiniteStateMachineTest extends TestCase {
 		
 		// We are in GROUND and press UP
 		action = elevatorFSM.transit(EElevatorState.FIRST);
-		action.execute();
+		action.execute("FIRST");
 		
 		assertEquals(EElevatorState.FIRST, elevatorFSM.currentState());
 		assertEquals(ELightState.ON, elevator.green());
@@ -64,7 +64,7 @@ public class FiniteStateMachineTest extends TestCase {
 		
 		// We are in FIRST and press UP
 		action = elevatorFSM.transit(EElevatorState.FIRST);
-		action.execute();
+		action.execute("FIRST");
 		
 		assertEquals(EElevatorState.FIRST, elevatorFSM.currentState());
 		assertEquals(ELightState.ON, elevator.green());
@@ -72,7 +72,7 @@ public class FiniteStateMachineTest extends TestCase {
 		
 		// We are in FIRST and press DOWN
 		action = elevatorFSM.transit(EElevatorState.GROUND);
-		action.execute();
+		action.execute("Ground");
 		
 		assertEquals(EElevatorState.GROUND, elevatorFSM.currentState());
 		assertEquals(ELightState.OFF, elevator.green());
