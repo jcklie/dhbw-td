@@ -1,9 +1,9 @@
 {
 	"levels": [
-		{"damage": 10, "range": 50, "price":  8, "image": "techinf.png"},
-		{"damage": 17, "range": 60, "price": 21, "image": "techinf.png"},
-		{"damage": 22, "range": 70, "price": 34, "image": "techinf.png"},
-		{"damage": 24, "range": 80, "price": 47, "image": "techinf.png"}
+		{"damage": 7, "range": 80, "price":  8, "image": "techinf.png"},
+		{"damage": 12, "range": 80, "price": 21, "image": "techinf.png"},
+		{"damage": 17, "range": 90, "price": 34, "image": "techinf.png"},
+		{"damage": 20, "range": 100, "price": 47, "image": "techinf.png"}
 	],
 	"levelCount": 4,
 	"cadenza": 80,
