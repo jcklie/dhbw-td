@@ -284,7 +284,14 @@ public class HUD implements IDrawable, IUIEventListener {
 	
 	private void drawSemester(Surface surf) {			
 		semesterCanvas.clear();
-		String clockText = gameState.levelCount() + ". Semester - " + gameState.waveCount() + ". Woche";			
+		
+		String clockText = gameState.levelCount() + ". Semester - ";
+		if (gameState.isEndboss()) {
+			clockText += "Klausuren";
+		} else {
+			clockText += gameState.waveCount() + ". Woche";			
+		}
+		
 		drawText(semesterCanvas, clockText, 0, 0);
 		surf.drawImage(semesterCanvasImage, OFFSET_TEXT_CLOCK*TILE_SIZE, OFFSET_TEXT_HEAD);	
 	}

@@ -392,6 +392,7 @@ public class GameState implements IUpdateable {
 	public int credits() {	return credits;	}
 	public int waveCount() { return waveCount; }
 	public int levelCount() { return levelNumber;	}
+	public boolean isEndboss() { return !currentWaveController.hasNextWave(); }
 	public EGameStatus status() { return status; }
 	public String information() { return information; }
 }

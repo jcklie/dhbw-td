@@ -34,6 +34,8 @@ public class WaveControllerFactory {
 	private static final int UB_ENEMY_TYPES = 6;
 	private static final EFlavor[] enemyTypeArray = EFlavor.values();
 	
+	private static final Random r = new Random();
+	
 	private int currentSemester = 0;
 	private Point[] waypoints;
 	private int enemyCount;
@@ -53,21 +55,23 @@ public class WaveControllerFactory {
 	public WaveController constructWaveController(Object parsedJson, Point[] waypointArray) {
 		this.waypoints = waypointArray;
 		
-		int[][] semester = new int[NUMBER_OF_WAVES][NUMBER_OF_ATTRIBUTES];
+		int[][] semester = new int[NUMBER_OF_WAVES][];
 
 		this.enemyCount = parsedJson.getInt("enemyCount");
 		Json.Array semesterArr = parsedJson.getArray("waves");
 
 		for (int row = 0; row < NUMBER_OF_WAVES; row++) {
 			Json.Array gridRow = semesterArr.getArray(row);
-
-			for (int col = 0; col < NUMBER_OF_ATTRIBUTES; col++) {
-				int val = gridRow.getInt(col);
-				semester[row][col] = val;
-			}
+			
+			semester[row] = parseEnemyStats(gridRow);
 		}
+		
 		currentSemester++;
-		return new WaveController(createWaves(semester));
+		
+		Queue<Wave> waves = createWaves(semester);
+		waves.add(createEndboss(parsedJson.getArray("endboss")));
+		
+		return new WaveController(waves);
 	}
 
 	/**
@@ -78,22 +82,58 @@ public class WaveControllerFactory {
 	 * 
 	 */
 	private Queue<Wave> createWaves(int[][] semesters) {
-		Random r = new Random();
 		Queue<Wave> waves = new LinkedList<Wave>();
 		for (int waveNumber = 0; waveNumber < NUMBER_OF_WAVES; waveNumber++) {
 			List<Enemy> enemies = new LinkedList<Enemy>();
-			for (int enemyNumber = 0; enemyNumber < enemyCount; enemyNumber++) {
-				int maxHealth = semesters[waveNumber][0];
-				double speed = semesters[waveNumber][1];
-				int bounty = semesters[waveNumber][2];
-				int next = r.nextInt(UB_ENEMY_TYPES);
-				EFlavor enemyType = enemyTypeArray[next];
-				enemies.add(new Enemy(maxHealth, speed, bounty, enemyType, waypoints));
+			for (int enemyNumber = 0; enemyNumber < enemyCount; enemyNumber++) {	
+				enemies.add(createEnemy(semesters[waveNumber]));
 			}
 			Wave wave = new Wave(waveNumber, enemies);
 			waves.add(wave);
 		}
 		return waves;
+	}
+	
+	/**
+	 * Creates the wave of the endboss with the given stats
+	 * @param json The json array
+	 * @return
+	 */
+	private Wave createEndboss(Json.Array json) {
+		List<Enemy> enemy = new LinkedList<Enemy>();		
+		enemy.add(createEnemy(parseEnemyStats(json)));
+		return new Wave(42, enemy);
+	}
+	
+	/**
+	 * Converts the json array to an int array with 3 fields 
+	 * which holds the stats of an enemy
+	 * @param json The json array
+	 * @return The array containing the parsed stats
+	 */
+	private int[] parseEnemyStats(Json.Array json) {
+		int[] stats = new int[NUMBER_OF_ATTRIBUTES];
+		
+		for (int i = 0; i < NUMBER_OF_ATTRIBUTES; i++) {
+			stats[i] = json.getInt(i);
+		}
+		
+		return stats;
+	}
+
+	/**
+	 * Creates an enemy with the given stats
+	 * @param stats Array must contain of 3 field.<br>
+	 * 		<b></code>maxHealth = stats[0]</code></b><br>
+	 * 		<b></code>speed = stats[1]</code></b><br>
+	 * 		<b></code>bounty = stats[2]</code></b>
+	 * @return The created enemy with a random {@link EFlavor}
+	 */
+	private Enemy createEnemy(int[] stats) {
+		int next = r.nextInt(UB_ENEMY_TYPES);
+		EFlavor enemyType = enemyTypeArray[next];
+		
+		return new Enemy(stats[0], stats[1], stats[2], enemyType, waypoints);
 	}
 
 	/**

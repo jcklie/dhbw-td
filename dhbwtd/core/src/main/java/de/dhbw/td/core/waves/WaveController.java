@@ -73,5 +73,4 @@ public class WaveController {
 	public Wave getCurrentWave() {
 		return currentWave;
 	}
-
 }
