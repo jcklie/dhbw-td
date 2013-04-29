@@ -13,6 +13,7 @@ import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.level.ETileType;
 import de.dhbw.td.core.level.Level;
 import de.dhbw.td.core.resources.EEnemyImage;
+import de.dhbw.td.core.resources.EProjectileImage;
 import de.dhbw.td.core.resources.ETowerImage;
 import de.dhbw.td.core.tower.Projectile;
 import de.dhbw.td.core.tower.Tower;
@@ -37,11 +38,23 @@ public class GameDrawer implements IDrawable {
 		surf.drawImage(img, tower.x(), tower.y());
 		
 		for (Projectile projectile : tower.projectiles()) {
-			projectile.draw(surf);
+			drawProjectile(projectile, surf);
 		}
 	}
 	
 
+	private void drawProjectile(Projectile p, Surface surf) {
+		if (!p.hasHit()) {
+			Image img = EProjectileImage.LASER.image;
+			float hwidth = (int) (img.width() / 2);
+			float hheight = (int) (img.height() / 2);
+			surf.save();
+			surf.translate(p.x() + hwidth, p.y() + hheight);
+			surf.rotate((float) (p.angle() + Math.PI / 2));
+			surf.drawImage(img, -hwidth, -hheight);
+			surf.restore();
+		}
+	}
 
 	/**
 	 * Draws an enemy onto the specified surface

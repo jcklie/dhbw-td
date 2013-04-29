@@ -5,7 +5,8 @@ import playn.core.Image;
 
 public enum EProjectileImage {
 	
-	PROJECTILE("generic.png");
+	LASER("laser.png"),
+	GENERIC("generic.png");
 	
 	public final Image image;
 	

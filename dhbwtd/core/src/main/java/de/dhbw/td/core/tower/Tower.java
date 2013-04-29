@@ -13,7 +13,6 @@ import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
 import java.util.LinkedList;
 import java.util.List;
 
-import playn.core.Image;
 import pythagoras.i.Point;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.IUpdateable;
@@ -28,7 +27,6 @@ public class Tower implements IUpdateable {
 	private final Point position;
 	private final TowerLevel[] levels;
 	private final double shotRate;
-	private final Image projectile;
 	
 	private double lastShot;
 	private boolean hasShot;
@@ -38,12 +36,11 @@ public class Tower implements IUpdateable {
 	
 	private List<Projectile> projectiles = new LinkedList<Projectile>();
 	
-	public Tower(EFlavor flavor, Point position, TowerLevel[] levels, double cadenza, Image projectile) {
+	public Tower(EFlavor flavor, Point position, TowerLevel[] levels, double cadenza) {
 		this.position = new Point(position);
 		this.levels = levels;
 		this.flavor = flavor;
 		this.shotRate = (60 * 1000) / cadenza;
-		this.projectile = projectile;
 	}
 	
 	public void upgrade() {
@@ -110,7 +107,7 @@ public class Tower implements IUpdateable {
 	 * Adds a new projectile to this tower which traces the current target.
 	 */
 	private void shoot() {
-		Projectile p = new Projectile(center(), damage(), flavor, PROJECTILE_SPEED, target, projectile);
+		Projectile p = new Projectile(center(), damage(), flavor, PROJECTILE_SPEED, target);
 		projectiles.add(p);
 	}
 	

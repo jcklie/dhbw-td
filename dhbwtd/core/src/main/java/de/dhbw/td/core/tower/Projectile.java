@@ -1,39 +1,29 @@
 package de.dhbw.td.core.tower;
 
-import playn.core.Image;
-import playn.core.Surface;
 import pythagoras.d.Vector;
 import pythagoras.i.Point;
 import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.IUpdateable;
-import de.dhbw.td.core.ui.IDrawable;
 import de.dhbw.td.core.util.EFlavor;
 
 
-public class Projectile implements IDrawable, IUpdateable {
+public class Projectile implements IUpdateable {
 	
 	private final int damage;
 	private final double speed;
 	private final Enemy target;
-	private final Image image;
 	private final EFlavor flavor;
-	
-	private final float hwidth;
-	private final float hheight;
 	
 	private boolean hit;
 	
 	private Point currentPosition;
 	
-	public Projectile(Point position, int damage, EFlavor flavor, double speed, Enemy target, Image image) {
+	public Projectile(Point position, int damage, EFlavor flavor, double speed, Enemy target) {
 		this.currentPosition = new Point(position);
 		this.damage = damage;
 		this.flavor = flavor;
 		this.speed = speed;
 		this.target = target;
-		this.image = image;
-		this.hwidth = image.width() / 2;
-		this.hheight = image.height() / 2;
 	}
 
 	@Override
@@ -76,16 +66,7 @@ public class Projectile implements IDrawable, IUpdateable {
 				target.center().y() - currentPosition.y());
 	}
 
-	@Override
-	public void draw(Surface surf) {
-		if (!hit) {
-			surf.save();
-			surf.translate(currentPosition.x() + hwidth, currentPosition.y() + hwidth);
-			surf.rotate((float) (vector().angle() + Math.PI / 2));
-			surf.drawImage(image, -hwidth, -hheight);
-			surf.restore();
-		}
-	}
+
 	
 	/**
 	 * Returns if projectile has hit a tower
@@ -94,5 +75,9 @@ public class Projectile implements IDrawable, IUpdateable {
 	public boolean hasHit() {
 		return hit;
 	}
+	
+	public int x() { return currentPosition.x; }
+	public int y() { return currentPosition.y; }
+	public double angle() { return vector().angle(); }
 
 }

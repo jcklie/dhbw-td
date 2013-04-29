@@ -59,7 +59,7 @@ public class FiniteStateMachine<E extends Enum<E>, R> {
 		IAction<R> actionOnTransit = getAction(currentState, nextState);
 		lastState = currentState;
 		currentState = nextState;
-		log().debug("FSM state:" + currentState);
+		
 		return actionOnTransit;
 	}
 	
