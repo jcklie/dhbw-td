@@ -103,6 +103,7 @@ public class GameState implements IUpdateable {
 			currentWave = getNextWave();
 			copyEnemiesFromWave(currentWave);
 			plat = createMap(currentLevel);
+			credits = INITIAL_CREDITS;
 			
 			towers = new LinkedList<Tower>();
 		}
@@ -158,9 +159,9 @@ public class GameState implements IUpdateable {
 		boolean[][] m = new boolean[ROWS][COLS];
 			  
 		// We start in the second row, since the first one is for hud elements
-		for(int row = 1; row < ROWS; row++) {
+		for(int row = 1; row < ROWS - 1; row++) {
 			// We end in the last but one row, since the last one is for hud elements
-			for(int col = 0; col < COLS - 1; col++) {
+			for(int col = 0; col < COLS; col++) {
 				if(currentLevel.map()[row][col] == ETileType.GRID) {
 					m[row][col] = true;
 				}
