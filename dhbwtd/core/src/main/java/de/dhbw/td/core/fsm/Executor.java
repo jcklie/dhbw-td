@@ -128,7 +128,9 @@ public class Executor {
 	private IAction<EFlavor> setInformationAboutTower = new IAction<EFlavor>() {
 		public void execute(EFlavor flavor) {
 			Tower t = gameState.getTower(x, y);
-			if( t !=  null) {
+			if( t ==  null) {
+				gameState.setInformation("");
+			} else {
 				String infoText = EInformationText.getInformationText(t.flavor(), t.level() + 1);
 				gameState.setInformation(String.format("%s - %d", infoText, t.upgradeCost()));
 			}
