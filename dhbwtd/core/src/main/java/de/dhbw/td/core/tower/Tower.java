@@ -69,19 +69,15 @@ public class Tower implements IUpdateable {
 	}
 
 	@Override
-	public void update(double delta) {		
+	public void update(double delta) {
 		lastShot += delta;
+		
+		System.out.println(range());
 
 		if (hasBulletReady()) {
-		
-			if (targetIsInvalid()) {
-				target = null;
-			}
 			
-			if( target == null ) {
-				searchNewTarget();
-			}
-			
+			searchNewTarget();
+
 			if( canShoot()) {
 				shoot();
 				hasShot = true;	
@@ -104,16 +100,6 @@ public class Tower implements IUpdateable {
 	}
 	
 	/**
-	 * Check if last target is still valid. That might be false as a result of a
-	 * dead enemy or an enemy out of range
-	 * 
-	 * @return 
-	 */
-	private boolean targetIsInvalid() {
-		return target != null && (!target.alive() || !inRange(target));
-	}
-	
-	/**
 	 * Check if tower can shoot. This may be false if the enemy is not on the 
 	 * screen or out of range.
 	 * @return
@@ -131,21 +117,18 @@ public class Tower implements IUpdateable {
 	}
 	
 	/**
-	 * Scans the enemy list for the closest enemy
+	 * Scans the enemy list for the next enemy which is alive and in range
 	 */
 	private void searchNewTarget() {
-
-		double minDistance = -1;
-		
-		//Search the nearest enemy which is in range
 		for (Enemy enemy : enemies) {
-			double distance = getDistance(enemy);
-
-			if ((enemy.alive() && inRange(distance)) && (distance < minDistance || target == null)) {
+			
+			if (enemy.alive() && inRange(enemy)) {
 				target = enemy;
-				minDistance = distance;						
+				return;
 			}
 		}
+		//No enemy found
+		target = null;
 	}
 	
 	/**
