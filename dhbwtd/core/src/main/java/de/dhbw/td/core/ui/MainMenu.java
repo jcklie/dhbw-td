@@ -152,7 +152,7 @@ public class MainMenu implements IDrawable, IUIEventListener {
 				return EUserAction.NONE;
 			}
 			
-		case Q:
+		case B:
 			if(!(showHelp || showCredits)) {
 				return EUserAction.QUIT_GAME;
 			}
