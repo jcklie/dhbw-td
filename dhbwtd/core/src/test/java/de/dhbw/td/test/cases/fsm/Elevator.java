@@ -9,7 +9,7 @@ public class Elevator {
 	public final IAction<String> UP = new IAction<String>() {
 		
 		@Override
-		public void execute(String ... args) {
+		public void execute(String args) {
 			red = ELightState.OFF;	
 			green = ELightState.ON;	
 		}
@@ -17,7 +17,7 @@ public class Elevator {
 	
 	public final IAction<String> DOWN = new IAction<String>() {		
 		@Override
-		public void execute(String ... args) {
+		public void execute(String args) {
 			red = ELightState.ON;	
 			green = ELightState.OFF;
 		}
