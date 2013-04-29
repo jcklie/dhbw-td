@@ -1,15 +1,10 @@
 package de.dhbw.td.core.fsm;
 
-import static playn.core.PlayN.log;
-import static de.dhbw.td.core.util.GameConstants.*;
-
-import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.resources.EInformationText;
+import de.dhbw.td.core.tower.Tower;
 import de.dhbw.td.core.ui.EUserAction;
 import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.core.util.GameConstants;
@@ -17,7 +12,7 @@ import de.dhbw.td.core.util.GameConstants;
 /**
  * This class is used to hide all the nasty details related to execute the
  * user interactions.
- * @author Jan-Christoph Klie
+ * @author Jan-Christoph Klie, Lucas Berg, Benedict Holste
  *
  */
 public class Executor {
@@ -48,6 +43,7 @@ public class Executor {
 		fsm.addTransition(EUserAction.NONE, EUserAction.UPGRADE, updateInformationUpgrade);
 		fsm.addTransition(EUserAction.SELL, EUserAction.UPGRADE, updateInformationUpgrade);
 		fsm.addTransition(EUserAction.UPGRADE, EUserAction.SELL, updateInformationSell);
+		fsm.addTransition(EUserAction.NONE, EUserAction.NONE, setInformationAboutTower);
 	}
 	
 	/**
@@ -93,42 +89,51 @@ public class Executor {
 	}
 	
 	private IAction<EFlavor> buildTower = new IAction<EFlavor>() {
-		public void execute(EFlavor... args) {
-			log().debug("I want to build a " + Arrays.toString(args));
-			gameState.buildTower(args[0], x, y);
+		public void execute(EFlavor flavor) {
+			gameState.buildTower(flavor, x, y);
 		}
 	};
 	
 	private IAction<EFlavor> upgradeTower = new IAction<EFlavor>() {
-		public void execute(EFlavor... args) {
+		public void execute(EFlavor flavor) {
 			gameState.upgradeTower(x, y);
 		}
 	};
 	
 	private IAction<EFlavor> sellTower = new IAction<EFlavor>() {
-		public void execute(EFlavor... args) {
+		public void execute(EFlavor flavor) {
 			gameState.sellTower(x, y);
 		}
 	};
 	
 	private IAction<EFlavor> updateInformationText = new IAction<EFlavor>() {
-		public void execute(EFlavor... args) {
-			String informationText = EInformationText.getInformationText(flavor, gameState.levelCount(), BASIC_COST);
+		public void execute(EFlavor flavor) {
+			String informationText = EInformationText.getInformationText(flavor, gameState.levelCount());
 			gameState.setInformation("Baue:  " + informationText);
 		}
 	};
 	
 	private IAction<EFlavor> updateInformationSell = new IAction<EFlavor>() {
-		public void execute(EFlavor... args) {
-			gameState.setInformation("Sell");
+		public void execute(EFlavor flavor) {
+			gameState.setInformation("Verkaufe");
 		}
 	};
 	
 	private IAction<EFlavor> updateInformationUpgrade = new IAction<EFlavor>() {
-		public void execute(EFlavor... args) {
-			gameState.setInformation("Upgrade");
+		public void execute(EFlavor flavor) {
+			gameState.setInformation("Verbessere");
 		}
 	};
+	
+	private IAction<EFlavor> setInformationAboutTower = new IAction<EFlavor>() {
+		public void execute(EFlavor flavor) {
+			Tower t = gameState.getTower(x, y);
+			if( t !=  null) {
+				String infoText = EInformationText.getInformationText(t.flavor(), t.level() + 1);
+				gameState.setInformation(String.format("%s - %d", infoText, t.upgradeCost()));
+			}
+		}
+	}; 
 	
 	private EFlavor newTowerToFlavor(EUserAction state) {
 		return  GameConstants.mapActionToFlavor(state);

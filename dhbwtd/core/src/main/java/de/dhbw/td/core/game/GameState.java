@@ -234,7 +234,7 @@ public class GameState implements IUpdateable {
 		}
 	}
 	
-	private Tower getTower(int pixelx, int pixely) {
+	public Tower getTower(int pixelx, int pixely) {
 		int tilex = toTile(pixelx);
 		int tiley = toTile(pixely);
 		
