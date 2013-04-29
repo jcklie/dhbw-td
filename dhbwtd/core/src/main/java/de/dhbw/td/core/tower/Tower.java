@@ -71,11 +71,9 @@ public class Tower implements IUpdateable {
 	@Override
 	public void update(double delta) {
 		lastShot += delta;
-		
-		System.out.println(range());
 
 		if (hasBulletReady()) {
-			
+
 			searchNewTarget();
 
 			if( canShoot()) {
@@ -162,7 +160,7 @@ public class Tower implements IUpdateable {
 	 * @return The calculated distance
 	 */
 	private double getDistance(Enemy enemy) {
-		return position.distance(enemy.center());
+		return position.distance(enemy.position());
 	}
 	
 	/**
