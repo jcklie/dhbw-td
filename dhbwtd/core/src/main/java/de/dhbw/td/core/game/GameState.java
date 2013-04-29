@@ -384,6 +384,10 @@ public class GameState implements IUpdateable {
 	public void setInformation(String text) {
 		this.information = text;
 	}
+	
+	public void clearInformation() {
+		setInformation("");
+	}
 
 	public List<Enemy> enemies() { return enemies;	}
 	public List<Tower> towers() { return towers; }	
