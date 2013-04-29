@@ -291,9 +291,8 @@ public class HUD implements IDrawable, IUIEventListener {
 	
 	private void drawInformation(Surface surf){
 		informationCanvas.clear();
-		String informationText = "Information";
-		drawText(informationCanvas, informationText, 0, 0);
-		surf.drawImage(informationCanvasImage, OFFSET_TEXT_INFORMATION, OFFSET_TEXT_FOOT);	
+		drawText(informationCanvas, gameState.information(), 0, 0);
+		surf.drawImage(informationCanvasImage, OFFSET_TEXT_INFORMATION, OFFSET_TEXT_FOOT);
 	}
 	
 	private void drawIcons(Surface surf) {

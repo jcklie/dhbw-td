@@ -52,6 +52,8 @@ public class GameState implements IUpdateable {
 	private boolean[][] plat;
 	
 	private EGameStatus status;
+	
+	private String information;
 
 	public GameState() {
 
@@ -272,6 +274,8 @@ public class GameState implements IUpdateable {
 		towers.clear();
 		
 		status = EGameStatus.RUNNING;
+		
+		information = "";
 
 		levelFactory = new LevelFactory();
 		waveFactory = new WaveControllerFactory();
@@ -376,6 +380,10 @@ public class GameState implements IUpdateable {
 	public void removeLifepoints(int amount) {
 		lifepoints = Math.max(lifepoints - amount, 0);
 	}
+	
+	public void setInformation(String text) {
+		this.information = text;
+	}
 
 	public List<Enemy> enemies() { return enemies;	}
 	public List<Tower> towers() { return towers; }	
@@ -385,4 +393,5 @@ public class GameState implements IUpdateable {
 	public int waveCount() { return waveCount; }
 	public int levelCount() { return levelNumber;	}
 	public EGameStatus status() { return status; }
+	public String information() { return information; }
 }

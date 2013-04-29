@@ -21,6 +21,7 @@ public class Executor {
 	
 	private GameState gameState;
 	private FiniteStateMachine<EUserAction, EFlavor> fsm;
+	private EFlavor flavor;
 	private int x;
 	private int y;
 	
@@ -47,8 +48,13 @@ public class Executor {
 	
 	private void initFSM() {
 		initTowerStates();
+		initInformationTextTransitions();
 		fsm.addTransition(EUserAction.UPGRADE, EUserAction.NONE, upgradeTower);
 		fsm.addTransition(EUserAction.SELL, EUserAction.NONE, sellTower);
+		fsm.addTransition(EUserAction.NONE, EUserAction.SELL, updateInformationSell);
+		fsm.addTransition(EUserAction.NONE, EUserAction.UPGRADE, updateInformationUpgrade);
+		fsm.addTransition(EUserAction.SELL, EUserAction.UPGRADE, updateInformationUpgrade);
+		fsm.addTransition(EUserAction.UPGRADE, EUserAction.SELL, updateInformationSell);
 	}
 	
 	/**
@@ -61,39 +67,35 @@ public class Executor {
 		}
 	}
 	
-	public void handleNewState(EUserAction newState, int x, int y) {
-		this.x = x;
-		this.y = y;
-
-		if( wasItIntendedToBuildTower(newState)) {
-			handleNewTower(newState);
-		} else {
-			handleSimpleState(newState);
+	private void initInformationTextTransitions() {
+		for(EUserAction source : NEW_TOWER_ACTIONS) {
+			fsm.addTransition(EUserAction.NONE, source, updateInformationText);
+			fsm.addTransition(source, EUserAction.SELL, updateInformationSell);
+			fsm.addTransition(source, EUserAction.UPGRADE, updateInformationUpgrade);
+			fsm.addTransition(EUserAction.SELL, source, updateInformationText);
+			fsm.addTransition(EUserAction.UPGRADE, source, updateInformationText);
+			for(EUserAction target : NEW_TOWER_ACTIONS) {
+				fsm.addTransition(source, target, updateInformationText);
+			}
 		}
 	}
 	
+
+	public void handleNewState(EUserAction newState, int x, int y) {
+		this.x = x;
+		this.y = y;
+		
+
+		handleNewState(newState);
+		
+	}
+	
 	public void handleNewState(EUserAction newState) {
-		handleSimpleState(newState);
-	}
-	
-	/**
-	 * We assume that the user wants to build a tower if he selected in the last 
-	 * step a tower and then clicked on empty space
-	 * @param newState The current action
-	 * @return Whether we assume that a tower wants to be built
-	 */
-	private boolean wasItIntendedToBuildTower(EUserAction newState) {
-		return NEW_TOWER_ACTIONS.contains(fsm.currentState()) && newState == EUserAction.NONE;
-	}
-	
-	private void handleSimpleState(EUserAction newState) {
+		if( NEW_TOWER_ACTIONS.contains(newState)) {
+			flavor = newTowerToFlavor(newState);
+		}
+		
 		IAction<EFlavor> action = fsm.transit(newState);
-		action.execute();
-	}
-	
-	private void handleNewTower(EUserAction newState) {
-		IAction<EFlavor> action = fsm.transit(newState);
-		EFlavor flavor = newTowerToFlavor(fsm.lastState());
 		action.execute(flavor);
 	}
 	
@@ -113,6 +115,24 @@ public class Executor {
 	private IAction<EFlavor> sellTower = new IAction<EFlavor>() {
 		public void execute(EFlavor... args) {
 			gameState.sellTower(x, y);
+		}
+	};
+	
+	private IAction<EFlavor> updateInformationText = new IAction<EFlavor>() {
+		public void execute(EFlavor... args) {
+			gameState.setInformation("Build " + args[0].name());
+		}
+	};
+	
+	private IAction<EFlavor> updateInformationSell = new IAction<EFlavor>() {
+		public void execute(EFlavor... args) {
+			gameState.setInformation("Sell");
+		}
+	};
+	
+	private IAction<EFlavor> updateInformationUpgrade = new IAction<EFlavor>() {
+		public void execute(EFlavor... args) {
+			gameState.setInformation("Upgrade");
 		}
 	};
 	
