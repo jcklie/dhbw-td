@@ -47,7 +47,7 @@ public class Wave {
 	private List<Enemy> arrangeEnemiesInRankAndFile(List<Enemy> enemyList) {
 		List<Enemy> movedEnemies = new ArrayList<Enemy>(enemyList.size());
 		
-		int offset = 0;
+		int offset = -256;
 		for( Enemy e : enemyList) {
 			Enemy movedEnemy = new Enemy(e);
 			movedEnemy.position().translate(offset, 0);
