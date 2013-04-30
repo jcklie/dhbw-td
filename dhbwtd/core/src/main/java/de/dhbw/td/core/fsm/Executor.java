@@ -145,9 +145,9 @@ public class Executor {
 		int dmg = stats.getDamage(flavor, level);
 		int range = stats.getRange(flavor, level);
 		int price = stats.getPrice(flavor, level);
-		int cadenza = stats.getCadenza(flavor);
+		int sell =  (int) ((double) stats.getPrice(flavor, level-1) * GameConstants.RETURN_PERCENTAGE);
 		
-		return String.format("%s\n DMG:%d R:%d C:%d U:%d", towerDesc, dmg, range, cadenza, price > 0 ? price : "X" );
+		return String.format("%s\n Schaden:%d Reichweite:%d Verk.:%d Verb.:%d", towerDesc, dmg, range, sell, price > 0 ? price : "X" );
 	}
 
 
