@@ -4,7 +4,7 @@
  *  Contributors:
  *  Benedict Holste - Idea and first implementation
  *  Jan-Christoph Klie - Changed singleton to single enum + extension + refactor
- *  
+ *  Martin Kieﬂling - created images
  */
 
 package de.dhbw.td.core.resources;

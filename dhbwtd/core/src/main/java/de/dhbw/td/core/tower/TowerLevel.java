@@ -1,6 +1,5 @@
 package de.dhbw.td.core.tower;
 
-import playn.core.Image;
 
 class TowerLevel {
 
