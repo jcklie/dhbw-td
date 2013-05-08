@@ -23,6 +23,14 @@ public class Projectile implements IUpdateable {
 	
 	private Point currentPosition;
 	
+	/**
+	 * Creates a new projectile with the given parameters
+	 * @param position The start position
+	 * @param damage The damage the projectile deals
+	 * @param flavor The flavor
+	 * @param speed The speed 
+	 * @param target The target
+	 */
 	public Projectile(Point position, int damage, EFlavor flavor, double speed, Enemy target) {
 		this.currentPosition = new Point(position);
 		this.damage = damage;
@@ -53,10 +61,21 @@ public class Projectile implements IUpdateable {
 		}
 	}
 	
+	/**
+	 * Calculates the damage the projectile deals. If projectile and target
+	 * has the same flavor damage is doubled
+	 * @param damage The normal damage
+	 * @return The calculated damage
+	 */
 	private int calcDamage(int damage) {
 		return flavor == target.enemyType() ? 2 * damage : damage;
 	}
 	
+	/**
+	 * Checks if the target was hit by the projectile
+	 * @param v The vector from the projectile to the target
+	 * @return True if target was hit otherwise false
+	 */
 	private boolean enemyWasHit(Vector v) {
 		return Math.abs(target.center().x() - currentPosition.x()) <= Math.abs(v.x) &&
 				Math.abs(target.center().y() - currentPosition.y()) <= Math.abs(v.y);
@@ -71,8 +90,6 @@ public class Projectile implements IUpdateable {
 				target.center().y() - currentPosition.y());
 	}
 
-
-	
 	/**
 	 * Returns if projectile has hit a tower
 	 * @return True if target was hit, otherwise false
