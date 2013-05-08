@@ -2,7 +2,8 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  
+ *  Benedict Holste - first idea and basic version
+ *  Jan-Christoph Klie - drawing projectiles
  */
 package de.dhbw.td.core.ui;
 

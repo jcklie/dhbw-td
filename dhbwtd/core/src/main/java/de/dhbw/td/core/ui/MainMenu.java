@@ -2,12 +2,18 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  
+ *  Benedict Holste, Martin Kießling - All
  */
+
 package de.dhbw.td.core.ui;
 
-import static playn.core.PlayN.log;
-import static de.dhbw.td.core.resources.EMenuImage.*;
+import static de.dhbw.td.core.resources.EMenuImage.BTN_CREDITS;
+import static de.dhbw.td.core.resources.EMenuImage.BTN_HELP;
+import static de.dhbw.td.core.resources.EMenuImage.CREDITS;
+import static de.dhbw.td.core.resources.EMenuImage.HELPSCREEN;
+import static de.dhbw.td.core.resources.EMenuImage.MAIN_BACKGROUND;
+import static de.dhbw.td.core.resources.EMenuImage.NEW;
+import static de.dhbw.td.core.resources.EMenuImage.QUIT;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,8 +24,7 @@ import playn.core.Surface;
 import de.dhbw.td.core.util.ICallback;
 
 /**
- * 
- *
+ * UI class implementing the main menu
  */
 public class MainMenu implements IDrawable, IUIEventListener {
 
@@ -50,7 +55,6 @@ public class MainMenu implements IDrawable, IUIEventListener {
 
 			@Override
 			public EUserAction execute() {
-				log().debug("Pressed NewGame Button");
 				return EUserAction.NEW_GAME;
 			}
 		});
@@ -62,7 +66,6 @@ public class MainMenu implements IDrawable, IUIEventListener {
 
 			@Override
 			public EUserAction execute() {
-				log().debug("Pressed Help Button");
 				showHelp(true);
 				return EUserAction.NONE;
 			}
@@ -75,7 +78,6 @@ public class MainMenu implements IDrawable, IUIEventListener {
 
 			@Override
 			public EUserAction execute() {
-				log().debug("Pressed Credits Button");
 				showCredits(true);
 				return EUserAction.NONE;
 			}
@@ -88,7 +90,6 @@ public class MainMenu implements IDrawable, IUIEventListener {
 
 			@Override
 			public EUserAction execute() {
-				log().debug("Pressed EndGame Button");
 				return EUserAction.QUIT_GAME;
 			}
 		});

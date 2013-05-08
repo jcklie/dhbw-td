@@ -9,10 +9,6 @@ package de.dhbw.td.core.ui;
 
 import playn.core.Surface;
 
-/**
- * 
- *
- */
 public interface IDrawable {
 	
 	/**

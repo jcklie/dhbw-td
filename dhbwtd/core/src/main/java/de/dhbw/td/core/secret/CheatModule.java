@@ -109,8 +109,6 @@ public class CheatModule implements Keyboard.Listener{
 			buffer.deleteCharAt(0);
 		}
 		
-		System.out.println(buffer);
-		
 		try {
 			handleCheatz();
 		} catch (Exception e1) {

@@ -2,7 +2,7 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Martin Kiessling, Tobias Roeding - All
+ *  Martin Kießling, Tobias Roeding - All
  *  Jan-Christoph Klie - Refactor
  */
 

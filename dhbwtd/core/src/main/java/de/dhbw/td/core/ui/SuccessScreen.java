@@ -2,15 +2,14 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  
+ *  Martin Kießling - All
  */
 
 package de.dhbw.td.core.ui;
 
-import static de.dhbw.td.core.resources.EMenuImage.SUCCESS;
 import static de.dhbw.td.core.resources.EMenuImage.NEW;
 import static de.dhbw.td.core.resources.EMenuImage.QUIT;
-import static playn.core.PlayN.log;
+import static de.dhbw.td.core.resources.EMenuImage.SUCCESS;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +22,7 @@ import de.dhbw.td.core.resources.EMenuImage;
 import de.dhbw.td.core.util.ICallback;
 
 /**
- * 
+ * UI class implementing the success screen
  *
  */
 public class SuccessScreen implements IDrawable, IUIEventListener {
@@ -57,7 +56,6 @@ public class SuccessScreen implements IDrawable, IUIEventListener {
 			
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked newGameButton");
 				return EUserAction.NEW_GAME;
 			}
 		});
@@ -70,7 +68,6 @@ public class SuccessScreen implements IDrawable, IUIEventListener {
 			
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked quitGameButton");
 				return EUserAction.QUIT_GAME;
 			}
 		});
@@ -83,7 +80,6 @@ public class SuccessScreen implements IDrawable, IUIEventListener {
 			
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked mainMenuButton");
 				return EUserAction.MAIN_MENU;
 			}
 		});
