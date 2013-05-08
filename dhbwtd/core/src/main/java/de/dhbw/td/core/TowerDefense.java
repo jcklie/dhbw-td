@@ -1,3 +1,10 @@
+/*  Copyright (C) 2013. All rights reserved.
+ *  Released under the terms of the GNU General Public License version 3 or later.
+ *  
+ *  Contributors:
+ *  Jan-Christoph Klie - All
+ */
+
 package de.dhbw.td.core;
 
 import static de.dhbw.td.core.util.GameConstants.FACTOR_DELTA_FF;
@@ -28,6 +35,12 @@ import de.dhbw.td.core.ui.IngameMenu;
 import de.dhbw.td.core.ui.MainMenu;
 import de.dhbw.td.core.ui.SuccessScreen;
 
+/**
+ * The tower defense is the entry point in the game. It manages the UI
+ * components, is resposible for handling the drawing calls and the game update.
+ * It receives the events from the mouse and keyboard and dispatches them to the
+ * right component.
+ */
 public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 
 	/*
@@ -180,9 +193,11 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 	}
 
 	/**
-	 * Handles the specified global event.
+	 * Handles the specified global event. Global events are not dispatched to
+	 * subcomponents.
 	 * 
-	 * @param action the action to be handled
+	 * @param action
+	 *            the action to be handled
 	 */
 	private void handleAction(EUserAction action) {
 		switch (action) {
@@ -256,12 +271,12 @@ public class TowerDefense implements Game, Keyboard.Listener, Mouse.Listener {
 	public void onMouseWheelScroll(WheelEvent event) {/* NOOP! */
 	}
 
-	@Override
 	/**
 	 * We check if the event is an global event, i. e. will be handled
 	 * on the Tower Defense or an UI event which is then dispatched
 	 * to the component currently active.
 	 */
+	@Override
 	public void onKeyDown(Event event) {
 		if (currentUIState == EUIState.GAME) {
 			secret.onKeyDown(event);

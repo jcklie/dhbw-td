@@ -2,8 +2,9 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Martin Kieﬂling - created images
+ *  Jan-Christoph Klie - All
  */
+
 package de.dhbw.td.core.resources;
 
 import static de.dhbw.td.core.util.GameConstants.PATH_TOWERS;
@@ -11,6 +12,9 @@ import playn.core.Image;
 import de.dhbw.td.core.util.EFlavor;
 import de.dhbw.td.core.util.GameConstants;
 
+/**
+ * Container for all the tower images
+ */
 public enum ETowerImage {
 	
 	CODE_LVL1("code_lvl1.png"),

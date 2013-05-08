@@ -2,8 +2,9 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Martin Kieﬂling - created images
+ *  Jan-Christoph Klie - All
  */
+
 package de.dhbw.td.core.resources;
 
 import static de.dhbw.td.core.util.GameConstants.PATH_ENEMIES;
