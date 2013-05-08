@@ -1,3 +1,12 @@
+/*  Copyright (C) 2013. All rights reserved.
+ *  Released under the terms of the GNU General Public License version 3 or later.
+ *  
+ *  Contributors:
+ *  Jan-Christoph Klie - First idea, adding canvas support + refactor
+ *  Martin Kiessling - Info text 
+ *  Benedict Holste -  All the rest which was bigger part
+ */
+
 package de.dhbw.td.core.ui;
 
 import static de.dhbw.td.core.util.GameConstants.COLS;
@@ -22,6 +31,12 @@ import de.dhbw.td.core.fsm.Executor;
 import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.util.ICallback;
 
+/**
+ * The HUD is resposible for drawing the icons, the tower
+ * menu and the info text
+ * UI code is very ugly
+ *
+ */
 public class HUD implements IDrawable, IUIEventListener {
 	
 	private final int BTN_MENU_X = (COLS-1)*TILE_SIZE;
@@ -76,6 +91,10 @@ public class HUD implements IDrawable, IUIEventListener {
 	private GameState gameState;
 	private Executor executor;
 	
+	/**
+	 * Creates a HUD with a given game state to display
+	 * @param gameState
+	 */
 	public HUD(GameState gameState) {
 		
 		this.gameState = gameState;
@@ -116,13 +135,12 @@ public class HUD implements IDrawable, IUIEventListener {
 		addTheoreticalComputerSciencesButton();
 		addComputerEngineeringButton();
 		addSocialButton();
-		
-		//addPlayButton();
-		//addFastForwardButton();
 		addMenuButton();
 	}
 	
-	
+	/**
+	 * Adds the sell Button
+	 */
 	private void addSellButton() {
 		Button sellButton = new Button.Builder(SELL.image).
 				x(OFFSET_BTN_SELL*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
@@ -136,6 +154,9 @@ public class HUD implements IDrawable, IUIEventListener {
 		buttons.add(sellButton);
 	}
 	
+	/**
+	 * Adds the upgrade Button
+	 */
 	private void addUpgradeButton() {
 		Button upgradeButton = new Button.Builder(UPGRADE.image).
 				x(OFFSET_BTN_UPGRADE*TILE_SIZE).y(OFFSET_FOOT*TILE_SIZE).build();
@@ -274,6 +295,10 @@ public class HUD implements IDrawable, IUIEventListener {
 		}
 	}
 	
+	/*
+	 * Helper methods to draw on the canvases
+	 */
+	
 	private void drawCredit(Surface surf) {	
 		creditsCanvas.clear();
 		drawText(creditsCanvas, gameState.credits(), 0, 0);
@@ -328,6 +353,14 @@ public class HUD implements IDrawable, IUIEventListener {
 		drawText(canvas, textFormat, o, x, y);
 	}
 	
+	/**
+	 * Draws toString of object on the given canvas
+	 * 
+	 * @param o o.toString() will be drawn
+	 * @param format the TextFormat to write the text with
+	 * @param x the x-coordinate of the upper left corner of the textbox to be drawn
+	 * @param y the y-coordinate of the upper left corner of the textbox to be drawn
+	 */
 	private void drawText(Canvas canvas, TextFormat format, Object o, int x, int y) {
 		TextLayout text = graphics().layoutText(o.toString(), format);
 		canvas.fillText(text,x, y);
@@ -351,6 +384,15 @@ public class HUD implements IDrawable, IUIEventListener {
 		return nextAction;
 	}
 	
+	/**
+	 * If an event is dispatched to the mouse to the HUD,
+	 * the executor is told to handle it with the given
+	 * coordinates on the frame.
+	 * 
+	 * @param nextAction The action which was dispatched to the HUD
+	 * @param x The xcoordinate of the click
+	 * @param y The ycoordinate of the click
+	 */
 	private void handleAction(EUserAction nextAction, int x, int y) {
 		executor.handleNewState(nextAction, x, y);
 	}
