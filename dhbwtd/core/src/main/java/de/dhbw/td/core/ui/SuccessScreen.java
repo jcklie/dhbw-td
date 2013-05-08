@@ -22,6 +22,10 @@ import playn.core.Surface;
 import de.dhbw.td.core.resources.EMenuImage;
 import de.dhbw.td.core.util.ICallback;
 
+/**
+ * 
+ *
+ */
 public class SuccessScreen implements IDrawable, IUIEventListener {
 	
 	private final int BTN_NEWGAME_X = 600;
@@ -40,7 +44,6 @@ public class SuccessScreen implements IDrawable, IUIEventListener {
 		buttons = new LinkedList<Button>();
 		image = SUCCESS.image;
 		createButtons();
-
 	}
 	
 	/**
@@ -121,6 +124,11 @@ public class SuccessScreen implements IDrawable, IUIEventListener {
 		}
 	}
 	
+	/**
+	 * Set the image of the success screen
+	 * 
+	 * @param image the image to set as Image
+	 */
 	public void setImage(Image image) {
 		this.image = image;
 	}

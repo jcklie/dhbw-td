@@ -22,6 +22,10 @@ import playn.core.Surface;
 import de.dhbw.td.core.resources.EMenuImage;
 import de.dhbw.td.core.util.ICallback;
 
+/**
+ * 
+ *
+ */
 public class EndScreen implements IDrawable, IUIEventListener {
 	
 	private final int BTN_NEWGAME_X = 100;
@@ -36,6 +40,9 @@ public class EndScreen implements IDrawable, IUIEventListener {
 	private List<Button> buttons;
 	private Image image;
 	
+	/**
+	 * Creates a new EndScreen
+	 */
 	public EndScreen() {
 		buttons = new LinkedList<Button>();
 		image = GAMEOVER.image;
@@ -121,6 +128,11 @@ public class EndScreen implements IDrawable, IUIEventListener {
 		}
 	}
 	
+	/**
+	 * Set the image of the screen
+	 * 
+	 * @param image the image to set as Image
+	 */
 	public void setImage(Image image) {
 		this.image = image;
 	}

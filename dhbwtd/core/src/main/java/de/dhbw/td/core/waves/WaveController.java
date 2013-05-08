@@ -38,6 +38,10 @@ public class WaveController {
 		return currentWave;
 	}
 	
+	/**
+	 * 
+	 * @return true, if next wave is available
+	 */
 	public boolean hasNextWave(){
 		return !waves.isEmpty();
 	}

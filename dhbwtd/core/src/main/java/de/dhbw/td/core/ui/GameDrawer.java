@@ -24,10 +24,20 @@ import de.dhbw.td.core.resources.ETowerImage;
 import de.dhbw.td.core.tower.Projectile;
 import de.dhbw.td.core.tower.Tower;
 
-public class GameDrawer implements IDrawable {
+/**
+ * 
+ *
+ */
+public class GameDrawer {
 
 	private GameState gameState;
 
+	/**
+	 * Creates a new GameDrawer for drawing
+	 * the game objects 
+	 * 
+	 * @param gameState containing the game objects
+	 */
 	public GameDrawer(GameState gameState) {
 		this.gameState = gameState;
 	}
@@ -48,7 +58,6 @@ public class GameDrawer implements IDrawable {
 		}
 	}
 	
-
 	private void drawProjectile(Projectile p, Surface surf) {
 		if (!p.hasHit()) {
 			Image img = EProjectileImage.LASER.image;
@@ -105,24 +114,12 @@ public class GameDrawer implements IDrawable {
 		}
 	}
 
-	@Override
-	public void draw(Surface surf) {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * 
 	 * @param background
 	 * @param sprites
 	 */
 	public void drawComponents(Surface background, Surface sprites) {
-		/*
-		 * log().debug("Drawing GameDrawer on ");
-		 * background.drawImage(resources().IMAGE_GRID, 0, 0);
-		 * background.setFillColor(Color.rgb(100, 10, 10));
-		 * background.fillRect(0, 0, WIDTH, HEIGHT);
-		 */
 		drawLevel(gameState.level(), background);
 		drawEnemies(gameState.enemies(), sprites);
 		drawTowers(gameState.towers(), sprites);

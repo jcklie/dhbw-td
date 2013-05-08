@@ -7,6 +7,10 @@
 
 package de.dhbw.td.core.ui;
 
+/**
+ * Enum holding possible UIStates
+ *
+ */
 public enum EUIState {
 	MAIN_MENU, INGAME_MENU, GAME, END_SCREEN, SUCCESS_SCREEN;
 }

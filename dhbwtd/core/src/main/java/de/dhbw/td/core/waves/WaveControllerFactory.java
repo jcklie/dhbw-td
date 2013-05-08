@@ -41,7 +41,7 @@ public class WaveControllerFactory {
 	private int enemyCount;
 		
 	/**
-	 * Returns upcoming wave controller and deletes it from the wave controller
+	 * Returns upcoming wave controller
 	 * 
 	 * @param jsonString location of the waves.json as String
 	 * @param waypoints Queue of waypoints for current level
@@ -53,10 +53,12 @@ public class WaveControllerFactory {
 	}
 	
 	/**
+	 * Returns upcoming wave controller
 	 * 
-	 * @param parsedJson
-	 * @param waypointArray
-	 * @return
+	 * @param parsedJson the parsed JSONObject of a wave.json file
+	 * @param waypointArray Queue of waypoints for current level
+	 * @return next WaveController
+	 * @see WaveController
 	 */
 	public WaveController constructWaveController(Object parsedJson, Point[] waypointArray) {
 		this.waypoints = waypointArray;

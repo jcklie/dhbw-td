@@ -61,11 +61,23 @@ public class GameConstants {
 	public static EnumSet<EUserAction> NEW_TOWER_ACTIONS = EnumSet.range(EUserAction.NEW_MATH_TOWER, EUserAction.NEW_SOCIAL_TOWER);
 	public static EnumSet<EFlavor> TOWERS = EnumSet.range(EFlavor.MATH, EFlavor.SOCIAL);
 	
-	
+	/**
+	 * Maps an absolute position to tile offset
+	 * 
+	 * @param pos
+	 * @return
+	 */
 	public static int toTile(int pos) {
 		return (int)Math.floor(pos/64);
 	}
 	
+	/**
+	 * 
+	 * Maps a flavor to the corresponding image prefix
+	 * 
+	 * @param flavor the flavor to map
+	 * @return image prefix as String
+	 */
 	public static String mapFlavorToImagePrefix(EFlavor flavor) {
 		switch(flavor) {
 		case COMPUTER_ENGINEERING: return "TECHINF";
@@ -79,6 +91,12 @@ public class GameConstants {
 		}
 	}
 	
+	/**
+	 * Maps an UserAction to the corresponding flavor
+	 * 
+	 * @param action the action to map
+	 * @return flavor as EFlavor
+	 */
 	public static EFlavor mapActionToFlavor(EUserAction action) {
 		switch(action) {
 		case NEW_MATH_TOWER: return EFlavor.MATH;

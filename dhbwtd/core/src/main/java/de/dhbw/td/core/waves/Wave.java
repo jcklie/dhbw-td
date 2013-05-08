@@ -69,6 +69,4 @@ public class Wave {
 	
 	public int enemyCount() { return enemyCount; }
 	public int waveNumber() { return waveNumber; }
-	
-	
 }

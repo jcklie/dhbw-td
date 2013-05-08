@@ -25,6 +25,10 @@ import playn.core.Mouse.ButtonEvent;
 import playn.core.Surface;
 import de.dhbw.td.core.util.ICallback;
 
+/**
+ * 
+ *
+ */
 public class IngameMenu implements IDrawable, IUIEventListener {
 	
 	/*
@@ -211,7 +215,6 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 	@Override
 	public void draw(Surface surf) {
 		surf.clear();
-		//log().debug("Drawing IngameMenu on " + surf.toString());
 		if (showHelp) {
 			surf.drawImage(HELPSCREEN.image, 0, 0);
 		} else if (showCredits) {

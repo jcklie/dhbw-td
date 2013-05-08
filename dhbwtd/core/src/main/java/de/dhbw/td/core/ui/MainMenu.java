@@ -17,6 +17,10 @@ import playn.core.Mouse.ButtonEvent;
 import playn.core.Surface;
 import de.dhbw.td.core.util.ICallback;
 
+/**
+ * 
+ *
+ */
 public class MainMenu implements IDrawable, IUIEventListener {
 
 	private final int BTN_NEWGAME_Y = 278;
@@ -29,6 +33,9 @@ public class MainMenu implements IDrawable, IUIEventListener {
 	private boolean showHelp;
 	private boolean showCredits;
 
+	/**
+	 * Constructor
+	 */
 	public MainMenu() {
 		buttons = new LinkedList<Button>();
 		createButtons();

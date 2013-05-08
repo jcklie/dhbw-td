@@ -6,6 +6,10 @@
  */ 
 package de.dhbw.td.core.ui;
 
+/**
+ * Enum holding the possible UI actions
+ * a user can perform
+ */
 public enum EUserAction {
 	NONE,
 	PAUSE_GAME,

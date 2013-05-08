@@ -7,6 +7,15 @@
 
 package de.dhbw.td.core.util;
 
+/**
+ *
+ * @param <T>
+ */
 public interface ICallback<T> {
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public T execute();
 }
