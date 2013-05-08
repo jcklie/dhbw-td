@@ -138,7 +138,6 @@ public class Executor {
 	private IAction setInformationAboutTower = new IAction() {
 		public void execute() {
 			Tower t = gameState.getTower(x, y);
-			System.out.println(t);
 			if( t ==  null) {
 				gameState.clearInformation();
 			} else {
@@ -154,7 +153,7 @@ public class Executor {
 	}
 	
 	private String buildToolTip(EFlavor flavor, int level) {
-		String towerDesc = EInformationText.getInformationText(flavor, gameState.levelCount());
+		String towerDesc = EInformationText.getInformationText(flavor, level);
 		int dmg = stats.getDamage(flavor, level);
 		int range = stats.getRange(flavor, level);
 		int price = stats.getPrice(flavor, level);
