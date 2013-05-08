@@ -8,8 +8,10 @@
 package de.dhbw.td.core.fsm;
 
 /**
+ * Implements a finite state machine on all possible transitions of the given
+ * enum. It changes state as requested and executes the specified function of
+ * that transition.
  * 
- *
  * @param <E> The enum which defines the states of the FSM
  */
 public class FiniteStateMachine<E extends Enum<E>> {
@@ -52,11 +54,23 @@ public class FiniteStateMachine<E extends Enum<E>> {
 		transitionTable[sourceIndex][targetIndex] = action;
 	}
 	
+	/**
+	 * Checks whether there is a not-null action between two states
+	 * @param source
+	 * @param target
+	 * @return
+	 */
 	public boolean hasTransition(E source, E target) {
 		IAction action = getAction(source, target);
 		return action != null && action != IAction.NONE;
 	}
 	
+	/**
+	 * Moves from the current to the next state and returns
+	 * the action specified for this transition
+	 * @param nextState
+	 * @return
+	 */
 	public IAction transit(E nextState) {
 		IAction actionOnTransit = getAction(currentState, nextState);
 		lastState = currentState;

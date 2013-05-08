@@ -21,7 +21,9 @@ import de.dhbw.td.core.game.GameState;
 import de.dhbw.td.core.ui.Button;
 import de.dhbw.td.core.ui.HUD;
 
-
+/**
+ * Secret cheats are secret
+ */
 public class CheatModule implements Keyboard.Listener{
 		
 	private static final int MAX_BUFFER_SIZE = 30;

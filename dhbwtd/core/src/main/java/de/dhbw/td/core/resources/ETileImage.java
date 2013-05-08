@@ -2,7 +2,7 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  
+ *  Jan-Christoph Klie + Benedict Holste - All
  */
 package de.dhbw.td.core.resources;
 
