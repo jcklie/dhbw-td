@@ -1,7 +1,8 @@
 /*  Copyright (C) 2013. All rights reserved.
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
- *  Contributors:
+ *  Contributors:  Jan-Christoph Klie
+ *				Sebastian Muszytowski
  *  
  */
 package de.dhbw.td.core.level;

@@ -2,8 +2,8 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Sebastian Muszytowski - Add basic waypoint support
- *  Jan-Christoph Klie - General testing and hard refactoring + nearly complete rewrite
+ *  Sebastian Muszytowski - Waypoint tests
+ *  Jan-Christoph Klie - Refactoring of Code and additions
  *  
  */
 
