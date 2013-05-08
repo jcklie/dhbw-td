@@ -16,7 +16,6 @@ import static de.dhbw.td.core.util.GameConstants.ROWS;
 import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
 import static de.dhbw.td.core.util.GameConstants.WIDTH;
 import static de.dhbw.td.core.util.GameConstants.toTile;
-import static playn.core.PlayN.log;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -103,7 +102,6 @@ public class GameState implements IUpdateable {
 	 */
 	private void loadNextLevel() {
 		if (levelNumber == NO_OF_LEVELZ) {
-			log().debug("GAME OVER");
 		} else {	
 			currentLevel = getNextLevelFromFactory();
 			currentWaveController = getNextWaveControllerFromFactory();
@@ -129,7 +127,6 @@ public class GameState implements IUpdateable {
 		levelNumber++;
 		waveCount = 0;
 		
-		log().debug("Level " + levelNumber);
 		Json.Object levelJson = ELevelText.getLevelJson(levelNumber);
 		return  levelFactory.constructLevel(levelJson);
 	}
@@ -149,7 +146,6 @@ public class GameState implements IUpdateable {
 	 * @return The next wave of the wave controller
 	 */
 	private Wave getNextWave() {
-		log().debug("Wave " + waveCount);
 		waveCount++;
 		return currentWaveController.nextWave();
 	}

@@ -9,12 +9,22 @@
 
 package de.dhbw.td.core.ui;
 
+import static de.dhbw.td.core.resources.EHudImage.CLOCK;
+import static de.dhbw.td.core.resources.EHudImage.CODE_TOWER;
+import static de.dhbw.td.core.resources.EHudImage.HEART;
+import static de.dhbw.td.core.resources.EHudImage.KNOWLEDGE;
+import static de.dhbw.td.core.resources.EHudImage.MATH_TOWER;
+import static de.dhbw.td.core.resources.EHudImage.SELL;
+import static de.dhbw.td.core.resources.EHudImage.SETTINGS;
+import static de.dhbw.td.core.resources.EHudImage.SOCIAL_TOWER;
+import static de.dhbw.td.core.resources.EHudImage.TECHINF_TOWER;
+import static de.dhbw.td.core.resources.EHudImage.THEOINF_TOWER;
+import static de.dhbw.td.core.resources.EHudImage.UPGRADE;
+import static de.dhbw.td.core.resources.EHudImage.WIWI_TOWER;
 import static de.dhbw.td.core.util.GameConstants.COLS;
 import static de.dhbw.td.core.util.GameConstants.FONTSIZE;
 import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
-import static de.dhbw.td.core.resources.EHudImage.*;
 import static playn.core.PlayN.graphics;
-import static playn.core.PlayN.log;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -147,7 +157,6 @@ public class HUD implements IDrawable, IUIEventListener {
 		sellButton.setCallback(new ICallback<EUserAction>() {
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked Sell");
 				return EUserAction.SELL;
 			}
 		});
@@ -163,7 +172,6 @@ public class HUD implements IDrawable, IUIEventListener {
 		upgradeButton.setCallback(new ICallback<EUserAction>() {
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked Upgrade");
 				return EUserAction.UPGRADE;
 			}
 		});
@@ -179,7 +187,6 @@ public class HUD implements IDrawable, IUIEventListener {
 		mathTower.setCallback(new ICallback<EUserAction>() {
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked MathTower");
 				return EUserAction.NEW_MATH_TOWER;
 			}
 		});
@@ -195,7 +202,6 @@ public class HUD implements IDrawable, IUIEventListener {
 		codeTower.setCallback(new ICallback<EUserAction>() {
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked CodeTower");
 				return EUserAction.NEW_CODE_TOWER;
 			}
 		});
@@ -211,7 +217,6 @@ public class HUD implements IDrawable, IUIEventListener {
 		economicsTower.setCallback(new ICallback<EUserAction>() {
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked WiwiTower");
 				return EUserAction.NEW_ECO_TOWER;
 			}
 		});
@@ -227,7 +232,6 @@ public class HUD implements IDrawable, IUIEventListener {
 		tcsTower.setCallback(new ICallback<EUserAction>() {
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked TheoInfTower");
 				return EUserAction.NEW_THEO_INF_TOWER;
 			}
 		});
@@ -243,7 +247,6 @@ public class HUD implements IDrawable, IUIEventListener {
 		techinfTower.setCallback(new ICallback<EUserAction>() {
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked TechInfTower");
 				return EUserAction.NEW_TECH_INF_TOWER;
 			}
 		});
@@ -259,7 +262,6 @@ public class HUD implements IDrawable, IUIEventListener {
 		socialTower.setCallback(new ICallback<EUserAction>() {
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked SocialTower");
 				return EUserAction.NEW_SOCIAL_TOWER;
 			}
 		});
@@ -276,7 +278,6 @@ public class HUD implements IDrawable, IUIEventListener {
 
 			@Override
 			public EUserAction execute() {
-				log().debug("Pressed Menu Button");
 				return EUserAction.INGAME_MENU;
 			}
 		});
@@ -379,7 +380,6 @@ public class HUD implements IDrawable, IUIEventListener {
 			}
 		}
 		
-		log().debug("HUD recieved: " + nextAction);
 		handleAction(nextAction, x, y);
 		return nextAction;
 	}

@@ -15,7 +15,6 @@ import static de.dhbw.td.core.resources.EMenuImage.INGAME_BACKGROUND;
 import static de.dhbw.td.core.resources.EMenuImage.NEW;
 import static de.dhbw.td.core.resources.EMenuImage.QUIT;
 import static de.dhbw.td.core.resources.EMenuImage.RESUME;
-import static playn.core.PlayN.log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +67,6 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 			
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked resumeButton");
 				return EUserAction.RESUME_GAME;
 			}
 		});
@@ -81,7 +79,6 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 			
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked newGameButton");
 				return EUserAction.NEW_GAME;
 			}
 		});
@@ -94,7 +91,6 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 			
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked EndGameButton");
 				return EUserAction.QUIT_GAME;
 			}
 		});
@@ -107,7 +103,6 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 			
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked CreditsButton");
 				showCredits(true);
 				return EUserAction.NONE;
 			}
@@ -121,7 +116,6 @@ public class IngameMenu implements IDrawable, IUIEventListener {
 			
 			@Override
 			public EUserAction execute() {
-				log().debug("Clicked HelpButton");
 				showHelp(true);
 				return EUserAction.NONE;
 			}
