@@ -1,10 +1,3 @@
-/*  Copyright (C) 2013 by Lukas Berg Inc. All rights reserved.
- *  Released under the terms of the GNU General Public License version 3 or later.
- *  
- *  Contributors:
- *  Lukas Berg - All
- */
-
 package de.dhbw.td.core.tower;
 
 import static de.dhbw.td.core.util.GameConstants.PROJECTILE_SPEED;
@@ -18,7 +11,13 @@ import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.IUpdateable;
 import de.dhbw.td.core.util.EFlavor;
 
-
+/**
+ * Towers are placed on the map to protect the player against the eval enemies.
+ * A tower can be upgraded and sold. It creates projectiles which attack the
+ * enemies.
+ * @author Lukas Berg, Matthias Kehl
+ *
+ */
 public class Tower implements IUpdateable {
 	
 	private int level;
@@ -43,6 +42,9 @@ public class Tower implements IUpdateable {
 		this.shotRate = (60 * 1000) / cadenza;
 	}
 	
+	/**
+	 * Makes an upgrade on the tower
+	 */
 	public void upgrade() {
 		if (canUpgrade()) {
 			level++;
@@ -50,8 +52,8 @@ public class Tower implements IUpdateable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Returns if the tower can be upgraded or not
+	 * @return True if tower can be upgraded otherwise false
 	 */
 	private boolean canUpgrade() {
 		return level < levels.length - 1;
@@ -108,6 +110,7 @@ public class Tower implements IUpdateable {
 	 */
 	private void shoot() {
 		Projectile p = new Projectile(center(), damage(), flavor, PROJECTILE_SPEED, target);
+	//	Projectile p = new Projectile(position(), damage(), flavor, PROJECTILE_SPEED, target);
 		projectiles.add(p);
 	}
 	

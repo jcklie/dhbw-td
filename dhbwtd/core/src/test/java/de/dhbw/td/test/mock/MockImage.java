@@ -1,3 +1,10 @@
+/*  Copyright (C) 2013. All rights reserved.
+ *  Released under the terms of the GNU General Public License version 3 or later.
+ *  
+ *  Contributors:
+ *  Jan-Christoph Klie - All
+ */
+
 package de.dhbw.td.test.mock;
 
 import playn.core.Image;

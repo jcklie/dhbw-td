@@ -1,43 +1,39 @@
 package de.dhbw.td.core.tower;
 
 import static de.dhbw.td.core.util.GameConstants.TILE_SIZE;
-import playn.core.Json;
-import playn.core.Json.Array;
 import pythagoras.i.Point;
-import de.dhbw.td.core.resources.ETowerText;
 import de.dhbw.td.core.util.EFlavor;
 
-
 /**
- * 
+ * Class which is used to abstract the mechanism of creating a tower
  * @author Lukas Berg
+ *
  */
 public class TowerFactory {
+	
+	private TowerStats stats = TowerStats.getInstance();
 
+	/**
+	 * Creates a tower with the given flavor at the specified position
+	 * @param flavor The flavor
+	 * @param tileposition The position of the tower
+	 * @return The created tower
+	 */
 	public Tower constructTower(EFlavor flavor, Point tileposition) {
-		Json.Object jsonTower =  ETowerText.getTowerJsonByFlavor(flavor);
-		Point pixelposition = new Point(tileposition.x * TILE_SIZE , tileposition.y * TILE_SIZE);
-
-		Array jsonLevels = jsonTower.getArray("levels");
-		int levelCount = jsonTower.getInt("levelCount");
-		TowerLevel[] levels = new TowerLevel[levelCount];
-
-		for (int i = 0; i < levelCount; i++) {
-			levels[i] = getLevel(jsonLevels.getObject(i));
-		}
+		Point pixelposition = new Point(tileposition.x * TILE_SIZE , tileposition.y * TILE_SIZE);		
 		
-		return new Tower(flavor, pixelposition, levels, jsonTower.getDouble("cadenza"));
+		return new Tower(flavor, pixelposition, stats.getTowerLevels(flavor), 
+				stats.getCadenza(flavor));
 	}
 	
+	/**
+	 * Creates a tower with the given flavor at the specified position
+	 * @param flavor The flavor
+	 * @param tilex The x position of the tower
+	 * @param tiley The y position of the tower
+	 * @return The created tower
+	 */
 	public Tower constructTower(EFlavor flavor, int tilex, int tiley) {
 		return constructTower(flavor, new Point(tilex, tiley));
 	}
-
-	private TowerLevel getLevel(Json.Object level) {
-		return new TowerLevel(level.getInt("range"), level.getInt("damage"), 
-				level.getInt("price"));
-	}
-
-
-
 }

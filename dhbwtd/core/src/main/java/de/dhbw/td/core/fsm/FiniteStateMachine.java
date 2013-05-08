@@ -1,6 +1,5 @@
 package de.dhbw.td.core.fsm;
 
-import static playn.core.PlayN.log;
 
 /**
  * 
@@ -29,7 +28,6 @@ public class FiniteStateMachine<E extends Enum<E>, R> {
 		lastState = startingState;
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void initTransitionTable() {
 		transitionTable = new IAction[N][N];
 		

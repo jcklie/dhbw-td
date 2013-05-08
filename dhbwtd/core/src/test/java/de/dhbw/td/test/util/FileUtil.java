@@ -1,4 +1,4 @@
-/*  Copyright (C) 2013 by Jan-Christoph Klie, Inc. All rights reserved.
+/*  Copyright (C) 2013. All rights reserved.
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
@@ -16,6 +16,12 @@ import java.nio.charset.Charset;
 
 public class FileUtil {
 
+	/**
+	 * Opens the file and returns its content as String
+	 * @param f The file to read
+	 * @return String content of the file
+	 * @throws IOException
+	 */
 	public static String readFile(File f) throws IOException {
 		FileInputStream stream = new FileInputStream(f);
 		try {

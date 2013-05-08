@@ -36,7 +36,7 @@ public enum EInformationText {
 	THEOINF_LVL5("Relationale Algebra"),
 	THEOINF_LVL6(""),
 	WIWI_LVL1("BWL"),
-	WIWI_LVL2("Geschäftsprozesse"),
+	WIWI_LVL2("Gesch\u00E4ftsprozesse"),
 	WIWI_LVL3("Worfklow management"),
 	WIWI_LVL4("eBusiness"),
 	WIWI_LVL5("Wissensmanagement"),
