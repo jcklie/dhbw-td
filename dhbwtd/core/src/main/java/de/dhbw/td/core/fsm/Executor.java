@@ -1,3 +1,12 @@
+/*  Copyright (C) 2013. All rights reserved.
+ *  Released under the terms of the GNU General Public License version 3 or later.
+ *  
+ *  Contributors:
+ *  Jan-Christoph Klie - First 
+ *  Benedict Holste - Add sell and upgrade mechanic
+ *  Lukas Berg - Add tower upgrade
+ */
+
 package de.dhbw.td.core.fsm;
 
 import static de.dhbw.td.core.util.GameConstants.NEW_TOWER_ACTIONS;
@@ -11,14 +20,16 @@ import de.dhbw.td.core.util.GameConstants;
 
 /**
  * This class is used to hide all the nasty details related to execute the
- * user interactions.
- * @author Jan-Christoph Klie, Lukas Berg, Benedict Holste
- *
+ * user interactions. It handles user interactions by defining actions
+ * which are executed on a transition of two states.
+ * 
+ * For instance: Current state is SELL. If the user now selects a tower
+ * on the screen ,the transition from SELL to NONE is executed.
  */
 public class Executor {
 	
 	private GameState gameState;
-	private FiniteStateMachine<EUserAction, EFlavor> fsm;
+	private FiniteStateMachine<EUserAction> fsm;
 	private TowerStats stats = TowerStats.getInstance();
 	private EFlavor flavor;
 	private int x;
@@ -27,12 +38,11 @@ public class Executor {
 	public Executor(GameState gameState) {
 		this.gameState = gameState;
 		EUserAction[] possibleStates = EUserAction.values();
-		fsm = new FiniteStateMachine<EUserAction, EFlavor>(possibleStates, EUserAction.NONE);
+		fsm = new FiniteStateMachine<EUserAction>(possibleStates, EUserAction.NONE);
 		
 		initFSM();
 	}
 	
-
 	private void initFSM() {
 		initTowerStates();
 		initInformationTextTransitions();
@@ -55,6 +65,9 @@ public class Executor {
 		}
 	}
 	
+	/**
+	 * It initializes the states needed for updating the info text.
+	 */
 	private void initInformationTextTransitions() {
 		for(EUserAction source : NEW_TOWER_ACTIONS) {
 			fsm.addTransition(EUserAction.NONE, source, updateInformationText);

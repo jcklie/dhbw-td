@@ -1,14 +1,18 @@
-package de.dhbw.td.core.fsm;
+/*  Copyright (C) 2013. All rights reserved.
+ *  Released under the terms of the GNU General Public License version 3 or later.
+ *  
+ *  Contributors:
+ *  Jan-Christoph Klie - All 
+ */
 
+package de.dhbw.td.core.fsm;
 
 /**
  * 
- * @author Jan-Christoph Klie
  *
- * @param <E>
- * @param 
+ * @param <E> The enum which defines the states of the FSM
  */
-public class FiniteStateMachine<E extends Enum<E>, R> {
+public class FiniteStateMachine<E extends Enum<E>> {
 	
 	private IAction[][] transitionTable;
 	private E currentState;
