@@ -110,7 +110,7 @@ public class GameState implements IUpdateable {
 			currentWave = getNextWave();
 			copyEnemiesFromWave(currentWave);
 			plat = createMap(currentLevel);
-			credits = INITIAL_CREDITS;
+			credits = INITIAL_CREDITS * levelNumber;
 			
 			towers = new LinkedList<Tower>();
 		}
