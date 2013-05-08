@@ -2,8 +2,9 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  
+ *  Benedict Holste, Martin Kießling - All
  */
+
 package de.dhbw.td.core.ui;
 
 import static playn.core.PlayN.log;
@@ -18,8 +19,7 @@ import playn.core.Surface;
 import de.dhbw.td.core.util.ICallback;
 
 /**
- * 
- *
+ * UI class implementing the main menu
  */
 public class MainMenu implements IDrawable, IUIEventListener {
 

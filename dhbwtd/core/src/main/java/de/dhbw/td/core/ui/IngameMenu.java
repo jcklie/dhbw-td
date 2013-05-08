@@ -2,7 +2,7 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  
+ *  Benedict Holste, Martin Kießling - All
  */
 
 package de.dhbw.td.core.ui;
@@ -26,7 +26,7 @@ import playn.core.Surface;
 import de.dhbw.td.core.util.ICallback;
 
 /**
- * 
+ * UI class implementing the ingame menu
  *
  */
 public class IngameMenu implements IDrawable, IUIEventListener {

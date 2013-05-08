@@ -2,7 +2,7 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  
+ *  Martin Kießling - All
  */
 
 package de.dhbw.td.core.ui;
@@ -23,7 +23,7 @@ import de.dhbw.td.core.resources.EMenuImage;
 import de.dhbw.td.core.util.ICallback;
 
 /**
- * 
+ * UI class implementing the success screen
  *
  */
 public class SuccessScreen implements IDrawable, IUIEventListener {

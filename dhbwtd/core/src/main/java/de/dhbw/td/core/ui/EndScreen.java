@@ -2,7 +2,8 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  
+ *  Benedict Holste - first version
+ *  Martin Kießling - showing buttons and background image
  */  
 
 package de.dhbw.td.core.ui;
@@ -23,8 +24,7 @@ import de.dhbw.td.core.resources.EMenuImage;
 import de.dhbw.td.core.util.ICallback;
 
 /**
- * 
- *
+ * UI class implementing the game over screen
  */
 public class EndScreen implements IDrawable, IUIEventListener {
 	

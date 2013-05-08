@@ -2,7 +2,7 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Benedict Holste
+ *  Benedict Holste - All
  */
 
 package de.dhbw.td.core.util;

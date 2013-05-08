@@ -4,6 +4,7 @@
  *  Contributors:
  *  Benedict Holste - first version
  */
+
 package de.dhbw.td.core.util;
 
 import java.util.EnumSet;

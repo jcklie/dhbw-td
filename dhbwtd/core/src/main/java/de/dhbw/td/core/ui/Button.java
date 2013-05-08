@@ -2,7 +2,7 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  
+ *  Benedict Holste - All
  */  
 
 package de.dhbw.td.core.ui;
@@ -14,8 +14,10 @@ import playn.core.Surface;
 import de.dhbw.td.core.util.ICallback;
 
 /**
+ * Implementation of a UI Button for user interactions.
  * 
- *
+ * A builder pattern is used to offer various construction
+ * parameters without the need of constructors for each combination.
  */
 public class Button implements IDrawable {
 	

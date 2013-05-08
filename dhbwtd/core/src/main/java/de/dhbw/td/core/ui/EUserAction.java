@@ -2,7 +2,8 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  
+ *  Benedict Holste - idea and first version
+ *  Jan-Christoph Klie - additions
  */ 
 package de.dhbw.td.core.ui;
 

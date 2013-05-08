@@ -2,9 +2,9 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Jan-Christoph Klie - First idea, adding canvas support + refactor
- *  Martin Kiessling - Info text 
- *  Benedict Holste -  All the rest which was bigger part
+ *  Jan-Christoph Klie - first idea, adding canvas support, refactoring
+ *  Benedict Holste -  Showing UI elements, handling mouse/keyboard events, all other stuff
+ *  Martin Kiessling - Showing the info text
  */
 
 package de.dhbw.td.core.ui;

@@ -7,6 +7,9 @@
 
 package de.dhbw.td.core.util;
 
+/**
+ * Enum holding the enemies' flavors
+ */
 public enum EFlavor {
 	MATH, COMPUTER_ENGINEERING, PROGRAMMING, THEORETICAL_COMPUTER_SCIENCE, ECONOMICS, SOCIAL, ENDBOSS;
 }
