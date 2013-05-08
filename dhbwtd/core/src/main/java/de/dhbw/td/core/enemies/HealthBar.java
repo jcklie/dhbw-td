@@ -1,8 +1,9 @@
-/*  Copyright (C) 2013 by Martin Kiessling, Tobias Roeding Inc. All rights reserved.
+/*  Copyright (C) 2013. All rights reserved.
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Jan-Christoph Klie - All
+ *  Martin Kiessling, Tobias Roeding - Original implementation
+ *  Jan-Christoph Klie - Refactored Healthbar to extern class and refactored everything else, too
  */
 
 package de.dhbw.td.core.enemies;
@@ -10,6 +11,9 @@ package de.dhbw.td.core.enemies;
 import static playn.core.PlayN.assets;
 import playn.core.Image;
 
+/**
+ * Utility class which returns the right health bar image for a given life percentage
+ */
 public class HealthBar {
 	
 	private static final Image[] HEALTHBAR_IMAGES;	
@@ -54,7 +58,7 @@ public class HealthBar {
 	}
 	
 	/**
-	 * 
+	 * Returns the right health bar image for a given health percentage 
 	 * @param relativeHealth currentHealth/maxHealth, a double in [0, 1]
 	 * @return
 	 */

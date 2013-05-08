@@ -1,9 +1,9 @@
-/*  Copyright (C) 2013 by Martin Kiessling, Tobias Roeding Inc. All rights reserved.
+/*  Copyright (C) 2013. All rights reserved.
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
  *  Martin Kiessling, Tobias Roeding - All
- *  Jan-Christoph Klie - Refactored Healthbar to extern class and refactored everything else, too
+ *  Jan-Christoph Klie - Refactor
  */
 
 package de.dhbw.td.core.enemies;
@@ -15,8 +15,6 @@ import de.dhbw.td.core.util.EFlavor;
 
 /**
  * Enemies are the things tower kill for money
- * 
- * @author Martin Kiessling, Tobias Roeding, Jan-Christoph Klie
  * 
  */
 public class Enemy implements IUpdateable {
