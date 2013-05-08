@@ -11,7 +11,7 @@ public class FiniteStateMachineTest extends TestCase {
 	 * www.cs.princeton.edu/courses/archive/spr06/cos116/FSM_Tutorial.pdf
 	 */
 	
-	FiniteStateMachine<EElevatorState, String> elevatorFSM;
+	FiniteStateMachine<EElevatorState> elevatorFSM;
 	Elevator elevator;
 	
 	@Override
@@ -25,8 +25,8 @@ public class FiniteStateMachineTest extends TestCase {
 		elevator = null;
 	}
 	
-	private FiniteStateMachine<EElevatorState, String> createElevatorFsm() {
-		FiniteStateMachine<EElevatorState, String> fsm = new  FiniteStateMachine<EElevatorState, String>(EElevatorState.values(), EElevatorState.GROUND);
+	private FiniteStateMachine<EElevatorState> createElevatorFsm() {
+		FiniteStateMachine<EElevatorState> fsm = new  FiniteStateMachine<EElevatorState>(EElevatorState.values(), EElevatorState.GROUND);
 		fsm.addTransition(EElevatorState.GROUND, EElevatorState.FIRST, elevator.UP);
 		fsm.addTransition(EElevatorState.FIRST, EElevatorState.GROUND, elevator.DOWN);
 		
