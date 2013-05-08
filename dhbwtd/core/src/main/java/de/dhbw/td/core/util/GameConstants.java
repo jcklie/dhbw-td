@@ -1,3 +1,9 @@
+/*  Copyright (C) 2013. All rights reserved.
+ *  Released under the terms of the GNU General Public License version 3 or later.
+ *  
+ *  Contributors:
+ *  Benedict Holste - first version
+ */
 package de.dhbw.td.core.util;
 
 import java.util.EnumSet;

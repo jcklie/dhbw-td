@@ -1,4 +1,4 @@
-/*  Copyright (C) 2013 by Martin Kiessling, Tobias Roeding Inc. All rights reserved.
+/*  Copyright (C) 2013. All rights reserved.
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
@@ -51,7 +51,13 @@ public class WaveControllerFactory {
 	public WaveController constructWaveController(String jsonString, Point[] waypointArray) {
 		return constructWaveController(json().parse(jsonString), waypointArray);
 	}
-
+	
+	/**
+	 * 
+	 * @param parsedJson
+	 * @param waypointArray
+	 * @return
+	 */
 	public WaveController constructWaveController(Object parsedJson, Point[] waypointArray) {
 		this.waypoints = waypointArray;
 		
