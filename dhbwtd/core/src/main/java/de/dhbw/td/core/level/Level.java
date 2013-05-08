@@ -2,7 +2,7 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Jan-Christoph Klie - All
+ *  Jan-Christoph Klie - Basic Implementation and Refactoring
  *  Sebastian Muszytowski - Add waypoint support
  */
 

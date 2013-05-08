@@ -2,8 +2,8 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Jan-Christoph Klie - Basic Structure and First Implementation and final complete, total refactoring
- *  Sebastian Muszytowski - Waypoint Queue magic algorithm and first refactoring
+ *  Jan-Christoph Klie - Basic Structure, Refactoring of Sebastians Code
+ *  Sebastian Muszytowski - Implementation of Waypoint-Generation Algorithm and additions
  */
 
 package de.dhbw.td.core.level;
