@@ -2,8 +2,9 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  
- */  
+ *  Lukas Berg, Matthias Kehl - All
+ *  Jan-Christoph Klie - Refactor
+ */ 
 
 package de.dhbw.td.core.tower;
 

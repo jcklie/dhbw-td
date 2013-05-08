@@ -2,8 +2,9 @@
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  
- */  
+ *  Jan-Christoph Klie - First implementation
+ *  Lukas Berg, Matthias Kehl - Changed to singleton
+ */ 
 
 package de.dhbw.td.core.tower;
 
@@ -16,7 +17,6 @@ import de.dhbw.td.core.util.EFlavor;
 /**
  * This class is used to read all information about the different towers
  * from the Json files and share them to all classes which need the information
- * @author Lukas Berg, Jan-Christoph Klie
  *
  */
 public class TowerStats {
