@@ -3,6 +3,7 @@
  *  
  *  Contributors:
  *  Benedict Holste - first version
+ *  Jan-Christoph Klie - additions, mapping functions, refactor
  */
 
 package de.dhbw.td.core.util;
