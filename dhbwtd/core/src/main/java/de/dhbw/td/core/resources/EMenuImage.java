@@ -1,9 +1,10 @@
-/*  Copyright (C) 2013 by Jan-Christoph Klie, Inc. All rights reserved.
+/*  Copyright (C) 2013. All rights reserved.
  *  Released under the terms of the GNU General Public License version 3 or later.
  *  
  *  Contributors:
- *  Martin Kieﬂling - created images
+ *  Martin Kie√üling - created images
  */
+
 package de.dhbw.td.core.resources;
 
 import static de.dhbw.td.core.util.GameConstants.PATH_MENU;
