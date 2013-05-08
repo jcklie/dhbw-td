@@ -12,14 +12,14 @@ import de.dhbw.td.core.util.GameConstants;
 /**
  * This class is used to hide all the nasty details related to execute the
  * user interactions.
- * @author Jan-Christoph Klie, Lucas Berg, Benedict Holste
+ * @author Jan-Christoph Klie, Lukas Berg, Benedict Holste
  *
  */
 public class Executor {
 	
 	private GameState gameState;
 	private FiniteStateMachine<EUserAction, EFlavor> fsm;
-	private TowerStats stats = new TowerStats();
+	private TowerStats stats = TowerStats.getInstance();
 	private EFlavor flavor;
 	private int x;
 	private int y;

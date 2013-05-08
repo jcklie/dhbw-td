@@ -6,7 +6,12 @@ import de.dhbw.td.core.enemies.Enemy;
 import de.dhbw.td.core.game.IUpdateable;
 import de.dhbw.td.core.util.EFlavor;
 
-
+/**
+ * Projectile is created by a tower when it shoots at an enemy. 
+ * It flies to the given target and deals damage
+ * @author Lukas Berg, Matthias Kehl
+ *
+ */
 public class Projectile implements IUpdateable {
 	
 	private final int damage;
