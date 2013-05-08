@@ -1,6 +1,5 @@
 package de.dhbw.td.core.fsm;
 
-
 public interface IAction {
 	
 	IAction NONE = new IAction() {
